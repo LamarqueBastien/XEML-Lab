@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xeml:XEMLDocument  XemlVersion="1.1.0" xmlns:xeml="http://www.mpimp-golm.mpg.de/2009/XEML">
+    <xeml:Resources>
+        <xeml:DevelopmentalOntology HandlerUri="http://www.plantontology.org/DevelopmentalStage" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/47838?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" NS="PO_Development"/>
+        <xeml:OrganismStructureOntology HandlerUri="http://www.plantontology.org/PlantStructure" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/47887?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" NS="PO_Structure"/>
+        <xeml:EnvironmentalOntology HandlerUri="http://xeml.mpimp-golm.mpg.de/xemlobo" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/49450?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" NS="XEO"/>
+        <xeml:PositioningOntology HandlerUri="http://www.mpimp-golm.mpg.de/2009/XEML/Positioning" InstanceLocation="http://xeml.mpimp-golm.mpg.de/2007/XeO/PosO.xml" NS="XEO_Positioning"/>
+    </xeml:Resources>
+    <xeml:Experiment Id="{fdb19227-3de7-49b7-b215-35505f7d2244}" StartDate="2007-01-01T00:00:00" ObservationTime="35.00:00:00" Name="New experiment">
+        <xeml:Header/>
+        <xeml:Story Label="base line">
+            <xeml:IndividualsPool NS="none" GermPlasm="Arabidopsis thaliana.Col-0">
+                <xeml:Individual Id="1740241139"/>
+                <xeml:Individual Id="622650074"/>
+                <xeml:Individual Id="282475250"/>
+                <xeml:Individual Id="16808"/>
+                <xeml:Individual Id="984943659"/>
+                <xeml:Individual Id="144108931"/>
+            </xeml:IndividualsPool>
+            <xeml:ObservationPoint TargetTime="24.00:00:00" Id="4">
+                <xeml:DestructiveObservation Duration="00:00:05" poolGermPlasm="Arabidopsis thaliana.Col-0" poolNS="none" individual="282475250">
+                    <xeml:Partition Id="1">
+                        <xeml:Material TermId="PO:0001002" term="" NS="PO_Structure"/>
+                        <xeml:Position TermId="POS00001" term="HeightFromGround" NS="XEO_Positioning">
+                            <xeml:Value Context="Quantity" Unit="cm">7</xeml:Value>
+                            <xeml:Value Context="Quality">very good</xeml:Value>
+                        </xeml:Position>
+                    </xeml:Partition>
+                    <xeml:DevelopmentalStage TermId="PO:0000004" term="in vitro plant structure" NS="PO_Development"/>
+                </xeml:DestructiveObservation>
+                <xeml:DestructiveObservation Duration="00:00:05" poolGermPlasm="Arabidopsis thaliana.Col-0" poolNS="none" individual="1740241139">
+                    <xeml:Partition Id="2">
+                        <xeml:Material TermId="PO:0000014" term="rosette leaf" NS="PO_Structure">
+                            <xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+                        </xeml:Material>
+                    </xeml:Partition>
+                    <xeml:DevelopmentalStage TermId="PO:0007078" term="rosette growth complete stage" NS="PO_Development">
+                        <xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+                    </xeml:DevelopmentalStage>
+                </xeml:DestructiveObservation>
+                <xeml:DestructiveObservation Duration="00:00:05" poolGermPlasm="Arabidopsis thaliana.Col-0" poolNS="none" individual="16808">
+                    <xeml:Partition Id="3">
+                        <xeml:Material TermId="PO:0001002" term="" NS="PO_Structure"/>
+                        <xeml:Position TermId="POS00001" term="HeightFromGround" NS="XEO_Positioning">
+                            <xeml:Value Context="Quantity" Unit="cm">7</xeml:Value>
+                            <xeml:Value Context="Quality">very good</xeml:Value>
+                        </xeml:Position>
+                    </xeml:Partition>
+                    <xeml:DevelopmentalStage TermId="PO:0000004" term="in vitro plant structure" NS="PO_Development"/>
+                </xeml:DestructiveObservation>
+                <xeml:DestructiveObservation Duration="00:00:05" poolGermPlasm="Arabidopsis thaliana.Col-0" poolNS="none" individual="622650074">
+                    <xeml:Partition Id="4">
+                        <xeml:Material TermId="PO:0001002" term="" NS="PO_Structure"/>
+                        <xeml:Position TermId="POS00001" term="HeightFromGround" NS="XEO_Positioning">
+                            <xeml:Value Context="Quantity" Unit="cm">7</xeml:Value>
+                            <xeml:Value Context="Quality">very good</xeml:Value>
+                        </xeml:Position>
+                    </xeml:Partition>
+                    <xeml:DevelopmentalStage TermId="PO:0000004" term="in vitro plant structure" NS="PO_Development"/>
+                </xeml:DestructiveObservation>
+                <xeml:DestructiveObservation Duration="00:00:05" poolGermPlasm="Arabidopsis thaliana.Col-0" poolNS="none" individual="984943659">
+                    <xeml:Partition Id="5">
+                        <xeml:Material TermId="PO:0001002" term="" NS="PO_Structure"/>
+                        <xeml:Position TermId="POS00001" term="HeightFromGround" NS="XEO_Positioning">
+                            <xeml:Value Context="Quantity" Unit="cm">7</xeml:Value>
+                            <xeml:Value Context="Quality">very good</xeml:Value>
+                        </xeml:Position>
+                    </xeml:Partition>
+                    <xeml:DevelopmentalStage TermId="PO:0000004" term="in vitro plant structure" NS="PO_Development"/>
+                </xeml:DestructiveObservation>
+                <xeml:DestructiveObservation Duration="00:00:05" poolGermPlasm="Arabidopsis thaliana.Col-0" poolNS="none" individual="144108931">
+                    <xeml:Partition Id="6">
+                        <xeml:Material TermId="PO:0001002" term="" NS="PO_Structure"/>
+                        <xeml:Position TermId="POS00001" term="HeightFromGround" NS="XEO_Positioning">
+                            <xeml:Value Context="Quantity" Unit="cm">7</xeml:Value>
+                            <xeml:Value Context="Quality">very good</xeml:Value>
+                        </xeml:Position>
+                    </xeml:Partition>
+                    <xeml:DevelopmentalStage TermId="PO:0000004" term="in vitro plant structure" NS="PO_Development"/>
+                </xeml:DestructiveObservation>
+            </xeml:ObservationPoint>
+        </xeml:Story>
+    </xeml:Experiment>
+</xeml:XEMLDocument>

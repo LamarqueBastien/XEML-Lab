@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO 8859-1"?>
+<xeml:XEMLDocument xmlns:xeml="http://www.mpimp-golm.mpg.de/2009/XEML">
+    <xeml:Ressources>
+        <xeml:EnvironmentalOntology/>
+    </xeml:Ressources>
+    <xeml:Experiment Id="{eb381922-5e18-421e-a073-235b16d8ad40}" Name="New experiment" StartDate="Mon Apr 15 23:59:38 2013&#xa;">
+        <xeml:Header>
+            <xeml:Experimenter FirstName="ben" Organisation="CBIB" LastName="Darts" Email="bdarts@yahoo.fr"/>
+            <xeml:Description>temporary summary</xeml:Description>
+            <xeml:keyword>mykeyword</xeml:keyword>
+            <xeml:keyword>newkeyword</xeml:keyword>
+        </xeml:Header>
+        <xeml:story label="myStory">
+            <xeml:individualsPool NS="none" Germplasm="none">
+                <xeml:individual Id="3"/>
+                <xeml:individual Id="5"/>
+                <xeml:individual Id="4"/>
+            </xeml:individualsPool>
+        </xeml:story>
+    </xeml:Experiment>
+</xeml:XEMLDocument>
