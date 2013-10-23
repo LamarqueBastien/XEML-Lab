@@ -96,10 +96,10 @@ namespace Xeml{
 			QString minutestring;
 			QString secondstring;
 
-			qint64 days;
-			qint64 hours;
-			qint64 minutes;
-			qint64 seconds;
+			qint64 days=0;
+			qint64 hours=0;
+			qint64 minutes=0;
+			qint64 seconds=0;
 
 			qint64 total_milliseconds;
 
@@ -142,10 +142,10 @@ namespace Xeml{
 			qint64 r;		/* r : le reste du modulo */
 			//bool isNull=false;
 
-			qint64 days;
-			qint64 hours;
-			qint64 minutes;
-			qint64 seconds;/* a : la quantité de jours, heures, minutes ou secondes */
+			qint64 days=0;
+			qint64 hours=0;
+			qint64 minutes=0;
+			qint64 seconds=0;/* a : la quantité de jours, heures, minutes ou secondes */
 			//std::vector<int> * tab=new std::vector<int>();
 
 			n=_milliseconds;
@@ -203,10 +203,10 @@ namespace Xeml{
 			qint64 r;		/* r : le reste du modulo */
 			//bool isNull=false;
 
-			qint64 days;
-			qint64 hours;
-			qint64 minutes;
-			qint64 seconds;/* a : la quantité de jours, heures, minutes ou secondes */
+			qint64 days=0;
+			qint64 hours=0;
+			qint64 minutes=0;
+			qint64 seconds=0;/* a : la quantité de jours, heures, minutes ou secondes */
 			//std::vector<int> * tab=new std::vector<int>();
 
 			n=_milliseconds;
