@@ -23,6 +23,15 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 	QPixmap pix("://Images/GreenMetal.png");
 	//std::cerr << "draw background " << " w : " << this->sceneRect().width()<< " h : "<< this->sceneRect().height()<<std::endl;
+
+	QRectF sceneRect = this->sceneRect();
+	QLinearGradient gradient(sceneRect.topLeft(), sceneRect.bottomRight());
+	gradient.setColorAt(0, Qt::white);
+	gradient.setColorAt(1, Qt::lightGray);
+	p->fillRect(rect.intersected(sceneRect), gradient);
+	p->setBrush(Qt::NoBrush);
+	p->drawRect(sceneRect);
+	/*
 	if(this->init){
 		//std::cerr << "first draw background " << " w : " << this->sceneRect().width()<< " h : "<< this->sceneRect().height()<<std::endl;
 		//this->matrix().mapRect(this->sceneRect()).width();
@@ -31,22 +40,16 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 	}
 	else{
 		//p->drawPixmap(this->sceneRect(),pix,this->current_scene->sceneRect());
-		/*
-		if(this->current_scene->width()>700){
 
-		*/
 		//p->drawPixmap(QRect(-150, -150, this->matrix().mapRect(this->sceneRect()).width(), this->sceneRect().height()), pix);
 
 		p->drawPixmap(QRect(-150, -150, this->current_scene->sceneRect().width(), this->sceneRect().height()), pix);
 		//this->setSceneRect(-150, -150, this->current_scene->sceneRect().width(), this->sceneRect().height());
-		/*}
-		else{
-			p->drawPixmap(QRect(-150, -150, 800, this->sceneRect().height()), pix);
 
-		}
-		*/
 
 	}
+	*/
+
 	resetCachedContent();
 
 

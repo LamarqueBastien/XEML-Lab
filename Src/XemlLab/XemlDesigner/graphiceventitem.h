@@ -12,10 +12,11 @@
 #include<QPainterPath>
 using namespace std;
 using namespace Xeml::Document;
+
 class GraphicEventItem : public QGraphicsItem
 {
 	public:
-		GraphicEventItem(qreal _posx,qreal _posy,qreal _width,QString _label,QGraphicsItem* parent = 0);
+		GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width,QString _label,QGraphicsItem* parent = 0);
 		enum { Type = QGraphicsItem::UserType + 2 };
 		int type() const{return Type;}
 		~GraphicEventItem();
@@ -25,12 +26,14 @@ class GraphicEventItem : public QGraphicsItem
 		QString get_label();
 		void change();
 		QRectF get_rect();
+		Event * get_event();
 	private:
 		qreal posx, posy;
 		QGraphicsItem * parent;
 		QRectF rect;
 		qreal width;
 		QString eventLabel;
+		Event * event;
 };
 
 #endif // GRAPHICEVENTITEM_H

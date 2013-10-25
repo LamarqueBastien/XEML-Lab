@@ -70,12 +70,12 @@ namespace Xeml{
 		}
 		inline qint64 get_seconds_from_date(QDateTime startDate,QDateTime _currentdate){
 			qint64 second_since_start=startDate.toMSecsSinceEpoch();
-			std::cerr << startDate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+			//std::cerr << startDate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
 			qint64 second_from_now=_currentdate.toMSecsSinceEpoch();
-			std::cerr << _currentdate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+			//std::cerr << _currentdate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
 
 			qint64 diff=second_from_now-second_since_start;
-			std::cerr << "diff in getSecondFromDate : " << diff << std::endl;
+			//std::cerr << "diff in getSecondFromDate : " << diff << std::endl;
 			return diff;
 		}
 		inline QDateTime get_date(QDateTime startDate,qint64 milliseconds_to_add){
@@ -85,11 +85,11 @@ namespace Xeml{
 		}
 
 		inline qint64 translate_DD_HH_MM_SS_in_Msecs(QString _timepoint){
-			std::cerr << "entering translate in Msecs" << std::endl;
-			std::cerr << "timepoint " << _timepoint.toStdString() << std::endl;
+			//std::cerr << "entering translate in Msecs" << std::endl;
+			//std::cerr << "timepoint " << _timepoint.toStdString() << std::endl;
 			QStringList list1=_timepoint.split(".");
 
-			std::cerr << "entering translate in Msecs" << std::endl;
+			//std::cerr << "entering translate in Msecs" << std::endl;
 
 			QString daystring;
 			QString hourstring;
@@ -104,7 +104,7 @@ namespace Xeml{
 			qint64 total_milliseconds;
 
 			if(list1.size()==2){
-				std::cerr << "list==2" << std::endl;
+				//std::cerr << "list==2" << std::endl;
 				daystring=list1.at(0);
 				QStringList list2=list1.at(1).split(":");
 				hourstring=list2.at(0);
@@ -112,7 +112,7 @@ namespace Xeml{
 				secondstring=list2.at(2);
 				days=daystring.toInt();
 				hours=hourstring.toInt();
-				std::cerr << "hour : " << hours << std::endl;
+				//std::cerr << "hour : " << hours << std::endl;
 
 				minutes=minutestring.toInt();
 				seconds=secondstring.toInt();
@@ -120,19 +120,19 @@ namespace Xeml{
 			}
 			else{
 				list1.clear();
-				std::cerr << "list!=2" << std::endl;
+				//std::cerr << "list!=2" << std::endl;
 				list1=_timepoint.split(":");
 				hourstring=list1.at(0);
 				minutestring=list1.at(1);
 				secondstring=list1.at(2);
-				std::cerr << "before hour in int : " << std::endl;
+				//std::cerr << "before hour in int : " << std::endl;
 				hours=hourstring.toInt();
-				std::cerr << "hour : " << hours << std::endl;
+				//std::cerr << "hour : " << hours << std::endl;
 				minutes=minutestring.toInt();
 				seconds=secondstring.toInt();
 				total_milliseconds=hours*3600000+minutes*60000+seconds*1000;
 			}
-			std::cerr << "total milliseconds : " << total_milliseconds << std::endl;
+			//std::cerr << "total milliseconds : " << total_milliseconds << std::endl;
 
 			return total_milliseconds;
 		}
@@ -153,7 +153,7 @@ namespace Xeml{
 				/* 1 jour = 24*60*60 = 86400 secondes */
 				r=n%86400000;		/* on calcul le reste */
 				days=(n-r)/86400000;
-				std::cerr << "days = " << days << std::endl;
+				//std::cerr << "days = " << days << std::endl;
 				//tab->push_back(days);
 				n=r;			/* on ne retient que les secondes restantes */
 				r=n%3600000;		/* on calcul le reste */
@@ -161,15 +161,15 @@ namespace Xeml{
 				if(days>=30){
 					//hours--;
 				}
-				std::cerr << "hours = " << hours << std::endl;
+				//std::cerr << "hours = " << hours << std::endl;
 				//tab->push_back(hours);
 				n=r;		/* on ne retient que les secondes restantes */
 				r=n%60000;		/* on calcul le reste */
 				minutes=(n-r)/60000;
-				std::cerr << "minutes = " << minutes << std::endl;
+				//std::cerr << "minutes = " << minutes << std::endl;
 				//tab->push_back(minutes);
 				seconds=r/1000;
-				std::cerr << "seconds = " << seconds << std::endl;
+				//std::cerr << "seconds = " << seconds << std::endl;
 
 				//tab->push_back(seconds);
 
@@ -214,7 +214,7 @@ namespace Xeml{
 				/* 1 jour = 24*60*60 = 86400 secondes */
 				r=n%86400000;		/* on calcul le reste */
 				days=(n-r)/86400000;
-				std::cerr << "days = " << days << std::endl;
+				//std::cerr << "days = " << days << std::endl;
 				//tab->push_back(days);
 				n=r;			/* on ne retient que les secondes restantes */
 				r=n%3600000;		/* on calcul le reste */
@@ -222,15 +222,15 @@ namespace Xeml{
 				if(days>=30){
 					//hours--;
 				}
-				std::cerr << "hours = " << hours << std::endl;
+				//std::cerr << "hours = " << hours << std::endl;
 				//tab->push_back(hours);
 				n=r;		/* on ne retient que les secondes restantes */
 				r=n%60000;		/* on calcul le reste */
 				minutes=(n-r)/60000;
-				std::cerr << "minutes = " << minutes << std::endl;
+				//std::cerr << "minutes = " << minutes << std::endl;
 				//tab->push_back(minutes);
 				seconds=r/1000;
-				std::cerr << "seconds = " << seconds << std::endl;
+				//std::cerr << "seconds = " << seconds << std::endl;
 
 				//tab->push_back(seconds);
 

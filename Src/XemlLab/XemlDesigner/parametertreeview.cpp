@@ -198,11 +198,11 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,QString _namespace){
 
 void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> * _processed_nodes, ParameterItem * _tmp_item,QString _namespace){
 
-	std::cerr << "entering build node hierarchy" << std::endl;
+	//std::cerr << "entering build node hierarchy" << std::endl;
 	_processed_nodes->push_back(node);
 	_tmp_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	if(node->get_parent()!=NULL && !contains(node->get_parent(),_processed_nodes,_namespace)){
-		std::cerr << "parent not null and parent not contains in processed nodes" << std::endl;
+		//std::cerr << "parent not null and parent not contains in processed nodes" << std::endl;
 		if(this->my_treeparameter->findItems(node->get_parent()->get_label(),Qt::MatchFixedString | Qt::MatchRecursive,0).size()!=0)
 		{
 			this->my_treeparameter->findItems(node->get_parent()->get_label(),Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
@@ -221,7 +221,7 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> 
 	}
 	else{
 		if(node->get_parent()!=NULL){
-			std::cerr << "first else" << node->get_parent()->get_label().toStdString() << std::endl;
+			//std::cerr << "first else" << node->get_parent()->get_label().toStdString() << std::endl;
 			if(_namespace=="XEO_Positioning"){
 				//std::cerr << "xeo pos root" << node->get_parent()->get_label().toStdString() << std::endl;
 				this->my_treeparameter->findItems(node->get_parent()->get_label(),Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
@@ -239,7 +239,7 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> 
 			}
 		}
 		else{
-			std::cerr << "second else" << std::endl;
+			//std::cerr << "second else" << std::endl;
 			/*
 			if(_tmp_item->get_term()->get_prototype()->get_termId()=="PO:0009012"){
 				std::cerr << "termId" << _tmp_item->get_term()->get_prototype()->get_termId().toStdString() << std::endl;
@@ -266,7 +266,7 @@ void ParameterTreeView::build_ontology_tree(std::list<TermNode*> * _my_tree,QStr
 	if(mode){
 		for(std::list<TermNode*>::iterator it=_my_tree->begin();it!=_my_tree->end();++it){
 			if(_namespace=="XEO_Positioning"){
-				std::cerr << "value collection size : " << static_cast<VariableTerm*>(static_cast<TermNode*>((*it))->get_term()->get_prototype())->get_valuecollection()->size() << std::endl;
+				//std::cerr << "value collection size : " << static_cast<VariableTerm*>(static_cast<TermNode*>((*it))->get_term()->get_prototype())->get_valuecollection()->size() << std::endl;
 			}
 			if((*it)->get_parent()==NULL){
 				buildNodeHierarchy((*it),_namespace);
@@ -281,7 +281,7 @@ void ParameterTreeView::build_ontology_tree(std::list<TermNode*> * _my_tree,QStr
 
 			if((*it)->get_parent()!=NULL && (*it)->get_childs()->size()==0){
 				if(_namespace=="XEO_Positioning"){
-					std::cerr << "value collection size : " << static_cast<VariableTerm*>(static_cast<TermNode*>((*it))->get_term()->get_prototype())->get_valuecollection()->size() << std::endl;
+					//std::cerr << "value collection size : " << static_cast<VariableTerm*>(static_cast<TermNode*>((*it))->get_term()->get_prototype())->get_valuecollection()->size() << std::endl;
 				}
 				//std::cerr << "node name (parameter tree view) : "<< (*it)->get_term()->get_termId().toStdString() << std::endl;
 

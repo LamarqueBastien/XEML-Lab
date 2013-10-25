@@ -10,6 +10,7 @@
 #include"story.h"
 #include<QGraphicsItem>
 #include"graphiceventitem.h"
+#include"graphicobservationpointitem.h"
 #include"Utilities.h"
 #include"itfdocument.h"
 using namespace std;
@@ -22,7 +23,11 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicStoryScene(int  positionY,QGraphicsScene *parent=0);
 		GraphicStoryItem * get_item_by_label(QString _label);
 		void set_max_item_width(qreal _max_width);
-		GraphicStoryItem     * get_selected_item();
+		GraphicStoryItem     * get_selected_story();
+		GraphicEventItem     * get_selected_event();
+		GraphicObservationPointItem * get_selected_obsPoint();
+		void set_right_for_childs(GraphicStoryItem * _story_moving,qreal _movement);
+
 		void set_doc(ItfDocument  * _currentDoc);
 
 		int  positionY;
@@ -35,8 +40,9 @@ class GraphicStoryScene : public QGraphicsScene
 		ItfDocument * currentDoc;
 		GraphicEventItem * my_item;
 		GraphicStoryItem * my_second_item;
-		GraphicStoryItem * my_selected_item;
+		GraphicStoryItem * my_selected_story;
 		GraphicEventItem * my_selected_event;
+		GraphicObservationPointItem * my_selected_obsPoint;
 		qreal max_width;
 		//int  positionY;
 	private slots:

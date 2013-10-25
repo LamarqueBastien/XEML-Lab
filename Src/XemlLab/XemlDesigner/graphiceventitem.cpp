@@ -1,8 +1,9 @@
 #include "graphiceventitem.h"
 
-GraphicEventItem::GraphicEventItem(qreal _posx,qreal _posy,qreal _width,QString _label,QGraphicsItem * _parent)
+GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width,QString _label,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
+	this->event=e;
 	this->setParentItem(_parent);
 	this->width=_width;
 	this->parent=_parent;
@@ -17,11 +18,20 @@ GraphicEventItem::GraphicEventItem(qreal _posx,qreal _posy,qreal _width,QString 
 	setAcceptDrops(true);
 	setAcceptHoverEvents(true);
 	setAcceptedMouseButtons(Qt::LeftButton);
-	this->rect=QRectF(_posx, _posy, 4, 4);
+	qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+	//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
+	qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+	QPointF point2=QPointF(posx,parent_y+parent_h/2);
+	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
+	//this->rect=QRectF(_posx, _posy, 1000, 1000);
 }
 void GraphicEventItem::change(){
 	prepareGeometryChange();
 }
+Event * GraphicEventItem::get_event(){
+	return this->event;
+}
+
 QRectF GraphicEventItem::get_rect(){
 	return this->rect;
 
@@ -54,18 +64,27 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	QPen selPen=QPen(Qt::red);
 	_painter->setBrush(selBrush);
 	_painter->setPen(selPen);
-	qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
-	//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
-	qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+	if(parent!=NULL){
+		//qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+		//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
+		//qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 
-	QPointF point2=QPointF(posx,parent_y+parent_h/2);
-	_painter->drawRect(QRectF(point2-QPointF(4,4),point2+QPointF(4,4)));
-	if(isSelected()){
-		QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
-		QPen selPen=QPen(Qt::yellow);
-		_painter->setBrush(selBrush);
-		_painter->setPen(selPen);
+		//QPointF point2=QPointF(posx,parent_y+parent_h/2);
+		//QRectF()
+		//_painter->drawRect(QRectF(point2-QPointF(4,4),point2+QPointF(4,4)));
+		_painter->drawRect(this->rect);
 
+		if(isSelected()){
+			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
+			QPen selPen=QPen(Qt::yellow);
+			_painter->setBrush(selBrush);
+			_painter->setPen(selPen);
+			_painter->drawRect(this->rect);
+		}
+
+
+	}
+	else{
 
 	}
 	/*
@@ -116,14 +135,16 @@ QRectF GraphicEventItem::boundingRect() const{
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
 	miny = rect.height() < 0 ? rect.height() : posy;
 	maxy = rect.height() < 0 ? 0 : posy+rect.height();
+	miny =0;
+
 
 
 
 	/*
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect min x :" << minx<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max x :" << maxx<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect min y :" << miny<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
+	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect min x :" << minx<<std::endl;
+	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max x :" << maxx<<std::endl;
+	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect min y :" << miny<<std::endl;
+	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
 	QRectF newRect = QRectF(minx-250,miny,maxx-minx+500,maxy-miny);//.adjusted(-extra, -extra, extra, extra);

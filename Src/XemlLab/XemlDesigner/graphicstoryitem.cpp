@@ -1,10 +1,10 @@
 #include "graphicstoryitem.h"
 
 
-GraphicStoryItem::GraphicStoryItem(qreal _width,StoryBase * _story,bool _IsStorySplit,qreal _posx,qreal _posy,QGraphicsItem * _parent)
+GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_doc,qreal _width,StoryBase * _story,bool _IsStorySplit,qreal _posx,qreal _posy,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
-
+	this->current_doc=_current_doc;
 	this->story=_story;
 	this->posx=_posx;
 	this->posy=posy;
@@ -12,9 +12,13 @@ GraphicStoryItem::GraphicStoryItem(qreal _width,StoryBase * _story,bool _IsStory
 	myHandlerWidth=2.0;
 	this->width=_width;
 	this->parent=_parent;
+	this->my_parent_width=_width_parent;
 	this->setParentItem(_parent);
 	this->rect=QRectF(posx, posy, this->width, 60);
-	this->setToolTip("test");
+	if(_IsStorySplit){
+		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
+	}
+	//this->setToolTip("test");
 	this->storyLabel="root";
 
 	//this->setPos(0,posy);
@@ -42,21 +46,29 @@ GraphicStoryItem::GraphicStoryItem(qreal _width,StoryBase * _story,bool _IsStory
 
 
 }
-GraphicStoryItem::GraphicStoryItem(qreal _width,StoryBase * _story,QString _label,bool _IsStorySplit,qreal _posx,qreal _posy,QGraphicsItem * _parent)
+GraphicStoryItem * GraphicStoryItem::get_parent(){
+	return static_cast<GraphicStoryItem*>(this->parent);
+}
+
+GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_doc,qreal _width,StoryBase * _story,QString _label,bool _IsStorySplit,qreal _posx,qreal _posy,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
+	this->current_doc=_current_doc;
 	this->story=_story;
 	this->posx=_posx;
 	this->posy=_posy;
 	this->IsStorySplit=_IsStorySplit;
 	myHandlerWidth=2.0;
 	this->parent=_parent;
+	this->my_parent_width=_width_parent;
 	this->width=_width;
 	this->setParentItem(_parent);
 	//this->setParentItem(_parent);
 	this->rect=QRectF(posx, posy, this->width, 60);
 	this->storyLabel=_label;
-
+	if(_IsStorySplit){
+		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
+	}
 	//this->setPos(0,posy);
 	setFlag(QGraphicsItem::ItemIsSelectable);
 	setFlag(QGraphicsItem::ItemIsMovable);
@@ -82,6 +94,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width,StoryBase * _story,QString _labe
 
 }
 void GraphicStoryItem::set_right(qreal width){
+	std::cerr << "width in setRight : "<< width << std::endl;
 	rect.setRight(width);
 	//update();
 }
@@ -105,7 +118,7 @@ GraphicStoryItem::~GraphicStoryItem()
 
 }
 
-void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem *option,QWidget *widget){
+void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem * option,QWidget *widget){
 
 
 
@@ -113,42 +126,29 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 	//QColor fillColor = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
 	//if (option->state & QStyle::State_MouseOver)
-		//fillColor = fillColor.light(125);
-	//const qreal lod = option->levelOfDetailFromTransform(_painter->worldTransform());
+	//	fillColor = fillColor.light(125);
+	const qreal lod = option->levelOfDetailFromTransform(_painter->worldTransform());
+	//std::cerr << "lod" << lod << std::endl;
 	//QRectF tmp_rect=boundingRect();
 	//QBrush brush(Qt::blue);
 	//QLinearGradient gradient;
 	//_painter->setCompositionMode(QPainter::CompositionMode_Multiply);
 	QLinearGradient gradient(boundingRect().topLeft(),boundingRect().topRight());
+
 	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.4, 0.2, 0.5));
 	gradient.setColorAt(0.25, QColor::fromRgbF(0.1, 0.2, 0.9, 0.5));
 	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.4, 0.2, 0.5));
 	gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.9, 0.5));
-
 	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.1, 0.6, 0.5));
 
 	QBrush brush(gradient);
 	brush.setStyle(Qt::LinearGradientPattern);
-	if(Pressed){
-		brush.setColor(Qt::green);
-	}
-	else{
-		//_painter->setBrush(brush);
-
-		brush.setColor(Qt::yellow);
-	}
-	//_painter->fillRect(tmp_rect,brush);
-	//_painter->drawRect(tmp_rect);
 	_painter->setBrush(brush);
-	//_painter->drawRect(QRectF(posx,posy,rect.width(),rect.height()));
 	_painter->drawRect(this->rect);
-
-
-
-	//std::cerr << "rect width : " << rect.width()/10 << std::endl;
 
 	if(IsStorySplit){
 		//draw the connector between the storysplit and its parent story
+
 
 		qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 		qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
@@ -158,15 +158,16 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 		QLineF  * tmp_line=new QLineF(posx,parent_y+parent_h/2,posx,posy+parent_h/2);
 		_painter->drawRect(QRectF(point2-QPointF(2,2),point2+QPointF(2,2)));
 		_painter->drawLine((*tmp_line));
-
-
-
-
 	}
+
+
+
 	QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
 	QPen selPen=QPen(Qt::red);
+	//ligne médiane qui traverse toute la story
 	QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.width(),(rect.height()/2)+posy);
 	_painter->drawLine((*red_line));
+
 	qreal j;
 	if(!IsStorySplit){
 		/*
@@ -208,8 +209,13 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 
 
+
+		QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
+		QPen selPen=QPen(Qt::red);
 		_painter->setBrush(selBrush);
 		_painter->setPen(selPen);
+		QPointF point=QPointF(posx,(rect.height()/2)+posy);
+		_painter->drawRect(QRectF(point-QPointF(2,2),point+QPointF(2,2)));
 
 		if(HeatMap){
 
@@ -225,7 +231,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 					//std::cerr << "i not equal to width" << std::endl;
 					//std::cerr << "i : " << i << std::endl;
-					for (j=i;j<i+rect.width()/35;j+=(rect.width()/45)/24){
+					for (j=i;j<i+rect.width()/45;j+=(rect.width()/45)/24){
 						//std::cerr << "j : " << j << "rect width:" << rect.width()<< std::endl;
 						QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
 						QPen selPen=QPen(Qt::red);
@@ -245,16 +251,9 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 				_painter->drawLine((*tmp_line));
 			}
 		}
-		QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
-		QPen selPen=QPen(Qt::red);
-		_painter->setBrush(selBrush);
-		_painter->setPen(selPen);
-		QPointF point=QPointF(posx,(rect.height()/2)+posy);
 
 
-	   _painter->drawRect(QRectF(point-QPointF(2,2),point+QPointF(2,2)));
 
-	//update();
 	}
 
 
@@ -276,44 +275,69 @@ void GraphicStoryItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *e) {
 bool GraphicStoryItem::get_isStorySplit(){
 	return this->IsStorySplit;
 }
+QRectF GraphicStoryItem::boundingRect() const{
+	//qreal penWidth = 5;
+	//this->pen.setWidth(7);
+
+	//return this->rect;
+
+	//std::cerr << " bounding rect " << std::endl;
+	qreal extra = 20 / 2.0 + myHandlerWidth;
+	//extra=0;
+	//std::cerr << " extra : " << extra << std::endl;
+	qreal miny;
+	qreal maxy;
+	qreal minx;
+	qreal maxx;
+
+
+	//std::cerr << "rect width :" << rect.width() << std::endl;
+	//extra=my_parent_width-rect.width();
+	//std::cerr << " extra : " << extra << std::endl;
+	minx = rect.width() < 0 ? rect.width() : 0;
+	maxx = rect.width() < 0 ? 0 : rect.width() ;
+
+
+
+	if(IsStorySplit){
+
+		miny = rect.height() < 0 ? rect.height() : posy;
+		maxy = rect.height() < 0 ? 0 : posy+rect.height() ;
+	}
+	else{
+
+
+		//minx = 0;
+		//maxx = 1500;
+		//miny = posy;
+		//maxy = rect.height();
+
+		miny = rect.height() < 0 ? rect.height() : posy;
+		maxy = rect.height() < 0 ? 0 : posy+rect.height() ;
+	}
+
+
+	/*
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect min x :" << minx<<std::endl;
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max x :" << maxx<<std::endl;
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect min y :" << miny<<std::endl;
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
+	*/
+	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-250,miny,maxx-minx+500,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	/*
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min y :" << newRect.top()<<std::endl;
+	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust height :" << newRect.height()<<std::endl;
+	*/
+	//QRectF newRect = QRectF(minx,miny,maxx,maxy);//.adjusted(-extra, -extra, extra, extra);
+	return newRect;
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 /*
 void GraphicStoryItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
@@ -405,75 +429,6 @@ void GraphicStoryItem::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 }
 
 */
-
-
-
-
-
-
-QRectF GraphicStoryItem::boundingRect() const{
-	//qreal penWidth = 5;
-	//this->pen.setWidth(7);
-
-	//return this->rect;
-
-	//std::cerr << " bounding rect " << std::endl;
-	qreal extra = 20 / 2.0 + myHandlerWidth;
-	//extra=0;
-	//std::cerr << " extra : " << extra << std::endl;
-	qreal miny;
-	qreal maxy;
-	qreal minx;
-	qreal maxx;
-
-
-	//std::cerr << "rect width :" << rect.width() << std::endl;
-	//extra=my_parent_width-rect.width();
-	//std::cerr << " extra : " << extra << std::endl;
-	minx = rect.width() < 0 ? rect.width() : 0;
-	maxx = rect.width() < 0 ? 0 : rect.width() ;
-
-
-
-	if(IsStorySplit){
-
-		miny = rect.height() < 0 ? rect.height() : posy;
-		maxy = rect.height() < 0 ? 0 : posy+rect.height() ;
-	}
-	else{
-
-
-		//minx = 0;
-		//maxx = 1500;
-		//miny = posy;
-		//maxy = rect.height();
-
-		miny = rect.height() < 0 ? rect.height() : posy;
-		maxy = rect.height() < 0 ? 0 : posy+rect.height() ;
-	}
-
-
-	/*
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect min x :" << minx<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max x :" << maxx<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect min y :" << miny<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
-	*/
-	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-250,miny,maxx-minx+500,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
-	/*
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min y :" << newRect.top()<<std::endl;
-	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust height :" << newRect.height()<<std::endl;
-	*/
-	//QRectF newRect = QRectF(minx,miny,maxx,maxy);//.adjusted(-extra, -extra, extra, extra);
-	return newRect;
-
-
-
-
-}
 /*
 if ((change == QGraphicsItem::ItemScenePositionHasChanged || change == QGraphicsItem::ItemTransformHasChanged || change == QGraphicsItem::ItemPositionHasChanged) && scene())
 {

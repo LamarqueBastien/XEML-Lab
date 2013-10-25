@@ -9,9 +9,13 @@
 #include<QPen>
 #include<QPainter>
 #include<iostream>
+#include<QStyleOptionGraphicsItem>
 #include"storybase.h"
+#include"Utilities.h"
+#include"itfdocument.h"
 using namespace std;
 using namespace Xeml::Document;
+using namespace Xeml::Utilities;
 
 //enum { Type = QGraphicsItem::UserType + 1 };
 class GraphicStoryItem : public QGraphicsItem
@@ -23,8 +27,9 @@ class GraphicStoryItem : public QGraphicsItem
 
 
 	public:
-		GraphicStoryItem(qreal _width,StoryBase * _story,bool _IsStorySplit,qreal posx,qreal posy,QGraphicsItem* parent = 0);
-		GraphicStoryItem(qreal _width,StoryBase * _story,QString _label,bool _IsStorySplit,qreal posx,qreal posy,QGraphicsItem* parent = 0);
+		GraphicStoryItem(qreal width_parent,ItfDocument * _current_doc,qreal _width,StoryBase * _story,bool _IsStorySplit,qreal posx,qreal posy,QGraphicsItem* parent = 0);
+		GraphicStoryItem(qreal width_parent,ItfDocument * _current_doc,qreal _width,StoryBase * _story,QString _label,bool _IsStorySplit,qreal posx,qreal posy,QGraphicsItem* parent = 0);
+		GraphicStoryItem * get_parent();
 		enum { Type = QGraphicsItem::UserType + 1 };
 		int type() const{return Type;}
 		~GraphicStoryItem();
@@ -51,6 +56,7 @@ class GraphicStoryItem : public QGraphicsItem
 
 	private:
 
+		ItfDocument * current_doc;
 		qreal posx, posy;
 		int myHoverPoint;
 		int mySelPoint;

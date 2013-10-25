@@ -1009,6 +1009,7 @@ namespace Xeml {
 			}
 		}
 		void                  XemlDocument::InitEvent(QDomElement _elem,bool _isStorySplit,StoryBase * _storyBase){
+			Q_UNUSED(_isStorySplit);
 			Event * e = new Event();
 			InitAnnotations(_elem,e);
 			e->set_timepoint(get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(_elem.attributeNode("TimePoint").value())));
@@ -1018,6 +1019,7 @@ namespace Xeml {
 			_storyBase->add_event(e);
 		}
 		void                  XemlDocument::InitObserverPoint(QDomElement _elem,bool _isStorySplit, StoryBase * _storyBase){
+			Q_UNUSED(_isStorySplit);
 			//std::cerr << "entering add observerPoint" << std::cerr;
 			ObservationPoint * op = new ObservationPoint();
 			this->observationPointsCounter++;
