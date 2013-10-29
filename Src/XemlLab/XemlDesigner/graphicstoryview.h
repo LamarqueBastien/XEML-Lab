@@ -28,10 +28,13 @@ class GraphicStoryView : public QGraphicsView
 		void story_split_added(QString _label,StoryBase *_story);
 		void story_root_added(QString _label,StoryBase *_story);
 		void event_added(Event* e);
+		void obsPoint_added(ObservationPoint * _op);
 	private slots:
 		void add_split_story(QString _label,StoryBase *_story);
 		void add_root_story(QString _label,StoryBase *_story);
 		void add_event(Event * _e);
+		void add_obsPoint(ObservationPoint * _op);
+
 		//void resize_Pixmap(QRectF rectScene);
 };
 

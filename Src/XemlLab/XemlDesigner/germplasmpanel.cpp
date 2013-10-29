@@ -22,8 +22,7 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 												  "padding-left: 4px;"
 												  "border: 1px solid #6c6c6c;"
 												  "}");
-	//this->view->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-	//this->view->verticalHeader()->hide();
+
 
 
 
@@ -53,18 +52,17 @@ void GermPlasmPanel::initialize(ItfDocument * _xemlDoc){
 	//std::cerr << "size of ip : " << std::endl;
 
 	for(std::list<StoryNode*>::iterator it=_xemlDoc->get_storyboard()->get_storyBoard()->begin();it!=_xemlDoc->get_storyboard()->get_storyBoard()->end();++it){
-		//std::cerr << "size of ip2 : " << std::endl;
 		if((*it)->get_parent()==NULL){
-			//std::cerr << "size of ip3 : " << std::endl;
+
 			Story * current= static_cast<Story*>((*it)->get_story());
-			//std::cerr << "size of ip : " << current->get_individualspoolcollection()->size() << std::endl;
+
 			for(std::map<IndividualsPool*,QString>::iterator it = current->get_individualspoolcollection()->begin();it!=current->get_individualspoolcollection()->end();++it){
 				QStringList tmplist=(*it).first->get_germplasm().split(".");
 
 				if (tmplist.empty()){
 
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));
-					//std::cerr << "germplasm id empty" << std::endl;
+
 				}
 				else if(tmplist.size()==1){
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));

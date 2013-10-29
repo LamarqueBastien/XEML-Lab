@@ -445,6 +445,8 @@ namespace Xeml {
 			}
 		}
 		void                  XemlDocument::write_observationPoint(QDomElement * _elem,StoryNode * _node){
+			std::cerr << "entering write observation Point (xemlDocument)" << std::endl;
+
 			Observation * ob;
 			for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
 				QDomElement obspoint=this->doc.createElement("xeml:ObservationPoint");
@@ -452,6 +454,7 @@ namespace Xeml {
 				obspoint.setAttribute("Id",QString::number((*it).first->get_id()));
 				//obspoint.setAttribute("TargetTime",(*it).second->get_timespan_Qstr_format());
 				qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it).second);
+				std::cerr << "ObsPoint Id : " << (*it).first->get_id() << " Msecs : " << milliseconds_ellapsed << std::endl;
 				obspoint.setAttribute("TargetTime",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
 				//obspoint.setAttribute("TargetTime",(*it).second.toString("dd.hh:mm:ss"));
 				write_annotation(&obspoint,(*it).first);

@@ -29,6 +29,8 @@ namespace Xeml{
 		}
 
 		void ObservationPoint::set_timepoint(QDateTime  _timepoint){
+			std::cerr << "changing obspoint timepoint (ObservationPoint)" << std::endl;
+			std::cerr << "new timepoint (ObservationPoint) : " << _timepoint.toString("dd/MM/yyyy-hh:mm:ss").toStdString() << std::endl;
 			this->timepoint=_timepoint;
 		}
 

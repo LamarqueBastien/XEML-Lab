@@ -15,7 +15,7 @@ using namespace Xeml::Document;
 class GraphicObservationPointItem : public QGraphicsPolygonItem
 {
 	public:
-		GraphicObservationPointItem(qreal _posx,qreal _posy,qreal _width,QGraphicsItem * parent);
+		GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QGraphicsItem * parent);
 		enum { Type = QGraphicsItem::UserType + 3 };
 		int type() const{return Type;}
 		~GraphicObservationPointItem();
@@ -24,13 +24,17 @@ class GraphicObservationPointItem : public QGraphicsPolygonItem
 		void change();
 		QPolygonF get_polygon();
 		ObservationPoint * get_obspoint();
+		qreal get_posx();
+		qreal get_posy();
+
 	private:
+		ObservationPoint * obsPoint;
 		qreal posx, posy;
 		QGraphicsItem * parent;
 		QPolygonF pol;
 		qreal width;
 		int obspointId;
-		ObservationPoint * oP;
+		//ObservationPoint * oP;
 
 };
 

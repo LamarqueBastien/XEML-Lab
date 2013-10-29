@@ -11,6 +11,8 @@
 #include"storyitem.h"
 #include"eventpanel.h"
 #include"observationpanel.h"
+#include"Utilities.h"
+using namespace Xeml::Utilities;
 using namespace Xeml::Document::Contracts;
 class AboutStory : public QDialog
 {
@@ -26,7 +28,7 @@ class AboutStory : public QDialog
 		PoolPanel             * poolInfo;
 		EventPanel            * eventInfo;
 		ObservationPanel      * obsInfo;
-		void                    initialize(StoryItem * _currentStory);
+		void                    initialize(StoryBase * _currentStory,bool _IsStorySplit);
 
 	signals:
 

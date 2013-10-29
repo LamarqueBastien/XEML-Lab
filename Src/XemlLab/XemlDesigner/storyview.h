@@ -110,6 +110,7 @@ class StoryView : public QWidget
 		void                 on_refresh_genotype_view();
 		void                 add_graphic_story(QString _label, StoryBase* _story);
 		void                 add_graphic_story_split(QString _label,StoryBase * _split);
+		void                 add_observationPoint(ObservationPoint * _op);
 	//protected:
 		//void mouseMoveEvent(QMouseEvent *_event);
 		//void mouseDoubleClickEvent(QMouseEvent * _event);
@@ -125,6 +126,7 @@ class StoryView : public QWidget
 		void                 refresh_genotypeView(QModelIndex _elementSelected);
 		void                 edit_Experiment();
 		void                 clicSelection(QModelIndex _elementSelected);
+		void                 details_about_story(GraphicStoryItem* _storyselected);
 		void                 newObsPoint();
 		void                 newStorySplit();
 		void                 newStory();

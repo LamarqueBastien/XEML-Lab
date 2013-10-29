@@ -280,7 +280,8 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->storytree,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(clicSelection(QModelIndex)));
 	connect(this,SIGNAL(add_graphic_story(QString,StoryBase*)),this->graphicStory,SLOT(add_root_story(QString,StoryBase*)));
 	connect(this,SIGNAL(add_graphic_story_split(QString,StoryBase*)),this->graphicStory,SLOT(add_split_story(QString,StoryBase*)));
-
+	connect(this,SIGNAL(add_observationPoint(ObservationPoint*)),this->graphicStory,SLOT(add_obsPoint(ObservationPoint *)));
+	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 
 	connect(this->infoButton,SIGNAL(clicked()),this,SLOT(remove_parameter()));
 	connect(editExperiment,SIGNAL(clicked()),this,SLOT(edit_Experiment()));
@@ -474,6 +475,12 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 }
 
 //displays details about the selected story
+void StoryView::details_about_story(GraphicStoryItem* _storyselected){
+	this->aboutstory=new AboutStory();
+	this->aboutstory->initialize(_storyselected->get_story(),_storyselected->get_isStorySplit());
+	this->aboutstory->setVisible(true);
+}
+
 void StoryView::clicSelection(QModelIndex _elementSelected)
 {
 	QItemSelectionModel  * selection = this->storytree->selectionModel();
@@ -494,7 +501,8 @@ void StoryView::clicSelection(QModelIndex _elementSelected)
 			
 			StoryItem  * exp=static_cast<StoryItem*>(tmp);
 			this->aboutstory=new AboutStory();
-			this->aboutstory->initialize(exp);
+
+			this->aboutstory->initialize(exp->get_story(),exp->get_isStorySplit());
 			this->aboutstory->setVisible(true);
 
 			//ajouter un signal a aboutStory pour prévenir si changements effectués.
@@ -594,6 +602,13 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 	if(_node->get_parent()==NULL){
 
+		std::cerr << "width in build graphic story hierarchy :" << width<< std::endl;
+		this->GraphicScene->addItem(new QGraphicsLineItem(0,-10,width,-10));
+		for (int i=0;i<=width;i+=width/45){
+			//std::cerr << "range : " << i << std::endl;
+			this->GraphicScene->addItem(new QGraphicsLineItem(i,-10,i,-20));
+			this->GraphicScene->addItem(new QGraphicsTextItem(_node->get_label()));
+		}
 		this->GraphicScene->addItem(new GraphicStoryItem(0,this->currentDoc,width,_node->get_story(),_node->get_story()->get_label(),false,0,this->GraphicScene->positionY,NULL));
 		this->GraphicScene->set_max_item_width(width);
 		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
@@ -1091,7 +1106,7 @@ void StoryView::choose_obsPoint(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
-			std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 			ObservationPointPanel * opp =new ObservationPointPanel(false);
 			//connect(opp,SIGNAL())
 			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
@@ -1139,9 +1154,16 @@ void StoryView::add_observationPoint(){
 			//std::cerr << "obs cpt : " << static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter << std::endl;
 			obs_count=static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter;//  count_total_observationsPoint(MainNode,obs_count);
 			//std::cerr << "obs cpt : " << obs_count << std::endl;
-			this->obsPoint = new ObservationPointDialog(node->get_story(),this->currentDoc);
-			this->obsPoint->set_id(obs_count+1);
-			this->obsPoint->setVisible(true);
+			ObservationPoint * obs= new ObservationPoint(this->currentDoc->get_startdate());//QDateTime::fromString(lineEdit->text(),"dd.hh:mm:ss")TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString()));
+			static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter++,
+			//_story->add_obsPoint(obs);
+			obs->set_id(obs_count+1);
+			node->get_story()->add_obsPoint(obs);
+
+			emit add_observationPoint(obs);
+			//this->obsPoint = new ObservationPointDialog(node->get_story(),this->currentDoc);
+			//this->obsPoint->set_id(obs_count+1);
+			//this->obsPoint->setVisible(true);
 		}
 		else{
 			QMessageBox::information(this,"added element","no story selected");

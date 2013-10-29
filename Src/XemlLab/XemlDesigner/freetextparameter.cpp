@@ -4,24 +4,27 @@
 FreeTextParameter::FreeTextParameter(QDateTime _datetime,QWidget * parent)
 : QDialog(parent)
 {
+	/*
+	//this->timelabel = new QLabel(tr("observation StartTime :"));
+	//this->daytimeedit=new QDateTimeEdit();
+	//this->daytimeedit->setDisplayFormat("dd.hh:mm:ss");
+	//
+	//this->timelabel->setBuddy(daytimeedit);
+	//removeCycle->setCheckable(true);
+	*/
 	this->dateTime=_datetime;
 	this->label = new QLabel(tr("value :"));
-	//this->timelabel = new QLabel(tr("observation StartTime :"));
 	this->textEdit = new QLineEdit;
 	this->title=new QLabel("                              Free Text Context");
 	this->title->setStyleSheet("background-color: white;border-style: outset;border-width: 2px;border-color: beige;");
 	this->label->setBuddy(textEdit);
-	//this->daytimeedit=new QDateTimeEdit();
-	//this->daytimeedit->setDisplayFormat("dd.hh:mm:ss");
-	//this->timelabel->setBuddy(daytimeedit);
-	addCycle = new QPushButton(tr("&+"));
+	this->addCycle = new QPushButton(tr("&+"));
 	this->addCycle->setEnabled(false);
-	addCycle->setCheckable(true);
-	removeCycle = new QPushButton(tr("&-"));
+	this->addCycle->setCheckable(true);
+	this->removeCycle = new QPushButton(tr("&-"));
 	this->removeCycle->setEnabled(false);
-	//removeCycle->setCheckable(true);
+	
 	connect(removeCycle,SIGNAL(clicked()),this,SLOT(remove_cycle()));
-
 	connect(addCycle,SIGNAL(clicked()),this,SLOT(add_cycle()));
 	this->counter=0;
 	this->counter_row=0;
@@ -88,7 +91,7 @@ FreeTextParameter::FreeTextParameter(QDateTime _datetime,QWidget * parent)
 	//setWindowTitle(tr("freetext panel"));
 	this->setWindowTitle("TEST2");
 	setMaximumHeight(400);
-	//setFixedHeight((sizeHint().height()));
+
 	this->setStyleSheet("QDialog  { border-color: black; color: red;  border-style: outset;border-width: 2px;height: 5px;background-color: rgb(235,230,234); }");
 
 	extension->hide();
@@ -100,6 +103,7 @@ void FreeTextParameter::set_dateTime(QDateTime _datetime){
 }
 
 void FreeTextParameter::inactive_value(bool _CycleMode){
+
 	if(_CycleMode){
 		this->textEdit->setEnabled(false);
 		this->addCycle->setEnabled(true);
@@ -131,7 +135,6 @@ void FreeTextParameter::add_cycle(){
 
 
 	extension->resize(static_cast<QGridLayout*>(extension->layout())->maximumSize());
-	//extension->
 	extension->setVisible(true);
 	extension->setFixedHeight(sizeHint().height());
 }
@@ -153,26 +156,7 @@ void FreeTextParameter::remove_cycle()
 
 		}
 		counter_row--;
-	//}
-	/*
-	if(counter>=0){
-		while ((item = static_cast<QGridLayout*>(extension->layout())->takeAt(counter)))
-		{
-			if (item->layout())
-			{
-				//clearLayout(item->layout());
-				delete item->layout();
-			}
-			delete item->widget();
-			delete item;
-		}
-		counter--;
-	}
-	*/
-	//else{
-		//QMessageBox()
-		//std::cerr << "error no value to remove" << std::endl;
-	//}
+
 	extension->resize(static_cast<QGridLayout*>(extension->layout())->minimumSize());
 
 }
@@ -194,11 +178,11 @@ QString  FreeTextParameter::get_context(){
 }
 void FreeTextParameter::OkClicked(){
 
-	//this->okButton->setEnabled(true);
+
 	std::cerr << "counter" << counter << std::endl;
 	QLayoutItem *item;
 	QLayoutItem *item2;
-	//if (item->layout()) {
+
 	int tmp=counter;
 	if (this->_cycle->isChecked()){
 		Cycle * c=new Cycle();
@@ -209,19 +193,16 @@ void FreeTextParameter::OkClicked(){
 			if(i%3==0){
 				std::cerr << " modulo i : " << i << std::endl;
 
-				//if(item->widget()){
-					//std::cerr << "time : " << static_cast<QDateTimeEdit*>(item->widget())->time().toString("hh:mm:ss").toStdString() << std::endl;
-				//}
-				//std::cerr << "text : " << static_cast<QLineEdit*>(item->widget())->text().toStdString() << std::endl;
+
 				DynamicValue * v = new DynamicValue();
 				v->set_is_cyclevalue(true);
-				//QDateTime * dt=new QDateTime(static_cast<QDateTimeEdit*>(item->widget())->dateTime());
+
 				if(item->widget()){
 					v->set_timepoint(static_cast<QDateTimeEdit*>(item->widget())->dateTime());
 				}
 				item2=static_cast<QGridLayout*>(extension->layout())->itemAt(i+2);
 
-				//v->set_context(this->context);
+
 				v->set_value(static_cast<QLineEdit*>(item2->widget())->text());
 				c->add_cycleValue(std::make_pair(v,static_cast<QDateTimeEdit*>(item->widget())->dateTime()));
 
@@ -241,10 +222,10 @@ void FreeTextParameter::OkClicked(){
 		v->set_timepoint(this->dateTime);
 		v->set_context(this->context);
 		v->set_value(text);
-		//this->current_term->get_namespace()
+
 		static_cast<DynamicTerm*>(this->current_term)->add_dynamicvalue(v);
 	}
 
-	//static_cast<DynamicTerm*>(this->term->get_prototype())->add_dynamicvalue(v);
+
 	this->setEnabled(false);
 }

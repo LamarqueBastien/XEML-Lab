@@ -32,7 +32,7 @@ void EventPanel::initialize(StoryBase * _story,bool _isStorySplit){
 		cpt=0;
 		for(std::map<Event*,QDateTime>::iterator it = current->get_eventcollection()->begin();it!=current->get_eventcollection()->end();++it){
 			model->setItem(cpt,0,new QStandardItem((*it).first->get_label()));
-			model->setItem(cpt,1,new QStandardItem(QString((*it).first->get_timepoint().toString("dd.hh:mm:ss"))));
+			model->setItem(cpt,1,new QStandardItem( QString((*it).first->get_timepoint().toString("dd.hh:mm:ss"))));
 			cpt++;
 		}
 	}

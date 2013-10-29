@@ -46,13 +46,13 @@ AboutStory::AboutStory(QWidget * parent)
 }
 
 
-void AboutStory::initialize(StoryItem * _currentStory){
+void AboutStory::initialize(StoryBase * _currentStory,bool _ISStorySplit){
 
-	//vérifier les attributs de la story et initialiser en fonction.
+	
 
-	this->storyInfo->initialize(_currentStory->get_story(),_currentStory->get_isStorySplit());
-	this->parameterInfo->initialize(_currentStory->get_story(),_currentStory->get_isStorySplit());
-	this->poolInfo->initialize(_currentStory->get_story(),_currentStory->get_isStorySplit());
-	this->eventInfo->initialize(_currentStory->get_story(),_currentStory->get_isStorySplit());
-	this->obsInfo->initialize(_currentStory->get_story(),_currentStory->get_isStorySplit());
+	this->storyInfo->initialize(_currentStory,_ISStorySplit);
+	this->parameterInfo->initialize(_currentStory,_ISStorySplit);
+	this->poolInfo->initialize(_currentStory,_ISStorySplit);
+	this->eventInfo->initialize(_currentStory,_ISStorySplit);
+	this->obsInfo->initialize(_currentStory,_ISStorySplit);
 }

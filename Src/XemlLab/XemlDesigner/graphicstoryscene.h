@@ -1,6 +1,7 @@
 #ifndef GRAPHICSTORYSCENE_H
 #define GRAPHICSTORYSCENE_H
-
+#include<QMenu>
+#include<QAction>
 #include<QGraphicsScene>
 #include<QGraphicsSceneMouseEvent>
 #include<iostream>
@@ -13,6 +14,7 @@
 #include"graphicobservationpointitem.h"
 #include"Utilities.h"
 #include"itfdocument.h"
+#include"xemldocument.h"
 using namespace std;
 using namespace Xeml::Document;
 using namespace Xeml::Utilities;
@@ -31,12 +33,19 @@ class GraphicStoryScene : public QGraphicsScene
 		void set_doc(ItfDocument  * _currentDoc);
 
 		int  positionY;
+		void createMenus();
+		void createActions();
+
 	protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent *e);
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
+		void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 	signals:
 		void itemInserted(GraphicStoryItem *item);
+		void show_details_story(GraphicStoryItem * _storyselected);
 	private:
+		QMenu * contextMenu;
+		QAction * show_details;
 		ItfDocument * currentDoc;
 		GraphicEventItem * my_item;
 		GraphicStoryItem * my_second_item;
@@ -49,7 +58,9 @@ class GraphicStoryScene : public QGraphicsScene
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);
+		void add_Obs_point(ObservationPoint * _op);
 		void changedSelection();
+		void details_story();
 
 
 

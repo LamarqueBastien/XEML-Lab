@@ -1,15 +1,14 @@
 #include "graphicobservationpointitem.h"
 
-GraphicObservationPointItem::GraphicObservationPointItem(qreal _posx,qreal _posy,qreal _width,QGraphicsItem * _parent)
+GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QGraphicsItem * _parent)
 	:QGraphicsPolygonItem(_parent)
 {
 	this->setParentItem(_parent);
 	this->width=_width;
 	this->parent=_parent;
+	this->obsPoint=_obsPoint;
 	this->posx=_posx;
 	this->posy=_posy;
-
-
 	setFlag(QGraphicsItem::ItemIsMovable, true);
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
 	setAcceptDrops(true);
@@ -25,9 +24,17 @@ GraphicObservationPointItem::~GraphicObservationPointItem(){
 }
 
 QRectF GraphicObservationPointItem::boundingRect() const{
-	return polygon().boundingRect();
+	QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+60,polygon().boundingRect().bottomLeft().y()-10);//.adjusted(-extra, -extra, extra, extra);
+	//polygon().boundingRect().topLeft().x()-250,
+	return newRect;
+	//return polygon().boundingRect();
 }
-
+qreal GraphicObservationPointItem::get_posx(){
+	return this->posx;
+}
+qreal GraphicObservationPointItem::get_posy(){
+	return this->posy;
+}
 void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem *option,QWidget *widget){
 	Q_UNUSED(widget);
 	QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
@@ -43,8 +50,11 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 			_painter->setBrush(selBrush);
 			_painter->setPen(selPen);
 			_painter->drawPolygon(this->pol);
+			_painter->drawRect(QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+60,polygon().boundingRect().bottomLeft().y()-10));
+			//_painter->drawRect(polygon().boundingRect());
 		}
 	}
+
 }
 
 void GraphicObservationPointItem::change(){
@@ -56,5 +66,5 @@ QPolygonF GraphicObservationPointItem::get_polygon(){
 }
 
 ObservationPoint * GraphicObservationPointItem::get_obspoint(){
-
+	return this->obsPoint;
 }

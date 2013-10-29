@@ -18,7 +18,7 @@ QString FileManager::LoadXemlCodeFromFile(QFile * _xeml_doc){
 		MonFichier >> text;
 		finaltext+=text;
 	}
-	//std::cerr << finaltext.toStdString() << std::endl;
+	
 	return finaltext;
 }
 
@@ -30,8 +30,7 @@ void FileManager::New(){
 			std::cerr << "failed created document, current document already exists" << std::endl;
 		}
 
-		//QString tmp=QApplication::applicationDirPath()+"/../../../../../XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
-		//this->filePath=tmp.toStdString();
+		
 		/*
 #if defined(Q_OS_WIN)
 									   this->filePath= "C:/Documents and Settings/Bryan/Mes documents/Cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
@@ -41,17 +40,22 @@ void FileManager::New(){
 									   this->filePath="/home/bdartigues/cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
 #endif
 */
+		
+		
+		
 		//this->filePath= "C:/Documents and Settings/Bryan/Mes documents/Cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
 		//:/template/XEMLStore/Templates/Standard.xeml";
 		//this->filePath="/Users/benjamindartigues/cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
-		///Users/benjamindartigues/cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";  ///Users/benjamindartigues/cosmos/XemlLab/XemlDesigner //HOME+"XemlInteractiveDesigner/XEMLStore/Templates/Standard.xeml";//="/Users/benjamindartigues/Qt5.0.1/Root/XemlInteractiveDesigner/XEMLStore/Templates/Standard.xeml";
+		//Users/benjamindartigues/cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";  
+		//Users/benjamindartigues/cosmos/XemlLab/XemlDesigner 
+		//HOME+"XemlInteractiveDesigner/XEMLStore/Templates/Standard.xeml";
+		//="/Users/benjamindartigues/Qt5.0.1/Root/XemlInteractiveDesigner/XEMLStore/Templates/Standard.xeml";
 		//std::cerr <<"templatefilepath" << this->filePath << std::endl;
 
 		this->filePath="://XEMLStore/Templates/Standard.xeml";
-		// Création d'un objet QFile
 		QDir::setSearchPaths("templates", QStringList("://XEMLStore/Templates"));
-		//QFile file("templates:Standard.xeml");
 		QFile file(filePath);
+		
 		// On ouvre notre fichier en lecture seule et on vérifie l'ouverture
 		if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
 			LoadFile(this->filePath,true);

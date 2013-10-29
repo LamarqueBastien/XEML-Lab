@@ -8,26 +8,19 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	this->experimentlabelEdit = new QLineEdit;
 	this->experimentlabel->setBuddy(experimentlabelEdit);
 	this->experimentstartDate =new QLabel(tr("Start date : "));
-
 	this->experimentEndDate =new QLabel(tr("End date : "));
-	//this->startdateEdit =new QLineEdit;
 	this->startdateEdit = new QDateTimeEdit(QDate::currentDate());
 	this->experimentstartDate->setBuddy(this->startdateEdit);
 	this->startdateEdit->setCalendarPopup(true);
 	this->enddateEdit = new QDateTimeEdit(QDate::currentDate());
 	this->experimentEndDate->setBuddy(this->enddateEdit);
 	this->enddateEdit->setCalendarPopup(true);
-	//this->dateEdit->setBuddy(startdateEdit);
-
 	this->startdateEdit->setMinimumDate(QDate::currentDate().addDays(-15365));
 	this->startdateEdit->setMaximumDate(QDate::currentDate().addDays(15365));
 	this->startdateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
-
 	this->enddateEdit->setMinimumDate(QDate::currentDate().addDays(-15365));
 	this->enddateEdit->setMaximumDate(QDate::currentDate().addDays(15365));
 	this->enddateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
-
-
 	this->okButton =new QPushButton(tr("OK"));
 	this->okButton->setDefault(true);
 	this->okButton->setEnabled(false);

@@ -27,7 +27,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 	//setMouseTracking(true);
-	setAcceptDrops(true);
+	//setAcceptDrops(true);
 	setAcceptHoverEvents(true);
 	setAcceptedMouseButtons(Qt::LeftButton);
 
@@ -69,13 +69,14 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	if(_IsStorySplit){
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
 	}
+
 	//this->setPos(0,posy);
 	setFlag(QGraphicsItem::ItemIsSelectable);
 	setFlag(QGraphicsItem::ItemIsMovable);
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 	//setMouseTracking(true);
-	setAcceptDrops(true);
+	//setAcceptDrops(true);
 	setAcceptHoverEvents(true);
 	setAcceptedMouseButtons(Qt::LeftButton);
 
@@ -93,9 +94,11 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 
 
 }
+
 void GraphicStoryItem::set_right(qreal width){
 	std::cerr << "width in setRight : "<< width << std::endl;
-	rect.setRight(width);
+	std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
+	this->rect.setRight(width);
 	//update();
 }
 StoryBase * GraphicStoryItem::get_story(){
@@ -106,6 +109,13 @@ QRectF GraphicStoryItem::get_rect(){
 	return this->rect;
 
 }
+qreal GraphicStoryItem::get_posx(){
+	return this->posx;
+}
+qreal GraphicStoryItem::get_posy(){
+	return this->posy;
+}
+
 void GraphicStoryItem::change(){
 	prepareGeometryChange();
 }
@@ -439,6 +449,8 @@ if ((change == QGraphicsItem::ItemScenePositionHasChanged || change == QGraphics
 QVariant GraphicStoryItem::itemChange(GraphicsItemChange change, const QVariant &value){
 	if (change == ItemPositionChange && scene()) {
 		// value is the new position.
+		std::cerr << "item changed name :" << this->get_label().toStdString() <<  std::endl;
+
 		QPointF newPos = value.toPointF();
 		//this->rect = scene()->sceneRect();
 		if (!rect.contains(newPos)) {
@@ -449,11 +461,17 @@ QVariant GraphicStoryItem::itemChange(GraphicsItemChange change, const QVariant 
 
 			return newPos;
 		}
+
 	}
-	update();
+	if (change == ItemParentChange && scene()) {
+		std::cerr << "item parent changed name :" << this->get_label().toStdString() <<  std::endl;
+
+	}
+	//update();
 	return QGraphicsItem::itemChange(change, value);
 }
 */
+
 /*
 void GraphicStoryItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
  {

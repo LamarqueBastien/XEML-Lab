@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	my_dir.cdUp();
 	std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
 
-	std::cerr << "home path" << QDir::homePath().toStdString()<<"Cosmos/Xemllab" << std::endl;
+	std::cerr << "home path : " << QDir::homePath().toStdString()<< std::endl;
 	my_dir.mkdir("test_directory");
 
 

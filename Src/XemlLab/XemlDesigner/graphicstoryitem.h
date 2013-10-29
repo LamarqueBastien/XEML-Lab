@@ -41,6 +41,11 @@ class GraphicStoryItem : public QGraphicsItem
 		QString get_label();
 		void set_right(qreal width);
 		StoryBase * get_story();
+		qreal get_posx();
+		qreal get_posy();
+
+
+
 
 		//void mouseMoveEvent();
 
@@ -55,6 +60,7 @@ class GraphicStoryItem : public QGraphicsItem
 		void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
 
 	private:
+
 
 		ItfDocument * current_doc;
 		qreal posx, posy;

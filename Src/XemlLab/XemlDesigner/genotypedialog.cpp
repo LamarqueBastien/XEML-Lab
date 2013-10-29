@@ -165,15 +165,15 @@ void GenotypeDialog::add_transgenic_label(const QString &text){
 
 void GenotypeDialog::enabledOkButton(const QString &text){
 	this->okButton->setEnabled(true);
-	//this->speciesEdit->setText(text);
+
 }
 void GenotypeDialog::OkClicked(){
+
 	QString idtext= idEdit->text();
 	QString freetext = this->free_annotEdit->toPlainText();
 	QString taxontext = this->taxonEdit->text();
-	//std::cerr << "new genotype : " << idtext.toStdString() << std::endl;
 	emit this->genotype_added(idtext,freetext,taxontext);
 	this->close();
-	//std::cerr << "new genotype : " << idtext.toStdString() << std::endl;
+
 
 }

@@ -3,8 +3,10 @@
 AboutParameter::AboutParameter(ItfDocument * _xemldoc,StoryNode * _story,QWidget * parent)
 	:QDialog(parent)
 {
-	//QFrame *line;
+	
+	
 	usemode=false;
+	this->story=_story;
 	this->current_doc=_xemldoc;
 	this->timelabel = new QLabel(tr("observation StartTime :"));
 	this->daytimeedit=new QDateTimeEdit(static_cast<XemlDocument*>(this->current_doc)->get_startdate());
@@ -17,7 +19,7 @@ AboutParameter::AboutParameter(ItfDocument * _xemldoc,StoryNode * _story,QWidget
 	//connect(this->daytimeedit,SIGNAL(dateTimeChanged(QDateTime)),this->responseRange,SLOT(set_dateTime(QDateTime)));
 
 	this->timelabel->setBuddy(daytimeedit);
-	this->story=_story;
+	
 	//this->storyitem=_storyitem;
 	line1 = new QFrame(this);
 	line2 = new QFrame(this);

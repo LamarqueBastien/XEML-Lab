@@ -16,9 +16,6 @@ ExperimenterDialog::ExperimenterDialog(ItfDocument * _xemlDoc, QWidget * parent)
 	this->emaillabel=new QLabel(tr("Email : "));
 	this->emaillabelEdit =new QLineEdit;
 	this->emaillabel->setBuddy(this->emaillabelEdit);
-
-
-
 	this->okButton =new QPushButton(tr("OK"));
 	this->okButton->setCursor(Qt::PointingHandCursor);
 	this->okButton->setDefault(true);
@@ -75,10 +72,11 @@ void ExperimenterDialog::initialize(){
 }
 
 void ExperimenterDialog::OkClicked(){
-	std::cerr << " test"  <<std::endl;
+
 	QString firstnametext= firstnamelabelEdit->text();
 	QString lastnametext= lastnamelabelEdit->text();
 	QString organisationtext= organisationlabelEdit->text();
 	QString emailtext= emaillabelEdit->text();
+
 	emit this->mon_signal(firstnametext,lastnametext,organisationtext,emailtext);
 }

@@ -34,22 +34,7 @@ GenotypeView::GenotypeView(QWidget *parent) :
 					"background-color: rgb(255,255,255);"
 					"border-radius: 10px;"
 				);
-	/*
-	this->setStyleSheet(
-					"background-color: rgb(255,255,255);"
-					"border-style: outset;"
-					"border-width: 1px;"
-					"border-radius: 10px;"
-					"border-color: beige;"
-					"font: bold 10px;"
-					"color:black;"
-					"min-width: 10em;"
-					"min-height: 0.95em;"
-				   " margin: 0 1px 0 1px;"
-					"color:rgb(0,0,0);"
-					"padding: 6px;"
-				);
-				*/
+
 
 
 
@@ -78,7 +63,7 @@ void GenotypeView::genotype_to_add(QString _idtext,QString _freetext,QString _ta
 
 void GenotypeView::initialize(ItfDocument * _xemlDoc){
 	this->currentDoc=_xemlDoc;
-	//doc->get_storyboard()->get_storyBoard()
+
 
 
 	this->gpp->initialize(_xemlDoc);

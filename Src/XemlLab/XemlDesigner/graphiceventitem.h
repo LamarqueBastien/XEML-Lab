@@ -34,6 +34,7 @@ class GraphicEventItem : public QGraphicsItem
 		qreal width;
 		QString eventLabel;
 		Event * event;
+		QRectF boundingrect;
 };
 
 #endif // GRAPHICEVENTITEM_H
