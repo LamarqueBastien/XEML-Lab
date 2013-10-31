@@ -3,9 +3,8 @@
 LoaderConclusionPage::LoaderConclusionPage(QWidget *parent)
 	: QWizardPage(parent)
 {
-	setTitle(tr("Evaluate <i>Super Product One</i>&trade;"));
-	setSubTitle(tr("Please fill both fields. Make sure to provide a valid "
-					   "email address (e.g., john.smith@example.com)."));
+	setTitle(tr("Evaluate "));
+	setSubTitle(tr("Please fill both fields."));
 
 	Filename = new QLabel(tr("F&ilename:"));
 	FilenameLineEdit = new QLineEdit;

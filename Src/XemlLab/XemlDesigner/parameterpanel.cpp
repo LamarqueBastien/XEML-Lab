@@ -76,8 +76,6 @@ void ParameterPanel::remove_parameter(){
 		int row_num=this->model->itemFromIndex(indexelementselected)->row();
 		if(this->model->index(row_num,0).data().toString()!=""){
 			this->current_story->rm_variable(this->model->index(row_num,0).data().toString());
-			//this->model->clear();
-			//this->model->beginRemoveRows(indexelementselected,row_num-1,row_num);
 			this->close();
 		}
 		else{

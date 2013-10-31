@@ -10,11 +10,5 @@ ObservationIntroPage::ObservationIntroPage(QWidget *parent)
 	layout->addWidget(topLabel);
 	setLayout(layout);
 }
-/*
-int ObservationIntroPage::nextId() const
-{
-	std::cerr << "Next id" << std::endl;
-	return ObservationWizard::Page_Intro;
-}
-*/
+
 

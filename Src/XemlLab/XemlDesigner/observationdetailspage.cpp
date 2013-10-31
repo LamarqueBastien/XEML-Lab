@@ -10,15 +10,8 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 
 
-	//this->parameterTree=new QTreeView;
 	my_treeView= new ParameterTreeView(this->doc_resources);
 	connect(this->my_treeView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this,SLOT(get_term(ItfOntologyTerm*)));
-	//this->my_treeparameter= new QStandardItemModel;
-	//this->parameterTree->setModel(this->my_treeparameter);
-	//this->parameterTree->setMouseTracking(true);
-	//this->parameterTree->header()->hide();
-	//this->showTree =new QPushButton("display hierarchy");
-	//connect(this->showTree,SIGNAL(clicked()),this,SLOT(set_up_Ontologytree()));
 	germplasmEdit = new QLineEdit;
 	germLabel = new QLabel("GermPlasm");
 
@@ -28,13 +21,10 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	nameEdit = new QLineEdit;
 	nameLabel = new QLabel("term name");
 	termLabel->setBuddy(termEdit);
-	//destructiveInfo= new QLabel("Destructive Info");
 	destructCheckBox= new QCheckBox("Destructive observation");
 	this->durationEdit= new QLineEdit;
 	this->timeDurationEdit=new QTimeEdit;
 	this->timeDurationEdit->setDisplayFormat("hh:mm:ss");
-	//this->timeDurationEdit->setTimeRange(QTime(0,0,0),QTime(23,59,59));
-	//this->timeDurationEdit->setTimeSpec(Qt::UTC);
 	durationInd= new QLabel("Duration per individuals");
 	durationInd->setBuddy(timeDurationEdit);
 	Individuals = new QLabel("Individual pooling") ;
@@ -42,15 +32,12 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	Individuals->setBuddy(this->IndBox);
 	QHBoxLayout * mainlayout=new QHBoxLayout;
 	mainlayout->addWidget(this->my_treeView);
-	//QVBoxLayout *treelayout = new QVBoxLayout;
-	//treelayout->addWidget(this->parameterTree);
 	QVBoxLayout *layout = new QVBoxLayout;
 	QHBoxLayout * bottomLayout = new QHBoxLayout;
 	bottomLayout->addWidget(this->germLabel);
 	bottomLayout->addWidget(this->germplasmEdit);
 	layout->addLayout(bottomLayout);
 	layout->addWidget(destructCheckBox);
-	//layout->addWidget(this->showTree);
 	layout->addWidget(durationInd);
 	layout->addWidget(timeDurationEdit);
 	layout->addWidget(Individuals);
@@ -59,8 +46,6 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	layout->addWidget(termEdit);
 	layout->addWidget(nameLabel);
 	layout->addWidget(nameEdit);
-	//layout->addLayout(bottomLayout);
-	//mainlayout->addWidget(this->parameterTree);
 	mainlayout->addLayout(layout);
 	setLayout(mainlayout);
 	registerField("DevTermId*",this->termEdit);
@@ -68,7 +53,6 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	registerField("Duration*",timeDurationEdit);
 	registerField("DevName*",nameEdit);
 
-	//QTreeView        * DevStageView;
 }
 void ObservationDetailsPage::initializePage(){
 	this->germplasm =field("GermPlasm").toString();
@@ -76,7 +60,6 @@ void ObservationDetailsPage::initializePage(){
 	QStringList * dev_onto = new QStringList;
 	dev_onto->append("PO_Development");
 	this->my_treeView->set_up_Ontologytree(this->doc_resources,dev_onto);
-	//set_up_Ontologytree();
 }
 
 void ObservationDetailsPage::get_term(ItfOntologyTerm * _term){

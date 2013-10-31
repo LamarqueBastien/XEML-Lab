@@ -3,7 +3,6 @@
 ObservationMaterialPage::ObservationMaterialPage(DocumentResources * _doc_resources,QWidget *parent)
 	: QWizardPage(parent)
 {
-	std::cerr << "entering new material page" << std::endl;
 	this->doc_resources =_doc_resources;
 	setTitle(tr("Material"));
 	setSubTitle(tr("Specify structural and positioning (e.g.height From ground etc..) conditions used for these samples"));
@@ -91,7 +90,6 @@ ObservationMaterialPage::ObservationMaterialPage(DocumentResources * _doc_resour
 
 	mainlayout->addLayout(poslayout);
 
-	//mainlayout->addLayout(posrightlayout);
 
 
 	setLayout(mainlayout);
@@ -116,7 +114,6 @@ void ObservationMaterialPage::get_structTerm(ItfOntologyTerm * _term){
 void ObservationMaterialPage::get_posTerm(ItfOntologyTerm * _term){
 	this->aboutParameter=new AboutParameter;
 	this->aboutParameter->set_term(_term);
-	std::cerr << "size before : "<< static_cast<VariableTerm*>(_term->get_prototype())->get_valuecollection()->size() << std::endl;
 	connect(this->aboutParameter,SIGNAL(set_up_finished(ItfOntologyTerm*)),this,SLOT(add_details_about_term(ItfOntologyTerm*)));
 
 	this->aboutParameter->initialize();
@@ -124,47 +121,27 @@ void ObservationMaterialPage::get_posTerm(ItfOntologyTerm * _term){
 
 }
 void ObservationMaterialPage::add_details_about_term(ItfOntologyTerm * _term){
-	std::cerr << "entering add details about term (Material page)" << std::endl;
 
 	this->idEdit->setText(_term->get_termId());
 	this->nameEdit->setText(_term->get_prototype()->get_name());
-	//static_cast<PosTerm*>(_term)->
-	std::cerr << "entering add details about term (Material page)" << std::endl;
-
 	QStringList * values =new QStringList;
-	std::cerr << "entering add details about term (Material page)" << std::endl;
-
 	for(std::map<ValueBase*,QString>::iterator it=static_cast<VariableTerm*>(_term->get_prototype())->get_valuecollection()->begin();it!=static_cast<VariableTerm*>(_term->get_prototype())->get_valuecollection()->end();++it){
 		values->append(static_cast<Value*>((*it).first)->get_val());
-		std::cerr << static_cast<Value*>((*it).first)->get_val().toStdString() << std::endl;
-		std::cerr << static_cast<Value*>((*it).first)->get_context().toStdString() << std::endl;
 		if(static_cast<Value*>((*it).first)->get_context()=="Quantity"){
 			this->QValueEdit->setText(static_cast<Value*>((*it).first)->get_val());
 			this->UnitEdit->setText(static_cast<Value*>((*it).first)->get_unit());
-			//std::cerr <<"Quantity context : " << static_cast<Value*>((*it).first)->get_unit().toStdString() << std::endl;
 		}
 		else{
 			this->ValueEdit->setText(static_cast<Value*>((*it).first)->get_val());
 		}
 	}
-
-	std::cerr << "entering add details about term (Material page)" << values->size() << std::endl;
-
-
-
-	std::cerr << "entering add details about term (Material page)" << std::endl;
-
-	//this->QV
 }
 
 void ObservationMaterialPage::initializePage(){
-	//this->germplasm =field("GermPlasm").toString();
-	//this->germplasmEdit->setText(this->germplasm);
 	QStringList * dev_onto = new QStringList;
 	dev_onto->append("PO_Structure");
 	this->structView->set_up_Ontologytree(this->doc_resources,dev_onto);
 	dev_onto->clear();
 	dev_onto->append("XEO_Positioning");
 	this->posView->set_up_Ontologytree(this->doc_resources,dev_onto);
-	//set_up_Ontologytree();
 }

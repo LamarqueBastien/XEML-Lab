@@ -198,11 +198,11 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,QString _namespace){
 
 void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> * _processed_nodes, ParameterItem * _tmp_item,QString _namespace){
 
-	//std::cerr << "entering build node hierarchy" << std::endl;
+
 	_processed_nodes->push_back(node);
 	_tmp_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	if(node->get_parent()!=NULL && !contains(node->get_parent(),_processed_nodes,_namespace)){
-		//std::cerr << "parent not null and parent not contains in processed nodes" << std::endl;
+
 		if(this->my_treeparameter->findItems(node->get_parent()->get_label(),Qt::MatchFixedString | Qt::MatchRecursive,0).size()!=0)
 		{
 			this->my_treeparameter->findItems(node->get_parent()->get_label(),Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
@@ -211,9 +211,8 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> 
 		else
 		{
 
-			//std::cerr << "else" << std::endl;
+
 			ParameterItem *tmp_item1=new ParameterItem(_namespace,node->get_parent(),node->get_parent()->get_label(),node->get_parent()->get_term(),true);
-			//Qt::Ite
 			tmp_item1->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 			tmp_item1->appendRow(_tmp_item);
 			buildNodeHierarchy(node->get_parent(),_processed_nodes,tmp_item1,_namespace);
@@ -221,52 +220,31 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> 
 	}
 	else{
 		if(node->get_parent()!=NULL){
-			//std::cerr << "first else" << node->get_parent()->get_label().toStdString() << std::endl;
 			if(_namespace=="XEO_Positioning"){
-				//std::cerr << "xeo pos root" << node->get_parent()->get_label().toStdString() << std::endl;
 				this->my_treeparameter->findItems(node->get_parent()->get_label(),Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
 
 			}
-			//else if(_tmp_item->get_term()->get_prototype()->get_termId()=="PO:0009012"){
 
-				//this->my_treeparameter->findItems(node->get_parent()->get_label()+" ("+node->get_parent()->get_term()->get_termId()+")",Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
-
-
-			//}
 			else{
 				this->my_treeparameter->findItems(node->get_parent()->get_label()+" ("+node->get_parent()->get_term()->get_termId()+")",Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
 
 			}
 		}
 		else{
-			//std::cerr << "second else" << std::endl;
-			/*
-			if(_tmp_item->get_term()->get_prototype()->get_termId()=="PO:0009012"){
-				std::cerr << "termId" << _tmp_item->get_term()->get_prototype()->get_termId().toStdString() << std::endl;
-					//if(_tmp_item->get_term()->get_prototype()->get_name())
 
-				//_tmp_item->set_isRoot(true);
-				//this->my_treeparameter->findItems(_namespace,Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
-				//_processed_nodes->push_back(node);
-			}
-			else{
-
-			*/
 			_tmp_item->set_isRoot(true);
 			this->my_treeparameter->findItems(_namespace,Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
 			_processed_nodes->push_back(node);
-			//}
+
 		}
 	}
 
 
 }
 void ParameterTreeView::build_ontology_tree(std::list<TermNode*> * _my_tree,QString _namespace){
-	//std::cerr << "entering build onto tree (parameter tree view)" << std::endl;
 	if(mode){
 		for(std::list<TermNode*>::iterator it=_my_tree->begin();it!=_my_tree->end();++it){
 			if(_namespace=="XEO_Positioning"){
-				//std::cerr << "value collection size : " << static_cast<VariableTerm*>(static_cast<TermNode*>((*it))->get_term()->get_prototype())->get_valuecollection()->size() << std::endl;
 			}
 			if((*it)->get_parent()==NULL){
 				buildNodeHierarchy((*it),_namespace);
@@ -281,9 +259,7 @@ void ParameterTreeView::build_ontology_tree(std::list<TermNode*> * _my_tree,QStr
 
 			if((*it)->get_parent()!=NULL && (*it)->get_childs()->size()==0){
 				if(_namespace=="XEO_Positioning"){
-					//std::cerr << "value collection size : " << static_cast<VariableTerm*>(static_cast<TermNode*>((*it))->get_term()->get_prototype())->get_valuecollection()->size() << std::endl;
 				}
-				//std::cerr << "node name (parameter tree view) : "<< (*it)->get_term()->get_termId().toStdString() << std::endl;
 
 				buildNodeHierarchy((*it),&processed_nodes,new ParameterItem(_namespace,(*it),(*it)->get_label(),(*it)->get_term(),false),_namespace);
 			}
@@ -335,24 +311,6 @@ void ParameterTreeView::set_up_Ontologytree(DocumentResources * _doc,QStringList
 
 
 
-	//std::list<TermNode*> my_devtree;
-	//std::list<TermNode*> my_structree;
-	//std::list<TermNode*> my_xeotree;
-	//std::list<TermNode*> my_postree;
-
-	//my_structree=(*static_cast<PlantStructureOntologyHandler*>((*_doc->get_structHandler())["PO_Structure"]->get_handler())->get_listNodes());
-	//my_devtree=(*static_cast<DevelopmentalOntologyHandler*>((*_doc->get_devHandler())["PO_Development"]->get_handler())->get_listNodes());
-	//my_xeotree=(*static_cast<XeoHandler*>((*_doc->get_xeoHandler())["XEO"]->get_handler())->get_listNodes());
-	//my_postree=(*static_cast<PositioningOntologyHandler*>((*_doc->get_posHandler())["XEO_Positioning"]->get_handler())->get_listNodes());
-	//my_treeparameter->appendRow(new ParameterItem(NULL,"PO_Structural",true));
-	//build_ontology_tree(&my_structree,"PO_Structural");
-	//my_treeparameter->appendRow(new ParameterItem(NULL,"PO_Developmental",true));
-	//build_ontology_tree(&my_devtree,"PO_Developmental");
-	//my_treeparameter->appendRow(new ParameterItem(NULL,"XEO",true));
-	//build_ontology_tree(&my_xeotree,"XEO");
-	//my_treeparameter->appendRow(new ParameterItem(NULL,"XEO_Positioning",true));
-	//build_ontology_tree(&my_postree,"XEO_Positioning");
-
 
 	this->parameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
 	//this->parameterTree->header()->setStretchLastSection(false);
@@ -360,16 +318,6 @@ void ParameterTreeView::set_up_Ontologytree(DocumentResources * _doc,QStringList
 	this->parameterTree->setMouseTracking(true);
 	this->parameterTree->header()->hide();
 }
-
-
-/*
-void ParameterTreeView::display(const QModelIndex elementselected){
-	ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(elementselected));
-	//QVariant elementSelected = this->my_treeparameter->data(elementselected);
-	QMessageBox::information(this,"selected element",tmp->get_term()->get_prototype()->get_name());
-
-}
-*/
 
 void ParameterTreeView::showSelection()
 {

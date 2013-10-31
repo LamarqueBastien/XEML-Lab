@@ -65,12 +65,12 @@ void GraphicStoryView::add_root_story(QString _label,StoryBase * _story){
 	emit story_root_added(_label,_story);
 }
 void GraphicStoryView::add_event(Event * _e){
-	std::cerr << "emit event added in GraphicView " << std::endl;
+	//std::cerr << "emit event added in GraphicView " << std::endl;
 	emit event_added(_e);
 }
 void GraphicStoryView::add_obsPoint(ObservationPoint * _op){
 
-	std::cerr << "emit obsPoint added in GraphicView " << std::endl;
+	//std::cerr << "emit obsPoint added in GraphicView " << std::endl;
 	emit obsPoint_added(_op);
 }
 

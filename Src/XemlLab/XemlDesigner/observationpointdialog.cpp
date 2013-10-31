@@ -7,7 +7,6 @@ ObservationPointDialog::ObservationPointDialog(StoryBase *_story,ItfDocument * _
 	this->current_doc=_xeml_doc;
 	this->label = new QLabel(tr("timepoint :"));
 	lineEdit = new QLineEdit;
-	//QDateTime init_time=QDateTime::fromString("00.00:00:00","dd.hh:mm:ss");
 	this->story=_story;
 	if(this->story->get_IsStorySplit()){
 		this->daytimeedit=new QDateTimeEdit(static_cast<StorySplit*>(this->story)->get_timepoint());
@@ -35,7 +34,6 @@ ObservationPointDialog::ObservationPointDialog(StoryBase *_story,ItfDocument * _
 	this->okButton->setEnabled(false);
 	this->cancelButton = new QPushButton(tr("Cancel"));
 	connect(this->daytimeedit,SIGNAL(dateTimeChanged(QDateTime)),this,SLOT(enabledOkButton(QDateTime)));
-	//connect(lineEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
 
 
@@ -67,13 +65,10 @@ void ObservationPointDialog::enabledOkButton(QDateTime _date){
 	this->okButton->setEnabled(true);
 }
 void ObservationPointDialog::OkClicked(){
-	//QString text= lineEdit->text();
 
 	ObservationPoint * obs= new ObservationPoint(this->daytimeedit->dateTime());//QDateTime::fromString(lineEdit->text(),"dd.hh:mm:ss")TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString()));
 	static_cast<XemlDocument*>(this->current_doc)->observationPointsCounter++,
 	this->story->add_obsPoint(obs);
 	obs->set_id(this->id);
-	//TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString());
-	//emit this->mon_signal(obs,this->story);
 	this->close();
 }

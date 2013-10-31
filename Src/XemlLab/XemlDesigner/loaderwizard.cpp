@@ -19,8 +19,7 @@ LoaderWizard::LoaderWizard(QStandardItemModel * _model,ItfDocument * _doc,Docume
 	setPage(Page_ParamSet, loaderParamSettingPage);
 	loaderValidationPage=new LoaderValidationPage();
 	setPage(Page_Validation, loaderValidationPage);
-	//loaderConclusionPage=new LoaderConclusionPage();
-	//setPage(Page_Conclusion, loaderConclusionPage);
+
 
 	setStartId(Page_Intro);
 #ifndef Q_OS_MAC

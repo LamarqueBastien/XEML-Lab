@@ -20,23 +20,10 @@ ObservationGenotypePage::ObservationGenotypePage(StoryNode * _root,QWidget *pare
 	setTitle(tr("Class Information"));
 	setSubTitle(tr("Select by double-clicking one genotype to associate with your samples "));
 
-	//genList=new QStringList;
-	//std::cerr << "genlist created" << std::endl;
-
-	//genList->append("Arabidhopsis");
-	//genList->append("Espagne");
-	//genList->append("Italie");
-	//ObservationWizard::
-
-	//std::cerr << "before creating gene model" << std::endl;
-
 	this->germPlasm =new QLabel("Germplasm");
 	this->germPlasmEdit =new QLineEdit();
 	this->germPlasm->setBuddy(this->germPlasmEdit);
-
-	//std::cerr << "before creating gene model" << std::endl;
 	this->genModel = new QStringListModel((*genList));
-	//std::cerr << "after creating gene model" << std::endl;
 	this->genView= new QListView;
 	genView->setModel(this->genModel);
 	QVBoxLayout *layout = new QVBoxLayout;

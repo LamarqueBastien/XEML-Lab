@@ -50,19 +50,17 @@ class FileManager;
 
 int main(int argc, char *argv[])
 {
+	// starting point of program
 	QApplication                                             a(argc, argv);
 	a.setStyle(QStyleFactory::create("Fusion"));
-	//QStringList  list=QStyleFactory::keys();
-	//for(int i=0;i<list.size();i++){
-	//	std::cerr << list.at(i).toStdString() << std::endl;
-	//}
-	QString toto = QApplication::applicationDirPath();
-	std::cerr << "dir path = " << toto.toStdString() << std::endl;
 
+	// display Splashscreen during initialization
 	QSplashScreen *splash = new QSplashScreen;
 	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner
 	splash->show();
+
 	Qt::Alignment topRight = Qt::AlignRight | Qt::AlignTop;
+
 	splash->showMessage(QObject::tr("Setting up the main window..."), topRight, Qt::black);
 
 	MainWindow                                                           w;
@@ -70,20 +68,6 @@ int main(int argc, char *argv[])
 	splash->showMessage(QObject::tr("loading resources..."), topRight, Qt::black);
 
 	MainWindow::loadResources();
-	QDir my_dir(a.applicationDirPath());
-
-	//my_dir.;
-	my_dir.cdUp();
-	my_dir.cdUp();
-	my_dir.cdUp();
-	my_dir.cdUp();
-	my_dir.cdUp();
-	std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
-
-	std::cerr << "home path : " << QDir::homePath().toStdString()<< std::endl;
-	my_dir.mkdir("test_directory");
-
-
 
 	splash->showMessage(QObject::tr("building ontologies..."), topRight, Qt::black);
 
@@ -97,43 +81,23 @@ int main(int argc, char *argv[])
 	delete splash;
 
 	w.show();
-	//QDateTime startDate(QDate(2012, 7, 6), QTime(8, 30, 0));
-	//QDateTime endDate(QDate(2012, 7, 7), QTime(8, 30, 0));
-	//std::cerr << "Days from startDate to endDate: " << startDate.daysTo(endDate) << std::endl;
-	/*
-	time_t startdate=time(NULL);
-	struct tm * timeinfo;
-	char buffer [80];
-	QString date;
-	time ( &startdate );
-	timeinfo = localtime ( &startdate );
-	strftime(buffer,80,"%Y-%m-%dT%H:%M:%S",timeinfo);
-	//m_stream.write(buffer, 19);
-	for(int i=0;i<19;i++){
-		date+=buffer[i];
-		std::cerr << buffer[i]<< std::endl;
-	}
-	std::cerr << date.toStdString()<< std::endl;
-	*/
-	//a.setAttribute(Qt::AA_DontShowIconsInMenus,false);
-
-	//while(a.){
-
-
-		//std::cerr << "timer" << std::endl;
-		//if (timer.remainingTime() < 1000){
-			//timer.start(10000);
-			//std::cerr << "timer" << std::endl;
-
-		//}
-		//	std::cerr << "timer" << std::endl;
-		//}
-		//connect(timer,SIGNAL(),a,SLOT());
-	//a.startTimer(10000000000000);
-
 	return a.exec();
-	//}
+
 
 
 }
+/*
+QDir my_dir(a.applicationDirPath());
+
+//my_dir.;
+my_dir.cdUp();
+my_dir.cdUp();
+my_dir.cdUp();
+my_dir.cdUp();
+my_dir.cdUp();
+std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
+
+std::cerr << "home path : " << QDir::homePath().toStdString()<< std::endl;
+my_dir.mkdir("test_directory");
+*/
 

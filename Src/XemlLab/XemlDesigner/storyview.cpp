@@ -18,6 +18,7 @@ StoryView::StoryView(QWidget *parent) :
 	this->GraphicMode=true;
 
 	infoButton= new QPushButton("remove term");
+	//infoButton->setToolTip("");
 	infoButton->setStyleSheet(
 				//"background-color: QLinearGradient( x1: 0.4, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);"
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
@@ -35,6 +36,8 @@ StoryView::StoryView(QWidget *parent) :
 			);
 	//infoButton->setStyleSheet("background-color: rgb(255,255,255)");
 	editExperiment = new QPushButton("experiment details");
+	editExperiment->setToolTip("Edit experiment start/end date "
+							   "and all details about experimlenter");
 	editExperiment->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
@@ -50,6 +53,8 @@ StoryView::StoryView(QWidget *parent) :
 				"padding: 6px;"
 			);
 	addstory= new QPushButton("add story");
+	addstory->setToolTip("Add a new story "
+						 "(story time is equivalent to the experiment time)");
 	addstory->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
@@ -65,6 +70,9 @@ StoryView::StoryView(QWidget *parent) :
 				"padding: 6px;"
 			);
 	addstorysplit= new QPushButton("add story split");
+	addstorysplit->setToolTip("Add a new split to the selected story--"
+							  "change story time by left clicking and dragging it "
+							  "(one story should be selected )");
 	addstorysplit->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
@@ -80,6 +88,8 @@ StoryView::StoryView(QWidget *parent) :
 				"padding: 6px;"
 			);
 	addobsPoint= new QPushButton("add observation");
+	addobsPoint->setToolTip("Add a new observation point after choose timepoint for it--"
+							"populate this observation point by adding samples");
 	addobsPoint->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
@@ -95,6 +105,7 @@ StoryView::StoryView(QWidget *parent) :
 				"padding: 6px;"
 			);
 	addEvent= new QPushButton("add Event");
+	addEvent->setToolTip("Add a new event after choose his label");
 	addEvent->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
@@ -761,9 +772,14 @@ void StoryView::addStory(QString _text){
 }
 void StoryView::newStorySplit(){
 	if(GraphicMode){
-		this->storydialog = new StoryDialog;
-		this->storydialog->setVisible(true);
-		connect(storydialog,SIGNAL(mon_signal(QString)),this,SLOT(add_graphic_split_story(QString)));
+		if(this->GraphicScene->get_selected_story()!=NULL){
+			this->storydialog = new StoryDialog;
+			this->storydialog->setVisible(true);
+			connect(storydialog,SIGNAL(mon_signal(QString)),this,SLOT(add_graphic_split_story(QString)));
+		}
+		else{
+				QMessageBox::information(this,"no selection","no story selected");
+			}
 	}
 	else{
 		QItemSelectionModel * selection = this->storytree->selectionModel();

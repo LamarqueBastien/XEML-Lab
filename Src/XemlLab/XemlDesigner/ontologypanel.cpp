@@ -28,24 +28,15 @@ void OntologyPanel::initialize(DocumentResources * _doc){
 	this->EOcheckbox->setChecked(false);
 	this->EnvOcheckbox->setChecked(false);
 	if(_doc->contains("XEO",Xeml::Document::Contracts::Environment)){
-		//std::cerr << " XEO found" << std::endl;
-		//(*doc_ressources->get_xeoHandler())["XEO"]->loadOntology();
-		//this->XEOcheckbox->setChecked(true);
-		//this->XEOcheckbox->setCheckState(Qt::Checked);
 		this->XEOcheckbox->setChecked(true);
-		//this->XEOcheckbox->setEnabled(false);
 
 	}
 
 	if(_doc->contains("EO",Xeml::Document::Contracts::EO)){
-		//(*doc_ressources->get_EOHandler())["EO"]->loadOntology();
 		this->EOcheckbox->setChecked(true);
-		//this->EOcheckbox->setEnabled(false);
 	}
 	if(_doc->contains("EnvO",Xeml::Document::Contracts::EnvO)){
-		//(*doc_ressources->get_EnvOHandler())["EnvO"]->loadOntology();
 		this->EnvOcheckbox->setChecked(true);
-		//this->EnvOcheckbox->setEnabled(false);
 	}
 }
 void OntologyPanel::set_up_end(){

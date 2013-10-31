@@ -9,7 +9,6 @@ ObservationWizard::ObservationWizard(StoryNode * _root,ObservationPoint * _obs,D
 {
 	this->setMinimumHeight(700);
 	this->setMinimumWidth(1100);
-	std::cerr << "entering ObservationWizard" << std::endl;
 	this->doc_resources = _doc_resources;
 	this->storyRoot=_root;
 	this->obspoint = _obs;
@@ -17,73 +16,47 @@ ObservationWizard::ObservationWizard(StoryNode * _root,ObservationPoint * _obs,D
 
 
 	addPage(new ObservationIntroPage);
-	std::cerr << "add intro page" << std::endl;
-
 	addPage(new ObservationGenotypePage(this->storyRoot));
-	std::cerr << "add geno page" << std::endl;
 	addPage(new ObservationDetailsPage(this->doc_resources));
-	std::cerr << "add detai page" << std::endl;
 	addPage(new ObservationMaterialPage(this->doc_resources));
-
-
-	//addPage(createMaterialPage());
-	//addPage(createConclusionPage());
-
 	setWindowTitle("defines sampling strategy for genotype ");
 
 }
 void ObservationWizard::accept(){
-	//we retrieve all the necessaries info like:
-	//-number of individuals and related pool name
-	//-development term id
-	//-structure term id
-	//-position term Id
-	/*
-	QString structTermName=field("structName").toString();
-	QString devTermName=field("DevName").toString();
-	QString Germplasm=field("GermPlasm").toString();
-	QString DevTermId=field("DevTermId").toString();
-	int numInd=field("Individuals").toInt();
-	QString nameEdit=field("PosTermName").toString();
-	QString Duration=field("Duration").toString();
-	QString structTermId=field("StructTermID").toString();
-	QString posTermId=field("PosTermId").toString();
-	QString unit=field("Unit").toString();
-	QString value=field("Value").toString();
-	QString qvalue=field("QValue").toString();
-	*/
-	int replica=field("Replica").toInt();
+	//int replica=field("Replica").toInt();
 	for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->begin();it!=static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->end();++it){
 		if((*it).second==field("GermPlasm").toString()){
 			for(int i = 0; i<field("Individuals").toInt();i++){
+
 				Individual * ind = new Individual(1+ rand() % 1000000000);
 				static_cast<IndividualsPool*>((*it).first)->add_Individual(ind);
-				Observation * ob = new Observation();
-				std::cerr <<  field("Duration").toString().toStdString() << std::endl;
-				std::cerr << QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss").toStdString() << std::endl;
-				//QDateTime::fromString(QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss"));
-				QString test=QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss");
-				std::cerr << "test string" << test.toStdString() << std::endl;
-				ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
-				//ob->set_duration(QDateTime::fromString(QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")));
-				//ob->set_duration(TimeSpanExtension::tryTimeSpanSet(field("Duration").toString()));
-				std::cerr << "duration obs :" << ob->get_duration().toString("hh:mm:ss").toStdString() << std::endl;
 
+				Observation * ob = new Observation();
+				QString test=QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss");
+				ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
+
+
+				//check here to change from destructive to non destructive
 				ob->set_destructiveinfo(true);
 				ob->set_ind(ind);
 				ob->set_pool((*it).first);
+
 				Partition * p = new Partition();
 				static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
 				p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+
 				BasicTerm * devTerm= new BasicTerm(field("DevTermId").toString());
 				devTerm->set_name(field("DevName").toString());
 				devTerm->set_namespacealias("PO_Development");
+
 				BasicTerm * structTerm =new BasicTerm(field("StructTermID").toString());
 				structTerm->set_namespacealias("PO_Structure");
 				structTerm->set_name(field("structName").toString());
+
 				VariableTerm * posTerm=new VariableTerm(field("PosTermId").toString());
 				posTerm->set_namespacealias("XEO_Positioning");
 				posTerm->set_name(field("PosTermName").toString());
+
 				Value * quantityContext= new Value();
 				quantityContext->set_context("Quantity");
 				quantityContext->set_unit(field("Unit").toString());
@@ -104,25 +77,12 @@ void ObservationWizard::accept(){
 					ob->add_partition(p);
 				}
 				ob->set_individualInfluence(false);
+
 				this->obspoint->add_observation(ob);
 			}
 		}
 
 	}
-
-
-
-	/*
-	  std::cerr << "germplasm : " << Germplasm.toStdString() << "\n"
-				<< "devtermId : " << DevTermId.toStdString() << "\n"
-				<< "numInd : " << numInd << "\n"
-				<< "Duration : " << Duration.toStdString() << "\n"
-				<< "structTermId : " << structTermId.toStdString() << "\n"
-				<< "posTermId : " << posTermId.toStdString() << " "
-				<< nameEdit.toStdString()<<" :" << qvalue.toStdString()<< unit.toStdString() << "\n"
-				<< "Quality : " << value.toStdString()<< "\n"
-				<< "replica : " << replica << std::endl;
-				*/
 
 	QDialog::accept();
  }

@@ -144,12 +144,7 @@ void    MainWindow::loadResources(){
 		(*doc_ressources->get_EnvOHandler())["EnvO"]->loadOntology();
 
 	}
-	//(*doc_ressources->get_devHandler())["PO_Development"]->loadOntology();
-	//(*doc_ressources->get_structHandler())["PO_Structure"]->loadOntology();
-	//(*doc_ressources->get_xeoHandler())["XEO"]->loadOntology();
-	//(*doc_ressources->get_posHandler())["XEO_Positioning"]->loadOntology();
-	//(*doc_ressources->get_EOHandler())["EO"]->loadOntology();
-	//(*doc_ressources->get_EnvOHandler())["EnvO"]->loadOntology();
+
 }
 
 //function called when user adds a ontology
@@ -184,18 +179,14 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 		onto_to_remove->push_back("EnvO");
 
 	}
-	//QUrl current_uml;
-	//QString _NS;
 	QString uri;
 	QString location;
-	//QStringList urls;
-	//QStringList files;
 	QDomDocument *dom = new QDomDocument("mon_xml");
 	if(!xml_doc.open(QIODevice::ReadOnly)) // Si l'on n'arrive pas à ouvrir le fichier XML.
 	{
 		//QMessageBox::warning(this, "Erreur à l'ouverture du document XML", "Le document XML n'a pas pu être ouvert.");
 		std::cerr << "Erreur à l'ouverture du document XML" << std::endl;
-		//return urls;
+
 	}
 	if (!dom->setContent(&xml_doc)) // Si l'on n'arrive pas à associer le fichier XML à l'objet DOM.
 	{
