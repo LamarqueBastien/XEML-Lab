@@ -15,6 +15,8 @@
 #include"Utilities.h"
 #include"itfdocument.h"
 #include"xemldocument.h"
+
+
 using namespace std;
 using namespace Xeml::Document;
 using namespace Xeml::Utilities;
@@ -28,8 +30,8 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicStoryItem     * get_selected_story();
 		GraphicEventItem     * get_selected_event();
 		GraphicObservationPointItem * get_selected_obsPoint();
-		void set_right_for_childs(GraphicStoryItem * _story_moving,qreal _movement);
-
+		void set_right_for_childs(QGraphicsItem * _story_moving,qreal _movement);
+		void initialize_x_Axis(qreal width);
 		void set_doc(ItfDocument  * _currentDoc);
 
 		int  positionY;
@@ -46,6 +48,7 @@ class GraphicStoryScene : public QGraphicsScene
 	private:
 		QMenu * contextMenu;
 		QAction * show_details;
+		QAction * display_plot;
 		ItfDocument * currentDoc;
 		GraphicEventItem * my_item;
 		GraphicStoryItem * my_second_item;
@@ -61,6 +64,7 @@ class GraphicStoryScene : public QGraphicsScene
 		void add_Obs_point(ObservationPoint * _op);
 		void changedSelection();
 		void details_story();
+		void display_plot_parameters();
 
 
 

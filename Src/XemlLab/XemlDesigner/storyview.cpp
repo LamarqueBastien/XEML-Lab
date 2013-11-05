@@ -462,7 +462,8 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 
 	this->width=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),currentDoc->get_enddate()));
 	std::cerr << "before clear" << std::endl;
-
+	//this->width*=50;
+	std::cerr << "this width  :" << this->width << std::endl;
 	this->GraphicScene->set_max_item_width(this->width);
 	std::cerr << "before clear" << std::endl;
 
@@ -611,15 +612,12 @@ void StoryView::build_story_hierarchy(StoryNode * _node,std::list<StoryNode*> * 
 }
 void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
+	this->GraphicScene->initialize_x_Axis(width);
+
 	if(_node->get_parent()==NULL){
 
-		std::cerr << "width in build graphic story hierarchy :" << width<< std::endl;
-		this->GraphicScene->addItem(new QGraphicsLineItem(0,-10,width,-10));
-		for (int i=0;i<=width;i+=width/45){
-			//std::cerr << "range : " << i << std::endl;
-			this->GraphicScene->addItem(new QGraphicsLineItem(i,-10,i,-20));
-			this->GraphicScene->addItem(new QGraphicsTextItem(_node->get_label()));
-		}
+		//std::cerr << "width in build graphic story hierarchy :" << width<< std::endl;
+
 		this->GraphicScene->addItem(new GraphicStoryItem(0,this->currentDoc,width,_node->get_story(),_node->get_story()->get_label(),false,0,this->GraphicScene->positionY,NULL));
 		this->GraphicScene->set_max_item_width(width);
 		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
@@ -629,19 +627,15 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		qreal x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
 		qreal Width=this->width-x;
 		GraphicStoryItem * parent;
-
-
-
 		parent=static_cast<GraphicStoryItem*>(this->GraphicScene->get_item_by_label(_node->get_parent()->get_label()));
 		qreal width_parent=parent->get_rect().width();
 		if (parent!=NULL){
 			if(parent->get_isStorySplit()){
 
-
-
-				GraphicStoryItem  * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,x,this->GraphicScene->positionY,parent);
+				new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,x,this->GraphicScene->positionY,parent);
 			}
 			else{
+
 				new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,x,this->GraphicScene->positionY,parent);
 			}
 			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
@@ -665,11 +659,11 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 
 	if(GraphicMode){
 		this->width=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),this->currentDoc->get_enddate()));
-
+		//this->width*=5;
 		this->GraphicScene->setSceneRect(-150,-150,width+300,600);
 
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
-			std::cerr << "in da loop" << std::endl;
+			//std::cerr << "in da loop" << std::endl;
 			build_graphic_story_hierarchy((*it));
 
 
@@ -1171,6 +1165,7 @@ void StoryView::add_observationPoint(){
 			obs_count=static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter;//  count_total_observationsPoint(MainNode,obs_count);
 			//std::cerr << "obs cpt : " << obs_count << std::endl;
 			ObservationPoint * obs= new ObservationPoint(this->currentDoc->get_startdate());//QDateTime::fromString(lineEdit->text(),"dd.hh:mm:ss")TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString()));
+
 			static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter++,
 			//_story->add_obsPoint(obs);
 			obs->set_id(obs_count+1);

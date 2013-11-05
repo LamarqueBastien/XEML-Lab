@@ -448,13 +448,16 @@ namespace Xeml {
 			std::cerr << "entering write observation Point (xemlDocument)" << std::endl;
 
 			Observation * ob;
+			//ObservationPoint * test_debug;
 			for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
 				QDomElement obspoint=this->doc.createElement("xeml:ObservationPoint");
 
 				obspoint.setAttribute("Id",QString::number((*it).first->get_id()));
 				//obspoint.setAttribute("TargetTime",(*it).second->get_timespan_Qstr_format());
-				qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it).second);
+				qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it).first->get_timepoint());
 				std::cerr << "ObsPoint Id : " << (*it).first->get_id() << " Msecs : " << milliseconds_ellapsed << std::endl;
+				//test_debug=(*it).first;
+
 				obspoint.setAttribute("TargetTime",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
 				//obspoint.setAttribute("TargetTime",(*it).second.toString("dd.hh:mm:ss"));
 				write_annotation(&obspoint,(*it).first);
@@ -542,7 +545,7 @@ namespace Xeml {
 			for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
 				QDomElement event=this->doc.createElement("xeml:Event");
 				//QDateTime timepoint=(*it).second;
-				qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it).second);
+				qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it).first->get_timepoint());
 				event.setAttribute("TimePoint",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
 				//event.setAttribute("TimePoint",static_cast<QDateTime>((*it).first->get_timepoint()).toString("dd.hh:mm:ss"));
 				event.setAttribute("Label",(*it).first->get_label());

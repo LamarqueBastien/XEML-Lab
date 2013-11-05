@@ -55,6 +55,14 @@ namespace Xeml{
 					}
 				}
 			}
+			/*
+			for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=this->observationPointcollection->begin();it!=this->observationPointcollection->end();++it){
+				QDateTime tmp =(*it).first->get_timepoint();
+
+				(*it).first->set_timepoint(tmp);
+			}
+			*/
+
 		}
 	}
 }

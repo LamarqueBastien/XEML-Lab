@@ -26,6 +26,8 @@ class GraphicObservationPointItem : public QGraphicsPolygonItem
 		ObservationPoint * get_obspoint();
 		qreal get_posx();
 		qreal get_posy();
+		QGraphicsItem * get_parent();
+
 
 	private:
 		ObservationPoint * obsPoint;

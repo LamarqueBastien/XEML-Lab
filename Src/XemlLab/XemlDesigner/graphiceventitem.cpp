@@ -135,7 +135,7 @@ QRectF GraphicEventItem::boundingRect() const{
 
 	//std::cerr << "rect width :" << rect.width() << std::endl;
 	//extra=my_parent_width-rect.width();
-	std::cerr << " posY : " << posy << std::endl;
+	//std::cerr << " posY : " << posy << std::endl;
 	minx = rect.width() < 0 ? rect.width() : 0;
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
 	miny = rect.height() < 0 ? rect.height() : posy;
@@ -145,12 +145,12 @@ QRectF GraphicEventItem::boundingRect() const{
 
 
 
-
+	/*
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect min x :" << minx<<std::endl;
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max x :" << maxx<<std::endl;
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect min y :" << miny<<std::endl;
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
-
+	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
 	QRectF newRect = QRectF(minx-50,miny,maxx-minx+50,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
 	/*

@@ -24,9 +24,19 @@ GraphicObservationPointItem::~GraphicObservationPointItem(){
 }
 
 QRectF GraphicObservationPointItem::boundingRect() const{
-	QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+60,polygon().boundingRect().bottomLeft().y()-10);//.adjusted(-extra, -extra, extra, extra);
+	/*
+	std::cerr << "top left x :" << polygon().boundingRect().topLeft().x() << std::endl;
+	std::cerr << "top right x :" << polygon().boundingRect().topRight().x() << std::endl;
+	std::cerr << "top left y :" << polygon().boundingRect().topLeft().y() << std::endl;
+	std::cerr << "bottom left y :" << polygon().boundingRect().bottomLeft().y() << std::endl;
+	*/
+	QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50);//.adjusted(-extra, -extra, extra, extra);
 	//polygon().boundingRect().topLeft().x()-250,
+	//return polygon().boundingRect().adjusted(10,10,10,10);
+	//
+
 	return newRect;
+
 	//return polygon().boundingRect();
 }
 qreal GraphicObservationPointItem::get_posx(){
@@ -50,11 +60,14 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 			_painter->setBrush(selBrush);
 			_painter->setPen(selPen);
 			_painter->drawPolygon(this->pol);
-			_painter->drawRect(QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+60,polygon().boundingRect().bottomLeft().y()-10));
+			_painter->drawRect(QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50));
 			//_painter->drawRect(polygon().boundingRect());
 		}
 	}
 
+}
+QGraphicsItem * GraphicObservationPointItem::get_parent(){
+	return this->parent;
 }
 
 void GraphicObservationPointItem::change(){

@@ -62,16 +62,23 @@ void GraphicStoryScene::createActions(){
 	show_details = new QAction(QIcon(":/Images/new.png"),tr("&Story_details"), this);
 	show_details->setShortcut(tr("Ctrl+S"));
 	show_details->setStatusTip(tr("Show details about story"));
+	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&Story_details"), this);
+	display_plot->setShortcut(tr("Ctrl+S"));
+	display_plot->setStatusTip(tr("Show details about story"));
 	connect(show_details, SIGNAL(triggered()), this, SLOT(details_story()));
+	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));
 }
 
 void GraphicStoryScene::createMenus(){
 	contextMenu =new QMenu("Details");
 	contextMenu->addAction(show_details);
-
+	contextMenu->addAction(display_plot);
 }
 void GraphicStoryScene::details_story(){
 	emit show_details_story(this->my_selected_story);
+}
+void GraphicStoryScene::display_plot_parameters(){
+
 }
 
 void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -101,7 +108,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					break;
 				case GraphicObservationPointItem::Type:
 					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
-					std::cerr << "obs name : "  << std::endl;
+					std::cerr << "obs id : "  << this->my_selected_obsPoint->get_obspoint()->get_id() << std::endl;
 
 
 
@@ -161,22 +168,103 @@ GraphicEventItem     * GraphicStoryScene::get_selected_event(){
 GraphicObservationPointItem     * GraphicStoryScene::get_selected_obsPoint(){
 	return this->my_selected_obsPoint;
 }
-void GraphicStoryScene::set_right_for_childs(GraphicStoryItem * _story_moving,qreal _movement){
+void GraphicStoryScene::set_right_for_childs(QGraphicsItem * child_to_move,qreal _movement){
 
 	std::cerr << "movement : " << _movement << std::endl;
+	QGraphicsItem * item;
 	GraphicStoryItem * tmp;
-	for (QList<QGraphicsItem*>::iterator it =_story_moving->childItems().begin();it!=_story_moving->childItems().end();++it){
-		//std::cerr << "son name : " << static_cast<GraphicStoryItem*>((*it))->get_label().toStdString() << std::endl;
-		tmp=static_cast<GraphicStoryItem*>((*it));
-		//std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
+	GraphicEventItem * tmp_event;
+	GraphicObservationPointItem * tmpobs;
+	QPointF topRight;
+	QPointF topLeft;
+	QPointF center;
+	qreal obs_point_center_x;
+	QDateTime obstime;
+
+	if (!child_to_move->childItems().empty()){
+		std::cerr << "size : " << child_to_move->childItems().size() << std::endl;
+		for(int i=0;i<child_to_move->childItems().size();i++){
+			std::cerr << "in da loop "<< std::endl;
+			item=child_to_move->childItems().at(i);
+			switch(item->type()){
+				case GraphicStoryItem::Type:
+					tmp=static_cast<GraphicStoryItem*>(item);
+					std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
+
+/*
+					static_cast<GraphicStoryItem*>((*it))->change();
+					static_cast<GraphicStoryItem*>((*it))->set_right(static_cast<GraphicStoryItem*>((*it))->get_rect().width()-_movement);
+					if(!(static_cast<GraphicStoryItem*>((*it))->childItems().empty())){
+						set_right_for_childs(static_cast<GraphicStoryItem*>((*it)),_movement);
+					}
+					*/
+					break;
+				case GraphicEventItem::Type:
+					tmp_event=static_cast<GraphicEventItem*>(item);
+					std::cerr << "event son label : " << tmp_event->get_label().toStdString() << std::endl;
+					break;
+
+				case GraphicObservationPointItem::Type:
 
 
-		static_cast<GraphicStoryItem*>((*it))->change();
-		//std::cerr
-		static_cast<GraphicStoryItem*>((*it))->set_right(_movement);
-		if(!(static_cast<GraphicStoryItem*>((*it))->childItems().empty())){
-			set_right_for_childs(static_cast<GraphicStoryItem*>((*it)),_movement);
+					tmpobs=static_cast<GraphicObservationPointItem*>(item);
+					//obs_point_center_x=(tmpobs->boundingRect().topRight().x-tmpobs->boundingRect().topLeft().x)/2;
+					topRight=tmpobs->mapToScene(tmpobs->boundingRect().topRight());
+					topLeft =tmpobs->mapToScene(tmpobs->boundingRect().topLeft());
+					center =tmpobs->mapToScene(tmpobs->boundingRect().center());
+					obs_point_center_x=(topRight.x()-topLeft.x())/2;
+					obstime=get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(center.x()));
+					tmpobs->get_obspoint()->set_timepoint(obstime);
+					tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmpobs->get_obspoint()->get_timepoint())));
+
+					if(center.x()>=max_width){
+						std::cerr <<" cool" << std::endl;
+					}
+					std::cerr << "obs son  id : " << tmpobs->get_obspoint()->get_id() << std::endl;
+					std::cerr << "obs son pos center: " << tmpobs->boundingRect().center().x() << std::endl;
+					std::cerr << "obs son pos top left: " << tmpobs->boundingRect().topLeft().x() << std::endl;
+					std::cerr << "obs son pos top right: " << tmpobs->boundingRect().topRight().x() << std::endl;
+					std::cerr << "obs son pos map to scene :"<< topRight.x() << std::endl;
+					//std::cerr << "obs son pos : " << tmpobs->boundingRect().center().x() << std::endl;
+
+					break;
+				 default:
+					break;
+			}
 		}
+		/*
+		for (QList<QGraphicsItem*>::iterator it =child_to_move->childItems().begin();it!=child_to_move->childItems().end();++it){
+			std::cerr << "in da loop "<< std::endl;
+			switch((*it)->type()){
+				case GraphicStoryItem::Type:
+					tmp=static_cast<GraphicStoryItem*>((*it));
+					std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
+
+
+					static_cast<GraphicStoryItem*>((*it))->change();
+					static_cast<GraphicStoryItem*>((*it))->set_right(static_cast<GraphicStoryItem*>((*it))->get_rect().width()-_movement);
+					if(!(static_cast<GraphicStoryItem*>((*it))->childItems().empty())){
+						set_right_for_childs(static_cast<GraphicStoryItem*>((*it)),_movement);
+					}
+
+					break;
+				case GraphicEventItem::Type:
+					tmp_event=static_cast<GraphicEventItem*>((*it));
+					std::cerr << "event son label : " << tmp_event->get_label().toStdString() << std::endl;
+					break;
+
+				case GraphicObservationPointItem::Type:
+					tmpobs=static_cast<GraphicObservationPointItem*>((*it));
+					std::cerr << "obs son  id : " << tmpobs->get_obspoint()->get_id() << std::endl;
+
+					break;
+				 default:
+					break;
+			}
+
+
+		}
+		*/
 	}
 	//GraphicStoryItem * _story_moving
 
@@ -187,7 +275,8 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
 	//std::cerr << "entering mousemove event in scene" << std::endl;
 
-	QGraphicsItem * selected_item;
+	QGraphicsItem        * selected_item;
+	GraphicStoryItem        * selected_parent_item;
 	GraphicStoryItem     * selected_story;
 	GraphicEventItem     * selected_event;
 	GraphicObservationPointItem     * selected_obsPoint;
@@ -198,15 +287,17 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 		bool isSplit;
 
 		//std::cerr << "item position x : " << item_point.x() << std::endl;
-		if(selected_item!=0){
+		if(selected_item!=0 ){//&& selected_item->isSelected()
 			QPointF mouse_point;
 			QPointF item_point;
 			QPointF item2_point;
 			QPointF scene_point;
 			QPointF event_item_pos;
 			QPointF map_parent_item2Scene;
+			qreal shift=0;
 			qint64 hours;
 			ObservationPoint * tmp=0;
+			QDateTime tmptime;
 
 			switch(selected_item->type()){
 				case GraphicStoryItem::Type:
@@ -233,6 +324,11 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 								item2_point=selected_story->mapToParent(mouse_point.x(),mouse_point.y());
 								map_parent_item2Scene=selected_story->get_parent()->mapToScene(selected_story->get_parent()->get_posx(),selected_story->get_parent()->get_posy());
 
+								//if(selected_parent_item->get_isStorySplit()){
+
+								shift=this->max_width-my_selected_story->get_parent()->get_rect().width();
+								std::cerr << "shift : " << shift << std::endl;
+								//}
 								std::cerr << "event item pos x : " << event_item_pos.x() << std::endl;
 								std::cerr << "item pos x : " << item_point.x() << std::endl;
 								std::cerr << "mouse pos x : " << mouse_point.x() << std::endl;
@@ -250,6 +346,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									selected_story->set_right(0);
 
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),selected_story->pos().y());
+									hours=selected_story->get_parent()->get_rect().width()+map_parent_item2Scene.x();
 								}
 								else if(mouse_point.x() <= map_parent_item2Scene.x()){//selected_story->pos().x()
 									//std::cerr << "parent pos x = " << selected_story->get_parent()->pos().x() << std::endl;
@@ -260,6 +357,8 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 									selected_story->set_right(selected_story->get_parent()->get_rect().width());
 									selected_story->setPos(0,selected_story->pos().y());//selected_story->pos().x()//selected_story->get_parent()->pos().x()
+									hours=0;
+
 
 								}
 
@@ -270,15 +369,18 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 										selected_story->set_right(selected_story->get_parent()->get_rect().width() - (mouse_point.x()-map_parent_item2Scene.x()));
 										std::cerr << "new and last x :" << item_point.x() << std::endl;
 
-										selected_story->setPos(mouse_point.x()-map_parent_item2Scene.x(),selected_story->pos().y());
+										selected_story->setPos(mouse_point.x()-shift,selected_story->pos().y());//map_parent_item2Scene.x()
 										//convertir une distance
 										hours=mouse_point.x();
 
 
-										static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-										selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
+										//static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+										//selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
 									}
 								}
+								set_right_for_childs(selected_story,mouse_point.x());
+								static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+								selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
 							}
 							//####################################################
 							//storysplit without childs with Story parent (basic case)
@@ -310,6 +412,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "parent y : " << selected_story->get_parent()->pos().y() << std::endl;
 									std::cerr << "pos x : " << selected_story->pos().x() << std::endl;
 									std::cerr << "pos y : " << selected_story->pos().y() << std::endl;
+									hours=selected_story->get_parent()->get_rect().width();
 									selected_story->set_right(0);
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),0);
 								}
@@ -319,7 +422,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "parent y : " << selected_story->get_parent()->pos().y() << std::endl;
 									std::cerr << "pos x : " << selected_story->pos().x() << std::endl;
 									std::cerr << "pos y : " << selected_story->pos().y() << std::endl;
-
+									hours=0;
 									selected_story->set_right(selected_story->get_parent()->get_rect().width());
 									selected_story->setPos(selected_story->get_parent()->pos().x(),0);//selected_story->pos().x()
 								}
@@ -344,9 +447,10 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									hours=mouse_point.x();
 
 
-									static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-									selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
+
 								}
+								static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+								selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
 							}
 						}
 						//StorySplit with childs
@@ -379,14 +483,15 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "mouse point ==1500" << std::endl;
 									selected_story->set_right(0);
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),selected_story->pos().y());
+
 								}
 								else if(mouse_point.x()<= selected_story->get_parent()->pos().x()){//selected_story->pos().x()
 									std::cerr << "mouse point ==0" << selected_story->get_parent()->get_rect().width() << std::endl;
 									std::cerr << "parent x : " << selected_story->get_parent()->pos().x() << std::endl;
 									std::cerr << "parent y : " << selected_story->pos().y() << std::endl;
-
+									hours=0;
 									selected_story->set_right(selected_story->get_parent()->get_rect().width());
-									selected_story->setPos(selected_story->get_parent()->pos().x(),selected_story->pos().y());//selected_story->pos().x()
+									selected_story->setPos(0,selected_story->pos().y());//selected_story->pos().x()
 								}
 
 								else{
@@ -399,14 +504,15 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "new and last x :" << item_point.x() << std::endl;
 
 									selected_story->setPos(mouse_point.x(),selected_story->pos().y());
-									//set_right_for_childs(my_selected_story, distance_to_move);
+									set_right_for_childs(my_selected_story, distance_to_move);
 									//convertir une distance
 									hours=mouse_point.x();
 
 
-									static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-									selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
+
 								}
+								static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+								selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
 							}
 							//####################################################
 							//StorySplit with childs and with parent story
@@ -440,6 +546,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "pos y : " << selected_story->pos().y() << std::endl;
 									selected_story->set_right(0);
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),selected_story->pos().y());
+									hours=selected_story->get_parent()->get_rect().width();
 								}
 								else if(mouse_point.x()<= selected_story->get_parent()->pos().x()){//selected_story->pos().x()
 									std::cerr << "mouse point min" << selected_story->get_parent()->get_rect().width() << std::endl;
@@ -447,7 +554,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "parent y : " << selected_story->get_parent()->pos().y() << std::endl;
 									std::cerr << "pos x : " << selected_story->pos().x() << std::endl;
 									std::cerr << "pos y : " << selected_story->pos().y() << std::endl;
-
+									hours=0;
 									selected_story->set_right(selected_story->get_parent()->get_rect().width());
 									selected_story->setPos( selected_story->get_parent()->pos().x(),selected_story->pos().y());//selected_story->pos().x()
 									//set_right_for_childs(selected_story, selected_story->get_parent()->get_rect().width());
@@ -459,7 +566,8 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 
 
-									qreal distance_to_move=selected_story->get_rect().width() - (item_point.x()+mouse_point.x());
+									//qreal distance_to_move=selected_story->get_rect().width() - (item_point.x()+mouse_point.x());
+									qreal distance_to_move=mouse_point.x();
 									selected_story->set_right(selected_story->get_rect().width() - item_point.x());
 
 									std::cerr << "new and last x :" << item_point.x() << std::endl;
@@ -468,14 +576,15 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 									selected_story->setPos(mouse_point.x(),selected_story->pos().y());
 
-									//set_right_for_childs(my_selected_story, distance_to_move);
+									set_right_for_childs(my_selected_story, distance_to_move);
 									//convertir une distance
 									hours=mouse_point.x();
 
 
-									static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-									selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
+
 								}
+								static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+								selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
 							}
 						}
 
@@ -504,16 +613,32 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 				case GraphicObservationPointItem::Type:
 					std::cerr << "type obs point item" << std::endl;
 					mouse_point = e->scenePos();
+
 					selected_obsPoint=this->my_selected_obsPoint;
+					selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_obsPoint->get_parent());
+
+
+					if(selected_parent_item->get_isStorySplit()){
+
+						shift=this->max_width-selected_parent_item->get_rect().width();
+						std::cerr << "shift : " << shift << std::endl;
+					}
 					selected_obsPoint->change();
-					selected_obsPoint->setPos(mouse_point.x(),selected_obsPoint->get_posy());
+					selected_obsPoint->setPos(mouse_point.x()-shift,selected_obsPoint->get_posy());
+
+
+
 					hours=mouse_point.x();
 					std::cerr << "mouse point in Mouse event : " << mouse_point.x() << std::endl;
 					std::cerr << "translation : " << translate_Distance_in_Msecs(hours)<< std::endl;
-					tmp=this->my_selected_obsPoint->get_obspoint();
-					tmp->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+					tmp=selected_obsPoint->get_obspoint();
+
+					tmptime=get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours));
+					selected_obsPoint->get_obspoint()->set_timepoint(tmptime);
+
 					//selected_obsPoint->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
 					selected_obsPoint->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_obsPoint->get_obspoint()->get_timepoint())));
+
 
 					break;
 				default:
@@ -553,6 +678,33 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 
 }
+void GraphicStoryScene::initialize_x_Axis(qreal width){
+	QGraphicsLineItem * tmp_timeline=new QGraphicsLineItem(0,-10,width,-10);
+
+	this->addItem(tmp_timeline);
+	int counter=0;
+	QFont serifFont("Times", 10, QFont::Bold);
+	qreal number_of_days=width/24;
+	for (int i=0;i<=width;i+=width/number_of_days){
+		std::cerr << "range : " << i << std::endl;
+		//QGraphicsItemGroup * group=new QGraphicsItemGroup();
+		QGraphicsLineItem * tmp_line=new QGraphicsLineItem(i,-10,i,-20);
+		this->addItem(tmp_line);
+		//group->addToGroup(tmp_line);
+		QGraphicsTextItem * tmp_text=new QGraphicsTextItem(QString::number(counter),tmp_timeline);
+
+		tmp_text->setFont(serifFont);
+		//group->addToGroup(tmp_text);
+
+		tmp_text->setPos(i-8,-40);
+		counter++;
+		//for (int j=)
+		//this->GraphicScene->addItem(tmp_text);
+		//this->GraphicScene->addItem(new QGraphicsLineItem(i,-10,i,-20));
+		//this->GraphicScene->addItem(new QGraphicsTextItem(_node->get_label()));
+	}
+}
+
 /*
 void GraphicStoryScene::add_story(QString _label,StoryBase * _story){
 	std::cerr << "story added" << std::endl;
@@ -629,6 +781,7 @@ void GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
 	//_story->add_obsPoint(obs);
 	//my_selected_story->get_story()->add_obsPoint(obs);
 	//obs->set_id(_id);
+
 	new GraphicObservationPointItem(_op,0,0,this->max_width,my_selected_story);
 
 }
