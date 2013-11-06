@@ -8,6 +8,7 @@ StoryView::StoryView(QWidget *parent) :
 
 	this->storytree= new QTreeView;
 	this->posY_item=0;
+	this->zoomFactor=24;
 	this->GraphicScene=new GraphicStoryScene(posY_item);
 
 	this->graphicStory=new GraphicStoryView(this->GraphicScene);
@@ -462,15 +463,15 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 
 	this->width=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),currentDoc->get_enddate()));
 	std::cerr << "before clear" << std::endl;
-	//this->width*=50;
+	this->width*=this->zoomFactor;
 	std::cerr << "this width  :" << this->width << std::endl;
 	this->GraphicScene->set_max_item_width(this->width);
 	std::cerr << "before clear" << std::endl;
 
 	this->GraphicScene->clear();
 	this->GraphicScene->positionY=0;
-	this->GraphicScene->setSceneRect(-150,-150,width+300,600);
-	this->graphicStory->setSceneRect(-150,-150,width+300,600);
+	this->GraphicScene->setSceneRect(-150.0,-150.0,width+300,600);
+	this->graphicStory->setSceneRect(-150.0,-150.0,width+300,600);
 
 	for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 
@@ -612,7 +613,7 @@ void StoryView::build_story_hierarchy(StoryNode * _node,std::list<StoryNode*> * 
 }
 void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
-	this->GraphicScene->initialize_x_Axis(width);
+	this->GraphicScene->initialize_x_Axis(width,this->zoomFactor);
 
 	if(_node->get_parent()==NULL){
 
@@ -638,7 +639,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 				new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,x,this->GraphicScene->positionY,parent);
 			}
-			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
+			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));
 			this->GraphicScene->positionY+=61;
 
 		}
@@ -659,8 +660,8 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 
 	if(GraphicMode){
 		this->width=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),this->currentDoc->get_enddate()));
-		//this->width*=5;
-		this->GraphicScene->setSceneRect(-150,-150,width+300,600);
+		this->width*=zoomFactor;
+		this->GraphicScene->setSceneRect(-150,-150,width+300,6000);
 
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 			//std::cerr << "in da loop" << std::endl;

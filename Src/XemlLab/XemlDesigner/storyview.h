@@ -77,6 +77,7 @@ class StoryView : public QWidget
 		int                  posY_item;
 		qreal                width;
 		QSlider            * zoomSlider;
+		int                  zoomFactor;
 
 	public slots:
 		void zoomIn(int level = 1);

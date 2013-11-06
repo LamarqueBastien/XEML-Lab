@@ -346,7 +346,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									selected_story->set_right(0);
 
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),selected_story->pos().y());
-									hours=selected_story->get_parent()->get_rect().width()+map_parent_item2Scene.x();
+									hours=selected_story->get_parent()->get_rect().width()/zoomFactor+map_parent_item2Scene.x()/zoomFactor;
 								}
 								else if(mouse_point.x() <= map_parent_item2Scene.x()){//selected_story->pos().x()
 									//std::cerr << "parent pos x = " << selected_story->get_parent()->pos().x() << std::endl;
@@ -371,7 +371,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 										selected_story->setPos(mouse_point.x()-shift,selected_story->pos().y());//map_parent_item2Scene.x()
 										//convertir une distance
-										hours=mouse_point.x();
+										hours=mouse_point.x()/zoomFactor;
 
 
 										//static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
@@ -412,7 +412,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "parent y : " << selected_story->get_parent()->pos().y() << std::endl;
 									std::cerr << "pos x : " << selected_story->pos().x() << std::endl;
 									std::cerr << "pos y : " << selected_story->pos().y() << std::endl;
-									hours=selected_story->get_parent()->get_rect().width();
+									hours=selected_story->get_parent()->get_rect().width()/zoomFactor;
 									selected_story->set_right(0);
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),0);
 								}
@@ -444,7 +444,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 									//selected_story->setPos(mouse_point.x(),selected_story->pos().y());
 									//convertir une distance
-									hours=mouse_point.x();
+									hours=mouse_point.x()/zoomFactor;
 
 
 
@@ -506,7 +506,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									selected_story->setPos(mouse_point.x(),selected_story->pos().y());
 									set_right_for_childs(my_selected_story, distance_to_move);
 									//convertir une distance
-									hours=mouse_point.x();
+									hours=mouse_point.x()/zoomFactor;
 
 
 
@@ -546,7 +546,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 									std::cerr << "pos y : " << selected_story->pos().y() << std::endl;
 									selected_story->set_right(0);
 									selected_story->setPos(selected_story->get_parent()->get_rect().width(),selected_story->pos().y());
-									hours=selected_story->get_parent()->get_rect().width();
+									hours=selected_story->get_parent()->get_rect().width()/zoomFactor;
 								}
 								else if(mouse_point.x()<= selected_story->get_parent()->pos().x()){//selected_story->pos().x()
 									std::cerr << "mouse point min" << selected_story->get_parent()->get_rect().width() << std::endl;
@@ -578,7 +578,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 									set_right_for_childs(my_selected_story, distance_to_move);
 									//convertir une distance
-									hours=mouse_point.x();
+									hours=mouse_point.x()/zoomFactor;
 
 
 
@@ -604,7 +604,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 					selected_event->change();
 
 					selected_event->setPos(mouse_point.x(),0);
-					hours=mouse_point.x();
+					hours=mouse_point.x()/zoomFactor;
 					selected_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
 					selected_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint())));
 
@@ -628,7 +628,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 
 
-					hours=mouse_point.x();
+					hours=mouse_point.x()/zoomFactor;
 					std::cerr << "mouse point in Mouse event : " << mouse_point.x() << std::endl;
 					std::cerr << "translation : " << translate_Distance_in_Msecs(hours)<< std::endl;
 					tmp=selected_obsPoint->get_obspoint();
@@ -678,13 +678,16 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 
 }
-void GraphicStoryScene::initialize_x_Axis(qreal width){
+void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 	QGraphicsLineItem * tmp_timeline=new QGraphicsLineItem(0,-10,width,-10);
 
 	this->addItem(tmp_timeline);
 	int counter=0;
+	int counter_hour=0;
+	this->zoomFactor=_zoomFactor;
 	QFont serifFont("Times", 10, QFont::Bold);
-	qreal number_of_days=width/24;
+	qreal number_of_days=width/(24*zoomFactor);
+	int k=0;
 	for (int i=0;i<=width;i+=width/number_of_days){
 		std::cerr << "range : " << i << std::endl;
 		//QGraphicsItemGroup * group=new QGraphicsItemGroup();
@@ -698,7 +701,31 @@ void GraphicStoryScene::initialize_x_Axis(qreal width){
 
 		tmp_text->setPos(i-8,-40);
 		counter++;
-		//for (int j=)
+		counter_hour=0;
+		k+=width/number_of_days;
+		if(i!=width){
+			for (int j=i;j<k;j+=(width/number_of_days)/zoomFactor){
+
+				if(counter_hour==0){
+
+
+				}
+				else if(counter_hour==24){
+					counter_hour=0;
+				}
+				else{
+					QGraphicsLineItem * tmp_little_line=new QGraphicsLineItem(j,-10,j,-15);
+					this->addItem(tmp_little_line);
+					QGraphicsTextItem * tmp_little_text=new QGraphicsTextItem(QString::number(counter_hour),tmp_timeline);
+					tmp_little_text->setFont(serifFont);
+					tmp_little_text->setPos(j-8,-30);
+
+				}
+				counter_hour+=24/zoomFactor;
+
+			}
+		}
+		//counter_hour=0;
 		//this->GraphicScene->addItem(tmp_text);
 		//this->GraphicScene->addItem(new QGraphicsLineItem(i,-10,i,-20));
 		//this->GraphicScene->addItem(new QGraphicsTextItem(_node->get_label()));

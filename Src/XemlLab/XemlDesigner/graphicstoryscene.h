@@ -31,7 +31,7 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicEventItem     * get_selected_event();
 		GraphicObservationPointItem * get_selected_obsPoint();
 		void set_right_for_childs(QGraphicsItem * _story_moving,qreal _movement);
-		void initialize_x_Axis(qreal width);
+		void initialize_x_Axis(qreal width,int _zoomFactor);
 		void set_doc(ItfDocument  * _currentDoc);
 
 		int  positionY;
@@ -56,6 +56,7 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicEventItem * my_selected_event;
 		GraphicObservationPointItem * my_selected_obsPoint;
 		qreal max_width;
+		int zoomFactor;
 		//int  positionY;
 	private slots:
 		void add_split_story(QString _label,StoryBase * _story);

@@ -89,11 +89,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	rightSplitter = new QSplitter(Qt::Vertical);
 	rightSplitter->addWidget(sousFenetre2);
 	rightSplitter->addWidget(sousFenetre3);
-	rightSplitter->setStretchFactor(0, 1);
+	rightSplitter->setStretchFactor(0, 3);
+	//rightSplitter->setStretchFactor(1, 2);
 	mainSplitter = new QSplitter(Qt::Horizontal);
 	mainSplitter->addWidget(sousFenetre1);
 	mainSplitter->addWidget(rightSplitter);
-	mainSplitter->setStretchFactor(0, 1);
+	mainSplitter->setStretchFactor(1, 1);
 
 	setCentralWidget(mainSplitter);
 	createActions();
