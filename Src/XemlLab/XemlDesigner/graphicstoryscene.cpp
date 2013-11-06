@@ -718,7 +718,7 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 					this->addItem(tmp_little_line);
 					QGraphicsTextItem * tmp_little_text=new QGraphicsTextItem(QString::number(counter_hour),tmp_timeline);
 					tmp_little_text->setFont(serifFont);
-					tmp_little_text->setPos(j-8,-30);
+					tmp_little_text->setPos(j-8,-40);
 
 				}
 				counter_hour+=24/zoomFactor;
