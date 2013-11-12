@@ -11,8 +11,8 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 	this->posy=_posy;
 	setFlag(QGraphicsItem::ItemIsMovable, true);
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
-	setFlag(QGraphicsItem::ItemIsFocusable);
-	setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+	setFlag(QGraphicsItem::ItemIsFocusable, true);
+	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	setAcceptDrops(true);
 	setAcceptHoverEvents(true);
 	setAcceptedMouseButtons(Qt::LeftButton);

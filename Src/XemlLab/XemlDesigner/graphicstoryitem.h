@@ -45,6 +45,7 @@ class GraphicStoryItem : public QGraphicsItem
 		qreal get_posy();
 		void set_posx(qreal _posx);
 		void set_posy(qreal _posy);
+		bool get_story_child();
 
 
 

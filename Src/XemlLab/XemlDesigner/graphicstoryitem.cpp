@@ -91,6 +91,21 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 
 
 }
+bool GraphicStoryItem::get_story_child(){
+	if (!childItems().empty()){
+		for(int i=0;i<childItems().size();i++){
+			if (childItems().at(i)->type()==GraphicStoryItem::Type){
+				return true;
+			}
+
+
+		}
+		return false;
+	}
+	else{
+		return false;
+	}
+}
 
 void GraphicStoryItem::set_right(qreal width){
 	std::cerr << "width in setRight : "<< width << std::endl;

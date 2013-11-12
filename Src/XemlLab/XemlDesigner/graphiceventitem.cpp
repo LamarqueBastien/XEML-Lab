@@ -12,10 +12,10 @@ GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width
 	this->eventLabel=_label;
 
 
-	setFlag(QGraphicsItem::ItemIsSelectable);
-	setFlag(QGraphicsItem::ItemIsMovable);
-	setFlag(QGraphicsItem::ItemIsFocusable);
-	setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+	setFlag(QGraphicsItem::ItemIsSelectable, true);
+	setFlag(QGraphicsItem::ItemIsMovable, true);
+	setFlag(QGraphicsItem::ItemIsFocusable, true);
+	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	setAcceptDrops(true);
 	setAcceptHoverEvents(true);
 	setAcceptedMouseButtons(Qt::LeftButton);
@@ -141,7 +141,7 @@ QRectF GraphicEventItem::boundingRect() const{
 	qreal maxy;
 	qreal minx;
 	qreal maxx;
-	GraphicStoryItem * test=static_cast<GraphicStoryItem*>(parent);
+	//GraphicStoryItem * test=static_cast<GraphicStoryItem*>(parent);
 
 	//std::cerr << "rect width :" << rect.width() << std::endl;
 	//extra=my_parent_width-rect.width();
