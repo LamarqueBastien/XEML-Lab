@@ -43,6 +43,8 @@ class GraphicStoryItem : public QGraphicsItem
 		StoryBase * get_story();
 		qreal get_posx();
 		qreal get_posy();
+		void set_posx(qreal _posx);
+		void set_posy(qreal _posy);
 
 
 

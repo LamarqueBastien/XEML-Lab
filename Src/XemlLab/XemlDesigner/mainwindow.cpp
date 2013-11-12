@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     std::cerr << "document initialised " << std::endl;
 
-	this->setMinimumHeight(500);
+	this->setMinimumHeight(300);
 	this->setMinimumWidth(1200);
 	//this->setStyleSheet("QWidget { background-color: rgb(1,121,111); }");
 
@@ -89,8 +89,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	rightSplitter = new QSplitter(Qt::Vertical);
 	rightSplitter->addWidget(sousFenetre2);
 	rightSplitter->addWidget(sousFenetre3);
-	rightSplitter->setStretchFactor(0, 3);
-	//rightSplitter->setStretchFactor(1, 2);
+	rightSplitter->setStretchFactor(0, 10);
+	rightSplitter->setStretchFactor(1, 1);
 	mainSplitter = new QSplitter(Qt::Horizontal);
 	mainSplitter->addWidget(sousFenetre1);
 	mainSplitter->addWidget(rightSplitter);

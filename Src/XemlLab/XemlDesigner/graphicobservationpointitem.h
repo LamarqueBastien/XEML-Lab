@@ -12,7 +12,7 @@
 using namespace std;
 using namespace Xeml::Document;
 
-class GraphicObservationPointItem : public QGraphicsPolygonItem
+class GraphicObservationPointItem : public QGraphicsItem
 {
 	public:
 		GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QGraphicsItem * parent);
@@ -34,6 +34,7 @@ class GraphicObservationPointItem : public QGraphicsPolygonItem
 		qreal posx, posy;
 		QGraphicsItem * parent;
 		QPolygonF pol;
+		QRectF rect;
 		qreal width;
 		int obspointId;
 		//ObservationPoint * oP;

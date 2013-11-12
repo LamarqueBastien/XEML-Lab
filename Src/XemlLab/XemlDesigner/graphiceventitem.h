@@ -27,6 +27,7 @@ class GraphicEventItem : public QGraphicsItem
 		void change();
 		QRectF get_rect();
 		Event * get_event();
+		QGraphicsItem * get_parent();
 	private:
 		qreal posx, posy;
 		QGraphicsItem * parent;

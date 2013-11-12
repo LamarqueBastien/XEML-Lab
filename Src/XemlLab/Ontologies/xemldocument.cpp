@@ -841,10 +841,26 @@ namespace Xeml {
 				sns=new StoryNode(s,false,storyname);
 				this->storyBoard->add_Node(sns);
 				for (int i = 0; i < QNL.length(); i++) {
-					if(QNL.item(i).toElement().tagName().toStdString()=="xeml:IndividualsPool"){
+					if(QNL.item(i).toElement().tagName()=="xeml:IndividualsPool"){
 						std::cerr << "found indivi" << std::endl;
 						InitPools(QNL.item(i).toElement(),s);
 					}
+					/*
+					else if(QNL.item(i).toElement().tagName()=="xeml:StorySplit"){
+						StorySplit * s = new StorySplit();
+						InitAnnotations(QNL.item(i).toElement(),s);
+						s->set_label(QNL.item(i).toElement().attributeNode("Label").value());//+" ("+storyname+")");
+						//QDateTime date=get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(_elem.attributeNode("TimePoint").value()));
+						//std::cerr << date.toString("dd-MM-yyyyThh:mm:ss.").toStdString() << std::endl;
+						std::cerr << "before set timepoint" <<QNL.item(i).toElement().attributeNode("TimePoint").value().toStdString() << std::endl;
+						s->set_timepoint(get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(QNL.item(i).toElement().attributeNode("TimePoint").value())));
+
+						//s->set_timepoint(QDateTime::fromString(_elem.attributeNode("TimePoint").value(),"dd.hh:mm:ss"));
+						sns=new StoryNode(s,true,storyname);
+						this->storyBoard->add_Node(_node,sns);
+
+					}
+					*/
 
 				}
 			}

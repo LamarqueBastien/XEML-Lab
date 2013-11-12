@@ -33,6 +33,9 @@ void GraphicEventItem::change(){
 Event * GraphicEventItem::get_event(){
 	return this->event;
 }
+QGraphicsItem * GraphicEventItem::get_parent(){
+	return this->parent;
+}
 
 QRectF GraphicEventItem::get_rect(){
 	return this->rect;
@@ -67,21 +70,28 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	_painter->setBrush(selBrush);
 	_painter->setPen(selPen);
 	if(parent!=NULL){
-		//qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+		qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 		//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
-		//qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+		qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 
 		//QPointF point2=QPointF(posx,parent_y+parent_h/2);
 		//QRectF()
 		//_painter->drawRect(QRectF(point2-QPointF(4,4),point2+QPointF(4,4)));
-		_painter->drawRect(this->rect);
 
+
+		//_painter->drawRect(this->rect);
+
+		QPolygonF pol;
+		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
+		_painter->drawPolygon(pol);
 		if(isSelected()){
 			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
 			QPen selPen=QPen(Qt::yellow);
 			_painter->setBrush(selBrush);
 			_painter->setPen(selPen);
-			_painter->drawRect(this->rect);
+
+
+			//_painter->drawRect(this->rect);
 		}
 		//_painter->drawRect(this->boundingRect());
 

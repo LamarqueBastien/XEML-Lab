@@ -8,7 +8,18 @@ StoryView::StoryView(QWidget *parent) :
 
 	this->storytree= new QTreeView;
 	this->posY_item=0;
-	this->zoomFactor=24;
+	this->zoomFactor=1;
+	this->zoomFactorSelector=new QComboBox;
+	this->zoomFactorSelector->addItem("1");
+	this->zoomFactorSelector->addItem("2");
+	this->zoomFactorSelector->addItem("3");
+	this->zoomFactorSelector->addItem("4");
+	this->zoomFactorSelector->addItem("6");
+	this->zoomFactorSelector->addItem("8");
+	this->zoomFactorSelector->addItem("12");
+	this->zoomFactorSelector->addItem("24");
+
+
 	this->GraphicScene=new GraphicStoryScene(posY_item);
 
 	this->graphicStory=new GraphicStoryView(this->GraphicScene);
@@ -231,13 +242,13 @@ StoryView::StoryView(QWidget *parent) :
 	zoomInIcon->setAutoRepeat(true);
 	zoomInIcon->setAutoRepeatInterval(33);
 	zoomInIcon->setAutoRepeatDelay(0);
-	zoomInIcon->setIcon(QPixmap("://zoomin.png"));
+	zoomInIcon->setIcon(QPixmap("://Images/zoomin.png"));
 	zoomInIcon->setIconSize(iconSize);
 	QToolButton *zoomOutIcon = new QToolButton;
 	zoomOutIcon->setAutoRepeat(true);
 	zoomOutIcon->setAutoRepeatInterval(33);
 	zoomOutIcon->setAutoRepeatDelay(0);
-	zoomOutIcon->setIcon(QPixmap("://zoomout.png"));
+	zoomOutIcon->setIcon(QPixmap("://Images/zoomout.png"));
 	zoomOutIcon->setIconSize(iconSize);
 	zoomSlider = new QSlider(Qt::Horizontal);
 	zoomSlider->setMinimum(0);
@@ -249,6 +260,7 @@ StoryView::StoryView(QWidget *parent) :
 	zoomSliderLayout->addWidget(zoomInIcon);
 	zoomSliderLayout->addWidget(zoomSlider);
 	zoomSliderLayout->addWidget(zoomOutIcon);
+	zoomSliderLayout->addWidget(zoomFactorSelector);
 
 	QVBoxLayout  * layout = new QVBoxLayout;
 	QHBoxLayout  * buttonlayout1 = new QHBoxLayout;
@@ -286,6 +298,7 @@ StoryView::StoryView(QWidget *parent) :
 	connect(zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setupMatrix()));
 	connect(zoomInIcon, SIGNAL(clicked()), this, SLOT(zoomIn()));
 	connect(zoomOutIcon, SIGNAL(clicked()), this, SLOT(zoomOut()));
+	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this,SLOT(set_up_zoom_factor(QString)));
 
 	//connect(this,SIGNAL(destroyed())
 	connect(this->storytree,SIGNAL(clicked(QModelIndex)),this,SLOT(refresh_genotypeView(QModelIndex)));
@@ -330,6 +343,11 @@ StoryView::StoryView(QWidget *parent) :
 
 
 }
+void StoryView::set_up_zoom_factor(QString _zoomfactor){
+	zoomFactor=_zoomfactor.toInt();
+	emit refresh_story_view(this);
+}
+
 void StoryView::zoomIn(int level)
 {
 	zoomSlider->setValue(zoomSlider->value() + level);
@@ -385,21 +403,10 @@ QStandardItemModel * StoryView::get_model(){
 }
 
 void  StoryView::add_genotype(QString _idtext,QString _freetext,QString _taxontext){
-	//std::cerr << "entering add_genotype : " << _idtext.toStdString() << std::endl;
-
-	QItemSelectionModel  * selection = this->storytree->selectionModel();
-	QModelIndex indexelementselected= selection->currentIndex();
-	if(selection->isSelected(indexelementselected)){
-		//QVariant elementSelected = this->my_treestory->data(indexelementselected);
-		AbstractExperimentItem  * tmp = static_cast<AbstractExperimentItem*>(this->my_treestory->itemFromIndex(indexelementselected));
-		if(tmp->isRoot()){
-			QMessageBox::information(this,"added element","can't add a pool directly to experiment");
-
-
-		}
-		else{
-			StoryItem  * exp=static_cast<StoryItem*>(tmp);
-			if (!exp->get_isStorySplit()){
+	if (GraphicMode){
+		if(this->GraphicScene->get_selected_story()!=NULL){
+			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+			if (!node->get_isStorySplit()){
 				std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
 
 				IndividualsPool * pool = new IndividualsPool();
@@ -412,18 +419,57 @@ void  StoryView::add_genotype(QString _idtext,QString _freetext,QString _taxonte
 					pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",_taxontext));
 				}
 
-				static_cast<Story*>(exp->get_story())->add_individualspool(pool);
+				static_cast<Story*>(node->get_story())->add_individualspool(pool);
 				emit this->refresh_genotype_view(this->currentDoc);
 			}
 			else{
 				QMessageBox::information(this,"added element","can't add a pool to a story split");
 			}
-
 		}
 	}
+	//std::cerr << "entering add_genotype : " << _idtext.toStdString() << std::endl;
 	else{
-		QMessageBox::information(this,"added element","no story selected");
+
+		QItemSelectionModel  * selection = this->storytree->selectionModel();
+		QModelIndex indexelementselected= selection->currentIndex();
+		if(selection->isSelected(indexelementselected)){
+			//QVariant elementSelected = this->my_treestory->data(indexelementselected);
+			AbstractExperimentItem  * tmp = static_cast<AbstractExperimentItem*>(this->my_treestory->itemFromIndex(indexelementselected));
+			if(tmp->isRoot()){
+				QMessageBox::information(this,"added element","can't add a pool directly to experiment");
+
+
+			}
+			else{
+				StoryItem  * exp=static_cast<StoryItem*>(tmp);
+				if (!exp->get_isStorySplit()){
+					std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
+
+					IndividualsPool * pool = new IndividualsPool();
+					//pool->set_ns("none");
+					pool->set_germplasm(_idtext);
+					if((!_freetext.isEmpty())&&(!_freetext.isNull())){
+						pool->add_tagged_annotation(new TaggedAnnotation("FreeText",_freetext));
+					}
+					if((!_taxontext.isEmpty())&&(!_taxontext.isNull())){
+						pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",_taxontext));
+					}
+
+					static_cast<Story*>(exp->get_story())->add_individualspool(pool);
+					emit this->refresh_genotype_view(this->currentDoc);
+				}
+				else{
+					QMessageBox::information(this,"added element","can't add a pool to a story split");
+				}
+
+			}
+		}
+		else{
+			QMessageBox::information(this,"added element","no story selected");
+		}
 	}
+
+
 }
 
 //Display details about the current experiment and experimenter
@@ -611,33 +657,69 @@ void StoryView::build_story_hierarchy(StoryNode * _node,std::list<StoryNode*> * 
 	}
 
 }
+//void StoryView::build_inherited_component_hierarchy(StoryNode * _node);
 void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
+	std::cerr << "entering build graphic story hierarchy :" << std::endl;
 	this->GraphicScene->initialize_x_Axis(width,this->zoomFactor);
+	//this->GraphicScene->setSceneRect(QRectF(-150, -150, width, this->GraphicScene->sceneRect().height()+60));
 
+
+	//add OP and events load.
+	qreal pos_x;
 	if(_node->get_parent()==NULL){
 
 		//std::cerr << "width in build graphic story hierarchy :" << width<< std::endl;
-
-		this->GraphicScene->addItem(new GraphicStoryItem(0,this->currentDoc,width,_node->get_story(),_node->get_story()->get_label(),false,0,this->GraphicScene->positionY,NULL));
+		GraphicStoryItem * current_story=new GraphicStoryItem(0,this->currentDoc,width,_node->get_story(),_node->get_story()->get_label(),false,0,this->GraphicScene->positionY,NULL);
+		this->GraphicScene->addItem(current_story);
 		this->GraphicScene->set_max_item_width(width);
 		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
 		this->GraphicScene->positionY+=61;
+
+		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
+			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
+			new GraphicObservationPointItem((*it).first,pos_x,0,width,current_story);
+
+		}
+		for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
+			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
+			new GraphicEventItem((*it).first,pos_x,0,width,(*it).first->get_label(),current_story);
+		}
+
+
+
 	}
 	else{
+		std::cerr << "entering else for story split" << std::endl;
 		qreal x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
-		qreal Width=this->width-x;
+		std::cerr << "x : " << x <<  std::endl;
+
+		qreal Width=this->width-(x*zoomFactor);
 		GraphicStoryItem * parent;
 		parent=static_cast<GraphicStoryItem*>(this->GraphicScene->get_item_by_label(_node->get_parent()->get_label()));
+		std::cerr << "parent retrieved" << std::endl;
+
 		qreal width_parent=parent->get_rect().width();
 		if (parent!=NULL){
+			std::cerr << "entering else for story split" << std::endl;
 			if(parent->get_isStorySplit()){
+				x=translate_second_in_distance(get_seconds_from_date(static_cast<StorySplit*>(parent->get_story())->get_timepoint(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
 
-				new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,x,this->GraphicScene->positionY,parent);
+				std::cerr << "parent storysplit pos : " << parent->pos().x() << std::endl;
+				std::cerr << "x/zoomFactor : " << x/zoomFactor << std::endl;
+
+				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
+				tmp->setPos(x*zoomFactor,0);
 			}
 			else{
+				std::cerr << "parent story" << std::endl;
 
-				new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,x,this->GraphicScene->positionY,parent);
+				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
+				tmp->setPos(x*zoomFactor,0);
+				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
+					new GraphicEventItem((*it).first,pos_x*zoomFactor,0,width,(*it).first->get_label(),tmp);
+				}
 			}
 			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));
 			this->GraphicScene->positionY+=61;
@@ -664,7 +746,7 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 		this->GraphicScene->setSceneRect(-150,-150,width+300,6000);
 
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
-			//std::cerr << "in da loop" << std::endl;
+			std::cerr << "in da loop" << std::endl;
 			build_graphic_story_hierarchy((*it));
 
 
@@ -812,7 +894,7 @@ void StoryView::add_graphic_split_story(QString _label){
 		StoryNode * sn =new StoryNode(ss,true,mainname);
 		//std::cerr << "size before : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 		this->currentDoc->get_storyboard()->add_Node(sn);
-		this->currentDoc->get_storyboard()->findNode_by_Label(mainname,mainname)->addSubStoryNode(sn);
+		this->currentDoc->get_storyboard()->findNode_by_Label(this->GraphicScene->get_selected_story()->get_label(),mainname)->addSubStoryNode(sn);
 		//std::cerr << "size after : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 		emit add_graphic_story_split(_label,ss);
 	}

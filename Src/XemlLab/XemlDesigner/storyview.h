@@ -78,6 +78,8 @@ class StoryView : public QWidget
 		qreal                width;
 		QSlider            * zoomSlider;
 		int                  zoomFactor;
+		QComboBox          * zoomFactorSelector;
+
 
 	public slots:
 		void zoomIn(int level = 1);
@@ -120,6 +122,7 @@ class StoryView : public QWidget
 
 
 		void                 setupMatrix();
+		void                 set_up_zoom_factor(QString _zoomfactor);
 		void                 set_up_experimenter(QString _firstnametext,
 												 QString _lastnametext,
 												 QString _organisationtext,

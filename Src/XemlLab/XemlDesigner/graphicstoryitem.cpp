@@ -39,12 +39,6 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->Pressed=false;
 	//this->setOpacity(0.4);
 	//setAcceptedMouseButtons(true);
-
-
-
-
-
-
 }
 GraphicStoryItem * GraphicStoryItem::get_parent(){
 	return static_cast<GraphicStoryItem*>(this->parent);
@@ -57,6 +51,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->story=_story;
 	this->posx=_posx;
 	this->posy=_posy;
+	std::cerr << "pos x in constructor :" << this->posx << std::endl;
 	this->IsStorySplit=_IsStorySplit;
 	myHandlerWidth=2.0;
 	this->parent=_parent;
@@ -67,6 +62,8 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->rect=QRectF(posx, posy, this->width, 60);
 	this->storyLabel=_label;
 	if(_IsStorySplit){
+		std::cerr << "storySplit width:" << this->width << std::endl;
+
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
 	}
 
@@ -99,6 +96,8 @@ void GraphicStoryItem::set_right(qreal width){
 	std::cerr << "width in setRight : "<< width << std::endl;
 	std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
 	this->rect.setRight(width);
+	std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
+
 	//update();
 }
 StoryBase * GraphicStoryItem::get_story(){
@@ -121,6 +120,13 @@ void GraphicStoryItem::change(){
 }
 QString GraphicStoryItem::get_label(){
 	return this->storyLabel;
+}
+void GraphicStoryItem::set_posx(qreal _posx){
+	this->posx=_posx;
+}
+
+void GraphicStoryItem::set_posy(qreal _posy){
+	this->posy=_posy;
 }
 
 GraphicStoryItem::~GraphicStoryItem()
@@ -175,7 +181,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
 	QPen selPen=QPen(Qt::red);
 	//ligne médiane qui traverse toute la story
-	QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.width(),(rect.height()/2)+posy);
+	QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.topRight().x(),(rect.height()/2)+posy);
 	_painter->drawLine((*red_line));
 
 	qreal j;
