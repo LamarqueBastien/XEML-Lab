@@ -195,15 +195,19 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 	qreal obs_point_center_x;
 	QDateTime obstime;
 	qreal tmp_size;
+	qreal shift;
 
 	if (!item->childItems().empty()){
 		//std::cerr << "size : " << item->childItems().size() << std::endl;
 		for(int i=0;i<item->childItems().size();i++){
 			//std::cerr << "in da loop "<< std::endl;
 			child_item=item->childItems().at(i);
+
 			switch(child_item->type()){
 				case GraphicStoryItem::Type:
 					tmp=static_cast<GraphicStoryItem*>(child_item);
+					shift=translate_second_in_distance(get_seconds_from_date(static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(item)->get_story())->get_timepoint(),static_cast<StorySplit*>(tmp->get_story())->get_timepoint()));
+
 					//std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
 					tmp_size= tmp->get_rect().width()- _movement;
 					tmp->set_right(tmp_size);
@@ -215,6 +219,44 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					std::cerr << "max_width----------------= " << max_width << std::endl;
 					std::cerr << "tmp pos x----------------= " << tmp->pos().x() << std::endl;
 					*/
+					std::cerr << "story :" << tmp->get_label().toStdString() <<"test x----------------= " << test.x() << std::endl;
+
+
+					if(static_cast<GraphicStoryItem*>(item)->get_rect().width()>0){
+
+
+						if(static_cast<GraphicStoryItem*>(item)->get_rect().width()>shift){
+							tmp->set_right(tmp_size);
+						}
+						else{
+							tmp->setPos(tmp->pos().x()-_movement,0);
+
+							//tmp->setPos(static_cast<GraphicStoryItem*>(item)->get_rect().width()-_movement,0);
+							tmp->set_right(0);
+						}
+						/*
+						if(test.x()==max_width){
+							std::cerr << "case 1" << std::endl;
+							tmp->setPos(static_cast<GraphicStoryItem*>(item)->get_rect().width()-_movement,0);
+							tmp->set_right(0);
+						}
+						else if (test.x()<max_width){
+							std::cerr << "case 2" << std::endl;
+							tmp->set_right(tmp_size);
+						}
+						else{
+							tmp->setPos(0,0);
+							tmp->set_right(0);
+						}
+						*/
+					}
+					else{
+						std::cerr << "case 3" << std::endl;
+						tmp->setPos(0,0);
+						tmp->set_right(0);
+					}
+
+					/*
 					if (tmp_size<=0){
 						if(tmp->pos().x()>0){
 							tmp->setPos(tmp->pos().x()-_movement,0);
@@ -222,17 +264,19 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 						else{
 							tmp->setPos(0,0);
 						}
-						/*
-						if (test.x()>=max_width){
-							tmp->setPos(tmp->pos().x()-_movement,0);
-						}
-						else{
-							tmp->setPos(0,0);
 
-						}
-						*/
+						//if (test.x()>=max_width){
+							//tmp->setPos(tmp->pos().x()-_movement,0);
+						//}
+						//else{
+							//tmp->setPos(0,0);
+
+						//}
+
 						tmp->set_right(0);
 					}
+					*/
+
 					static_cast<StorySplit*>(tmp->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(test.x()/zoomFactor)));
 					tmp->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(tmp->get_story())->get_timepoint())));
 
