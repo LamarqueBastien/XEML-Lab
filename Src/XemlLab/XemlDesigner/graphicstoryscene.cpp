@@ -216,7 +216,12 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					std::cerr << "tmp pos x----------------= " << tmp->pos().x() << std::endl;
 					*/
 					if (tmp_size<=0){
-						tmp->setPos(tmp->pos().x()-_movement,0);
+						if(tmp->pos().x()>0){
+							tmp->setPos(tmp->pos().x()-_movement,0);
+						}
+						else{
+							tmp->setPos(0,0);
+						}
 						/*
 						if (test.x()>=max_width){
 							tmp->setPos(tmp->pos().x()-_movement,0);
