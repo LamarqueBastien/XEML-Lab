@@ -678,7 +678,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
 			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
-			new GraphicObservationPointItem((*it).first,pos_x,0,width,current_story);
+			new GraphicObservationPointItem((*it).first,pos_x,0,width,currentDoc->get_startdate(), current_story);
 
 		}
 		for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){

@@ -15,7 +15,7 @@ using namespace Xeml::Document;
 class GraphicObservationPointItem : public QGraphicsItem
 {
 	public:
-		GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QGraphicsItem * parent);
+		GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QDateTime _startdate,QGraphicsItem * parent);
 		enum { Type = QGraphicsItem::UserType + 3 };
 		int type() const{return Type;}
 		~GraphicObservationPointItem();

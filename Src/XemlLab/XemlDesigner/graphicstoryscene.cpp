@@ -308,13 +308,14 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					if(center.x()>=max_width){
 						std::cerr <<" cool" << std::endl;
 					}
+					/*
 					std::cerr << "obs son  id : " << tmpobs->get_obspoint()->get_id() << std::endl;
 					std::cerr << "obs son pos center: " << tmpobs->boundingRect().center().x() << std::endl;
 					std::cerr << "obs son pos top left: " << tmpobs->boundingRect().topLeft().x() << std::endl;
 					std::cerr << "obs son pos top right: " << tmpobs->boundingRect().topRight().x() << std::endl;
 					std::cerr << "obs son pos map to scene :"<< topRight.x() << std::endl;
 					//std::cerr << "obs son pos : " << tmpobs->boundingRect().center().x() << std::endl;
-
+					*/
 					break;
 				 default:
 					break;
@@ -1012,7 +1013,7 @@ void GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
 	//my_selected_story->get_story()->add_obsPoint(obs);
 	//obs->set_id(_id);
 
-	new GraphicObservationPointItem(_op,0,0,this->max_width,my_selected_story);
+	new GraphicObservationPointItem(_op,0,0,this->max_width,this->currentDoc->get_startdate(),my_selected_story);
 
 }
 
