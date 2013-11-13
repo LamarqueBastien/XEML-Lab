@@ -1042,7 +1042,7 @@ namespace Xeml {
 		}
 		void                  XemlDocument::InitObserverPoint(QDomElement _elem,bool _isStorySplit, StoryBase * _storyBase){
 			Q_UNUSED(_isStorySplit);
-			//std::cerr << "entering add observerPoint" << std::cerr;
+			std::cerr << "entering add observerPoint" << std::cerr;
 			ObservationPoint * op = new ObservationPoint();
 			this->observationPointsCounter++;
 

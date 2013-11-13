@@ -511,13 +511,13 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 	std::cerr << "before clear" << std::endl;
 	this->width*=this->zoomFactor;
 	std::cerr << "this width  :" << this->width << std::endl;
-	this->GraphicScene->set_max_item_width(this->width);
+	this->GraphicScene->set_max_item_width(this->width*zoomFactor);
 	std::cerr << "before clear" << std::endl;
 
 	this->GraphicScene->clear();
 	this->GraphicScene->positionY=0;
-	this->GraphicScene->setSceneRect(-150.0,-150.0,width+300,600);
-	this->graphicStory->setSceneRect(-150.0,-150.0,width+300,600);
+	this->GraphicScene->setSceneRect(-150.0,-150.0,width*zoomFactor+300,600);
+	//this->graphicStory->setSceneRect(-150.0,-150.0,width*zoomFactor+300,600);
 
 	for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 
@@ -667,6 +667,9 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 	//add OP and events load.
 	qreal pos_x;
+	GraphicObservationPointItem  * tmpobs;
+	GraphicEventItem * tmpEvent;
+	std::cerr << " story label : " << _node->get_label().toStdString() << std::endl;
 	if(_node->get_parent()==NULL){
 
 		//std::cerr << "width in build graphic story hierarchy :" << width<< std::endl;
@@ -675,56 +678,84 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		this->GraphicScene->set_max_item_width(width);
 		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
 		this->GraphicScene->positionY+=61;
-
+		qreal y=current_story->get_posy();
 		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
-			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
-			new GraphicObservationPointItem((*it).first,pos_x,0,width,currentDoc->get_startdate(), current_story);
 
+			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
+			std::cerr << "story add oP at position: " << pos_x*zoomFactor << std::endl;
+			tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(), current_story);
+			tmpobs->setPos(pos_x*zoomFactor,0);
 		}
 		for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
 			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-			new GraphicEventItem((*it).first,pos_x,0,width,(*it).first->get_label(),currentDoc->get_startdate(),current_story);
+			std::cerr << "story add event at position: " << pos_x*zoomFactor << std::endl;
+
+			tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),current_story);
+			tmpEvent->setPos(pos_x*zoomFactor,0);
 		}
 
 
 
 	}
 	else{
-		std::cerr << "entering else for story split" << std::endl;
+
+		//std::cerr << "entering else for story split" << std::endl;
 		qreal x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
-		std::cerr << "x : " << x <<  std::endl;
+		//std::cerr << "x : " << x <<  std::endl;
 
 		qreal Width=this->width-(x*zoomFactor);
 		GraphicStoryItem * parent;
 		parent=static_cast<GraphicStoryItem*>(this->GraphicScene->get_item_by_label(_node->get_parent()->get_label()));
-		std::cerr << "parent retrieved" << std::endl;
+		//qreal shift=width-parent->get_rect().width();
+		//std::cerr << "parent retrieved" << std::endl;
 
 		qreal width_parent=parent->get_rect().width();
 		if (parent!=NULL){
-			std::cerr << "entering else for story split" << std::endl;
+			//std::cerr << "entering else for story split" << std::endl;
+
 			if(parent->get_isStorySplit()){
 				x=translate_second_in_distance(get_seconds_from_date(static_cast<StorySplit*>(parent->get_story())->get_timepoint(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
 
-				std::cerr << "parent storysplit pos : " << parent->pos().x() << std::endl;
-				std::cerr << "x/zoomFactor : " << x/zoomFactor << std::endl;
+				//std::cerr << "parent storysplit pos : " << parent->pos().x() << std::endl;
+				//std::cerr << "x/zoomFactor : " << x/zoomFactor << std::endl;
 
 				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
 				tmp->setPos(x*zoomFactor,0);
-			}
-			else{
-				std::cerr << "parent story" << std::endl;
-
-				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
-				tmp->setPos(x*zoomFactor,0);
+				qreal y=tmp->get_posy();
 				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
-					qreal y=tmp->get_posy();
-					new GraphicObservationPointItem((*it).first,pos_x*zoomFactor,y+20,width,currentDoc->get_startdate(),tmp);
+					std::cerr << "storysplit add oP at position: " << (pos_x-x)*zoomFactor << std::endl;
 
+					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),tmp);
+					tmpobs->setPos((pos_x-x)*zoomFactor,0);
 				}
 				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-					new GraphicEventItem((*it).first,pos_x*zoomFactor,0,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
+					std::cerr << "storysplit add event at position: " << (pos_x-x)*zoomFactor << std::endl;
+
+					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
+					tmp->setPos((pos_x-x)*zoomFactor,0);
+				}
+			}
+			else{
+				//std::cerr << "parent story" << std::endl;
+
+				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
+				tmp->setPos(x*zoomFactor,0);
+				qreal y=tmp->get_posy();
+				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
+					std::cerr << "storysplit add oP at position: " << (pos_x-x)*zoomFactor << std::endl;
+
+					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),tmp);
+					tmpobs->setPos((pos_x-x)*zoomFactor,0);
+				}
+				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
+					std::cerr << "storysplit add event at position: " << (pos_x-x)*zoomFactor << std::endl;
+
+					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
+					tmp->setPos((pos_x-x)*zoomFactor,0);
 				}
 			}
 			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));

@@ -101,7 +101,7 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 			_painter->setPen(selPen);
 
 
-			//_painter->drawRect(this->rect);
+			_painter->drawRect(boundingRect());
 		}
 		//_painter->drawRect(this->boundingRect());
 
@@ -160,7 +160,12 @@ QRectF GraphicEventItem::boundingRect() const{
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
 	miny = rect.height() < 0 ? rect.height() : posy;
 	maxy = rect.height() < 0 ? 0 : posy+rect.height();
-	miny =0;
+	qreal parent_y=0;
+
+	qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+	if (this->parent!=NULL){
+		parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+	}
 
 
 
@@ -172,7 +177,7 @@ QRectF GraphicEventItem::boundingRect() const{
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-50,miny,maxx-minx+50,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-50,parent_h,maxx-minx+50,60);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

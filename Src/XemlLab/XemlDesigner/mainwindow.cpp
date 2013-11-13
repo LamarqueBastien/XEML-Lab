@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     std::cerr << "document initialised " << std::endl;
 
-	this->setMinimumHeight(300);
+	this->setMinimumHeight(600);
 	this->setMinimumWidth(1200);
 	//this->setStyleSheet("QWidget { background-color: rgb(1,121,111); }");
 

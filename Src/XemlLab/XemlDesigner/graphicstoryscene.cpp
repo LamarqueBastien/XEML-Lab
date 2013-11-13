@@ -210,7 +210,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 
 					//std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
 					tmp_size= tmp->get_rect().width()- _movement;
-					tmp->set_right(tmp_size);
+					//tmp->set_right(tmp_size);
 					test=tmp->mapToScene(tmp->mapFromParent(tmp->pos().x(),tmp->pos().y()));
 					/*
 					std::cerr << "tmp_size----------------= " << tmp_size << std::endl;
@@ -289,7 +289,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					break;
 				case GraphicEventItem::Type:
 					tmp_event=static_cast<GraphicEventItem*>(item);
-					std::cerr << "event label : " << tmp_event->get_label().toStdString() << std::endl;
+					//std::cerr << "event label : " << tmp_event->get_label().toStdString() << std::endl;
 					break;
 
 				case GraphicObservationPointItem::Type:
@@ -794,7 +794,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 					//item_point=selected_story->mapFromParent(QPointF(mouse_point.x(),mouse_point.y()));
 					selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_event->get_parent());
 					if(selected_parent_item!=NULL){
-						if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
+						//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
 							if(selected_parent_item->get_isStorySplit()){
 
 								shift=this->max_width-my_selected_story->get_rect().width();
@@ -813,7 +813,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 								selected_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
 								selected_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint())));
 							}
-						}
+						//}
 					}
 
 
@@ -824,9 +824,9 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 					selected_obsPoint=this->my_selected_obsPoint;
 					selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_obsPoint->get_parent());
-
+					//this->my_selected_story=selected_parent_item;
 					if(selected_parent_item!=NULL){
-						if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
+						//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
 							if(selected_parent_item->get_isStorySplit()){
 
 								shift=this->max_width-selected_parent_item->get_rect().width();
@@ -840,7 +840,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 								selected_obsPoint->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
 								selected_obsPoint->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_obsPoint->get_obspoint()->get_timepoint())));
 							}
-						}
+						//}
 					}
 
 
@@ -1009,8 +1009,8 @@ void GraphicStoryScene::add_event(Event *e){
 	//std::cerr << "adding event" << std::endl;
 	qreal y=my_selected_story->get_posy();
 	//std::cerr << "position Y : " << y <<  std::endl;
-	GraphicEventItem *tmp_item=new GraphicEventItem(e,0,y+20,this->max_width,e->get_label(),currentDoc->get_startdate(), my_selected_story);
-
+	GraphicEventItem *tmp_event=new GraphicEventItem(e,0,y+20,this->max_width,e->get_label(),currentDoc->get_startdate(), my_selected_story);
+	this->my_selected_event=tmp_event;
 	//tmp_item->setZValue(100000);
 }
 void GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
@@ -1021,8 +1021,8 @@ void GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
 	//obs->set_id(_id);
 
 	qreal y=my_selected_story->get_posy();
-	new GraphicObservationPointItem(_op,0,y+20,this->max_width,this->currentDoc->get_startdate(),my_selected_story);
-
+	GraphicObservationPointItem  * tmp=new GraphicObservationPointItem(_op,0,y+20,this->max_width,this->currentDoc->get_startdate(),my_selected_story);
+	this->my_selected_obsPoint=tmp;
 }
 
 

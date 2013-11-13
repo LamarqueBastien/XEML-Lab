@@ -47,6 +47,11 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	std::cerr << "top left y :" << polygon().boundingRect().topLeft().y() << std::endl;
 	std::cerr << "bottom left y :" << polygon().boundingRect().bottomLeft().y() << std::endl;
 	*/
+	/*
+	std::cerr << "rect.width() :" << rect.width() << std::endl;
+	std::cerr << "posx :" << posx << std::endl;
+	std::cerr << "posy :" << posy << std::endl;
+	*/
 	qreal miny;
 	qreal maxy;
 	qreal minx;
@@ -54,10 +59,20 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	minx = rect.width() < 0 ? rect.width() : 0;
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
 	miny = rect.height() < 0 ? rect.height() : posy;
-	maxy = rect.height() < 0 ? 0 : posy+rect.height();
-	miny =0;
-
-	QRectF newRect = QRectF(minx-50,miny,maxx-minx+50,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	maxy = rect.height() < 0 ? 0 : posy-rect.height();
+	//miny =0;
+	/*
+	std::cerr << "value minx :" << minx-50 << std::endl;
+	std::cerr << "value maxx :" << maxx-minx+50 << std::endl;
+	std::cerr << "value miny :" << miny << std::endl;
+	std::cerr << "value maxy :" << maxy << std::endl;
+	*/
+	//qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+	qreal parent_y=0;
+	if (this->parent!=NULL){
+		parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+	}
+	QRectF newRect = QRectF(minx-50,parent_y,maxx-minx+50,60);//.adjusted(-extra, -extra, extra, extra);
 
 
 	//QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50);//.adjusted(-extra, -extra, extra, extra);
@@ -68,6 +83,7 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	//
 	//return polygon().boundingRect();
 	return newRect;
+	//return this->rect;
 
 	//return polygon().boundingRect();
 }
@@ -99,7 +115,7 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 			_painter->setPen(selPen);
 			//_painter->drawPolygon(this->pol);
 			//_painter->drawRect(QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50));
-			//_painter->drawRect(polygon().boundingRect());
+			_painter->drawRect(boundingRect());
 		}
 	}
 
