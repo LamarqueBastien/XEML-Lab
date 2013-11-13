@@ -22,7 +22,16 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 
 	QPointF point2=QPointF(posx,parent_y+parent_h/2);
 	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
-	this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(parent)->get_story())->get_timepoint())));
+
+	if (static_cast<GraphicStoryItem*>(parent)->get_isStorySplit()){
+		this->obsPoint->set_timepoint(static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(parent)->get_story())->get_timepoint());
+		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->obsPoint->get_timepoint())));
+	}
+	else{
+		this->obsPoint->set_timepoint(_startdate);
+		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->obsPoint->get_timepoint())));
+
+	}
 	//this->pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
 
 	//setPolygon(this->pol);
@@ -80,9 +89,9 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 		qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 		//_painter->drawRect(this->rect);
 		//_painter->drawPolygon(this->pol);
-		//QPolygonF pol;
-		this->pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
-		_painter->drawPolygon(this->pol);
+		QPolygonF pol;
+		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
+		_painter->drawPolygon(pol);
 		if(isSelected()){
 			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
 			QPen selPen=QPen(Qt::yellow);

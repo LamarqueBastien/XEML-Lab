@@ -683,7 +683,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		}
 		for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
 			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-			new GraphicEventItem((*it).first,pos_x,0,width,(*it).first->get_label(),current_story);
+			new GraphicEventItem((*it).first,pos_x,0,width,(*it).first->get_label(),currentDoc->get_startdate(),current_story);
 		}
 
 
@@ -716,9 +716,15 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
 				tmp->setPos(x*zoomFactor,0);
+				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
+					qreal y=tmp->get_posy();
+					new GraphicObservationPointItem((*it).first,pos_x*zoomFactor,y+20,width,currentDoc->get_startdate(),tmp);
+
+				}
 				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-					new GraphicEventItem((*it).first,pos_x*zoomFactor,0,width,(*it).first->get_label(),tmp);
+					new GraphicEventItem((*it).first,pos_x*zoomFactor,0,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
 				}
 			}
 			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));
