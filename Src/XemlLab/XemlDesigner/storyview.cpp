@@ -720,6 +720,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 				//std::cerr << "x/zoomFactor : " << x/zoomFactor << std::endl;
 
 				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
+				qreal shift_with_parent=parent->get_rect().width()-tmp->get_rect().width();
 				tmp->setPos(x*zoomFactor,0);
 				qreal y=tmp->get_posy();
 				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
@@ -727,14 +728,14 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 					std::cerr << "storysplit add oP at position: " << (pos_x-x)*zoomFactor << std::endl;
 
 					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),tmp);
-					tmpobs->setPos((pos_x-x)*zoomFactor,0);
+					tmpobs->setPos((pos_x-(x+shift_with_parent))*zoomFactor,0);
 				}
 				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
 					std::cerr << "storysplit add event at position: " << (pos_x-x)*zoomFactor << std::endl;
 
 					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
-					tmp->setPos((pos_x-x)*zoomFactor,0);
+					tmp->setPos((pos_x-(x+shift_with_parent))*zoomFactor,0);
 				}
 			}
 			else{
