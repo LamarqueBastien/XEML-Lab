@@ -34,32 +34,7 @@ See DOC for Documentation on classes and code architecture. You also found a sho
 
 2 Open XemlLab.pro files with QtCreator 2.6 or 
 
-=============================================================================
-                          Prerequisites 
-=============================================================================
-
-
-To Compile the source, you need to have installed on your computer:
-
-- Framework Qt 4.8 or higher (for developers, Package framework + Qt creator are available at http://qt-project.org/downloads)
-
-- Lib stdc++ + Compiler related to your operating system.
-
-platform 
-Mac OS 10.8 or lesser (>10.5):
-
-Windows (xp or higher):
-
-
-Compilation
-========= 
 
 
 
 
-
-
-
-
-Binaries (not available)
-========
