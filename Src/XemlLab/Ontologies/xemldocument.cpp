@@ -567,7 +567,7 @@ namespace Xeml {
 				for (std::list<StoryNode*>::iterator it=_node->get_parent()->get_childs()->begin();it!=_node->get_parent()->get_childs()->end();++it){
 
 					if((*it)->get_label()==_node->get_label()){
-						std::cerr << (*it)->get_label().toStdString() << std::endl;
+						//std::cerr << (*it)->get_label().toStdString() << std::endl;
 						//_node->get_parent()->get_childs()->;
 						_node->get_parent()->get_childs()->erase(it);
 						std::cerr << "problem" << std::endl;
@@ -577,7 +577,7 @@ namespace Xeml {
 					}
 				}
 				if(!_node->get_childs()->empty()){
-					std::cerr << "childs is not empty"  << std::endl;
+					//std::cerr << "childs is not empty"  << std::endl;
 					for (std::list<StoryNode*>::iterator it=_node->get_childs()->begin();it!=_node->get_childs()->end();++it){
 						purge_substory((*it));
 					}
