@@ -578,7 +578,7 @@ namespace Xeml {
 						}
 						std::cerr << "same label3 :" << std::endl;
 					}
-					this->storyBoard->get_storyBoard()->erase(it);
+					this->storyBoard->get_storyBoard()->erase(it_to_erase);
 					std::cerr << "same label4 :" << std::endl;
 
 				}
