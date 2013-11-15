@@ -922,19 +922,24 @@ void StoryView::newStorySplit(){
 void StoryView::add_graphic_split_story(QString _label){
 	std::cerr << " entering slot" << std::endl;
 	std::cerr << "selected items" << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
-	StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
-	if(parent!=NULL){// && parent->get_parent()==NULL
-		QString mainname=parent->get_mainStoryName();
-		std::cerr << "parent name :" << mainname.toStdString() << std::endl;
-		StorySplit * ss = new StorySplit();
-		ss->set_label(_label);
-		ss->set_timepoint(this->currentDoc->get_startdate());
-		StoryNode * sn =new StoryNode(ss,true,mainname);
-		//std::cerr << "size before : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
-		this->currentDoc->get_storyboard()->add_Node(sn);
-		this->currentDoc->get_storyboard()->findNode_by_Label(this->GraphicScene->get_selected_story()->get_label(),mainname)->addSubStoryNode(sn);
-		//std::cerr << "size after : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
-		emit add_graphic_story_split(_label,ss);
+	if(this->GraphicScene->get_selected_story()!=NULL){
+		StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(parent!=NULL){// && parent->get_parent()==NULL
+			QString mainname=parent->get_mainStoryName();
+			std::cerr << "parent name :" << mainname.toStdString() << std::endl;
+			StorySplit * ss = new StorySplit();
+			ss->set_label(_label);
+			ss->set_timepoint(this->currentDoc->get_startdate());
+			StoryNode * sn =new StoryNode(ss,true,mainname);
+			//std::cerr << "size before : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+			this->currentDoc->get_storyboard()->add_Node(sn);
+			this->currentDoc->get_storyboard()->findNode_by_Label(this->GraphicScene->get_selected_story()->get_label(),mainname)->addSubStoryNode(sn);
+			//std::cerr << "size after : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+			emit add_graphic_story_split(_label,ss);
+		}
+	}
+	else{
+		QMessageBox::information(this,"no selection","no story selected");
 	}
 	this->GraphicScene->update();
 	this->graphicStory->update();
@@ -985,11 +990,18 @@ void StoryView::removeStory(){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			std::cerr << "name : "<< this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
 			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+
+
+			if(node!=NULL){
+				static_cast<XemlDocument*>(this->currentDoc)->purge_story(node);
+			}
+			/*
 			for(std::list<StoryNode*>::iterator it = this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 				if(static_cast<StoryNode*>((*it))->get_label()==node->get_story()->get_label()){
 					 static_cast<XemlDocument*>(this->currentDoc)->purge_story(node);
 				}
 			}
+			*/
 			std::cerr << "before refresh storyview " << std::endl;
 
 			emit refresh_story_view(this);

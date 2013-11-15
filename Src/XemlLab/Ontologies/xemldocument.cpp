@@ -560,6 +560,20 @@ namespace Xeml {
 		void                  XemlDocument::purge_story(StoryNode * _node){
 			if(_node->get_parent()==NULL){
 				std::cerr << "parent null" << _node->get_label().toStdString() << std::endl;
+				if(!_node->get_childs()->empty()){
+					std::cerr << "childs is not empty"  << std::endl;
+					for (std::list<StoryNode*>::iterator it=_node->get_childs()->begin();it!=_node->get_childs()->end();++it){
+						purge_substory((*it));
+					}
+				}
+				else{
+					for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
+						if((*it)->get_label()==_node->get_label()){
+							this->storyBoard->get_storyBoard()->erase(it);
+						}
+					}
+
+				}
 				delete _node;
 				//purge_stories(_node);//,(*it)->get_parent());
 			}
@@ -572,6 +586,7 @@ namespace Xeml {
 						//_node->get_parent()->get_childs()->;
 						_node->get_parent()->get_childs()->erase(it);
 						std::cerr << "problem" << std::endl;
+
 					}
 					else{
 
