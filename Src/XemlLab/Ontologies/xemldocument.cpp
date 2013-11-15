@@ -564,9 +564,10 @@ namespace Xeml {
 				//purge_stories(_node);//,(*it)->get_parent());
 			}
 			else{
+				std::cerr << "node childs size :" << _node->get_parent()->get_childs()->size() << std::endl;
 				for (std::list<StoryNode*>::iterator it=_node->get_parent()->get_childs()->begin();it!=_node->get_parent()->get_childs()->end();++it){
 
-					if((*it)->get_label()==_node->get_label()){
+					if((*it)->get_label()==_node->get_story()->get_label()){
 						//std::cerr << (*it)->get_label().toStdString() << std::endl;
 						//_node->get_parent()->get_childs()->;
 						_node->get_parent()->get_childs()->erase(it);
