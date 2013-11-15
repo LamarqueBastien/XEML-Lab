@@ -576,6 +576,7 @@ namespace Xeml {
 
 					}
 				}
+				std::cerr << "breakpoint" << std::endl;
 				if(!_node->get_childs()->empty()){
 					//std::cerr << "childs is not empty"  << std::endl;
 					for (std::list<StoryNode*>::iterator it=_node->get_childs()->begin();it!=_node->get_childs()->end();++it){
