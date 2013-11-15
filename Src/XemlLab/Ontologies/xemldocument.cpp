@@ -559,7 +559,7 @@ namespace Xeml {
 		//region purge
 		void                  XemlDocument::purge_story(StoryNode * _node){
 			if(_node->get_parent()==NULL){
-				std::cerr << "parent null" << _node->get_label().toStdString() << std::endl;
+				//std::cerr << "parent null" << _node->get_label().toStdString() << std::endl;
 				if(!_node->get_childs()->empty()){
 					std::cerr << "childs is not empty"  << std::endl;
 					for (std::list<StoryNode*>::iterator it=_node->get_childs()->begin();it!=_node->get_childs()->end();++it){
