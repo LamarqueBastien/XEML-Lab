@@ -115,7 +115,7 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 			_painter->setPen(selPen);
 			//_painter->drawPolygon(this->pol);
 			//_painter->drawRect(QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50));
-			_painter->drawRect(boundingRect());
+			//_painter->drawRect(boundingRect());
 		}
 	}
 

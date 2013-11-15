@@ -79,9 +79,12 @@ namespace Xeml{
 			return diff;
 		}
 		inline QDateTime get_date(QDateTime startDate,qint64 milliseconds_to_add){
+			//std::cerr << "get date" << std::endl;
 			qint64 total_milliseconds=startDate.toMSecsSinceEpoch()+milliseconds_to_add;
 			QDateTime date=QDateTime::fromMSecsSinceEpoch(total_milliseconds);
+			//std::cerr << "get date" << std::endl;
 			return date;
+			//std::cerr << "get date" << std::endl;
 		}
 
 		inline qint64 translate_DD_HH_MM_SS_in_Msecs(QString _timepoint){
@@ -266,7 +269,9 @@ namespace Xeml{
 		}
 		inline qint64 translate_Distance_in_Msecs(qint64 pixel){
 			//qint64 total_milliseconds=;
+			//std::cerr << "translate distance" << std::endl;
 			return pixel*3600000;
+			//std::cerr << "translate distance" << std::endl;
 		}
 
 

@@ -33,7 +33,9 @@ namespace Xeml {
 
 		void Event::set_timepoint(QDateTime _timepoint){
 
+			std::cerr << "set timepoint " << std::endl;
 			this->timepoint=_timepoint;
+			std::cerr << "set timepoint " << std::endl;
 
 		}
 		std::map<TaggedAnnotation*,QString> * Event::get_taggedannotation(){

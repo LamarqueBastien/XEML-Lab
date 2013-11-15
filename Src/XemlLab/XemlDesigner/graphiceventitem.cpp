@@ -75,8 +75,8 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 
 	Q_UNUSED(widget);
-	QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
-	QPen selPen=QPen(Qt::red);
+	QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
+	QPen selPen=QPen(Qt::yellow);
 	_painter->setBrush(selBrush);
 	_painter->setPen(selPen);
 	if(parent!=NULL){
@@ -90,6 +90,7 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 
 		//_painter->drawRect(this->rect);
+		//_painter->drawRect(boundingRect());
 
 		QPolygonF pol;
 		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
@@ -101,7 +102,7 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 			_painter->setPen(selPen);
 
 
-			_painter->drawRect(boundingRect());
+			//_painter->drawRect(boundingRect());
 		}
 		//_painter->drawRect(this->boundingRect());
 
@@ -177,7 +178,7 @@ QRectF GraphicEventItem::boundingRect() const{
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-50,parent_h,maxx-minx+50,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-50,parent_y,maxx-minx+50,60);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

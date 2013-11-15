@@ -183,6 +183,7 @@ GraphicObservationPointItem     * GraphicStoryScene::get_selected_obsPoint(){
 }
 void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movement){
 
+	std::cerr << "entering set right for child" << std::endl;
 
 	QGraphicsItem * child_item;
 	GraphicStoryItem * tmp;
@@ -192,6 +193,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 	QPointF topLeft;
 	QPointF center;
 	QPointF test;
+	QPointF newpos;
 	qreal obs_point_center_x;
 	QDateTime obstime;
 	qreal tmp_size;
@@ -200,15 +202,16 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 	if (!item->childItems().empty()){
 		std::cerr << "size : " << item->childItems().size() << std::endl;
 		for(int i=0;i<item->childItems().size();i++){
-			//std::cerr << "in da loop "<< std::endl;
+			std::cerr << "in da loop "<< std::endl;
 			child_item=item->childItems().at(i);
+
 
 			switch(child_item->type()){
 				case GraphicStoryItem::Type:
 					tmp=static_cast<GraphicStoryItem*>(child_item);
 					shift=translate_second_in_distance(get_seconds_from_date(static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(item)->get_story())->get_timepoint(),static_cast<StorySplit*>(tmp->get_story())->get_timepoint()));
 
-					//std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
+					std::cerr << "son name : " << tmp->get_label().toStdString() << std::endl;
 					tmp_size= tmp->get_rect().width()- _movement;
 					//tmp->set_right(tmp_size);
 					test=tmp->mapToScene(tmp->mapFromParent(tmp->pos().x(),tmp->pos().y()));
@@ -283,12 +286,27 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					//static_cast<GraphicStoryItem*>((*it))->change();
 					//static_cast<GraphicStoryItem*>((*it))->set_right(static_cast<GraphicStoryItem*>((*it))->get_rect().width()-_movement);
 					if(!(tmp->childItems().empty())){
+					//if(tmp->get_story_child()!=false){
 						set_right_for_childs(tmp,_movement);
 					}
 
 					break;
 				case GraphicEventItem::Type:
-					tmp_event=static_cast<GraphicEventItem*>(item);
+					std::cerr << "event type : "<< std::endl;
+
+					tmp_event=static_cast<GraphicEventItem*>(child_item);
+					std::cerr << "event label : "<< std::endl;
+
+					//std::cerr << "event label : " << tmp_event->get_label().toStdString() << std::endl;
+					newpos=tmp_event->mapToScene(tmp_event->mapFromParent(tmp_event->pos().x(),tmp_event->pos().y()));
+					std::cerr << "new pos : "<< newpos.x() <<  std::endl;
+
+					//tmp_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(),translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
+
+					tmp_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
+					std::cerr << "event label : "<< std::endl;
+
+					tmp_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint())));
 					//std::cerr << "event label : " << tmp_event->get_label().toStdString() << std::endl;
 					break;
 
@@ -297,7 +315,15 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 
 					std::cerr << " set pos for obsPoint" << std::endl;
 
-					tmpobs=static_cast<GraphicObservationPointItem*>(item);
+					tmpobs=static_cast<GraphicObservationPointItem*>(child_item);
+					newpos=tmpobs->mapToScene(tmpobs->mapFromParent(tmpobs->pos().x(),tmpobs->pos().y()));
+					tmpobs->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
+					tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmpobs->get_obspoint()->get_timepoint())));
+
+
+
+
+					/*
 					//obs_point_center_x=(tmpobs->boundingRect().topRight().x-tmpobs->boundingRect().topLeft().x)/2;
 					//topRight=tmpobs->mapToScene(tmpobs->boundingRect().topRight());
 					//topLeft =tmpobs->mapToScene(tmpobs->boundingRect().topLeft());
@@ -310,6 +336,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					if(center.x()>=max_width){
 						std::cerr <<" cool" << std::endl;
 					}
+					*/
 					/*
 					std::cerr << "obs son  id : " << tmpobs->get_obspoint()->get_id() << std::endl;
 					std::cerr << "obs son pos center: " << tmpobs->boundingRect().center().x() << std::endl;
