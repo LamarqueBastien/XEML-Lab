@@ -623,6 +623,7 @@ namespace Xeml {
 			std::cerr << "node has been removed" << std::endl;
 		}
 		void                  XemlDocument::purge_substory(StoryNode * _substory){
+			std::cerr << "entering purge substory " << std::endl;
 			if(!(_substory->get_childs()->empty())){
 				for (std::list<StoryNode*>::iterator it=_substory->get_childs()->begin();it!=_substory->get_childs()->end();++it){
 					purge_substory((*it));
@@ -631,6 +632,7 @@ namespace Xeml {
 
 			}
 
+			std::cerr << "breakpoint2 " << std::endl;
 			for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 				if((*it)->get_label()==_substory->get_label()){
 					this->storyBoard->get_storyBoard()->erase(it);
