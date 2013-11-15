@@ -446,7 +446,9 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 								selected_story->setPos(mouse_point.x()-shift,0);//map_parent_item2Scene.x()
 
-								if(my_selected_story->get_story_child()==true){
+								//if(my_selected_story->get_story_child()==true){
+								if(!my_selected_story->childItems().empty()){
+
 									set_right_for_childs(my_selected_story, distance_to_move);
 								}
 								hours=mouse_point.x()/zoomFactor;
