@@ -6,6 +6,7 @@ namespace Xeml {
 		{
 			this->childs = new std::list<StoryNode*>();
 			this->parent=NULL;
+			this->label="";
 		}
 		StoryNode::StoryNode(StoryBase * st,bool _isStorySplit,QString _mainstoryname){
 			this->childs = new std::list<StoryNode*>();
@@ -39,7 +40,7 @@ namespace Xeml {
 		}
 
 		StoryNode::StoryNode(QString _label){
-
+			this->label=_label;
 		}
 		QString StoryNode::get_label(){
 			return this->label;
