@@ -570,6 +570,7 @@ namespace Xeml {
 					for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 						std::cerr << "node label : " <<_node->get_label().toStdString() << "it label : " <<  (*it)->get_label().toStdString() << std::endl;
 						if((*it)->get_label()==_node->get_label()){
+							std::cerr << "same label :" << std::endl;
 							this->storyBoard->get_storyBoard()->erase(it);
 						}
 					}
