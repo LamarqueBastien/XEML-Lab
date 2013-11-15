@@ -558,6 +558,7 @@ namespace Xeml {
 
 		//region purge
 		void                  XemlDocument::purge_story(StoryNode * _node){
+			std::list<StoryNode*>::iterator it_to_erase;
 			if(_node->get_parent()==NULL){
 				//std::cerr << "parent null" << _node->get_label().toStdString() << std::endl;
 				if(!_node->get_childs()->empty()){
@@ -567,7 +568,7 @@ namespace Xeml {
 					}
 				}
 				else{
-					std::list<StoryNode*>::iterator it_to_erase;
+
 					for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 						std::cerr << "node label : " <<_node->get_label().toStdString() << "it label : " <<  (*it)->get_label().toStdString() << std::endl;
 						if((*it)->get_label()==_node->get_label()){
@@ -592,7 +593,8 @@ namespace Xeml {
 					if((*it)->get_label()==_node->get_story()->get_label()){
 						//std::cerr << (*it)->get_label().toStdString() << std::endl;
 						//_node->get_parent()->get_childs()->;
-						_node->get_parent()->get_childs()->erase(it);
+						it_to_erase=it;
+
 						std::cerr << "problem" << std::endl;
 
 					}
@@ -600,6 +602,7 @@ namespace Xeml {
 
 					}
 				}
+				_node->get_parent()->get_childs()->erase(it_to_erase);
 				std::cerr << "breakpoint" << std::endl;
 				if(!_node->get_childs()->empty()){
 					//std::cerr << "childs is not empty"  << std::endl;
@@ -610,9 +613,11 @@ namespace Xeml {
 				else{
 					for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 						if((*it)->get_label()==_node->get_label()){
-							this->storyBoard->get_storyBoard()->erase(it);
+							it_to_erase=it;
+
 						}
 					}
+					this->storyBoard->get_storyBoard()->erase(it_to_erase);
 
 				}
 
@@ -631,6 +636,7 @@ namespace Xeml {
 			std::cerr << "node has been removed" << std::endl;
 		}
 		void                  XemlDocument::purge_substory(StoryNode * _substory){
+			std::list<StoryNode*>::iterator it_to_erase;
 			std::cerr << "entering purge substory " << std::endl;
 			if(!(_substory->get_childs()->empty())){
 				for (std::list<StoryNode*>::iterator it=_substory->get_childs()->begin();it!=_substory->get_childs()->end();++it){
@@ -643,9 +649,11 @@ namespace Xeml {
 			std::cerr << "breakpoint2 " << std::endl;
 			for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 				if((*it)->get_label()==_substory->get_label()){
-					this->storyBoard->get_storyBoard()->erase(it);
+					it_to_erase=it;
+
 				}
 			}
+			this->storyBoard->get_storyBoard()->erase(it_to_erase);
 		}
 
 		void                  XemlDocument::purge(){
