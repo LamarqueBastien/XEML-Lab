@@ -572,8 +572,11 @@ namespace Xeml {
 						if((*it)->get_label()==_node->get_label()){
 							std::cerr << "same label :" << std::endl;
 							this->storyBoard->get_storyBoard()->erase(it);
+							std::cerr << "same label2 :" << std::endl;
 						}
+						std::cerr << "same label3 :" << std::endl;
 					}
+					std::cerr << "same label4 :" << std::endl;
 
 				}
 				delete _node;
