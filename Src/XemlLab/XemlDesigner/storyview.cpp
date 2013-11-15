@@ -662,6 +662,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 	std::cerr << "entering build graphic story hierarchy :" << std::endl;
 	this->GraphicScene->initialize_x_Axis(width,this->zoomFactor);
+	Is_timeline_visible=true;
 	//this->GraphicScene->setSceneRect(QRectF(-150, -150, width, this->GraphicScene->sceneRect().height()+60));
 
 
@@ -850,6 +851,7 @@ void StoryView::clean_tree(){
 	if (GraphicMode){
 		this->GraphicScene->clear();
 		this->GraphicScene->positionY=0;
+		this->Is_timeline_visible=false;
 	}
 	else{
 
@@ -869,6 +871,10 @@ void StoryView::addStory(QString _text){
 	Story * s=new Story(_text);
 	StoryNode * sn = new StoryNode(s,false,_text);
 	this->currentDoc->get_storyboard()->add_Node(sn);
+	if (!Is_timeline_visible){
+		this->GraphicScene->initialize_x_Axis(width,this->zoomFactor);
+
+	}
 	if (GraphicMode){
 		emit add_graphic_story(_text,s);
 	}

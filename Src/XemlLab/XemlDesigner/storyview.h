@@ -79,6 +79,7 @@ class StoryView : public QWidget
 		QSlider            * zoomSlider;
 		int                  zoomFactor;
 		QComboBox          * zoomFactorSelector;
+		bool                 Is_timeline_visible;
 
 
 	public slots:
