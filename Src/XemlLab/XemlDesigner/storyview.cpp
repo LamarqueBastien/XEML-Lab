@@ -987,7 +987,7 @@ void StoryView::removeStory(){
 			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 			for(std::list<StoryNode*>::iterator it = this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 				if(static_cast<StoryNode*>((*it))->get_label()==node->get_story()->get_label()){
-					 static_cast<XemlDocument*>(this->currentDoc)->purge_story((*it));
+					 static_cast<XemlDocument*>(this->currentDoc)->purge_story(node);
 				}
 			}
 			std::cerr << "before refresh storyview " << std::endl;
