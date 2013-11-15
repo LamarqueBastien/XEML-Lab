@@ -572,6 +572,9 @@ namespace Xeml {
 						_node->get_parent()->get_childs()->erase(it);
 						std::cerr << "problem" << std::endl;
 					}
+					else{
+
+					}
 				}
 				if(!_node->get_childs()->empty()){
 					std::cerr << "childs is not empty"  << std::endl;
