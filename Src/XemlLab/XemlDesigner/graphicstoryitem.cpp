@@ -176,6 +176,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	brush.setStyle(Qt::LinearGradientPattern);
 	_painter->setBrush(brush);
 	_painter->drawRect(this->rect);
+	_painter->drawRect(boundingRect());
 
 	if(IsStorySplit){
 		//draw the connector between the storysplit and its parent story

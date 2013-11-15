@@ -105,7 +105,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
 					//this->my_selected_event=NULL;
 					//this->my_selected_obsPoint=NULL;
-					std::cerr <<"Zvalue: " << this->my_selected_story->zValue()<< "name : " << this->my_selected_story->get_label().toStdString() << std::endl;
+					//std::cerr <<"Zvalue: " << this->my_selected_story->zValue()<< "name : " << this->my_selected_story->get_label().toStdString() << std::endl;
 
 					//this->addItem(my_item);
 
@@ -114,14 +114,14 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					this->my_selected_event=static_cast<GraphicEventItem*>(item);
 					//this->my_selected_obsPoint=NULL;
 					//this->my_selected_story=NULL;
-					std::cerr << "event name : " << this->my_selected_event->get_label().toStdString() << std::endl;
+					//std::cerr << "event name : " << this->my_selected_event->get_label().toStdString() << std::endl;
 
 
 
 					break;
 				case GraphicObservationPointItem::Type:
 					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
-					std::cerr << "obs id : "  << this->my_selected_obsPoint->get_obspoint()->get_id() << std::endl;
+					//std::cerr << "obs id : "  << this->my_selected_obsPoint->get_obspoint()->get_id() << std::endl;
 
 
 
@@ -228,7 +228,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					if(static_cast<GraphicStoryItem*>(item)->get_rect().width()>0){
 
 
-						if(static_cast<GraphicStoryItem*>(item)->get_rect().width()>shift){
+						if(static_cast<GraphicStoryItem*>(item)->get_rect().width()>shift*zoomFactor){
 							tmp->set_right(tmp_size);
 						}
 						else{
@@ -431,7 +431,9 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 					}
 					else{
 						mouse_point = e->scenePos();
-						if(mouse_point.x()>=0){
+						std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
+						if(mouse_point.x()>=0 && mouse_point.y()>=0){
+							std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
 							selected_story->change();
 							//storysplit without childs
 							shift=this->max_width-my_selected_story->get_parent()->get_rect().width();
@@ -879,7 +881,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 					break;
 				default:
-					QGraphicsScene::mouseMoveEvent(e);
+					//QGraphicsScene::mouseMoveEvent(e);
 					break;
 			}
 
@@ -917,7 +919,10 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 }
 void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 	QGraphicsLineItem * tmp_timeline=new QGraphicsLineItem(0,-10,width,-10);
-
+	tmp_timeline->setFlag(QGraphicsItem::ItemIsSelectable,false);
+	tmp_timeline->setFlag(QGraphicsItem::ItemIsMovable,false);
+	tmp_timeline->setFlag(QGraphicsItem::ItemIsFocusable,false);
+	tmp_timeline->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
 	this->addItem(tmp_timeline);
 	int counter=0;
 	int counter_hour=0;
@@ -930,10 +935,18 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 		//std::cerr << "range : " << i << std::endl;
 		//QGraphicsItemGroup * group=new QGraphicsItemGroup();
 		QGraphicsLineItem * tmp_line=new QGraphicsLineItem(i,-10,i,-30);
+		tmp_line->setFlag(QGraphicsItem::ItemIsSelectable,false);
+		tmp_line->setFlag(QGraphicsItem::ItemIsMovable,false);
+		tmp_line->setFlag(QGraphicsItem::ItemIsFocusable,false);
+		tmp_line->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
 		this->addItem(tmp_line);
 		//group->addToGroup(tmp_line);
 		QGraphicsTextItem * tmp_text=new QGraphicsTextItem(QString::number(counter),tmp_timeline);
 
+		tmp_text->setFlag(QGraphicsItem::ItemIsSelectable,false);
+		tmp_text->setFlag(QGraphicsItem::ItemIsMovable,false);
+		tmp_text->setFlag(QGraphicsItem::ItemIsFocusable,false);
+		tmp_text->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
 		tmp_text->setFont(serifFont);
 		//group->addToGroup(tmp_text);
 
