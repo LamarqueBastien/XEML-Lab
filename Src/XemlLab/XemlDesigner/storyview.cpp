@@ -601,8 +601,6 @@ bool StoryView::contains(StoryNode * _node,std::list<StoryNode*> * _processed_no
 				return true;
 
 			}
-
-
 		}
 		return false;
 	}
@@ -645,35 +643,30 @@ void StoryView::build_story_hierarchy(StoryNode * _node,std::list<StoryNode*> * 
 		if(_node->get_parent()!=NULL){
 			std::cerr << "else if" << std::endl;
 			this->my_treestory->findItems((_node->get_parent()->get_story()->get_label()),Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);//+"("+_storyname+")"
-			std::cerr <<"----------------ajout story " << _node->get_story()->get_label().toStdString() << std::endl;
+			std::cerr <<"----------------ajout story :" << _node->get_story()->get_label().toStdString() << std::endl;
 
 		}
 		else{
 			//std::cerr << "else else" << std::endl;
 			this->my_treestory->findItems(this->experimentName,Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
-			std::cerr <<"----------------ajout story " << _node->get_story()->get_label().toStdString() << std::endl;
+			std::cerr <<"----------------ajout story :" << _node->get_story()->get_label().toStdString() << std::endl;
 
 		}
 	}
 
 }
-//void StoryView::build_inherited_component_hierarchy(StoryNode * _node);
 void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
 	std::cerr << "entering build graphic story hierarchy :" << std::endl;
 	this->GraphicScene->initialize_x_Axis(width,this->zoomFactor);
 	Is_timeline_visible=true;
-	//this->GraphicScene->setSceneRect(QRectF(-150, -150, width, this->GraphicScene->sceneRect().height()+60));
-
-
-	//add OP and events load.
 	qreal pos_x;
+	qreal offset_x0;
 	GraphicObservationPointItem  * tmpobs;
 	GraphicEventItem * tmpEvent;
-	std::cerr << " story label : " << _node->get_label().toStdString() << std::endl;
+
 	if(_node->get_parent()==NULL){
 
-		//std::cerr << "width in build graphic story hierarchy :" << width<< std::endl;
 		GraphicStoryItem * current_story=new GraphicStoryItem(0,this->currentDoc,width,_node->get_story(),_node->get_story()->get_label(),false,0,this->GraphicScene->positionY,NULL);
 		this->GraphicScene->addItem(current_story);
 		this->GraphicScene->set_max_item_width(width);
@@ -683,88 +676,79 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
 
 			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
-			std::cerr << "story add oP at position: " << pos_x*zoomFactor << std::endl;
-			tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(), current_story);
+			tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint(), current_story);
 			tmpobs->setPos(pos_x*zoomFactor,0);
 		}
 		for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
 			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-			std::cerr << "story add event at position: " << pos_x*zoomFactor << std::endl;
-
 			tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),current_story);
 			tmpEvent->setPos(pos_x*zoomFactor,0);
 		}
-
-
-
 	}
 	else{
 
-		//std::cerr << "entering else for story split" << std::endl;
 		qreal x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
-		//std::cerr << "x : " << x <<  std::endl;
-
 		qreal Width=this->width-(x*zoomFactor);
 		GraphicStoryItem * parent;
 		parent=static_cast<GraphicStoryItem*>(this->GraphicScene->get_item_by_label(_node->get_parent()->get_label()));
-		//qreal shift=width-parent->get_rect().width();
-		//std::cerr << "parent retrieved" << std::endl;
-
 		qreal width_parent=parent->get_rect().width();
 		if (parent!=NULL){
-			//std::cerr << "entering else for story split" << std::endl;
 
 			if(parent->get_isStorySplit()){
 				x=translate_second_in_distance(get_seconds_from_date(static_cast<StorySplit*>(parent->get_story())->get_timepoint(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
 
-				//std::cerr << "parent storysplit pos : " << parent->pos().x() << std::endl;
-				//std::cerr << "x/zoomFactor : " << x/zoomFactor << std::endl;
-
 				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
-				qreal shift_with_parent=parent->get_rect().width()-tmp->get_rect().width();
 				tmp->setPos(x*zoomFactor,0);
 				qreal y=tmp->get_posy();
+				offset_x0=this->GraphicScene->get_max_width()-tmp->get_rect().width();
+
 				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
+
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
-					std::cerr << "storysplit add oP at position: " << (pos_x-x)*zoomFactor << std::endl;
+					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint(),tmp);
+					tmpobs->setPos(pos_x*zoomFactor-offset_x0,0);
+					tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint())));
 
-					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),tmp);
-					tmpobs->setPos((pos_x-(x+shift_with_parent))*zoomFactor,0);
 				}
-				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
-					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-					std::cerr << "storysplit add event at position: " << (pos_x-x)*zoomFactor << std::endl;
 
+				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
+
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
 					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
-					tmp->setPos((pos_x-(x+shift_with_parent))*zoomFactor,0);
+					tmp->setPos(pos_x*zoomFactor-offset_x0,0);
+					tmpEvent->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint())));
+
 				}
 			}
 			else{
-				//std::cerr << "parent story" << std::endl;
 
 				GraphicStoryItem * tmp =new GraphicStoryItem(width_parent,this->currentDoc,Width,_node->get_story(),_node->get_story()->get_label(),true,0,this->GraphicScene->positionY,parent);
 				tmp->setPos(x*zoomFactor,0);
 				qreal y=tmp->get_posy();
-				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
-					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
-					std::cerr << "storysplit add oP at position: " << (pos_x-x)*zoomFactor << std::endl;
 
-					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),tmp);
+				for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=tmp->get_story()->get_obsPointCollection()->begin();it!=tmp->get_story()->get_obsPointCollection()->end();++it){
+
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint()));
+					tmpobs=new GraphicObservationPointItem((*it).first,0,y+20,width,currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint(),tmp);
 					tmpobs->setPos((pos_x-x)*zoomFactor,0);
+					tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<ObservationPoint*>((*it).first)->get_timepoint())));
 				}
 				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
-					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-					std::cerr << "storysplit add event at position: " << (pos_x-x)*zoomFactor << std::endl;
 
+					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
 					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
 					tmp->setPos((pos_x-x)*zoomFactor,0);
+					tmpEvent->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint())));
+
 				}
 			}
-			this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));
-			this->GraphicScene->positionY+=61;
 
 		}
+		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));
+		this->GraphicScene->positionY+=61;
+
 	}
+
 }
 
 void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources * _doc_ressources){

@@ -1,6 +1,6 @@
 #include "graphicobservationpointitem.h"
 
-GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QDateTime _startdate,QGraphicsItem * _parent)
+GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obsPoint,qreal _posx,qreal _posy,qreal _width,QDateTime _startdate,QDateTime _obsdate,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
 	this->setParentItem(_parent);
@@ -24,11 +24,11 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
 
 	if (static_cast<GraphicStoryItem*>(parent)->get_isStorySplit()){
-		this->obsPoint->set_timepoint(static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(parent)->get_story())->get_timepoint());
+		this->obsPoint->set_timepoint(_obsdate);
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->obsPoint->get_timepoint())));
 	}
 	else{
-		this->obsPoint->set_timepoint(_startdate);
+		this->obsPoint->set_timepoint(_obsdate);
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->obsPoint->get_timepoint())));
 
 	}
@@ -108,6 +108,7 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 		QPolygonF pol;
 		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
 		_painter->drawPolygon(pol);
+		//_painter->drawRect(boundingRect());
 		if(isSelected()){
 			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
 			QPen selPen=QPen(Qt::yellow);
@@ -134,4 +135,17 @@ QPolygonF GraphicObservationPointItem::get_polygon(){
 
 ObservationPoint * GraphicObservationPointItem::get_obspoint(){
 	return this->obsPoint;
+}
+
+void GraphicObservationPointItem::hoverMoveEvent(QGraphicsSceneHoverEvent *e) {
+	//std::cerr << "x : " << e->pos().rx() << std::endl;
+	//std::cerr << "y : " << e->pos().ry() << std::endl;
+	update();
+	QGraphicsItem::hoverEnterEvent(e);
+}
+
+void GraphicObservationPointItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *e) {
+	//this->Pressed=false;
+	update();
+	QGraphicsItem::hoverLeaveEvent(e);
 }

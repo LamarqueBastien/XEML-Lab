@@ -33,7 +33,7 @@ class GraphicStoryScene : public QGraphicsScene
 		void set_right_for_childs(QGraphicsItem * _story_moving,qreal _movement);
 		void initialize_x_Axis(qreal width,int _zoomFactor);
 		void set_doc(ItfDocument  * _currentDoc);
-
+		qreal get_max_width();
 		int  positionY;
 		void createMenus();
 		void createActions();

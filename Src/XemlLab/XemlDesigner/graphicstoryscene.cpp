@@ -47,6 +47,9 @@ void GraphicStoryScene::set_doc(ItfDocument  * _currentDoc){
 void GraphicStoryScene::set_max_item_width(qreal _max_width){
 	this->max_width=_max_width;
 }
+qreal GraphicStoryScene::get_max_width(){
+	return this->max_width;
+}
 
 GraphicStoryItem * GraphicStoryScene::get_item_by_label(QString _label){
 	std::cerr << "entering get_item_by_label" << std::endl;
@@ -101,27 +104,18 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 		if(item!=0){
 			switch(item->type()){
+
 				case GraphicStoryItem::Type:
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
-					//this->my_selected_event=NULL;
-					//this->my_selected_obsPoint=NULL;
-					//std::cerr <<"Zvalue: " << this->my_selected_story->zValue()<< "name : " << this->my_selected_story->get_label().toStdString() << std::endl;
-
-					//this->addItem(my_item);
 
 					break;
 				case GraphicEventItem::Type:
 					this->my_selected_event=static_cast<GraphicEventItem*>(item);
-					//this->my_selected_obsPoint=NULL;
-					//this->my_selected_story=NULL;
-					//std::cerr << "event name : " << this->my_selected_event->get_label().toStdString() << std::endl;
-
-
 
 					break;
 				case GraphicObservationPointItem::Type:
 					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
-					//std::cerr << "obs id : "  << this->my_selected_obsPoint->get_obspoint()->get_id() << std::endl;
+
 
 
 
@@ -293,32 +287,36 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					break;
 				case GraphicEventItem::Type:
 					std::cerr << "event type : "<< std::endl;
-
 					tmp_event=static_cast<GraphicEventItem*>(child_item);
-					std::cerr << "event label : "<< std::endl;
-
-					//std::cerr << "event label : " << tmp_event->get_label().toStdString() << std::endl;
 					newpos=tmp_event->mapToScene(tmp_event->mapFromParent(tmp_event->pos().x(),tmp_event->pos().y()));
-					std::cerr << "new pos : "<< newpos.x() <<  std::endl;
-
-					//tmp_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(),translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
-
 					tmp_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
-					std::cerr << "event label : "<< std::endl;
-
 					tmp_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint())));
-					//std::cerr << "event label : " << tmp_event->get_label().toStdString() << std::endl;
 					break;
 
 				case GraphicObservationPointItem::Type:
 
 
 					std::cerr << " set pos for obsPoint" << std::endl;
-
 					tmpobs=static_cast<GraphicObservationPointItem*>(child_item);
 					newpos=tmpobs->mapToScene(tmpobs->mapFromParent(tmpobs->pos().x(),tmpobs->pos().y()));
-					tmpobs->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
-					tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmpobs->get_obspoint()->get_timepoint())));
+					//tmpobs->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
+					//tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmpobs->get_obspoint()->get_timepoint())));
+					shift=max_width-static_cast<GraphicStoryItem*>(item)->get_rect().width();
+					if (newpos.x()<this->max_width){
+						tmpobs->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
+						tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmpobs->get_obspoint()->get_timepoint())));
+					}
+					else{
+						if(newpos.x()>=this->max_width){
+							std::cerr << "new pos after limits" << std::endl;
+							std::cerr << "new pos x : " << newpos.x() << std::endl;
+							std::cerr << "shift : " << shift << std::endl;
+							tmpobs->setPos((newpos.x()-(shift*zoomFactor))-_movement,0);
+							tmpobs->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
+							tmpobs->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmpobs->get_obspoint()->get_timepoint())));
+						}
+
+					}
 
 
 
@@ -425,6 +423,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 				case GraphicStoryItem::Type:
 					std::cerr << "type storyitem" << std::endl;
 					selected_story=my_selected_story;
+					//my_selected_story->setZValue(100000);
 					isSplit=selected_story->get_isStorySplit();
 					if(!isSplit){
 						std::cerr << "not split story" << std::endl;
@@ -1063,7 +1062,14 @@ void GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
 	//obs->set_id(_id);
 
 	qreal y=my_selected_story->get_posy();
-	GraphicObservationPointItem  * tmp=new GraphicObservationPointItem(_op,0,y+20,this->max_width,this->currentDoc->get_startdate(),my_selected_story);
+	GraphicObservationPointItem  * tmp;
+	if (my_selected_story->get_isStorySplit()){
+		tmp=new GraphicObservationPointItem(_op,0,y+20,this->max_width,this->currentDoc->get_startdate(),static_cast<StorySplit*>(my_selected_story->get_story())->get_timepoint(),my_selected_story);
+
+	}
+	else{
+		tmp=new GraphicObservationPointItem(_op,0,y+20,this->max_width,this->currentDoc->get_startdate(),this->currentDoc->get_startdate(),my_selected_story);
+	}
 	this->my_selected_obsPoint=tmp;
 }
 
