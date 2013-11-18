@@ -73,7 +73,8 @@ SOURCES += main.cpp\
     graphicstoryitem.cpp \
     graphicstoryscene.cpp \
     graphiceventitem.cpp \
-    graphicobservationpointitem.cpp
+    graphicobservationpointitem.cpp \
+    anchorstoryitem.cpp
 
 HEADERS  += mainwindow.h \
     storyview.h \
@@ -134,7 +135,8 @@ HEADERS  += mainwindow.h \
     graphicstoryitem.h \
     graphicstoryscene.h \
     graphiceventitem.h \
-    graphicobservationpointitem.h
+    graphicobservationpointitem.h \
+    anchorstoryitem.h
 
 FORMS    += mainwindow.ui \
     schema.ui \

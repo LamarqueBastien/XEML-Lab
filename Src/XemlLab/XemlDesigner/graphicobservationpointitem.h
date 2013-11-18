@@ -29,6 +29,7 @@ class GraphicObservationPointItem : public QGraphicsItem
 		QGraphicsItem * get_parent();
 
 
+
 	protected:
 		void hoverMoveEvent(QGraphicsSceneHoverEvent *e);
 		void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
@@ -40,7 +41,11 @@ class GraphicObservationPointItem : public QGraphicsItem
 		QRectF rect;
 		qreal width;
 		int obspointId;
+
 		//ObservationPoint * oP;
+
+
+
 
 };
 

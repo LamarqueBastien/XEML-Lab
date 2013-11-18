@@ -90,6 +90,7 @@ namespace Xeml{
 			}
 
 			BasicTerm *  SimpleOboTerm::emit_DefaultObject(bool supervised){
+				Q_UNUSED(supervised);
 				BasicTerm * m= new BasicTerm(this->termId);
 				m->set_name(this->name);
 				m->set_namespacealias(this->nameSpaceAlias);

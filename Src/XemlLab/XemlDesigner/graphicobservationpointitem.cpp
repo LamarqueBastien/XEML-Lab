@@ -21,6 +21,7 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 	//this->pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-10, (parent_y+parent_h/2)-20) << QPointF(posx+10, (parent_y+parent_h/2)-20)<< QPointF(posx, parent_y+parent_h/2);
 
 	QPointF point2=QPointF(posx,parent_y+parent_h/2);
+
 	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
 
 	if (static_cast<GraphicStoryItem*>(parent)->get_isStorySplit()){
@@ -39,6 +40,8 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 GraphicObservationPointItem::~GraphicObservationPointItem(){
 
 }
+
+
 
 QRectF GraphicObservationPointItem::boundingRect() const{
 	/*

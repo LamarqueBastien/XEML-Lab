@@ -1341,13 +1341,13 @@ namespace Xeml {
 
 		}
 		void                  XemlDocument::LoadFile(QString path){
-
+			Q_UNUSED(path);
 		}
 		void                  XemlDocument::DoXmlValidation(){
 
 		}
 		void                  XemlDocument::DoXmlValidation(QString xemlCode){
-
+			Q_UNUSED(xemlCode);
 		}
 
 		//region helper

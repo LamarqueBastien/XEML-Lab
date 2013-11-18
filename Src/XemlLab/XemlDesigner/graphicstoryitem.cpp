@@ -72,6 +72,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	setFlag(QGraphicsItem::ItemIsMovable);
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+
 	//setMouseTracking(true);
 	//setAcceptDrops(true);
 	setAcceptHoverEvents(true);
@@ -176,7 +177,13 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	brush.setStyle(Qt::LinearGradientPattern);
 	_painter->setBrush(brush);
 	_painter->drawRect(this->rect);
+	//QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
+	//QPen selPen=QPen(Qt::red);
+	//_painter->setBrush(selBrush);
+
 	//_painter->drawRect(boundingRect());
+
+	//_painter->setBrush(brush);
 
 	if(IsStorySplit){
 		//draw the connector between the storysplit and its parent story
@@ -187,6 +194,11 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 		qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 
 		QPointF point2=QPointF(posx,parent_y+parent_h/2);//rect.height()-((3*rect.height())/2)+posy);
+		//ajouter ici le nouveau type "AnchorStoryItem"
+
+		AnchorStoryItem * ancre=new AnchorStoryItem(posx,parent_y+parent_h/2,this);
+		//_painter->drawRect;
+
 		QLineF  * tmp_line=new QLineF(posx,parent_y+parent_h/2,posx,posy+parent_h/2);
 		_painter->drawRect(QRectF(point2-QPointF(2,2),point2+QPointF(2,2)));
 		_painter->drawLine((*tmp_line));
@@ -356,7 +368,7 @@ QRectF GraphicStoryItem::boundingRect() const{
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-250,miny,maxx-minx+500,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-150,miny,maxx-minx+50,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

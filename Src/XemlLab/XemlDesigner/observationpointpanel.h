@@ -39,6 +39,8 @@ class ObservationPointPanel : public QWidget
 	private slots:
 		void display_selected_item(QModelIndex _QMI);
 		void remove_obsPoint();
+	signals:
+		void on_close_window();
 };
 
 #endif // OBSERVATIONPOINTPANEL_H

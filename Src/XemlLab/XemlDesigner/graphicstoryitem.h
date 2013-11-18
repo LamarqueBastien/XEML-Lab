@@ -13,6 +13,7 @@
 #include"storybase.h"
 #include"Utilities.h"
 #include"itfdocument.h"
+#include"anchorstoryitem.h"
 using namespace std;
 using namespace Xeml::Document;
 using namespace Xeml::Utilities;
@@ -80,6 +81,7 @@ class GraphicStoryItem : public QGraphicsItem
 		//QPen pen;
 		QPainter * painter;
 		QRectF rect;
+		QRectF anchor_rect;
 		StoryBase * story;
 		qreal width;
 

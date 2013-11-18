@@ -49,6 +49,7 @@ namespace Xeml {
 			}
 		}
 		void                                                   StoryBase::display_specific_timepoint(Event* _event){
+			Q_UNUSED(_event);
 			for( this->iter = this->eventcollection->begin(); this->iter != this->eventcollection->end(); this->iter++ ) {
 
 			}
@@ -61,7 +62,7 @@ namespace Xeml {
 		}
 
 		bool                                                   StoryBase::contain_event(Event* event){
-
+			Q_UNUSED(event);
 			for (this->iter = this->eventcollection->begin(); this->iter != this->eventcollection->end(); this->iter++ ) {
 				//need to compare timepoint
 			}
@@ -204,6 +205,8 @@ namespace Xeml {
 		}
 		bool                                                              compare_event_timepoint(Event* e1, Event* e2){
 
+			Q_UNUSED(e1);
+			Q_UNUSED(e2);
 			return false;
 		}
 

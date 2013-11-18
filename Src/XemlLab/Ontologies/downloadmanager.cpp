@@ -247,6 +247,8 @@ namespace Xeml{
 
 			void DownloadManager::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 			{
+			Q_UNUSED(bytesRead);
+			Q_UNUSED(totalBytes);
 				if (httpRequestAborted)
 					return;
 

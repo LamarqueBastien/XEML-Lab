@@ -306,7 +306,10 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this,SIGNAL(add_graphic_story(QString,StoryBase*)),this->graphicStory,SLOT(add_root_story(QString,StoryBase*)));
 	connect(this,SIGNAL(add_graphic_story_split(QString,StoryBase*)),this->graphicStory,SLOT(add_split_story(QString,StoryBase*)));
 	connect(this,SIGNAL(add_observationPoint(ObservationPoint*)),this->graphicStory,SLOT(add_obsPoint(ObservationPoint *)));
+
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
+	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
+
 
 	connect(this->infoButton,SIGNAL(clicked()),this,SLOT(remove_parameter()));
 	connect(editExperiment,SIGNAL(clicked()),this,SLOT(edit_Experiment()));
@@ -681,7 +684,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		}
 		for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
 			pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-			tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),current_story);
+			tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint(),current_story);
 			tmpEvent->setPos(pos_x*zoomFactor,0);
 		}
 	}
@@ -714,8 +717,8 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
 
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
-					tmp->setPos(pos_x*zoomFactor-offset_x0,0);
+					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint(),tmp);
+					tmpEvent->setPos(pos_x*zoomFactor-offset_x0,0);
 					tmpEvent->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint())));
 
 				}
@@ -736,8 +739,8 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 				for(std::map<Event*,QDateTime>::iterator it=tmp->get_story()->get_eventcollection()->begin();it!=tmp->get_story()->get_eventcollection()->end();++it){
 
 					pos_x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint()));
-					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),tmp);
-					tmp->setPos((pos_x-x)*zoomFactor,0);
+					tmpEvent=new GraphicEventItem((*it).first,0,y+20,width,(*it).first->get_label(),currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint(),tmp);
+					tmpEvent->setPos((pos_x-x)*zoomFactor,0);
 					tmpEvent->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<Event*>((*it).first)->get_timepoint())));
 
 				}
@@ -1351,6 +1354,11 @@ void StoryView::add_observationPoint(){
 	}
 
 }
+void StoryView::on_remove_obspoint(){
+	std::cerr << "entering on remove obspoint (StoryView) " << std::endl;
+	emit refresh_story_view(this);
+}
+
 void StoryView::remove_obs_point(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
@@ -1359,6 +1367,9 @@ void StoryView::remove_obs_point(){
 			ObservationPointPanel * opp =new ObservationPointPanel(true);
 			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
 			opp->show();
+			connect(opp,SIGNAL(on_close_window()),this,SLOT(on_remove_obspoint()));
+
+			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
 		}
 		else{
 			QMessageBox::information(this,"added element","no story selected");

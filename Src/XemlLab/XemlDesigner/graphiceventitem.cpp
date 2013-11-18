@@ -1,6 +1,6 @@
 #include "graphiceventitem.h"
 
-GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width,QString _label,QDateTime _startdate,QGraphicsItem * _parent)
+GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width,QString _label,QDateTime _startdate,QDateTime _eventdate,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
 	this->event=e;
@@ -24,12 +24,13 @@ GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width
 	qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 	QPointF point2=QPointF(posx,parent_y+parent_h/2);
 	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
+
 	if (static_cast<GraphicStoryItem*>(parent)->get_isStorySplit()){
-		this->event->set_timepoint(static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(parent)->get_story())->get_timepoint());
+		this->event->set_timepoint(_eventdate);
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint())));
 	}
 	else{
-		this->event->set_timepoint(_startdate);
+		this->event->set_timepoint(_eventdate);
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint())));
 
 

@@ -21,6 +21,7 @@ namespace Xeml {
 				this->term = _t;
 			}
 			TermNode::TermNode(QString _label){
+				Q_UNUSED(_label);
 				//childs=new std::list<AttributeRelation<TermNode> >();
 			}
 			TermNode::~TermNode(void){

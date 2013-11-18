@@ -4,7 +4,6 @@
 #include<fstream>
 #include<QFile>
 #include<QTextStream>
-
 #include<QRegExp>
 #include<string>
 #include<QString>

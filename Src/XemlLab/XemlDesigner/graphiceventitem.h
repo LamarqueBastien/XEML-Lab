@@ -16,7 +16,7 @@ using namespace Xeml::Document;
 class GraphicEventItem : public QGraphicsItem
 {
 	public:
-		GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width,QString _label,QDateTime _startdate,QGraphicsItem* parent = 0);
+		GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width,QString _label,QDateTime _startdate,QDateTime _eventdate,QGraphicsItem* parent = 0);
 		enum { Type = QGraphicsItem::UserType + 2 };
 		int type() const{return Type;}
 		~GraphicEventItem();

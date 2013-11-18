@@ -118,6 +118,7 @@ void ObservationPointPanel::remove_obsPoint(){
 	}
 
 	this->close();
+	emit on_close_window();
 }
 
 

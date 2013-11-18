@@ -146,6 +146,7 @@ class StoryView : public QWidget
 		void                 remove_parameter();
 		void                 add_observationPoint();
 		void                 remove_obs_point();
+		void                 on_remove_obspoint();
 		void                 add_genotype(QString _idtext,QString _freetext,QString _taxontext);
 		void                 add_samples();
 		void                 choose_obsPoint();

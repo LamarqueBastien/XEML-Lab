@@ -25,9 +25,12 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 	//std::cerr << "draw background " << " w : " << this->sceneRect().width()<< " h : "<< this->sceneRect().height()<<std::endl;
 
 	QRectF sceneRect = this->sceneRect();
-	QLinearGradient gradient(sceneRect.topLeft(), sceneRect.bottomRight());
+	QLinearGradient gradient(sceneRect.topLeft(), sceneRect.topRight());
 	gradient.setColorAt(0, Qt::white);
-	gradient.setColorAt(1, Qt::lightGray);
+	gradient.setColorAt(0.25, Qt::lightGray);
+	gradient.setColorAt(0.5, Qt::gray);
+	gradient.setColorAt(0.75, Qt::lightGray);
+	gradient.setColorAt(1, Qt::white);
 	p->fillRect(rect.intersected(sceneRect), gradient);
 	p->setBrush(Qt::NoBrush);
 	p->drawRect(sceneRect);

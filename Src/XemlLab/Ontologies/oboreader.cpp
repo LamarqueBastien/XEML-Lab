@@ -104,6 +104,7 @@ namespace Mpi {
 		}
 		bool OboReader::checkForTagValuePair(std::list<QString> *filter,int _lineNumber, QString _line,std::map<QString,XemlContracts::ItfOntologyTerm*>* _terms)
 		{
+			Q_UNUSED(filter);
 			if(this->regexTagValPair->exactMatch(_line)){
 				QStringList list = _line.split(": ");
 				QString str1 = list.at(0);
@@ -125,6 +126,9 @@ namespace Mpi {
 			this->stanzaType=_stanzaType;
 		}
 		void OboReader::OnNewStanza(QString _stanzaType, QString _name, int _lineNumber,std::map<QString,XemlContracts::ItfOntologyTerm*>* _terms){
+			Q_UNUSED(_name);
+			Q_UNUSED(_lineNumber);
+			Q_UNUSED(_terms);
 			this->currentStanza=NULL;
 			StanzaType st=get_stanza_from_string(_stanzaType);
 			if(this->currentStanza!=NULL){
@@ -182,6 +186,7 @@ namespace Mpi {
 					return it->second;
 				}
 			}
+
 
 		}
 

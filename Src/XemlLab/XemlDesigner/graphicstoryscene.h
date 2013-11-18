@@ -1,3 +1,4 @@
+
 #ifndef GRAPHICSTORYSCENE_H
 #define GRAPHICSTORYSCENE_H
 #include<QMenu>
@@ -42,13 +43,19 @@ class GraphicStoryScene : public QGraphicsScene
 		void mousePressEvent(QGraphicsSceneMouseEvent *e);
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
 		void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+		void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
+
 	signals:
+
+		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);
 		void show_details_story(GraphicStoryItem * _storyselected);
 	private:
 		QMenu * contextMenu;
 		QAction * show_details;
 		QAction * display_plot;
+		QAction * removeOP;
+		QAction * removeStory;
 		ItfDocument * currentDoc;
 		GraphicEventItem * my_item;
 		GraphicStoryItem * my_second_item;
@@ -59,6 +66,10 @@ class GraphicStoryScene : public QGraphicsScene
 		int zoomFactor;
 		//int  positionY;
 	private slots:
+
+		void remove_obsPoint();
+
+
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);

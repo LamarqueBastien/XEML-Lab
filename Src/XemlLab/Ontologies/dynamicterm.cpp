@@ -75,6 +75,7 @@ namespace Xeml {
 			return ret;
 		}
 		std::list<DynamicValueBase*> * DynamicTerm::valueBy(QString _context){
+			Q_UNUSED(_context);
 			std::list<DynamicValueBase*> * ret = new std::list<DynamicValueBase*>();
 			for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it =this->dynamicvaluecollection->begin();it!=this->dynamicvaluecollection->end();++it){
 				if(!contain(it->first->get_context(),ret)){

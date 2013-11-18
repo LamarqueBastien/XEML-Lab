@@ -176,10 +176,10 @@ namespace Xeml{
 				return p;
 			}
 			void                                               XeoTerm::supervise(BasicTerm *t){
-
+				Q_UNUSED(t);
 			}
 			void                                               XeoTerm::reject_supervision(BasicTerm *t){
-
+				Q_UNUSED(t);
 			}
 			void                                               XeoTerm::validate_SupervisedProperties(){
 

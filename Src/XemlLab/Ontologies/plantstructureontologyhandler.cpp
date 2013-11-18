@@ -222,7 +222,7 @@ namespace Xeml {
 					this->Nodes->push_back(tn);
 				}
 
-				std::list<TermNode*> * processedNodes =new std::list<TermNode*>();
+				//std::list<TermNode*> * processedNodes =new std::list<TermNode*>();
 				std::string rel="";
 				std::string val="";
 				for(std::list<TermNode*>::iterator it=this->Nodes->begin();it!=this->Nodes->end();++it)
