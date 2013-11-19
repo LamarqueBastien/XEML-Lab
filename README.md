@@ -19,6 +19,11 @@ and installation instructions.
 ===========
 See DOC for Documentation on classes and code architecture. You will also fiund a short tutorial on how to use Xeml lab Software.
 
+##Problems and comments 
+=====================
+Please address any problems or comments to: 
+
+    benjamin.dartigues@u-bordeaux2.Fr
 
 ## Developers Notes
 =============
