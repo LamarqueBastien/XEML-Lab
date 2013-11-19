@@ -1,0 +1,1319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xeml:XEMLDocument xmlns:xeml="http://www.mpimp-golm.mpg.de/2009/XEML" XemlVersion="1.1.0">
+	<xeml:Resources>
+		<xeml:EnvironmentalOntology NS="XEO" InstanceLocation="http://gmd.mpimp-golm.mpg.de/XEML/XeO_v1_6.obo" HandlerUri="http://xeml.mpimp-golm.mpg.de/xemlobo" />
+		<xeml:EnvironmentalOntology NS="EO" InstanceLocation="http://obo.cvs.sourceforge.net/viewvc/obo/obo/ontology/phenotype/environment/environment_ontology.obo" HandlerUri="http://xeml.mpimp-golm.mpg.de/xemleo" />
+		<xeml:EnvironmentalOntology NS="EnvO" InstanceLocation="http://www.berkeleybop.org/ontologies/obo-all/envo/envo.obo" HandlerUri="http://xeml.mpimp-golm.mpg.de/xemlenvo" />
+		<xeml:OrganismStructureOntology NS="PO_Structure" InstanceLocation="http://palea.cgrb.oregonstate.edu/viewsvn/Poc/trunk/ontology/OBO_format/po_anatomy.obo?view=co&amp;content-type=text/plain" HandlerUri="http://www.plantontology.org/PlantStructure" />
+		<xeml:DevelopmentalOntology NS="PO_Development" InstanceLocation="http://palea.cgrb.oregonstate.edu/viewsvn/Poc/trunk/ontology/OBO_format/po_temporal.obo?view=co&amp;content-type=text/plain" HandlerUri="http://www.plantontology.org/DevelopmentalStage" />
+		<xeml:PositioningOntology NS="XEO_Positioning" InstanceLocation="http://xeml.mpimp-golm.mpg.de/2007/XeO/PosO.xml" HandlerUri="http://www.mpimp-golm.mpg.de/2009/XEML/Positioning" />
+		<xeml:DataProvider Name="data provider for the Golm Metabolome Database (GMD)" ProviderUri="http://gmd.mpimp-golm.mpg.de/xeml/2011/" />
+	</xeml:Resources>
+	<xeml:Experiment Id="{b38df13d-55b6-47d2-9e6a-5ef878ecaeab}" Name="Mining for metabolic responses to long-term salt stress: a case study on Arabidopsis thaliana Col-0 (B)" ObservationTime="24.00:00:00" StartDate="2006-01-01T00:00:00">
+		<xeml:Header>
+			<xeml:Experimenter FirstName="Diego" LastName="Sanchez" Email="kopka@mpimp-golm.mpg.de" Organisation="Max Planck Institute of Molecular Plant Physiology" />
+			<xeml:Description>New metabolic profiling technologies provide data on a wider range of metabolites than traditional targeted approaches. Metabolomic technologies currently facilitate acquisition of multivariate metabolic data using diverse, mostly hyphenated, chromatographic detection systems, such as GC-MS or liquid chromatography coupled to mass spectrometry, Fourier-transformed infrared spectroscopy or NMR-based methods. Analysis of the resulting data can be performed through a combination of non-supervised and supervised statistical methods, such as independent component analysis and analysis of variance, respectively. These methods reduce the complex data sets to information, which is relevant for the discovery of metabolic markers or for hypothesis-driven, pathway-based analysis. Plant responses to salinity involve changes in the activity of genes and proteins, which invariably lead to changes in plant metabolism. Here, we highlight a selection of recent publications in the salt stress field, and use gas chromatography time-of-flight mass spectrometry profiles of polar fractions from the plant models, Arabidopsis thaliana, Lotus japonicus and Oryza sativa to demonstrate the power of metabolite profiling. We present evidence for conserved and divergent metabolic responses among these three species and conclude that a change in the balance between amino acids and organic acids may be a conserved metabolic response of plants to salt stress.</xeml:Description>
+			<xeml:Keyword>doi:10.1111/j.1399-3054.2007.00993.x</xeml:Keyword>
+			<xeml:Keyword>Sanchez, D. H., Siahpoosh, M. R., Roessner, U., Udvardi, M. and Kopka, J. (2008), Plant metabolomics reveals conserved and divergent metabolic responses to salinity. Physiologia Plantarum, 132: 209–219. doi: 10.1111/j.1399-3054.2007.00993.x</xeml:Keyword>
+			<xeml:Keyword>6265if - B 6265</xeml:Keyword>
+		</xeml:Header>
+		<xeml:Story Label="Control">
+			<xeml:IndividualsPool NS="none" GermPlasm="Arabidopsis thaliana.Col-0">
+				<xeml:Annotation Tag="FreeText">http://www.ncbi.nlm.nih.gov/taxonomy
+Arabidopsis thaliana
+Taxonomy ID: 3702
+18.10.2012
+
+
+</xeml:Annotation>
+				<xeml:Annotation Tag="NcbiTaxonomyId">3702</xeml:Annotation>
+				<xeml:Individual Id="349950738" />
+				<xeml:Individual Id="1100313643" />
+				<xeml:Individual Id="837285022" />
+				<xeml:Individual Id="41344721" />
+				<xeml:Individual Id="1120478666" />
+				<xeml:Individual Id="444682336" />
+				<xeml:Individual Id="1232009369" />
+				<xeml:Individual Id="932737028" />
+				<xeml:Individual Id="607557454" />
+				<xeml:Individual Id="700227452" />
+				<xeml:Individual Id="1581546625" />
+				<xeml:Individual Id="571738132" />
+				<xeml:Individual Id="2071999546" />
+				<xeml:Individual Id="3988117" />
+				<xeml:Individual Id="1993768068" />
+				<xeml:Individual Id="1622328049" />
+				<xeml:Individual Id="842053546" />
+				<xeml:Individual Id="1062108441" />
+				<xeml:Individual Id="816764618" />
+				<xeml:Individual Id="480023175" />
+				<xeml:Individual Id="31794474" />
+				<xeml:Individual Id="204590906" />
+				<xeml:Individual Id="2063590472" />
+				<xeml:Individual Id="319240246" />
+				<xeml:Individual Id="895380424" />
+				<xeml:Individual Id="326830780" />
+				<xeml:Individual Id="1584456975" />
+				<xeml:Individual Id="1204778913" />
+				<xeml:Individual Id="1119984081" />
+				<xeml:Individual Id="772670780" />
+				<xeml:Individual Id="265312525" />
+				<xeml:Individual Id="1723342533" />
+				<xeml:Individual Id="684900839" />
+				<xeml:Individual Id="1152467031" />
+				<xeml:Individual Id="232241299" />
+				<xeml:Individual Id="691573196" />
+				<xeml:Individual Id="863558164" />
+				<xeml:Individual Id="1376300783" />
+				<xeml:Individual Id="975118834" />
+				<xeml:Individual Id="1407959165" />
+				<xeml:Individual Id="713964593" />
+				<xeml:Individual Id="1786772731" />
+				<xeml:Individual Id="807377139" />
+				<xeml:Individual Id="1546585901" />
+				<xeml:Individual Id="1567504280" />
+				<xeml:Individual Id="1177859721" />
+				<xeml:Individual Id="728576942" />
+				<xeml:Individual Id="50601875" />
+				<xeml:Individual Id="1267406945" />
+				<xeml:Individual Id="1740241139" />
+			</xeml:IndividualsPool>
+			<xeml:Variable NS="XEO" TermId="XEO:00120" Name="Salt">
+				<xeml:ValueSet TimePoint="01.00:00:00">
+					<xeml:Value Context="Quantity" Unit="mM">0</xeml:Value>
+				</xeml:ValueSet>
+			</xeml:Variable>
+			<xeml:Variable NS="EO" TermId="EO:0007248" Name="green house study">
+				<xeml:ValueSet TimePoint="01.00:00:00">
+					<xeml:Value Context="Quantity">green house study</xeml:Value>
+				</xeml:ValueSet>
+			</xeml:Variable>
+			<xeml:Variable NS="XEO" TermId="XEO:00040" Name="Container">
+				<xeml:ValueSet TimePoint="01.00:00:00">
+					<xeml:Value Context="ContainerEnum">Pot</xeml:Value>
+					<xeml:Value Context="FreeText">Pot size: 10 cm</xeml:Value>
+				</xeml:ValueSet>
+			</xeml:Variable>
+			<xeml:Variable NS="XEO" TermId="XEO:00151" Name="Type">
+				<xeml:ValueSet TimePoint="01.00:00:00">
+					<xeml:Value Context="SubstrateTypeEnum">Potting soil</xeml:Value>
+					<xeml:Value Context="FreeText">Soil type: Einheit (Type 0)</xeml:Value>
+				</xeml:ValueSet>
+			</xeml:Variable>
+			<xeml:Variable NS="XEO" TermId="XEO:00124" Name="Watering">
+				<xeml:ValueSet TimePoint="01.00:00:00">
+					<xeml:Value Context="FreeText">Plants were watered with half-strength GS-90 plus 1/4 Hoagland solution.</xeml:Value>
+				</xeml:ValueSet>
+			</xeml:Variable>
+			<xeml:ObservationPoint Id="4" TargetTime="24.00:00:00">
+				<xeml:DestructiveObservation individual="349950738" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="1">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="1100313643" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="2">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="837285022" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="3">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="41344721" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="4">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="1120478666" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="5">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="444682336" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="6">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="1232009369" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="7">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="932737028" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="8">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="607557454" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="9">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+				<xeml:DestructiveObservation individual="700227452" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+					<xeml:Partition Id="10">
+						<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+							<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+							<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+						</xeml:Material>
+					</xeml:Partition>
+					<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+						<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+						<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+						<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+						<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+					</xeml:DevelopmentalStage>
+				</xeml:DestructiveObservation>
+			</xeml:ObservationPoint>
+			<xeml:Sample Id="1" TimeIntermix="Min">
+				<xeml:BioSource partition="1" />
+			</xeml:Sample>
+			<xeml:Sample Id="2" TimeIntermix="Min">
+				<xeml:BioSource partition="2" />
+			</xeml:Sample>
+			<xeml:Sample Id="3" TimeIntermix="Min">
+				<xeml:BioSource partition="3" />
+			</xeml:Sample>
+			<xeml:Sample Id="4" TimeIntermix="Min">
+				<xeml:BioSource partition="4" />
+			</xeml:Sample>
+			<xeml:Sample Id="5" TimeIntermix="Min">
+				<xeml:BioSource partition="5" />
+			</xeml:Sample>
+			<xeml:Sample Id="6" TimeIntermix="Min">
+				<xeml:BioSource partition="6" />
+			</xeml:Sample>
+			<xeml:Sample Id="7" TimeIntermix="Min">
+				<xeml:BioSource partition="7" />
+			</xeml:Sample>
+			<xeml:Sample Id="8" TimeIntermix="Min">
+				<xeml:BioSource partition="8" />
+			</xeml:Sample>
+			<xeml:Sample Id="9" TimeIntermix="Min">
+				<xeml:BioSource partition="9" />
+			</xeml:Sample>
+			<xeml:Sample Id="10" TimeIntermix="Min">
+				<xeml:BioSource partition="10" />
+			</xeml:Sample>
+			<xeml:Event TimePoint="8.00:00:00" Label="take a photo" />
+			<xeml:StorySplit Label="10mM NaCl" TimePoint="4.00:00:00">
+				<xeml:Variable NS="XEO" TermId="XEO:00120" Name="Salt">
+					<xeml:ValueSet TimePoint="4.00:00:00">
+						<xeml:Value Context="Quantity" Unit="&quot;mM&quot;">10</xeml:Value>
+					</xeml:ValueSet>
+				</xeml:Variable>
+				<xeml:ObservationPoint Id="5" TargetTime="24.00:00:00">
+					<xeml:DestructiveObservation individual="31794474" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="1">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="204590906" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="2">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="2063590472" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="3">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="319240246" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="4">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="895380424" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="5">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="326830780" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="6">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="1584456975" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="7">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="1204778913" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="8">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="1119984081" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="9">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+					<xeml:DestructiveObservation individual="772670780" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+						<xeml:Partition Id="10">
+							<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+								<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+								<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+							</xeml:Material>
+						</xeml:Partition>
+						<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+							<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+							<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+							<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+							<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+						</xeml:DevelopmentalStage>
+					</xeml:DestructiveObservation>
+				</xeml:ObservationPoint>
+				<xeml:Sample Id="11" TimeIntermix="Min">
+					<xeml:BioSource partition="1" />
+				</xeml:Sample>
+				<xeml:Sample Id="12" TimeIntermix="Min">
+					<xeml:BioSource partition="2" />
+				</xeml:Sample>
+				<xeml:Sample Id="13" TimeIntermix="Min">
+					<xeml:BioSource partition="3" />
+				</xeml:Sample>
+				<xeml:Sample Id="14" TimeIntermix="Min">
+					<xeml:BioSource partition="4" />
+				</xeml:Sample>
+				<xeml:Sample Id="15" TimeIntermix="Min">
+					<xeml:BioSource partition="5" />
+				</xeml:Sample>
+				<xeml:Sample Id="16" TimeIntermix="Min">
+					<xeml:BioSource partition="6" />
+				</xeml:Sample>
+				<xeml:Sample Id="17" TimeIntermix="Min">
+					<xeml:BioSource partition="7" />
+				</xeml:Sample>
+				<xeml:Sample Id="18" TimeIntermix="Min">
+					<xeml:BioSource partition="8" />
+				</xeml:Sample>
+				<xeml:Sample Id="19" TimeIntermix="Min">
+					<xeml:BioSource partition="9" />
+				</xeml:Sample>
+				<xeml:Sample Id="20" TimeIntermix="Min">
+					<xeml:BioSource partition="10" />
+				</xeml:Sample>
+				<xeml:StorySplit Label="25mM NaCl" TimePoint="8.00:00:00">
+					<xeml:Variable NS="XEO" TermId="XEO:00120" Name="Salt">
+						<xeml:ValueSet TimePoint="8.00:00:00">
+							<xeml:Value Context="Quantity" Unit="&quot;mM&quot;">25</xeml:Value>
+						</xeml:ValueSet>
+					</xeml:Variable>
+					<xeml:ObservationPoint Id="3" TargetTime="24.00:00:00">
+						<xeml:DestructiveObservation individual="265312525" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="1">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="1723342533" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="2">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="684900839" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="3">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="1152467031" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="4">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="232241299" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="5">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="691573196" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="6">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="863558164" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="7">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="1376300783" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="8">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="975118834" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="9">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+						<xeml:DestructiveObservation individual="1407959165" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+							<xeml:Partition Id="10">
+								<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+									<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+									<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+								</xeml:Material>
+							</xeml:Partition>
+							<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+								<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+								<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+								<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+								<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+							</xeml:DevelopmentalStage>
+						</xeml:DestructiveObservation>
+					</xeml:ObservationPoint>
+					<xeml:Sample Id="21" TimeIntermix="Min">
+						<xeml:BioSource partition="1" />
+					</xeml:Sample>
+					<xeml:Sample Id="22" TimeIntermix="Min">
+						<xeml:BioSource partition="2" />
+					</xeml:Sample>
+					<xeml:Sample Id="23" TimeIntermix="Min">
+						<xeml:BioSource partition="3" />
+					</xeml:Sample>
+					<xeml:Sample Id="24" TimeIntermix="Min">
+						<xeml:BioSource partition="4" />
+					</xeml:Sample>
+					<xeml:Sample Id="25" TimeIntermix="Min">
+						<xeml:BioSource partition="5" />
+					</xeml:Sample>
+					<xeml:Sample Id="26" TimeIntermix="Min">
+						<xeml:BioSource partition="6" />
+					</xeml:Sample>
+					<xeml:Sample Id="27" TimeIntermix="Min">
+						<xeml:BioSource partition="7" />
+					</xeml:Sample>
+					<xeml:Sample Id="28" TimeIntermix="Min">
+						<xeml:BioSource partition="8" />
+					</xeml:Sample>
+					<xeml:Sample Id="29" TimeIntermix="Min">
+						<xeml:BioSource partition="9" />
+					</xeml:Sample>
+					<xeml:Sample Id="30" TimeIntermix="Min">
+						<xeml:BioSource partition="10" />
+					</xeml:Sample>
+					<xeml:StorySplit Label="50mM NaCl" TimePoint="12.00:00:00">
+						<xeml:Variable NS="XEO" TermId="XEO:00120" Name="Salt">
+							<xeml:ValueSet TimePoint="12.00:00:00">
+								<xeml:Value Context="Quantity" Unit="&quot;mM&quot;">50</xeml:Value>
+							</xeml:ValueSet>
+						</xeml:Variable>
+						<xeml:ObservationPoint Id="2" TargetTime="24.00:00:00">
+							<xeml:DestructiveObservation individual="713964593" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="1">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="1786772731" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="2">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="807377139" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="3">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="1546585901" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="4">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="1567504280" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="5">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="1177859721" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="6">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="728576942" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="7">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="50601875" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="8">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="1267406945" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="9">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+							<xeml:DestructiveObservation individual="1740241139" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+								<xeml:Partition Id="10">
+									<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+										<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+										<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+									</xeml:Material>
+								</xeml:Partition>
+								<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+									<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+									<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+									<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+									<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+								</xeml:DevelopmentalStage>
+							</xeml:DestructiveObservation>
+						</xeml:ObservationPoint>
+						<xeml:Sample Id="31" TimeIntermix="Min">
+							<xeml:BioSource partition="1" />
+						</xeml:Sample>
+						<xeml:Sample Id="32" TimeIntermix="Min">
+							<xeml:BioSource partition="2" />
+						</xeml:Sample>
+						<xeml:Sample Id="33" TimeIntermix="Min">
+							<xeml:BioSource partition="3" />
+						</xeml:Sample>
+						<xeml:Sample Id="34" TimeIntermix="Min">
+							<xeml:BioSource partition="4" />
+						</xeml:Sample>
+						<xeml:Sample Id="35" TimeIntermix="Min">
+							<xeml:BioSource partition="5" />
+						</xeml:Sample>
+						<xeml:Sample Id="36" TimeIntermix="Min">
+							<xeml:BioSource partition="6" />
+						</xeml:Sample>
+						<xeml:Sample Id="37" TimeIntermix="Min">
+							<xeml:BioSource partition="7" />
+						</xeml:Sample>
+						<xeml:Sample Id="38" TimeIntermix="Min">
+							<xeml:BioSource partition="8" />
+						</xeml:Sample>
+						<xeml:Sample Id="39" TimeIntermix="Min">
+							<xeml:BioSource partition="9" />
+						</xeml:Sample>
+						<xeml:Sample Id="40" TimeIntermix="Min">
+							<xeml:BioSource partition="10" />
+						</xeml:Sample>
+						<xeml:StorySplit Label="75mM NaCl" TimePoint="16.00:00:00">
+							<xeml:Variable NS="XEO" TermId="XEO:00120" Name="Salt">
+								<xeml:ValueSet TimePoint="16.00:00:00">
+									<xeml:Value Context="Quantity" Unit="&quot;mM&quot;">75</xeml:Value>
+								</xeml:ValueSet>
+							</xeml:Variable>
+							<xeml:ObservationPoint Id="1" TargetTime="24.00:00:00">
+								<xeml:DestructiveObservation individual="1581546625" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="1">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="571738132" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="2">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="2071999546" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="3">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="3988117" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="4">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="1993768068" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="5">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="1622328049" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="6">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="842053546" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="7">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="1062108441" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="8">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="816764618" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="9">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+								<xeml:DestructiveObservation individual="480023175" poolNS="none" poolGermPlasm="Arabidopsis thaliana.Col-0" Duration="00:00:05">
+									<xeml:Partition Id="10">
+										<xeml:Material NS="PO_Structure" TermId="PO:0000014" term="rosette leaf">
+											<xeml:Annotation Tag="def">"One of multiple leaves borne in a rosette - a group of leaves, generally borne at the base of the plant, that are separated by very short internodes." [TAIR:Katica_Ilic]</xeml:Annotation>
+											<xeml:Annotation Tag="comment">Arabidopsis, vegetative development is characterized by the production of the rosette leaves.</xeml:Annotation>
+											<xeml:Annotation Tag="synonym">"hoja en roseta (Spanish)" EXACT Spanish [POC:Maria_Alejandra_Gandolfo]</xeml:Annotation>
+											<xeml:Annotation Tag="xref">OBO_SF_PO:3205381</xeml:Annotation>
+											<xeml:Annotation Tag="is_a">PO:0009025 ! vascular leaf</xeml:Annotation>
+										</xeml:Material>
+									</xeml:Partition>
+									<xeml:DevelopmentalStage NS="PO_Development" TermId="PO:0007078" term="rosette growth complete stage">
+										<xeml:Annotation Tag="def">"Stage at which rosette no longer increases in diameter, its leaf growth and expansion having ceased." [Poc:curators]</xeml:Annotation>
+										<xeml:Annotation Tag="comment">A measure of vegetative growth, but leaf production is to be preferred.</xeml:Annotation>
+										<xeml:Annotation Tag="synonym">"complete rosette in Arabidopsis" RELATED [TAIR:0000418]</xeml:Annotation>
+										<xeml:Annotation Tag="is_a">PO:0007113 ! rosette growth stage</xeml:Annotation>
+									</xeml:DevelopmentalStage>
+								</xeml:DestructiveObservation>
+							</xeml:ObservationPoint>
+							<xeml:Sample Id="41" TimeIntermix="Min">
+								<xeml:BioSource partition="1" />
+							</xeml:Sample>
+							<xeml:Sample Id="42" TimeIntermix="Min">
+								<xeml:BioSource partition="2" />
+							</xeml:Sample>
+							<xeml:Sample Id="43" TimeIntermix="Min">
+								<xeml:BioSource partition="3" />
+							</xeml:Sample>
+							<xeml:Sample Id="44" TimeIntermix="Min">
+								<xeml:BioSource partition="4" />
+							</xeml:Sample>
+							<xeml:Sample Id="45" TimeIntermix="Min">
+								<xeml:BioSource partition="5" />
+							</xeml:Sample>
+							<xeml:Sample Id="46" TimeIntermix="Min">
+								<xeml:BioSource partition="6" />
+							</xeml:Sample>
+							<xeml:Sample Id="47" TimeIntermix="Min">
+								<xeml:BioSource partition="7" />
+							</xeml:Sample>
+							<xeml:Sample Id="48" TimeIntermix="Min">
+								<xeml:BioSource partition="8" />
+							</xeml:Sample>
+							<xeml:Sample Id="49" TimeIntermix="Min">
+								<xeml:BioSource partition="9" />
+							</xeml:Sample>
+							<xeml:Sample Id="50" TimeIntermix="Min">
+								<xeml:BioSource partition="10" />
+							</xeml:Sample>
+						</xeml:StorySplit>
+					</xeml:StorySplit>
+				</xeml:StorySplit>
+			</xeml:StorySplit>
+		</xeml:Story>
+	</xeml:Experiment>
+	<xeml:Data>
+		<xeml:SampleMapping sample="1">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_10</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="2">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_15</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="3">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_20</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="4">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_25</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="5">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_30</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="11">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_11</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="12">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_16</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="13">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_21</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="14">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_26</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="15">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_31</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="16">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_35</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="21">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_12</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="22">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_17</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="23">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_22</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="24">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_27</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="25">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_32</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="26">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_36</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="31">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_13</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="32">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_18</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="33">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_23</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="34">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_28</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="35">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_33</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="41">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_14</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="42">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_19</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="43">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_24</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="44">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_29</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="45">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_34</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+		<xeml:SampleMapping sample="46">
+			<xeml:Sid Provider="data provider for the Golm Metabolome Database (GMD)">
+				<xeml:Subkey Name="Experiment">6265if Arabidopsis thaliana salt stress</xeml:Subkey>
+				<xeml:Subkey Name="Chromatogram">6265if_37</xeml:Subkey>
+			</xeml:Sid>
+		</xeml:SampleMapping>
+	</xeml:Data>
+</xeml:XEMLDocument>
