@@ -29,199 +29,68 @@ StoryView::StoryView(QWidget *parent) :
 
 	this->GraphicMode=true;
 
+	QString stylesheet("background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
+			"border-style: outset;"
+			"border-width: 1px;"
+			"border-radius: 10px;"
+			"border-color: beige;"
+			"font: bold 10px;"
+			"color:black;"
+			"min-width: 8em;"
+			"min-height: 0.95em;"
+		   " margin: 0 1px 0 1px;"
+			"color:rgb(0,0,0);"
+			"padding: 6px;");
+
+
 	infoButton= new QPushButton("remove term");
-	//infoButton->setToolTip("");
-	infoButton->setStyleSheet(
-				//"background-color: QLinearGradient( x1: 0.4, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);"
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
-	//infoButton->setStyleSheet("background-color: rgb(255,255,255)");
+	infoButton->setToolTip("remove a parameter from the selected story");
+	infoButton->setStyleSheet(stylesheet);
+
+
+
 	editExperiment = new QPushButton("experiment details");
 	editExperiment->setToolTip("Edit experiment start/end date "
 							   "and all details about experimlenter");
-	editExperiment->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	editExperiment->setStyleSheet(stylesheet);
+
+
 	addstory= new QPushButton("add story");
 	addstory->setToolTip("Add a new story "
 						 "(story time is equivalent to the experiment time)");
-	addstory->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	addstory->setStyleSheet(stylesheet);
+
+
 	addstorysplit= new QPushButton("add story split");
 	addstorysplit->setToolTip("Add a new split to the selected story--"
 							  "change story time by left clicking and dragging it "
 							  "(one story should be selected )");
-	addstorysplit->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	addstorysplit->setStyleSheet(stylesheet);
+
+
 	addobsPoint= new QPushButton("add observation");
 	addobsPoint->setToolTip("Add a new observation point after choose timepoint for it--"
 							"populate this observation point by adding samples");
-	addobsPoint->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	addobsPoint->setStyleSheet(stylesheet);
+
 	addEvent= new QPushButton("add Event");
 	addEvent->setToolTip("Add a new event after choose his label");
-	addEvent->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	addEvent->setStyleSheet(stylesheet);
 	rmEvent= new QPushButton("remove Event");
-	rmEvent->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	rmEvent->setStyleSheet(stylesheet);
 	addSamples= new QPushButton("add sample");
-	addSamples->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	addSamples->setStyleSheet(stylesheet);
 	removestory=new QPushButton("remove story");
-	removestory->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	removestory->setStyleSheet(stylesheet);
 	removeObsPoint=new QPushButton("remove observation");
-	removeObsPoint->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	removeObsPoint->setStyleSheet(stylesheet);
 	removeSample=new QPushButton("remove sample");
-	removeSample->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	removeSample->setStyleSheet(stylesheet);
 	removeStorySplit=new QPushButton("remove split");
-	removeStorySplit->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 1px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 10px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.95em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);
+	removeStorySplit->setStyleSheet(stylesheet);
+
+
+
 	this->infoButton->setCursor(Qt::PointingHandCursor);
 	this->editExperiment->setCursor(Qt::PointingHandCursor);
 	this->addstory->setCursor(Qt::PointingHandCursor);
