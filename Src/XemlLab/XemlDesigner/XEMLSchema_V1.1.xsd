@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XEMLSchema" targetNamespace="http://www.mpimp-golm.mpg.de/2009/XEML" elementFormDefault="qualified" xmlns="http://www.mpimp-golm.mpg.de/2009/XEML" xmlns:xeml="http://www.mpimp-golm.mpg.de/2009/XEML" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.1.0">
+  <xs:element name="XEMLDocument">
+    
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Resources" minOccurs="0" maxOccurs="1" type="TResources" />
+        <xs:element name="Experiment" minOccurs="1" maxOccurs="1" type="TExperiment">
+          <!--Defines a unique key for each individual within the Experiment-->
+          <xs:unique name="Experiment-Individual_Key">
+            <xs:selector xpath=".//xeml:Individual" />
+            <xs:field xpath="@Id" />
+          </xs:unique>
+          <!--Each ObservationPoint needs to be unique within the Experiment-->
+          <xs:unique name="ObservationPoint_Key">
+            <xs:selector xpath=".//xeml:ObservationPoint" />
+            <xs:field xpath="@Id" />
+          </xs:unique>
+          <!--An destructive observation can only be done once per individual-->
+          <xs:unique name="DestructiveObservation_Key">
+            <xs:selector xpath=".//xeml:DestructiveObservation" />
+            <xs:field xpath="@individual" />
+          </xs:unique>
+        </xs:element>
+        <xs:element name="Data" type="TDataMapping" minOccurs="0" maxOccurs="1" />
+      </xs:sequence>
+      <xs:attribute name="XemlVersion" type ="xs:token" use="required"/>
+    </xs:complexType>
+    <xs:key name="Experiment-EnvOnt_Key">
+      <xs:selector xpath=".//xeml:EnvironmentalOntology" />
+      <xs:field xpath="@NS" />
+    </xs:key>
+    <xs:key name="Experiment-GermplasmOnt_Key">
+      <xs:selector xpath=".//xeml:GermPlasmOntology" />
+      <xs:field xpath="@NS" />
+    </xs:key>
+    <xs:key name="Experiment-OrgStructureOnt_Key">
+      <xs:selector xpath=".//xeml:OrganismStructureOntology" />
+      <xs:field xpath="@NS" />
+    </xs:key>
+    <xs:key name="Experiment-DevelomentalOnt_Key">
+      <xs:selector xpath=".//xeml:DevelopmentalOntology" />
+      <xs:field xpath="@NS" />
+    </xs:key>
+    <xs:key name="Experiment-PositioningOnt_Key">
+      <xs:selector xpath=".//xeml:PositioningOntology" />
+      <xs:field xpath="@NS" />
+    </xs:key>
+    <xs:key name="Experiment-SampleProvider_Key">
+      <xs:selector xpath=".//xeml:DataProvider" />
+      <xs:field xpath="@Name" />
+    </xs:key>
+    <xs:key name="Experiment-Sample_Key">
+      <xs:selector xpath=".//xeml:Sample" />
+      <xs:field xpath="@Id" />
+    </xs:key>
+
+    <!--Creates a reference between a Sample and SampleMapping-->
+    <xs:keyref name="SampleMapping-SampleId" refer="Experiment-Sample_Key">
+      <xs:selector xpath=".//xeml:Data/xeml:SampleMapping">
+      </xs:selector>
+      <xs:field xpath="@sample" />
+    </xs:keyref>
+    <!--Creates a reference between SampleMapping and a DataProvider-->
+    <xs:keyref name="Sid-Provider_KeyRef" refer="Experiment-SampleProvider_Key">
+      <xs:selector xpath=".//xeml:Data/xeml:SampleMapping/xeml:Sid" />
+      <xs:field xpath="@Provider" />
+    </xs:keyref>
+  </xs:element>
+  <xs:complexType name="TXemlAnnotatableObject" abstract="true">
+    <xs:sequence>
+      <xs:element name="Annotation" type="TAnnotation" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TAnnotation">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Tag" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TExperiment">
+    <xs:sequence>
+      <xs:element name="Header" type="THeaderData" minOccurs="0" maxOccurs="1" />
+      <xs:element name="Story" type="TStory" minOccurs="1" maxOccurs="unbounded">
+        <!--creates a key for each IndividualPool within a Story-->
+        <xs:key name="Story-IndividualsPool_Key">
+          <xs:selector xpath=".//xeml:IndividualsPool" />
+          <xs:field xpath="@NS" />
+          <xs:field xpath="@GermPlasm" />
+        </xs:key>
+        <!--creates a reference between a Observation and the IndividualsPool where the Individual comes from-->
+        <xs:keyref name="Obs_IndividualsPools" refer="Story-IndividualsPool_Key">
+          <xs:selector xpath=".//xeml:ObservationPoint/xeml:Observation" />
+          <xs:field xpath="@poolNS" />
+          <xs:field xpath="@poolGermPlasm" />
+        </xs:keyref>
+        <!--creates a reference between a DestructiveObservation and the IndividualsPool where the Individual comes from-->
+        <xs:keyref name="DesObs_IndividualsPools" refer="Story-IndividualsPool_Key">
+          <xs:selector xpath=".//xeml:ObservationPoint/xeml:DestructiveObservation" />
+          <xs:field xpath="@poolNS" />
+          <xs:field xpath="@poolGermPlasm" />
+        </xs:keyref>
+        
+        <!--Defines a key for an Individual within a Story-->
+        <xs:key name="Story-Individual_Key">
+          <xs:selector xpath=".//xeml:Individual" />
+          <xs:field xpath="@Id" />
+        </xs:key>
+        <!--creates a reference between a Observation and the observed Individual-->
+        <xs:keyref name="Obs_Individual" refer="Story-Individual_Key">
+          <xs:selector xpath=".//xeml:ObservationPoint/xeml:Observation" />
+          <xs:field xpath="@individual" />
+        </xs:keyref>
+        <!--creates a reference between a Observation and the observed Individual-->
+        <xs:keyref name="DesObs_Individual" refer="Story-Individual_Key">
+          <xs:selector xpath=".//xeml:ObservationPoint/xeml:DestructiveObservation" />
+          <xs:field xpath="@individual" />
+        </xs:keyref>
+       
+        <!--makes the usage of a Variable-name from a certain namespace unique within a Story-->
+        <xs:unique name="Story-Variable_Key">
+          <xs:selector xpath="./xeml:Variable" />
+          <xs:field xpath="@NS" />
+          <xs:field xpath="@Name" />
+        </xs:unique>
+        <!--makes the usage of a Variable-TermId from a certain namespace unique within a Story-->
+        <xs:unique name="Story-VariableId_Key">
+          <xs:selector xpath="./xeml:Variable" />
+          <xs:field xpath="@NS" />
+          <xs:field xpath="@TermId" />
+        </xs:unique>
+        
+        <!--creates a key for each Partition within a story-->
+        <xs:key name="Story-Partition_Key">
+          <xs:selector xpath="./xeml:ObservationPoint/xeml:DestructiveObservation/xeml:Partition|./xeml:ObservationPoint/xeml:Observation/xeml:Partition" />
+          <xs:field xpath="@Id" />
+        </xs:key>
+        <!--creates a reference between a Sample an multiple Partitions-->
+        <xs:keyref name="Sample_Partition_Ref" refer="Story-Partition_Key">
+          <xs:selector xpath="./xeml:Sample/xeml:BioSource" />
+          <xs:field xpath="@partition" />
+        </xs:keyref>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="Name" type="xs:token" use="required" />
+    <xs:attribute name="Id" type="TGuid" use="required" />
+    <xs:attribute name="StartDate" type="xs:dateTime" />
+    <xs:attribute name="ObservationTime" type="TRelativeTime" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TExperimenter">
+    <xs:sequence />
+    <xs:attribute name="FirstName" type="xs:token" use="optional" />
+    <xs:attribute name="LastName" type="xs:token" use="optional" />
+    <xs:attribute name="Email" type="xs:string" use="optional" />
+    <xs:attribute name="Organisation" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="THeaderData">
+    <xs:sequence>
+      <xs:element name="Experimenter" type="TExperimenter" minOccurs="0" maxOccurs="1" />
+      <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="Keyword" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TResources">
+    <xs:sequence>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:choice>
+          <xs:element name="DataProvider" type="TDataProvider" />
+          <xs:element name="EnvironmentalOntology" type="TOntologyHandler" />
+          <xs:element name="GenotypeOntology" type="TOntologyHandler" />
+          <xs:element name="OrganismStructureOntology" type="TOntologyHandler" />
+          <xs:element name="DevelopmentalOntology" type="TOntologyHandler" />
+          <xs:element name="PositioningOntology" type="TOntologyHandler" />
+        </xs:choice>
+      </xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TOntologyHandler">
+    <xs:sequence />
+    <xs:attribute name="NS" type="xs:Name" use="required" />
+    <xs:attribute name="HandlerUri" type="xs:anyURI" />
+    <xs:attribute name="InstanceLocation" type="xs:anyURI" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TDataProvider">
+    <xs:sequence />
+    <xs:attribute name="ComponentId" type="TGuid" use="optional" />
+    <xs:attribute name="Name" type="xs:token" use="required" />
+    <xs:attribute name="ProviderUri" type="xs:anyURI" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TStory">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="IndividualsPool" type="TIndividualsPool" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="Variable" type="TDynamicTerm" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="ObservationPoint" type="TObservationPoint" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="Sample" type="TSample" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="Event" type="TEvent" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="StorySplit" type="TStorySplit" minOccurs="0" maxOccurs="unbounded">
+            <!--creates a key for each Partition within a Split-->
+            <xs:key name="StorySplit-Partition_Key">
+              <xs:selector xpath="./xeml:ObservationPoint/xeml:DestructiveObservation/xeml:Partition|./xeml:ObservationPoint/xeml:Observation/xeml:Partition" />
+              <xs:field xpath="@Id" />
+            </xs:key>
+            <!--creates a reference between a Sample an multiple Partitions-->
+            <xs:keyref name="Sample_Partition_Ref2" refer="StorySplit-Partition_Key">
+              <xs:selector xpath="./xeml:Sample/xeml:BioSource" />
+              <xs:field xpath="@partition" />
+            </xs:keyref>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Label" type="xs:token" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TStorySplit">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="Variable" type="TDynamicTerm" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="ObservationPoint" type="TObservationPoint" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="Sample" type="TSample" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="Event" type="TEvent" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="StorySplit" type="TStorySplit" minOccurs="0" maxOccurs="unbounded">
+            <!--creates a key for each Partition within a Split, recursive-->
+            <xs:key name="StorySplit2-Partition_Key">
+              <xs:selector xpath="./xeml:ObservationPoint/xeml:DestructiveObservation/xeml:Partition|./xeml:ObservationPoint/xeml:Observation/xeml:Partition" />
+              <xs:field xpath="@Id" />
+            </xs:key>
+            <!--creates a reference between a Sample an multiple Partitions, recursive-->
+            <xs:keyref name="Sample_Partition_Ref3" refer="StorySplit2-Partition_Key">
+              <xs:selector xpath="./xeml:Sample/xeml:BioSource" />
+              <xs:field xpath="@partition" />
+            </xs:keyref>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Label" type="xs:token" />
+        <xs:attribute name="TimePoint" type="TRelativeTime" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TIndividualsPool">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="Individual" type="TIndividual" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="NS" type="xs:Name" use="optional" default="none" />
+        <xs:attribute name="GermPlasm" type="xs:token" use="required" />
+        <xs:attribute name="TermId" type="xs:Name" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TIndividual">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="Id" type="xs:nonNegativeInteger" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TDynamicTerm">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="ValueSet" type="TValueSet" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="Tracking" type="TTracking" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="Name" type="xs:token" use="required" />
+        <xs:attribute name="NS" type="xs:Name" default="none" use="optional" />
+        <xs:attribute name="GroupPath" type="xs:token" use="optional" />
+        <xs:attribute name="TermId" type="xs:Name" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TVariableTerm">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="Value" type="TValue" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="term" type="xs:token" use="required" />
+        <xs:attribute name="NS" type="xs:Name" default="none" use="optional" />
+        <xs:attribute name="TermId" type="xs:Name" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TValueSet">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Value" type="TValue" />
+          <xs:element name="Cycle" type="TCycle" />
+        </xs:choice>
+      </xs:sequence>
+    </xs:sequence>
+    <xs:attribute name="TimePoint" type="TRelativeTime" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TValue">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Context" type="xs:Name" use="required" />
+        <xs:attribute name="Unit" type="xs:token" use="optional" />
+        <xs:attribute name="Label" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TCycle">
+    <xs:sequence>
+      <xs:element name="Value" type="TCycleValue" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="Context" type="xs:Name" use="required" />
+    <xs:attribute name="Unit" type="xs:token" use="optional" />
+    <xs:attribute name="Label" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="TCycleValue">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Duration" type="TRelativeTime" />
+        <xs:attribute name="Label" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TTracking">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="Value" type="TTrackingValue" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="Source" type="xs:string" />
+        <xs:attribute name="InitTime" type="xs:dateTime" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TTrackingValue">
+    <xs:simpleContent>
+      <xs:extension base="TValue">
+        <xs:attribute name="Time" type="TRelativeTime" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TEvent">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="TimePoint" type="TRelativeTime" use="required" />
+        <xs:attribute name="Label" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TObservationPoint">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="Observation" type="TObservation">
+              </xs:element>
+              <xs:element name="DestructiveObservation" type="TDestructiveObservation">
+              </xs:element>
+            </xs:choice>
+          </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="TargetTime" type="TRelativeTime" use="required" />
+        <xs:attribute name="Id" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TBaseObservation" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="Partition" type="TPartition" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+          <xs:element name="DevelopmentalStage" type="TTerm" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="individual" type="xs:nonNegativeInteger" use="optional" />
+        <xs:attribute name="Duration" type="TRelativeTime" />
+        <xs:attribute name="poolNS" type="xs:Name" use="required" />
+        <xs:attribute name="poolGermPlasm" type="xs:token" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TObservation">
+    <xs:complexContent>
+      <xs:extension base="TBaseObservation">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="IndividualInfluence" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TDestructiveObservation">
+    <xs:complexContent>
+      <xs:extension base="TBaseObservation">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TPartition">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:sequence>
+            <xs:element name="Material" type="TTerm" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+          <xs:sequence>
+            <xs:element name="Position" type="TVariableTerm" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="Id" type="xs:nonNegativeInteger" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TTerm">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence />
+        <xs:attribute name="term" type="xs:token" use="required" />
+        <xs:attribute name="NS" type="xs:Name" use="optional" default ="none" />
+        <xs:attribute name="TermId" type="xs:Name" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TSample">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="BioSource" type="TBioSource" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="Id" type="xs:nonNegativeInteger" />
+        <xs:attribute name="TimeIntermix" type="TTimeIntermix" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TBioSource">
+    <xs:sequence>
+    </xs:sequence>
+    <xs:attribute name="partition" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TDataMapping">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="SampleMapping" type="TSampleMapping" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TSampleMapping">
+    <xs:sequence>
+      <xs:element name="Sid" type="TSid" minOccurs="1" maxOccurs="unbounded">
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="sample" type="xs:nonNegativeInteger" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TSid">
+    <xs:complexContent>
+      <xs:extension base="TXemlAnnotatableObject">
+        <xs:sequence>
+          <xs:element name="Subkey" type="TSubKey" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="Provider" type="xs:token" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TSubKey">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Name" type="xs:token" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="TRelativeTime">
+    <xs:restriction base="xs:normalizedString">
+      <xs:pattern value="(([1-9][0-9]{0,3}\.){0,1}(([0-1][0-9]|[2][0-3]){1}(:[0-5][0-9]){0,2}))|[1-9][0-9]{0,3}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TDataType">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="Number" />
+      <xs:enumeration value="Text" />
+      <xs:enumeration value="Boolean" />
+      <xs:enumeration value="Date" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TGuid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\{([a-f]|[A-F]|[0-9]){8}-([a-f]|[A-F]|[0-9]){4}-([a-f]|[A-F]|[0-9]){4}-([a-f]|[A-F]|[0-9]){4}-([a-f]|[A-F]|[0-9]){12}\}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TTimeIntermix">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Min" />
+      <xs:enumeration value="Max" />
+      <xs:enumeration value="Mean" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
