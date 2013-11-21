@@ -17,7 +17,7 @@ and installation instructions.
 
 ## Documentation 
 ===========
-See DOC for Documentation on classes and code architecture. You will also fiund a short tutorial on how to use Xeml lab Software.
+See DOC for Documentation on classes and code architecture. You will also find a short tutorial on how to use Xeml lab Software.
 
 ##Problems and comments 
 =====================
