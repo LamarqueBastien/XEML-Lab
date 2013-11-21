@@ -26,7 +26,7 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 
 	QRectF sceneRect = this->sceneRect();
 	QLinearGradient gradient(sceneRect.topLeft(), sceneRect.topRight());
-	gradient.setColorAt(0, Qt::white);
+	gradient.setColorAt(0, Qt::gray);
 	//gradient.setColorAt(0.10, Qt::lightGray);
 	//gradient.setColorAt(0.25, Qt::gray);
 	//gradient.setColorAt(0.55, Qt::lightGray);
