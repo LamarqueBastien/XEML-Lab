@@ -132,6 +132,7 @@ StoryView::StoryView(QWidget *parent) :
 	zoomSliderLayout->addWidget(zoomFactorSelector);
 
 	QVBoxLayout  * layout = new QVBoxLayout;
+	QHBoxLayout  * infoLayout = new QHBoxLayout;
 	QHBoxLayout  * buttonlayout1 = new QHBoxLayout;
 	QHBoxLayout  * buttonlayout2 =new QHBoxLayout;
 	//QHBoxLayout  buttonlayout3 =new QHBoxLayout;

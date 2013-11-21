@@ -7,7 +7,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->current_doc=_current_doc;
 	this->story=_story;
 	this->posx=_posx;
-	this->posy=posy;
+	this->posy=_posy;
 	this->IsStorySplit=_IsStorySplit;
 	myHandlerWidth=2.0;
 	this->width=_width;
@@ -22,6 +22,10 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->storyLabel="root";
 
 	//this->setPos(0,posy);
+	QGraphicsTextItem * label_text=new QGraphicsTextItem(_story->get_label(),this);
+	std::cerr << "pos x in constructor :" << this->posx << std::endl;
+	std::cerr << "pos y in constructor :" << this->posy << std::endl;
+	label_text->setPos(0,this->posy);
 	setFlag(QGraphicsItem::ItemIsSelectable);
 	setFlag(QGraphicsItem::ItemIsMovable);
 	setFlag(QGraphicsItem::ItemIsFocusable);
@@ -51,7 +55,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->story=_story;
 	this->posx=_posx;
 	this->posy=_posy;
-	std::cerr << "pos x in constructor :" << this->posx << std::endl;
+
 	this->IsStorySplit=_IsStorySplit;
 	myHandlerWidth=2.0;
 	this->parent=_parent;
@@ -61,6 +65,10 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	//this->setParentItem(_parent);
 	this->rect=QRectF(posx, posy, this->width, 60);
 	this->storyLabel=_label;
+	QGraphicsTextItem * label_text=new QGraphicsTextItem(_label,this);
+	std::cerr << "pos x in constructor :" << this->posx << std::endl;
+	std::cerr << "pos y in constructor :" << this->posy << std::endl;
+	label_text->setPos(0,this->posy);
 	if(_IsStorySplit){
 		std::cerr << "storySplit width:" << this->width << std::endl;
 
