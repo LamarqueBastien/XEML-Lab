@@ -30,7 +30,7 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 	//GraphicStoryItem *my_third_item=new GraphicStoryItem("second split",true,0,positionY,my_item);
 	//positionY+=61;
 	//my_second_item->setParentItem(my_item);
-	;
+	//;
 	//this->addItem(my_second_item);
 	//this->addItem();
 	//this->addItem(my_third_item);
@@ -43,6 +43,7 @@ void GraphicStoryScene::changedSelection(){
 
 			case GraphicStoryItem::Type:
 				std::cerr << "story selected" << std::endl;
+				emit set_details_in_view(static_cast<GraphicStoryItem*>(selectedItems().at(i))->get_story());
 				//this->my_selected_story=static_cast<GraphicStoryItem*>(item);
 
 				break;
@@ -101,9 +102,9 @@ void GraphicStoryScene::createActions(){
 	show_details = new QAction(QIcon(":/Images/new.png"),tr("&Story_details"), this);
 	show_details->setShortcut(tr("Ctrl+S"));
 	show_details->setStatusTip(tr("Show details about story"));
-	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&Story_details"), this);
+	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&display plot parameters"), this);
 	display_plot->setShortcut(tr("Ctrl+S"));
-	display_plot->setStatusTip(tr("Show details about story"));
+	display_plot->setStatusTip(tr("Show plot about quantitative parameters values"));
 	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove Story"), this);
 	removeOP->setShortcut(tr("Ctrl+R"));
 	removeOP->setStatusTip(tr("Remove story and all its components"));
@@ -126,7 +127,7 @@ void GraphicStoryScene::remove_obsPoint(){
 	emit obsPoint2removed();
 }
 void GraphicStoryScene::display_plot_parameters(){
-
+	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
 void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 
@@ -176,6 +177,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
 					contextMenu =new QMenu("Details",mouseEvent->widget());
 					contextMenu->addAction(show_details);
+					contextMenu->addAction(display_plot);
 					contextMenu->exec(mouseEvent->screenPos());
 
 					break;
@@ -503,9 +505,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 							std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
 							if(mouse_point.x()>=0 && mouse_point.y()>=0){
 								shift=this->max_width-my_selected_story->get_parent()->get_rect().width();
-								story_startpoint=selected_story->mapFromParent(selected_story->pos().x(),selected_story->pos().y());
-								selectable_zone=this->max_width-my_selected_story->get_rect().width();
-								if(mouse_point.x()>=selectable_zone-40 && mouse_point.x()<=selectable_zone+40){
+								if(mouse_point.x()>=(selected_story->pos().x()+shift)-40 && mouse_point.x()<=(selected_story->pos().x()+shift)+40){
 									std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
 									selected_story->change();
 									//storysplit without childs
@@ -527,6 +527,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 										static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
 										selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),
 																														 static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
+										emit set_details_in_view(selected_story->get_story());
 									}
 								}
 

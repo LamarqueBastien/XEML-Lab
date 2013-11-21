@@ -104,6 +104,10 @@ namespace Xeml {
 			}
 			return false;
 		}
+		bool                                        StoryBase::contain_quantitative_variable(){
+
+		}
+
 		bool                                                   StoryBase::contain_variableId(QString _termId){
 			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it=this->variablesCollection->begin();it!=this->variablesCollection->end();++it){
 				if((*it).second==_termId){

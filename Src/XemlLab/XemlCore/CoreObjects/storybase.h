@@ -55,6 +55,7 @@ namespace Xeml {
 				bool                                                   contain_event(Event* event);
 				bool                                                   contain_variable(BasicTerm * t);
 				bool                                                   contain_variableId(QString _termId);
+				bool                                                   contain_quantitative_variable();
 				bool                                                   contain_obsPoint(ObservationPoint * _op);
 				void									               add_obsPoint(ObservationPoint* _op);
 				std::list<int> *									   rm_obsPoint(int _id);

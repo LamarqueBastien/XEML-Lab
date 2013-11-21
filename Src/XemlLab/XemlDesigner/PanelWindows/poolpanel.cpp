@@ -4,10 +4,10 @@ PoolPanel::PoolPanel(QWidget * parent)
 	:QWidget(parent)
 {
 	view = new QTableView();
-	model = new QStandardItemModel(1,1,this); //1 Rows and 1 Columns
+	model = new QStandardItemModel(1,2,this); //1 Rows and 2 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("individuals Id")));
-
-
+	model->setHorizontalHeaderItem(1, new QStandardItem(QString("Pool Id")));
+	model->setHorizontalHeaderItem(2, new QStandardItem(QString("ObservationPoint Id")));
 	view->setModel(model);
 	QHBoxLayout * mainLayout= new QHBoxLayout;
 	mainLayout->addWidget(view);
@@ -17,10 +17,12 @@ PoolPanel::PoolPanel(QWidget * parent)
 }
 void PoolPanel::initialize(StoryBase * _story,bool _isStorySplit){
 
+
 	if(_isStorySplit){
 		model->setItem(0,1,new QStandardItem("none (same as parent"));
 	}
 	else{
+		QString fqName;
 		Story * current=static_cast<Story*>(_story);
 		std::vector<IndividualsPool*> *listpool= new std::vector<IndividualsPool*>();
 		std::vector<Individual*> *listind= new std::vector<Individual*>();
@@ -39,6 +41,7 @@ void PoolPanel::initialize(StoryBase * _story,bool _isStorySplit){
 		if(!listpool->empty()){
 
 			intnum=listpool->at(0)->count_individuals();
+			fqName=listpool->at(0)->get_germplasm();
 
 			for(std::map<TaggedAnnotation*,QString>::iterator it3 = listpool->at(0)->get_taggedannotation()->begin();it3!=listpool->at(0)->get_taggedannotation()->end();++it3){
 				listtag->push_back((*it3).first);
@@ -53,6 +56,8 @@ void PoolPanel::initialize(StoryBase * _story,bool _isStorySplit){
 		for(int i=0;i<intnum;i++){
 
 			model->setItem(i,0,new QStandardItem(QString::number(listind->at(i)->get_id())));
+			model->setItem(i,1,new QStandardItem(fqName));
+
 			for(size_t j = 0;j<listtag->size();j++){
 				model->setItem(i,j+1,new QStandardItem(listtag->at(j)->getAnnotation()));
 

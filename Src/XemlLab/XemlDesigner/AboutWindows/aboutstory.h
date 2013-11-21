@@ -12,13 +12,15 @@
 #include"PanelWindows/eventpanel.h"
 #include"PanelWindows/observationpanel.h"
 #include"CoreObjects/Utilities.h"
+#include"Interface/itfdocument.h"
+using namespace Xeml::Document;
 using namespace Xeml::Utilities;
 using namespace Xeml::Document::Contracts;
 class AboutStory : public QDialog
 {
 	Q_OBJECT
 	public:
-		AboutStory(QWidget * parent=0);
+		AboutStory(ItfDocument * _current_doc, QWidget * parent=0);
 		QListWidget           * listWidget;
 		QStackedLayout        * stackLayout;
 		QPushButton           * cancelButton;
@@ -28,6 +30,7 @@ class AboutStory : public QDialog
 		PoolPanel             * poolInfo;
 		EventPanel            * eventInfo;
 		ObservationPanel      * obsInfo;
+		ItfDocument           * current_doc;
 		void                    initialize(StoryBase * _currentStory,bool _IsStorySplit);
 
 	signals:

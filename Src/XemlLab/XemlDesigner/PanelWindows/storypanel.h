@@ -8,6 +8,10 @@
 #include"CoreObjects/storybase.h"
 #include"CoreObjects/story.h"
 #include"CoreObjects/storysplit.h"
+#include"CoreObjects/Utilities.h"
+#include"Interface/itfdocument.h"
+#include"CoreObjects/xemldocument.h"
+using namespace Xeml::Utilities;
 using namespace Xeml::Document;
 
 class StoryPanel : public QWidget
@@ -17,7 +21,7 @@ class StoryPanel : public QWidget
 		StoryPanel(QWidget * parent=0);
 		QTableView         * view;
 		QStandardItemModel * model;
-		void                 initialize(StoryBase * _story,bool _isStorySplit);
+		void                 initialize(ItfDocument * _current_doc, StoryBase * _story,bool _isStorySplit);
 
 };
 

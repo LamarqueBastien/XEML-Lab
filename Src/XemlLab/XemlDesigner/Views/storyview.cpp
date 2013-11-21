@@ -29,6 +29,16 @@ StoryView::StoryView(QWidget *parent) :
 
 	this->GraphicMode=true;
 
+	StoryLabelEdit= new QLineEdit;
+	StoryLabel=new QLabel("Label :");
+	StoryLabel->setBuddy(StoryLabelEdit);
+
+	StoryStartTime=new QDateTimeEdit;
+	StoryStartTime->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
+	StoryStartTime->setCalendarPopup(true);
+	StoryStartTimeLabel=new QLabel("Start time :");
+	StoryStartTimeLabel->setBuddy(StoryStartTime);
+
 	QString stylesheet("background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 			"border-style: outset;"
 			"border-width: 1px;"
@@ -145,6 +155,14 @@ StoryView::StoryView(QWidget *parent) :
 		layout->addWidget(this->storytree);
 	}
 
+	//info story line
+
+	infoLayout->addWidget(StoryLabel);
+	infoLayout->addWidget(StoryLabelEdit);
+	infoLayout->addStretch(4);
+	infoLayout->addWidget(StoryStartTimeLabel);
+	infoLayout->addWidget(StoryStartTime);
+
 	//first button line
 	buttonlayout1->addWidget(editExperiment);
 	buttonlayout1->addWidget(addstory);
@@ -160,10 +178,17 @@ StoryView::StoryView(QWidget *parent) :
 	buttonlayout2->addWidget(removeObsPoint);
 	buttonlayout2->addWidget(removeSample);
 	buttonlayout2->addWidget(rmEvent);
+	layout->addLayout(infoLayout);
 	layout->addLayout(buttonlayout1);
 	layout->addLayout(buttonlayout2);
-	//layout->addLayout(buttonlayout3);
+
 	setLayout(layout);
+
+	//connect(StoryLabelEdit,SIGNAL(textChanged(QString)),this,SLOT());
+	//connect()
+
+
+
 
 	connect(zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setupMatrix()));
 	connect(zoomInIcon, SIGNAL(clicked()), this, SLOT(zoomIn()));
@@ -179,7 +204,8 @@ StoryView::StoryView(QWidget *parent) :
 
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
-
+	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
+	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
 
 	connect(this->infoButton,SIGNAL(clicked()),this,SLOT(remove_parameter()));
 	connect(editExperiment,SIGNAL(clicked()),this,SLOT(edit_Experiment()));
@@ -216,6 +242,34 @@ StoryView::StoryView(QWidget *parent) :
 
 
 }
+void StoryView::display_plot(StoryBase * _story){
+	std::cerr << "entering display plot" << std::endl;
+
+	if (_story->get_variablesCollection()->empty()){
+		QMessageBox::information(this,"no parameter","no parameter to plot");
+
+	}
+	else{
+
+		this->graphicPlot=new PlotParameterView(_story,this->currentDoc);
+		this->graphicPlot->show();
+	}
+
+}
+
+void StoryView::reset_StoryName(QString label){
+
+}
+void StoryView::set_story_info(StoryBase* story){
+	this->StoryLabelEdit->setText(story->get_label());
+	if (story->get_IsStorySplit()){
+		this->StoryStartTime->setDateTime(static_cast<StorySplit*>(story)->get_timepoint());
+	}
+	else{
+		this->StoryStartTime->setDateTime(this->currentDoc->get_startdate());
+	}
+}
+
 void StoryView::set_up_zoom_factor(QString _zoomfactor){
 	zoomFactor=_zoomfactor.toInt();
 	emit refresh_story_view(this);
@@ -408,7 +462,7 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 
 //displays details about the selected story
 void StoryView::details_about_story(GraphicStoryItem* _storyselected){
-	this->aboutstory=new AboutStory();
+	this->aboutstory=new AboutStory(this->currentDoc);
 	this->aboutstory->initialize(_storyselected->get_story(),_storyselected->get_isStorySplit());
 	this->aboutstory->setVisible(true);
 }
@@ -432,7 +486,7 @@ void StoryView::clicSelection(QModelIndex _elementSelected)
 		else{
 			
 			StoryItem  * exp=static_cast<StoryItem*>(tmp);
-			this->aboutstory=new AboutStory();
+			this->aboutstory=new AboutStory(this->currentDoc);
 
 			this->aboutstory->initialize(exp->get_story(),exp->get_isStorySplit());
 			this->aboutstory->setVisible(true);
@@ -637,6 +691,7 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 	//this->GraphicScene->setSceneRect(-150,-150,width+300,600);
 
 	if(GraphicMode){
+		this->StoryStartTime->setDateTime(this->currentDoc->get_startdate());
 		this->width=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),this->currentDoc->get_enddate()));
 		this->width*=zoomFactor;
 		this->GraphicScene->setSceneRect(-150,-150,width+300,6000);

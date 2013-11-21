@@ -35,6 +35,7 @@
 #include"DialogWindows/eventdialog.h"
 #include"Views/GraphicStoryView/graphicstoryview.h"
 #include"Views/GraphicStoryView/graphicstoryscene.h"
+#include"Views/plotparameterview.h"
 using Xeml::Document::Contracts::ItfOntologyTerm;
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Utilities;
@@ -50,6 +51,8 @@ class StoryView : public QWidget
 		QString              experimentName;
 		QTreeView          * storytree;
 		GraphicStoryView   * graphicStory;
+		PlotParameterView  * graphicPlot;
+		GraphicStoryScene  * GraphicScene;
 		QPushButton        * removestory;
 		QPushButton        * infoButton;
 		QPushButton        * editExperiment;
@@ -73,18 +76,23 @@ class StoryView : public QWidget
 		ObservationPointDialog * obsPoint;
 		int                  obsPointCount;
 		bool                 GraphicMode;
-		GraphicStoryScene  * GraphicScene;
+
 		int                  posY_item;
 		qreal                width;
 		QSlider            * zoomSlider;
 		int                  zoomFactor;
 		QComboBox          * zoomFactorSelector;
 		bool                 Is_timeline_visible;
+		QLineEdit          * StoryLabelEdit;
+		QLabel             * StoryLabel;
+		QDateTimeEdit      * StoryStartTime;
+		QLabel             * StoryStartTimeLabel;
 
 
 	public slots:
 		void zoomIn(int level = 1);
 		void zoomOut(int level = 1);
+
 	public:
 
 		explicit             StoryView(QWidget *parent = 0);
@@ -122,6 +130,7 @@ class StoryView : public QWidget
 	private slots:
 
 
+		void                 display_plot(StoryBase * _story);
 		void                 setupMatrix();
 		void                 set_up_zoom_factor(QString _zoomfactor);
 		void                 set_up_experimenter(QString _firstnametext,
@@ -153,6 +162,8 @@ class StoryView : public QWidget
 		void                 new_event();
 		void                 add_event(QString _storyName,QString _label,QDateTime _datetime);
 		void                 remove_event();
+		void                 reset_StoryName(QString label);
+		void                 set_story_info(StoryBase* story);
 
 
 

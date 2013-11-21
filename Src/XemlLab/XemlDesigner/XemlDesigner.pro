@@ -67,7 +67,9 @@ SOURCES += \
     XemlCSVLoader/loaderdatafilepage.cpp \
     XemlCSVLoader/loaderconclusionpage.cpp \
     XMLValidation/xmlsyntaxhighlighter.cpp \
-    XMLValidation/validationwindow.cpp
+    XMLValidation/validationwindow.cpp \
+    Views/plotparameterview.cpp \
+    Views/GraphicStoryView/graphicplotscene.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -129,7 +131,9 @@ HEADERS += \
     XemlCSVLoader/loaderdatafilepage.h \
     XemlCSVLoader/loaderconclusionpage.h \
     XMLValidation/xmlsyntaxhighlighter.h \
-    XMLValidation/validationwindow.h
+    XMLValidation/validationwindow.h \
+    Views/plotparameterview.h \
+    Views/GraphicStoryView/graphicplotscene.h
 
 RESOURCES += \
     Divers.qrc

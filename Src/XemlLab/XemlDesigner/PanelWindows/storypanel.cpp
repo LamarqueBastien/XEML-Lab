@@ -1,10 +1,11 @@
 #include "storypanel.h"
 
+
 StoryPanel::StoryPanel(QWidget * parent)
 	:QWidget(parent)
 {
 
-	model = new QStandardItemModel(2,6,this); //2 Rows and 3 Columns
+	model = new QStandardItemModel(1,6,this); //1 Rows and 6 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("Story Name")));
 	model->setHorizontalHeaderItem(1, new QStandardItem(QString("ind number")));
 	model->setHorizontalHeaderItem(2, new QStandardItem(QString("var number")));
@@ -19,7 +20,7 @@ StoryPanel::StoryPanel(QWidget * parent)
 	setLayout(mainLayout);
 	setWindowTitle(tr("story informations"));
 }
-void StoryPanel::initialize(StoryBase * _story,bool _isStorySplit){
+void StoryPanel::initialize(ItfDocument * _current_doc, StoryBase * _story,bool _isStorySplit){
 	model->setItem(0,0,new QStandardItem(_story->get_label()));
 	std::vector<IndividualsPool*> *list;
 	if(_isStorySplit){
@@ -29,7 +30,7 @@ void StoryPanel::initialize(StoryBase * _story,bool _isStorySplit){
 		model->setItem(0,1,new QStandardItem("none"));
 		model->setItem(0,2,new QStandardItem(QString::number(_story->count_variables())));
 		model->setItem(0,3,new QStandardItem(QString::number(_story->count_event())));
-		model->setItem(0,4,new QStandardItem(current->get_timepoint().toString("dd.hh:mm:ss")));
+		model->setItem(0,4,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(static_cast<XemlDocument*>(_current_doc)->get_startdate(), current->get_timepoint()))));
 	}
 	else{
 		TimeSpan * startpoint=new TimeSpan(0,0,0,0);
@@ -50,7 +51,7 @@ void StoryPanel::initialize(StoryBase * _story,bool _isStorySplit){
 		model->setItem(0,1,new QStandardItem(QString::number(intnum)));
 		model->setItem(0,2,new QStandardItem(QString::number(_story->count_variables())));
 		model->setItem(0,3,new QStandardItem(QString::number(_story->count_event())));
-		model->setItem(0,4,new QStandardItem(startpoint->get_timespan_Qstr_format()));
+		model->setItem(0,4,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(static_cast<XemlDocument*>(_current_doc)->get_startdate(),static_cast<XemlDocument*>(_current_doc)->get_startdate()))));
 		model->setItem(0,5,new QStandardItem(QString::number(list->size())));
 
 	}

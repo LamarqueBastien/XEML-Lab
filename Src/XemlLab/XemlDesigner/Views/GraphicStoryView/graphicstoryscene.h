@@ -18,6 +18,7 @@
 #include"CoreObjects/xemldocument.h"
 
 
+
 using namespace std;
 using namespace Xeml::Document;
 using namespace Xeml::Utilities;
@@ -50,6 +51,8 @@ class GraphicStoryScene : public QGraphicsScene
 		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);
 		void show_details_story(GraphicStoryItem * _storyselected);
+		void set_details_in_view(StoryBase * _story);
+		void on_displayed_plot_parameter(StoryBase * _story);
 	private:
 		QMenu * contextMenu;
 		QAction * show_details;
@@ -57,6 +60,7 @@ class GraphicStoryScene : public QGraphicsScene
 		QAction * removeOP;
 		QAction * removeStory;
 		ItfDocument * currentDoc;
+
 		GraphicEventItem * my_item;
 		GraphicStoryItem * my_second_item;
 		GraphicStoryItem * my_selected_story;
@@ -68,8 +72,6 @@ class GraphicStoryScene : public QGraphicsScene
 	private slots:
 
 		void remove_obsPoint();
-
-
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);

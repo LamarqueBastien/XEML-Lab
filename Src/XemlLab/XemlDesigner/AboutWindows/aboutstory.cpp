@@ -1,9 +1,10 @@
 #include "aboutstory.h"
 
-AboutStory::AboutStory(QWidget * parent)
+AboutStory::AboutStory(ItfDocument * _current_doc, QWidget * parent)
 :QDialog(parent)
 {
 
+	this->current_doc=_current_doc;
 	this->cancelButton = new QPushButton("Cancel");
 	this->cancelButton->setCursor(Qt::PointingHandCursor);
 	this->okButton = new QPushButton("OK");
@@ -50,7 +51,7 @@ void AboutStory::initialize(StoryBase * _currentStory,bool _ISStorySplit){
 
 	
 
-	this->storyInfo->initialize(_currentStory,_ISStorySplit);
+	this->storyInfo->initialize(this->current_doc,_currentStory,_ISStorySplit);
 	this->parameterInfo->initialize(_currentStory,_ISStorySplit);
 	this->poolInfo->initialize(_currentStory,_ISStorySplit);
 	this->eventInfo->initialize(_currentStory,_ISStorySplit);
