@@ -33,8 +33,8 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 	//gradient.setColorAt(0.65, Qt::white);
 	//gradient.setColorAt(0.75, Qt::lightGray);
 	//gradient.setColorAt(0.85, Qt::gray);
-	gradient.setColorAt(0.5, Qt::lightGray);
-	gradient.setColorAt(1, Qt::white);
+	gradient.setColorAt(0.5, Qt::gray);
+	gradient.setColorAt(1, Qt::gray);
 	p->fillRect(rect.intersected(sceneRect), gradient);
 	p->setBrush(Qt::NoBrush);
 	p->drawRect(sceneRect);
