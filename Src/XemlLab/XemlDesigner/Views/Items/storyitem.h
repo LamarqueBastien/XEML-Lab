@@ -12,7 +12,7 @@ using namespace Xeml::Document;
 using namespace Xeml::Document::Contracts;
 
 
-#include"term.h"
+
 
 //typedef enum
 //  {
