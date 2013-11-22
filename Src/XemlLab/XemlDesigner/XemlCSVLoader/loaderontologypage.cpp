@@ -8,6 +8,7 @@ LoaderOntologyPage::LoaderOntologyPage(QStandardItemModel * _model,int _column,i
 	std::cerr << "create onto page "<< std::endl;
 	this->termPage=new LoaderTermPage(_xeml_res);
 	this->storypage=new LoaderStoryPage(_model,_column,_row,_doc);
+	this->storypage->createExperiment(_doc);
 	//this->timepage=new LoaderDateTimePage(_row);
 
 	this->finishButton=new QPushButton("Finish");

@@ -11,6 +11,8 @@ LoaderStoryPage::LoaderStoryPage(QStandardItemModel * _model,int _column,int _ro
 	this->bottomLabel= new QLabel("<i>Double click a node to select it</i>");
 	this->storytree= new QTreeView;
 	this->my_treestory= _model;//new QStandardItemModel;
+
+	//std::cerr << "my model count : " << my_treestory->i
 	this->storyChosen=new QLineEdit;
 	this->okButton=new QPushButton("OK");
 	this->okButton->setEnabled(false);
