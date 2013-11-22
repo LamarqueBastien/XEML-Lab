@@ -72,7 +72,7 @@ namespace Xeml{
 			qint64 second_since_start=startDate.toMSecsSinceEpoch();
 			//std::cerr << startDate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
 			qint64 second_from_now=_currentdate.toMSecsSinceEpoch();
-			std::cerr << _currentdate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+			//std::cerr << _currentdate.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
 
 			qint64 diff=second_from_now-second_since_start;
 			//std::cerr << "diff in getSecondFromDate : " << diff << std::endl;

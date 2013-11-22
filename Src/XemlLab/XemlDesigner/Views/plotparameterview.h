@@ -5,9 +5,11 @@
 #include<QTabWidget>
 #include<QGraphicsView>
 #include<QVBoxLayout>
+#include <QGraphicsPathItem>
 #include<Views/GraphicStoryView/graphicplotscene.h>
 #include"CoreObjects/storybase.h"
 #include"Interface/itfdocument.h"
+#include"Div/qcustomplot.h"
 
 using namespace Xeml::Document;
 

@@ -1,7 +1,7 @@
 
 QT += core gui xml xmlpatterns network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+QT += printsupport
 TARGET = XemlDesigner
 TEMPLATE = app
 
@@ -69,7 +69,8 @@ SOURCES += \
     XMLValidation/xmlsyntaxhighlighter.cpp \
     XMLValidation/validationwindow.cpp \
     Views/plotparameterview.cpp \
-    Views/GraphicStoryView/graphicplotscene.cpp
+    Views/GraphicStoryView/graphicplotscene.cpp \
+    Div/qcustomplot.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -133,7 +134,8 @@ HEADERS += \
     XMLValidation/xmlsyntaxhighlighter.h \
     XMLValidation/validationwindow.h \
     Views/plotparameterview.h \
-    Views/GraphicStoryView/graphicplotscene.h
+    Views/GraphicStoryView/graphicplotscene.h \
+    Div/qcustomplot.h
 
 RESOURCES += \
     Divers.qrc

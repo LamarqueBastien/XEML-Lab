@@ -159,9 +159,9 @@ StoryView::StoryView(QWidget *parent) :
 
 	infoLayout->addWidget(StoryLabel);
 	infoLayout->addWidget(StoryLabelEdit);
-	infoLayout->addStretch(4);
 	infoLayout->addWidget(StoryStartTimeLabel);
 	infoLayout->addWidget(StoryStartTime);
+	infoLayout->addStretch(4);
 
 	//first button line
 	buttonlayout1->addWidget(editExperiment);
