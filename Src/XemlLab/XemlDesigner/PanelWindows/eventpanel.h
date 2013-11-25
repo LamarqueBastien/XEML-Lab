@@ -8,7 +8,10 @@
 #include"CoreObjects/story.h"
 #include"CoreObjects/storysplit.h"
 #include"CoreObjects/event.h"
+#include"CoreObjects/Utilities.h"
+#include"Interface/itfdocument.h"
 using namespace Xeml::Document;
+using namespace Xeml::Utilities;
 
 class EventPanel : public QWidget
 {
@@ -17,12 +20,14 @@ class EventPanel : public QWidget
 		EventPanel(bool _RemoveMode,QWidget * parent=0);
 		QTableView         * view;
 		QStandardItemModel * model;
-		void                 initialize(StoryBase * _story,bool _isStorySplit);
+		void initialize(ItfDocument * _doc, StoryBase * _story,bool _isStorySplit);
 		QPushButton * removeButton;
 		QPushButton * cancelButton;
 
 	private slots:
 		void remove_event();
+	signals:
+		void on_close_window();
 	private:
 		StoryBase * current_story;
 };

@@ -23,7 +23,7 @@ EventPanel::EventPanel(bool _RemoveMode,QWidget * parent)
 	setWindowTitle(tr("event informations"));
 
 }
-void EventPanel::initialize(StoryBase * _story,bool _isStorySplit){
+void EventPanel::initialize(ItfDocument * _doc,  StoryBase * _story,bool _isStorySplit){
 	int cpt;
 	this->current_story=_story;
 	if(_isStorySplit){
@@ -42,7 +42,7 @@ void EventPanel::initialize(StoryBase * _story,bool _isStorySplit){
 		for(std::map<Event*,QDateTime>::iterator it = current->get_eventcollection()->begin();it!=current->get_eventcollection()->end();++it){
 
 			model->setItem(cpt,0,new QStandardItem((*it).first->get_label()));
-			model->setItem(cpt,1,new QStandardItem((*it).first->get_timepoint().toString("dd.hh:mm:ss")));
+			model->setItem(cpt,1,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_doc->get_startdate(),(*it).first->get_timepoint()))));
 			cpt++;
 		}
 	}
@@ -60,6 +60,7 @@ void EventPanel::remove_event(){
 
 	}
 	this->close();
+	emit on_close_window();
 }
 
 

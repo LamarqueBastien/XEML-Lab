@@ -108,11 +108,14 @@ void GraphicStoryScene::createActions(){
 	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove Observation"), this);
 	removeOP->setShortcut(tr("Ctrl+R"));
 	removeOP->setStatusTip(tr("Remove observation Point"));
+	removeEvent = new QAction(QIcon(":/Images/new.png"),tr("&Remove"), this);
+	removeEvent->setShortcut(tr("Ctrl+R"));
+	removeEvent->setStatusTip(tr("Remove event"));
 
 	connect(show_details, SIGNAL(triggered()), this, SLOT(details_story()));
 	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));
 	connect(removeOP, SIGNAL(triggered()), this, SLOT(remove_obsPoint()));
-
+	connect(removeEvent,SIGNAL(triggered()),this,SLOT(remove_event()));
 }
 
 void GraphicStoryScene::createMenus(){
@@ -126,6 +129,11 @@ void GraphicStoryScene::details_story(){
 void GraphicStoryScene::remove_obsPoint(){
 	emit obsPoint2removed();
 }
+void GraphicStoryScene::remove_event(){
+	emit event2removed();
+
+}
+
 void GraphicStoryScene::display_plot_parameters(){
 	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
@@ -185,6 +193,13 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
 					contextMenu =new QMenu("Remove Story",mouseEvent->widget());
 					contextMenu->addAction(removeOP);
+					contextMenu->exec(mouseEvent->screenPos());
+
+					break;
+				case GraphicEventItem::Type:
+					this->my_selected_event=static_cast<GraphicEventItem*>(item);
+					contextMenu =new QMenu("Remove",mouseEvent->widget());
+					contextMenu->addAction(removeEvent);
 					contextMenu->exec(mouseEvent->screenPos());
 
 					break;

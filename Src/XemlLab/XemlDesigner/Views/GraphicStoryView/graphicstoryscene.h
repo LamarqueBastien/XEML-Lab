@@ -48,6 +48,7 @@ class GraphicStoryScene : public QGraphicsScene
 
 	signals:
 
+		void event2removed();
 		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);
 		void show_details_story(GraphicStoryItem * _storyselected);
@@ -59,6 +60,7 @@ class GraphicStoryScene : public QGraphicsScene
 		QAction * display_plot;
 		QAction * removeOP;
 		QAction * removeStory;
+		QAction * removeEvent;
 		ItfDocument * currentDoc;
 
 		GraphicEventItem * my_item;
@@ -72,6 +74,7 @@ class GraphicStoryScene : public QGraphicsScene
 	private slots:
 
 		void remove_obsPoint();
+		void remove_event();
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);

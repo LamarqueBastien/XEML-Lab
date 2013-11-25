@@ -83,6 +83,27 @@ void PlotParameterView::initialize(){
 					counter++;
 				}
 			}
+
+
+			/***********************************
+			 * add bar plot representation *****
+
+			plot->xAxis->setLabel("Time (days)");
+			plot->yAxis->setLabel(unit);
+
+			// set axes ranges, so we see all data:
+
+			plot->xAxis->setRange(0, x_length);
+			plot->xAxis->setTickLength(24);
+			plot->yAxis->setRange(0, 100);
+			QCPBars *newBars = new QCPBars(plot->xAxis, plot->yAxis);
+			plot->addPlottable(newBars);
+			newBars->setName("Parameter plot");
+			newBars->setData(x, y);
+			*/
+
+
+			//plot representation
 			plot->addGraph();
 			plot->graph(0)->setData(x, y);
 			// give the axes some labels:
@@ -93,6 +114,7 @@ void PlotParameterView::initialize(){
 			plot->xAxis->setRange(0, x_length);
 			plot->xAxis->setTickLength(24);
 			plot->yAxis->setRange(0, 100);
+
 			plot->replot();
 		}
 	}

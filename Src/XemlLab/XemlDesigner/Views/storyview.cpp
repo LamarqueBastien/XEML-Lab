@@ -221,6 +221,7 @@ StoryView::StoryView(QWidget *parent) :
 
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
+	connect(this->GraphicScene,SIGNAL(event2removed()),this,SLOT(remove_event()));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
 
@@ -1326,7 +1327,7 @@ void StoryView::add_observationPoint(){
 	}
 
 }
-void StoryView::on_remove_obspoint(){
+void StoryView::send_refresh_story_signal(){
 	std::cerr << "entering on remove obspoint (StoryView) " << std::endl;
 	emit refresh_story_view(this);
 }
@@ -1339,7 +1340,7 @@ void StoryView::remove_obs_point(){
 			ObservationPointPanel * opp =new ObservationPointPanel(true);
 			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
 			opp->show();
-			connect(opp,SIGNAL(on_close_window()),this,SLOT(on_remove_obspoint()));
+			connect(opp,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
 
 			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
 		}
@@ -1436,14 +1437,16 @@ void StoryView::add_event(QString _storyName,QString _label,QDateTime _datetime)
 		parent->get_story()->add_event(e);
 	}
 }
+
 void StoryView::remove_event(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 
 			EventPanel * eventInfo=new EventPanel(true);
-			eventInfo->initialize(current_storyNode->get_story(),current_storyNode->get_isStorySplit());
+			eventInfo->initialize(this->currentDoc,current_storyNode->get_story(),current_storyNode->get_isStorySplit());
 			eventInfo->setVisible(true);
+			connect(eventInfo,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
 		}
 		else{
 			QMessageBox::information(this,"no selection","no story selected");
@@ -1464,7 +1467,7 @@ void StoryView::remove_event(){
 			else{
 
 				EventPanel * eventInfo=new EventPanel(true);
-				eventInfo->initialize(tmp->get_story(),tmp->get_isStorySplit());
+				eventInfo->initialize(this->currentDoc,tmp->get_story(),tmp->get_isStorySplit());
 				eventInfo->setVisible(true);
 			}
 		}

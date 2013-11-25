@@ -54,6 +54,6 @@ void AboutStory::initialize(StoryBase * _currentStory,bool _ISStorySplit){
 	this->storyInfo->initialize(this->current_doc,_currentStory,_ISStorySplit);
 	this->parameterInfo->initialize(_currentStory,_ISStorySplit);
 	this->poolInfo->initialize(_currentStory,_ISStorySplit);
-	this->eventInfo->initialize(_currentStory,_ISStorySplit);
+	this->eventInfo->initialize(this->current_doc,_currentStory,_ISStorySplit);
 	this->obsInfo->initialize(_currentStory,_ISStorySplit);
 }
