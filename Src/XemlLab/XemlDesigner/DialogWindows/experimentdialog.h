@@ -7,6 +7,7 @@
 #include<QLineEdit>
 #include<iostream>
 #include <QDateTimeEdit>
+#include<QTextEdit>
 #include<ctime>
 #include"Interface/itfdocument.h"
 using namespace std;
@@ -20,11 +21,14 @@ class ExperimentDialog : public QDialog
 			QLineEdit     * experimentlabelEdit;
 			QLabel        * experimentstartDate;
 			QLabel        * experimentEndDate;
+			QLabel        * descriptionLabel;
 			//QLineEdit     * startdateEdit;
 			QPushButton   * cancelButton;
 			QPushButton   * okButton;
 			QDateTimeEdit * startdateEdit;
 			QDateTimeEdit * enddateEdit;
+			QTextEdit     * descriptionEdit;
+
 			ItfDocument   * current_doc;
 
 		public:

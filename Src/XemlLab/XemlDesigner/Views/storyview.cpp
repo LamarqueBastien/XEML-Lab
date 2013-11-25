@@ -1200,6 +1200,26 @@ void StoryView::add_samples(){
 
 
 }
+void StoryView::remove_samples(){
+	if(GraphicMode){
+		if(this->GraphicScene->get_selected_story()!=NULL){
+			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+
+
+
+			ObservationPointPanel * opp =new ObservationPointPanel(true);
+			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
+			opp->show();
+			connect(opp,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
+
+			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
+		}
+		else{
+			QMessageBox::information(this,"added element","no story selected");
+		}
+	}
+}
 
 
 //observationpoint slots

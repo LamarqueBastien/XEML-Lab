@@ -160,6 +160,7 @@ class StoryView : public QWidget
 		void                 send_refresh_story_signal();
 		void                 add_genotype(QString _idtext,QString _freetext,QString _taxontext);
 		void                 add_samples();
+		void                 remove_samples();
 		void                 choose_obsPoint();
 		void                 new_event();
 		void                 add_event(QString _storyName,QString _label,QDateTime _datetime);

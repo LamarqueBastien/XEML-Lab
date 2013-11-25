@@ -33,7 +33,7 @@ void StoryPanel::initialize(ItfDocument * _current_doc, StoryBase * _story,bool 
 		model->setItem(0,4,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(static_cast<XemlDocument*>(_current_doc)->get_startdate(), current->get_timepoint()))));
 	}
 	else{
-		TimeSpan * startpoint=new TimeSpan(0,0,0,0);
+		//TimeSpan * startpoint=new TimeSpan(0,0,0,0);
 		Story * current=static_cast<Story*>(_story);
 		list= new std::vector<IndividualsPool*>();
 		for(std::map<IndividualsPool*,QString>::iterator it = current->get_individualspoolcollection()->begin();it!=current->get_individualspoolcollection()->end();++it){

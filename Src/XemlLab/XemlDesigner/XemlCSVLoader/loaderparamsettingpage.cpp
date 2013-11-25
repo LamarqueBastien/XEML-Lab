@@ -100,6 +100,7 @@ void LoaderParamSettingPage::store_information_term(int column,int _row,ItfOntol
 
 }
 void LoaderParamSettingPage::store_information_story(int column,int _row,StoryNode * _storynode){
+	Q_UNUSED(column)
 	this->model->setItem(_row,2,new QStandardItem(_storynode->get_story()->get_label()));
 	//this->stories->at(_row)=_storynode;
 }

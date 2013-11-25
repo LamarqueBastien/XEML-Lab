@@ -58,6 +58,7 @@ StorySplitDialog::StorySplitDialog(ItfDocument * _xemlDoc, QVariant  _element_se
 
 }
 void StorySplitDialog::enabledOkButton(const QString & text){
+	Q_UNUSED(text)
 	this->okButton->setEnabled(true);
 }
 void StorySplitDialog::valid_date_time(QDateTime time_split){

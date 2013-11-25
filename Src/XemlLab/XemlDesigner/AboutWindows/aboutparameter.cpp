@@ -492,20 +492,20 @@ void AboutParameter::initialize(){
 
 void AboutParameter::set_up_qualitativeValue(DynamicValue * _v){
 
-
+	Q_UNUSED(_v)
 	//regler les differents attributs de ce term
 	//envoyer le term regle en parametre de set_up_finished(ItfOntologyTerm * _term)
 	//ce signal sera recu par storyview dans la fonction set_up_parameter()
 	//emit set_up_finished();
 }
 void             AboutParameter::set_up_responseRangeValue(DynamicValue * _v){
-
+	Q_UNUSED(_v)
 }
 
 void             AboutParameter::set_up_quantitativeValue(DynamicValue * _v){
-
+	Q_UNUSED(_v)
 }
 
 void             AboutParameter::set_up_freeTextValue(DynamicValue * _v){
-
+	Q_UNUSED(_v)
 }

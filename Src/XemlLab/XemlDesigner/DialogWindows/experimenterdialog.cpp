@@ -62,6 +62,7 @@ ExperimenterDialog::ExperimenterDialog(ItfDocument * _xemlDoc, QWidget * parent)
 
 }
 void ExperimenterDialog::enabledOkButton(const QString &text){
+	Q_UNUSED(text)
 	this->okButton->setEnabled(true);
 }
 void ExperimenterDialog::initialize(){

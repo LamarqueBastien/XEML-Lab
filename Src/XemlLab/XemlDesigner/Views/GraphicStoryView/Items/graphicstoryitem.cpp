@@ -198,13 +198,13 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 
 		qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
-		qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
+		//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
 		qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 
 		QPointF point2=QPointF(posx,parent_y+parent_h/2);//rect.height()-((3*rect.height())/2)+posy);
 		//ajouter ici le nouveau type "AnchorStoryItem"
 
-		AnchorStoryItem * ancre=new AnchorStoryItem(posx,parent_y+parent_h/2,this);
+		//AnchorStoryItem * ancre=new AnchorStoryItem(posx,parent_y+parent_h/2,this);
 		//_painter->drawRect;
 
 		QLineF  * tmp_line=new QLineF(posx,parent_y+parent_h/2,posx,posy+parent_h/2);

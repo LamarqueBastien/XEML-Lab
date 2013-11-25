@@ -15,6 +15,7 @@ namespace Xeml {
 			this->uri="http://www.mpimp-golm.mpg.de/2009/XEML/XemlDocument";
 			this->xmlNameSpace= "http://www.mpimp-golm.mpg.de/2009/XEML";
 			this->XemlVersion= "1.1.0";
+			this->description="";
 			NewId();
 			this->experiment_name= "";//New experiment
 			//this->storyBoard->set_obs_time(QDateTime::fromString("28.00:00:00","dd.hh:mm:ss"));//new TimeSpan(100,0,0,0));
@@ -1377,6 +1378,12 @@ namespace Xeml {
 		}
 		QString           XemlDocument::put_id_in_string(QUuid _id){
 			return _id.toString();
+		}
+		QString  XemlDocument::get_description(){
+			return this->description;
+		}
+		void XemlDocument::set_description(QString _description){
+			this->description=_description;
 		}
 	}
 }

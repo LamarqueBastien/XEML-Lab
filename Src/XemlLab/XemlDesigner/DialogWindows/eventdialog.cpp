@@ -71,6 +71,7 @@ EventDialog::EventDialog(ItfDocument * _xemldoc,StoryBase * _story,QWidget * par
 
 }
 void EventDialog::enabledOkButton(const QString & text){
+	Q_UNUSED(text)
 	this->okButton->setEnabled(true);
 }
 void EventDialog::OkClicked(){

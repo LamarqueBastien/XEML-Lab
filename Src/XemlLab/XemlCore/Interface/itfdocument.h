@@ -43,6 +43,8 @@ namespace Xeml {
 					virtual void                set_obs_time(QString _time)=0;
 					virtual QString             get_experiment_name()=0;
 					virtual QString             get_xemlcode()=0;
+					virtual QString             get_description()=0;
+					virtual void             set_description(QString _description)=0;
 					virtual DocumentResources * get_doc_resources()=0;
 					virtual ExperimentHeader  * get_experimentheader()=0;
 					virtual StoryBoard        * get_storyboard()=0;

@@ -11,7 +11,25 @@ here is the documentation on classes and code architecture. You also found a sho
 ##Sources 
 =======
 
- Sources are divided into Ontologies  and Graphic interface related classes. All components of Xeml format ( i.e. all tags in the Xml based document) are located in Ontologies folder while all graphical component are in  Xeml Designer folder.
+ Sources are divided into XemlCore classes and Graphical interface related classes. All components of Xeml format ( i.e. all tags in the Xml based document) are located in XemlCore/CoreObjects folder while all graphical component are in  Xeml Designer folder.
+ 
+###Example Xeml file
+=====================
+ 
+ 	<?xml version="1.0" encoding="utf-16"?>
+	<xeml:XEMLDocument XemlVersion="1.1.0" xmlns:xeml="http://www.mpimp-golm.mpg.de/2009/XEML">
+	<xeml:Resources>
+    <xeml:EnvironmentalOntology NS="XEO" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/49450?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" HandlerUri="http://xeml.mpimp-golm.mpg.de/xemlobo" />
+    <xeml:EnvironmentalOntology NS="EO" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/45260?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" HandlerUri="http://xeml.mpimp-golm.mpg.de/xemleo" />
+    <xeml:EnvironmentalOntology NS="EnvO" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/47614?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" HandlerUri="http://xeml.mpimp-golm.mpg.de/xemlenvo" />
+    <xeml:OrganismStructureOntology NS="PO_Structure" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/47887?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" HandlerUri="http://www.plantontology.org/PlantStructure" />
+    <xeml:DevelopmentalOntology NS="PO_Development" InstanceLocation="http://rest.bioontology.org/bioportal/ontologies/download/47838?apikey=db0a05bc-af0e-4e24-99e6-02f2cb830b7d" HandlerUri="http://www.plantontology.org/DevelopmentalStage" />
+    <xeml:PositioningOntology NS="XEO_Positioning" InstanceLocation="http://xeml.mpimp-golm.mpg.de/2007/XeO/PosO.xml" HandlerUri="http://www.mpimp-golm.mpg.de/2009/XEML/Positioning" />
+  	</xeml:Resources>
+	<xeml:Experiment Id="{f9632d75-2670-4e46-b1f5-b1279bc8707c}" Name="New experiment" ObservationTime="35.00:00:00" StartDate="2009-07-08T12:39:00">
+		<xeml:Story Label="base line" />
+	</xeml:Experiment>
+</xeml:XEMLDocument>`.
 
 ##Developers Notes
 ==============

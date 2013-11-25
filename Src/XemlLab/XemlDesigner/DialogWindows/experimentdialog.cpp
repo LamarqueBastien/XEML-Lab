@@ -4,7 +4,10 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	: QDialog(parent)
 {
 	this->current_doc=_xeml_doc;
-	this->experimentlabel = new QLabel(tr("experiment Label :"));
+	this->experimentlabel = new QLabel(tr("Experiment Label :"));
+	this->descriptionLabel =new QLabel(tr("Description :"));
+	this->descriptionEdit=new QTextEdit();
+	this->descriptionLabel->setBuddy(descriptionEdit);
 	this->experimentlabelEdit = new QLineEdit;
 	this->experimentlabel->setBuddy(experimentlabelEdit);
 	this->experimentstartDate =new QLabel(tr("Start date : "));
@@ -37,13 +40,17 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	QHBoxLayout * topleftLayout2 = new QHBoxLayout;
 	topleftLayout2->addWidget(experimentstartDate);
 	topleftLayout2->addWidget(startdateEdit);
-	QHBoxLayout * topleftLayout3 = new QHBoxLayout;
 	topleftLayout2->addWidget(experimentEndDate);
 	topleftLayout2->addWidget(enddateEdit);
+	QHBoxLayout * topleftLayout3 = new QHBoxLayout;
+	topleftLayout3->addWidget(descriptionLabel);
+	topleftLayout3->addWidget(descriptionEdit);
+
 
 	QVBoxLayout * leftLayout = new QVBoxLayout;
-	leftLayout->addLayout(topleftLayout);
 	leftLayout->addLayout(topleftLayout2);
+	leftLayout->addLayout(topleftLayout);
+
 	leftLayout->addLayout(topleftLayout3);
 
 	QVBoxLayout * rightLayout = new QVBoxLayout;
@@ -62,9 +69,11 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 
 }
 void ExperimentDialog::enabledOkButton(const QString &text){
+	Q_UNUSED(text)
 	this->okButton->setEnabled(true);
 }
 void ExperimentDialog::initialize(){
+	this->descriptionEdit->setPlainText(this->current_doc->get_experimentheader()->get_summary());
 	this->experimentlabelEdit->setText(this->current_doc->get_experiment_name());
 	this->startdateEdit->setDateTime(this->current_doc->get_startdate());
 	this->enddateEdit->setDateTime(this->current_doc->get_enddate());
@@ -75,11 +84,13 @@ void ExperimentDialog::initialize(){
 void ExperimentDialog::OkClicked(){
 
 	QString text= experimentlabelEdit->text();
+	QString description=this->descriptionEdit->toPlainText();
 
 	this->current_doc->set_startdate(this->startdateEdit->dateTime());
 	qint64 seconds_ellapsed=get_seconds_from_date(this->startdateEdit->dateTime(),this->enddateEdit->dateTime());
 	this->current_doc->set_enddate(get_date(this->current_doc->get_startdate(),seconds_ellapsed));
-
+	this->current_doc->get_experimentheader()->set_summary(description);
+	//this->current_doc->set_description(description);
 	this->current_doc->set_experiment_name(experimentlabelEdit->text());
 	this->setEnabled(false);
 

@@ -67,6 +67,7 @@ namespace Xeml {
 				ExperimentHeader  * experimentheader;
 				StoryBoard        * storyBoard;
 				DocumentResources * documentResources;
+				QString             description;
 
 			public:
 
@@ -90,6 +91,9 @@ namespace Xeml {
 				QDateTime           get_startdate();
 				QDateTime           get_enddate();
 				QString             get_obs_time();
+				QString             get_description();
+				void                set_description(QString _description);
+
 				void                set_obs_time(QString   _time);
 				QString             get_experiment_name();
 				QString             get_xemlcode();

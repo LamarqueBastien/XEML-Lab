@@ -51,6 +51,9 @@ void LoaderOntologyPage::get_term(ItfOntologyTerm* _term ,QString _unit){
 //}
 void LoaderOntologyPage::get_story(int _column,int _row ,StoryNode * _story){
 	//emit send_story(this->column,this->row+1,_story);
+
+	Q_UNUSED(_column)
+	Q_UNUSED(_row)
 	this->story=_story;
 	//this->close();
 }
