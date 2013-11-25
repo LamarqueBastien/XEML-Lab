@@ -1208,10 +1208,10 @@ void StoryView::remove_samples(){
 
 
 
-			ObservationPointPanel * opp =new ObservationPointPanel(true);
-			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
-			opp->show();
-			connect(opp,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
+			//ObservationPointPanel * opp =new ObservationPointPanel(true);
+			//opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
+			//opp->show();
+			//connect(opp,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
 
 			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
 		}

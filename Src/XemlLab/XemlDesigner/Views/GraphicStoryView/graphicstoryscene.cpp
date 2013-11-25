@@ -681,6 +681,7 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 		this->addItem(tmp_line);
 		//group->addToGroup(tmp_line);
 		QGraphicsTextItem * tmp_text=new QGraphicsTextItem(QString::number(counter),tmp_timeline);
+		tmp_text->setRotation(60);
 
 		tmp_text->setFlag(QGraphicsItem::ItemIsSelectable,false);
 		tmp_text->setFlag(QGraphicsItem::ItemIsMovable,false);
@@ -689,7 +690,7 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 		tmp_text->setFont(serifFont);
 		//group->addToGroup(tmp_text);
 
-		tmp_text->setPos(i-8,-60);
+		tmp_text->setPos(i,-70);
 		counter++;
 		counter_hour=0;
 		k+=width/number_of_days;

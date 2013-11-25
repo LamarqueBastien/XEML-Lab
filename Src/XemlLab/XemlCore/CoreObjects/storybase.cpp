@@ -105,7 +105,7 @@ namespace Xeml {
 			return false;
 		}
 		bool                                        StoryBase::contain_quantitative_variable(){
-
+			return true;
 		}
 
 		bool                                                   StoryBase::contain_variableId(QString _termId){
