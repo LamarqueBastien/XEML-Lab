@@ -690,7 +690,7 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 		tmp_text->setFont(serifFont);
 		//group->addToGroup(tmp_text);
 
-		tmp_text->setPos(i,-70);
+		tmp_text->setPos(i,-80);
 		counter++;
 		counter_hour=0;
 		k+=width/number_of_days;
