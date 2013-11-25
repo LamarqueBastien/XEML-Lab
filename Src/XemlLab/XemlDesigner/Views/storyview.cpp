@@ -10,6 +10,7 @@ StoryView::StoryView(QWidget *parent) :
 	this->posY_item=0;
 	this->zoomFactor=1;
 	this->zoomFactorSelector=new QComboBox;
+	/*
 	this->zoomFactorSelector->addItem("1");
 	this->zoomFactorSelector->addItem("2");
 	this->zoomFactorSelector->addItem("3");
@@ -18,6 +19,16 @@ StoryView::StoryView(QWidget *parent) :
 	this->zoomFactorSelector->addItem("8");
 	this->zoomFactorSelector->addItem("12");
 	this->zoomFactorSelector->addItem("24");
+*/
+
+	this->zoomFactorSelector->addItem("day slot");
+	this->zoomFactorSelector->addItem("12 hours slot");
+	this->zoomFactorSelector->addItem("8 hours slot");
+	this->zoomFactorSelector->addItem("6 hours slot");
+	this->zoomFactorSelector->addItem("4 hours slot");
+	this->zoomFactorSelector->addItem("3 hours slot");
+	this->zoomFactorSelector->addItem("2 hours slot");
+	this->zoomFactorSelector->addItem(" hour slot");
 
 
 	this->GraphicScene=new GraphicStoryScene(posY_item);
@@ -30,6 +41,8 @@ StoryView::StoryView(QWidget *parent) :
 	this->GraphicMode=true;
 
 	StoryLabelEdit= new QLineEdit;
+	ZoomFactorLabel=new QLabel("Time Step :");
+	ZoomFactorLabel->setBuddy(zoomFactorSelector);
 	StoryLabel=new QLabel("Label :");
 	StoryLabel->setBuddy(StoryLabelEdit);
 
@@ -129,27 +142,29 @@ StoryView::StoryView(QWidget *parent) :
 	zoomOutIcon->setAutoRepeatDelay(0);
 	zoomOutIcon->setIcon(QPixmap("://Images/zoomout.png"));
 	zoomOutIcon->setIconSize(iconSize);
-	zoomSlider = new QSlider(Qt::Horizontal);
+	zoomSlider = new QSlider(Qt::Vertical);
 	zoomSlider->setMinimum(0);
 	zoomSlider->setMaximum(500);
 	zoomSlider->setValue(250);
 	zoomSlider->setTickPosition(QSlider::TicksRight);
 
-	QHBoxLayout *zoomSliderLayout = new QHBoxLayout;
+	QVBoxLayout *zoomSliderLayout = new QVBoxLayout;
 	zoomSliderLayout->addWidget(zoomInIcon);
 	zoomSliderLayout->addWidget(zoomSlider);
 	zoomSliderLayout->addWidget(zoomOutIcon);
-	zoomSliderLayout->addWidget(zoomFactorSelector);
+	//zoomSliderLayout->addWidget(zoomFactorSelector);
 
 	QVBoxLayout  * layout = new QVBoxLayout;
+	QHBoxLayout  * newLayout = new QHBoxLayout;
 	QHBoxLayout  * infoLayout = new QHBoxLayout;
 	QHBoxLayout  * buttonlayout1 = new QHBoxLayout;
 	QHBoxLayout  * buttonlayout2 =new QHBoxLayout;
 	//QHBoxLayout  buttonlayout3 =new QHBoxLayout;
 
 	if(GraphicMode){
-		layout->addLayout(zoomSliderLayout);
-		layout->addWidget(graphicStory);
+		newLayout->addLayout(zoomSliderLayout);
+		newLayout->addWidget(graphicStory);
+		layout->addLayout(newLayout);
 	}
 	else{
 		layout->addWidget(this->storytree);
@@ -161,6 +176,8 @@ StoryView::StoryView(QWidget *parent) :
 	infoLayout->addWidget(StoryLabelEdit);
 	infoLayout->addWidget(StoryStartTimeLabel);
 	infoLayout->addWidget(StoryStartTime);
+	infoLayout->addWidget(ZoomFactorLabel);
+	infoLayout->addWidget(zoomFactorSelector);
 	infoLayout->addStretch(4);
 
 	//first button line
@@ -271,7 +288,32 @@ void StoryView::set_story_info(StoryBase* story){
 }
 
 void StoryView::set_up_zoom_factor(QString _zoomfactor){
-	zoomFactor=_zoomfactor.toInt();
+	if (_zoomfactor=="day slot"){
+		this->zoomFactor=1;
+	}
+	else if(_zoomfactor=="12 hours slot"){
+		this->zoomFactor=2;
+	}
+	else if(_zoomfactor=="8 hours slot"){
+		this->zoomFactor=3;
+	}
+	else if(_zoomfactor=="6 hours slot"){
+		this->zoomFactor=4;
+	}
+	else if(_zoomfactor=="4 hours slot"){
+		this->zoomFactor=6;
+	}
+	else if(_zoomfactor=="3 hours slot"){
+		this->zoomFactor=8;
+	}
+	else if(_zoomfactor=="2 hours slot"){
+		this->zoomFactor=12;
+	}
+	else{
+		this->zoomFactor=24;
+	}
+
+	//zoomFactor=_zoomfactor.toInt();
 	emit refresh_story_view(this);
 }
 
@@ -1166,12 +1208,17 @@ void StoryView::newObsPoint(){
 void StoryView::choose_obsPoint(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
-			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
-			ObservationPointPanel * opp =new ObservationPointPanel(false);
-			//connect(opp,SIGNAL())
-			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
-			opp->setVisible(true);
+			if (!this->GraphicScene->get_selected_story()->get_story()->get_obsPointCollection()->empty()){
+				StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+				//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+				ObservationPointPanel * opp =new ObservationPointPanel(false);
+				//connect(opp,SIGNAL())
+				opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
+				opp->setVisible(true);
+			}
+			else{
+				QMessageBox::information(this,"no selection","this story has no observation point to whom add samples, please add one");
+			}
 		}
 		else{
 			QMessageBox::information(this,"no selection","no story selected");

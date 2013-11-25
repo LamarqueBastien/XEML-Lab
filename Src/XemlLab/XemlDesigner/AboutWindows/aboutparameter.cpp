@@ -346,6 +346,19 @@ void AboutParameter::initialize(){
 					//this->paramLayout->addWidget(this->line3);
 
 				}
+				else if((*it).first=="Quantity"){
+					quantity=new QuantitativeParameter(this->daytimeedit->dateTime());
+
+					connect(this->daytimeedit,SIGNAL(dateTimeChanged(QDateTime)),this->quantity,SLOT(set_dateTime(QDateTime)));
+
+					quantity->set_context((*it).first);
+					quantity->set_term(newTerm);
+					//quantity->set_enumUnit(enume);
+					this->listWidget->addItem(tr("Quantity"));
+					//this->stackLayout->addWidget(quantity);
+					//connect(quantity,SIGNAL(destroyed()),this->splitter,SLOT()
+					this->splitter->addWidget(quantity);
+				}
 				else{
 					for(std::list<TypeSpecifics*>::iterator it3=(*it).second->get_typeDefine()->get_typeSpecifica()->begin();it3!=(*it).second->get_typeDefine()->get_typeSpecifica()->end();++it3){
 						enume->push_back(static_cast<Enum*>((*it3))->get_textVal());

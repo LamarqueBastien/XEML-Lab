@@ -28,38 +28,38 @@ When starting Xeml Lab Designer, one story is defined as header story (initial c
 you can  :
 
 * Describe Experiment in term of experiment Time ( start date and end date for the header story ) 
-		experiment time will be further translate into numbers of days in the xeml document.
+		experiment time will be further translate into numbers of days, hours, minutes and seconds in the xeml document.
 	
-* Add sub stories (split story) to the header story for different experimental conditions (you can set the time point by dragging the split story to the correct time position).
+* Add substories (split story) to the header story for different experimental conditions (you can set the time point by dragging the split story to the correct time position).
 
 * Add Observation points to the given time point (you can set the time point by dragging the observation point icon to the correct time position).
 
-* Describe your ObservationPoint by adding observations (samples). A wizard helps users to document observationPoint. 
+* Describe your ObservationPoint by adding observations (samples). A wizard helps users to document observationPoint but you first need to describe a genotype related to your samples.(all genotypes are inherited by child stories).
 
 ***
-using Wizard ObservationPoint
+How to use Wizard for Observation Point
 ***
+            
+    1. Launch the wizard by clicking on add samples button.
+   	
+    2. select your genotype by double clicking and validate.
     
-    1. first, you have to add a genotype (germ plasm) to your header story (all genotypes are inherited by child stories).
-
-    2. Launch the wizard by clicking on add samples button.
+    3. add developmental stage ontology term for your sample.
     
-    3. select your genotype and validate.
+    4. select duration for observation, numbers of individuals sampled, the type of observation  (i.e destructive or non-destructive observation) and validate.
     
-    4. add developmental stage ontology for your sample.
+    5. Specify structural and positioning (e.g. height From ground etc..) conditions used for these samples by choosing terms in corresponding tree (structure and positioning ontology).
     
-    5. select duration for observation, numbers of individuals sampled, the type of observation  (i.e destructive or non destructive observation) and validate.
-    
-    6. Specify structural and positioning (e.g. height From ground etc..) conditions used for these samples by choosing terms in ontologies trees (structure and positioning ontology).
-    
-    7. Click on finish to validate this observation Point.
+    6. Click on finish to validate this observation Point.
     
 ***
 
-* Add environmental variables or parameter (i.e  Temperature, light, substrate conditions, etc…).
+* Add environmental variables or parameter (i.e  Temperature, light, substrate conditions, etc…). each time you add a parameter, you need to define the timepoint at which this parameter have effects. 
 
+
+<!--<img src="/Users/benjamindartigues/Desktop/parameter_edit.png" alt="Drawing" style="width: 600px;"/>-->
 ***
-adding environmental terms to a story
+How to add environmental terms to a story
 ***
 	 
 	 1. first, select a story to defined and choose a term in the ontologies trees and click on addParameter button. 
@@ -71,7 +71,7 @@ adding environmental terms to a story
 	 4. add the term to the story by click on finish.
 	 
 ***
-importing sensor recorded environmental data using CSVLoader Wizard
+how to import sensor recorded environmental data using CSVLoader Wizard
 ***
 
 	1. first, click on open a csv file in edit menu.

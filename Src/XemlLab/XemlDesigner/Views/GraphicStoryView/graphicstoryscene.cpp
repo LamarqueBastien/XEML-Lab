@@ -105,9 +105,9 @@ void GraphicStoryScene::createActions(){
 	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&display plot parameters"), this);
 	display_plot->setShortcut(tr("Ctrl+S"));
 	display_plot->setStatusTip(tr("Show plot about quantitative parameters values"));
-	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove Story"), this);
+	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove Observation"), this);
 	removeOP->setShortcut(tr("Ctrl+R"));
-	removeOP->setStatusTip(tr("Remove story and all its components"));
+	removeOP->setStatusTip(tr("Remove observation Point"));
 
 	connect(show_details, SIGNAL(triggered()), this, SLOT(details_story()));
 	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));

@@ -253,35 +253,44 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 					//if (!(this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::Developmental))){
 					//	std::cerr << "developmental ontology missing. Remove was rejected!" << std::endl;
 					//}
-					if (this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::Environment)){
-						std::cerr << "xeo ontology missing. Resource was rejected!" << onto_to_load->at(j).toStdString() << std::endl;
-					}
-					else if (this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::EnvO)){
-						std::cerr << "Envo ontology missing. Resource was rejected!" << std::endl;
-					}
-					else if (this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::EO)){
-						std::cerr << "EO ontology missing. Resource was rejected!" << std::endl;
-					}
-					if (this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::Genotype)){
-						std::cerr << "developmental ontology missing. Resource was rejected!" << std::endl;
-					}
-					else{
+
+
+
+					//else if (!this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::Genotype)){
+					//	std::cerr << "genotype ontology missing. Resource was rejected!" << std::endl;
+					//}
+					//else{
 						//for(std::map<QString,OntologyHandlerResources>::iterator it=this->fmg->get_current_xeml()->get_doc_resources()->)
-						if(onto_to_remove->at(j)=="XEO"){
-							this->fmg->get_current_xeml()->get_doc_resources()->remove(this->fmg->get_current_xeml()->get_doc_resources()->get_handler_by_alias(onto_to_load->at(j),Xeml::Document::Contracts::Environment));
-							std::cerr << "remove " << onto_to_load->at(j).toStdString() <<"ontology" << std::endl;
-						}
-						else if(onto_to_remove->at(j)=="EO"){
-							this->fmg->get_current_xeml()->get_doc_resources()->remove(this->fmg->get_current_xeml()->get_doc_resources()->get_handler_by_alias(onto_to_load->at(j),Xeml::Document::Contracts::EO));
-							std::cerr << "remove " << onto_to_load->at(j).toStdString() <<"ontology" << std::endl;
+					if(onto_to_remove->at(j)=="XEO"){
+						if (!this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::Environment)){
+							std::cerr << "xeo ontology missing. Resource was rejected!" << onto_to_load->at(j).toStdString() << std::endl;
 						}
 						else{
 
-							this->fmg->get_current_xeml()->get_doc_resources()->remove(this->fmg->get_current_xeml()->get_doc_resources()->get_handler_by_alias(onto_to_load->at(j),Xeml::Document::Contracts::EnvO));
-							std::cerr << "remove " << onto_to_load->at(j).toStdString() <<"ontology" << std::endl;
+							this->fmg->get_current_xeml()->get_doc_resources()->remove(this->fmg->get_current_xeml()->get_doc_resources()->get_handler_by_alias(onto_to_remove->at(j),Xeml::Document::Contracts::Environment));
+							std::cerr << "remove " << onto_to_remove->at(j).toStdString() <<"ontology" << std::endl;
+						}
+					}
+					else if(onto_to_remove->at(j)=="EO"){
+						if (!this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::EO)){
+							std::cerr << "EO ontology missing. Resource was rejected!" << std::endl;
+						}
+						else{
+							this->fmg->get_current_xeml()->get_doc_resources()->remove(this->fmg->get_current_xeml()->get_doc_resources()->get_handler_by_alias(onto_to_remove->at(j),Xeml::Document::Contracts::EO));
+							std::cerr << "remove " << onto_to_remove->at(j).toStdString() <<"ontology" << std::endl;
+						}
+					}
+					else{
+						if (!this->fmg->get_current_xeml()->get_doc_resources()->contains(onto_to_remove->at(j),Xeml::Document::Contracts::EnvO)){
+							std::cerr << "Envo ontology missing. Resource was rejected!" << std::endl;
+						}
+						else{
+							this->fmg->get_current_xeml()->get_doc_resources()->remove(this->fmg->get_current_xeml()->get_doc_resources()->get_handler_by_alias(onto_to_remove->at(j),Xeml::Document::Contracts::EnvO));
+							std::cerr << "remove " << onto_to_remove->at(j).toStdString() <<"ontology" << std::endl;
 						}
 					}
 				}
+
 
 			}
 			noeud = noeud.toElement().nextSibling();

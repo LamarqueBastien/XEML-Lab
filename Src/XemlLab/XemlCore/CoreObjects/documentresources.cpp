@@ -92,7 +92,7 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::OrganismStructure:
 					{
-						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->structuralOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->structuralOntologyHandler->begin();it!=this->structuralOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;
 								this->structuralOntologyHandler->erase(it);
@@ -102,7 +102,8 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::Environment:
 					{
-						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->xeoOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+						//std::cerr << "remove EnvironmentalOntology" << std::endl;
+						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->xeoOntologyHandler->begin();it!=this->xeoOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;
 								this->xeoOntologyHandler->erase(it);
@@ -112,7 +113,7 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::Genotype:
 					{
-						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->genotypeOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->genotypeOntologyHandler->begin();it!=this->genotypeOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;
 								this->genotypeOntologyHandler->erase(it);
@@ -122,7 +123,7 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::Positioning:
 					{
-						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->positionOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->positionOntologyHandler->begin();it!=this->positionOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;
 								this->positionOntologyHandler->erase(it);
@@ -133,7 +134,7 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::EO:
 					{
-						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EOOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EOOntologyHandler->begin();it!=this->EOOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;
 								this->EOOntologyHandler->erase(it);
@@ -144,7 +145,7 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::EnvO:
 					{
-						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EnvOOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EnvOOntologyHandler->begin();it!=this->EnvOOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;
 								this->EnvOOntologyHandler->erase(it);
@@ -315,13 +316,15 @@ namespace Xeml{
 			}
 		}
 		OntologyHandlerResources* DocumentResources::get_handler_by_alias(QString _alias,OntologyType _ot){
+			//std::cerr << "entering get handler by alias for alias :" << _alias.toStdString() << std::endl;
 			switch (_ot)
 			{
 				case Xeml::Document::Contracts::Developmental:
 				{
+					//std::cerr << "developmental : " << std::endl;
 					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->developmentalOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
 						if (static_cast<OntologyHandlerResources*>(it->second)->get_namespace()==_alias){
-							return it->second;
+							return static_cast<OntologyHandlerResources*>(it->second);
 
 						}
 					}
@@ -329,36 +332,44 @@ namespace Xeml{
 				}
 				case Xeml::Document::Contracts::OrganismStructure:
 				{
-					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->structuralOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+					//std::cerr << "Organism structure : " << std::endl;
+					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->structuralOntologyHandler->begin();it!=this->structuralOntologyHandler->end();it++){
 						if (it->second->get_namespace()==_alias){
-							return it->second;
+							return static_cast<OntologyHandlerResources*>(it->second);
 						}
 					}
 					break;
 				}
 				case Xeml::Document::Contracts::Environment:
 				{
-					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->xeoOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
-						if (it->second->get_namespace()==_alias){
-							return it->second;
+					//std::cerr << "environment : " << std::endl;
+					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->xeoOntologyHandler->begin();it!=this->xeoOntologyHandler->end();it++){
+						//std::cerr << " namespace " << static_cast<OntologyHandlerResources*>(it->second)->get_namespace().toStdString() << std::endl;
+						if (static_cast<OntologyHandlerResources*>(it->second)->get_namespace()==_alias){
+							//std::cerr << "equal : " << std::endl;
+							return static_cast<OntologyHandlerResources*>(it->second);
+
 						}
 					}
 					break;
 				}
+
 				case Xeml::Document::Contracts::Genotype:
 				{
-					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->genotypeOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+					//std::cerr << "genotype : " << std::endl;
+					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->genotypeOntologyHandler->begin();it!=this->genotypeOntologyHandler->end();it++){
 						if (it->second->get_namespace()==_alias){
-							return it->second;
+							return static_cast<OntologyHandlerResources*>(it->second);
 						}
 					}
 					break;
 				}
 				case Xeml::Document::Contracts::Positioning:
 				{
-					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->positionOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+					//std::cerr << "positioning : " << std::endl;
+					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->positionOntologyHandler->begin();it!=this->positionOntologyHandler->end();it++){
 						if (it->second->get_namespace()==_alias){
-							return it->second;
+							return static_cast<OntologyHandlerResources*>(it->second);
 						}
 					}
 					break;
@@ -366,9 +377,9 @@ namespace Xeml{
 				}
 				case Xeml::Document::Contracts::EO:
 				{
-					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EOOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EOOntologyHandler->begin();it!=this->EOOntologyHandler->end();it++){
 						if (it->second->get_namespace()==_alias){
-							return it->second;
+							return static_cast<OntologyHandlerResources*>(it->second);
 						}
 					}
 					break;
@@ -376,7 +387,7 @@ namespace Xeml{
 				}
 				case Xeml::Document::Contracts::EnvO:
 				{
-					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EnvOOntologyHandler->begin();it!=this->developmentalOntologyHandler->end();it++){
+					for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EnvOOntologyHandler->begin();it!=this->EnvOOntologyHandler->end();it++){
 						if (it->second->get_namespace()==_alias){
 							return it->second;
 						}
@@ -388,6 +399,9 @@ namespace Xeml{
 					return NULL;
 					break;
 			}
+
+			//std::cerr << "outing get handler by alias for alias :" << _alias.toStdString() << std::endl;
+
 
 
 		}
