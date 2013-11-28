@@ -157,7 +157,7 @@ namespace Xeml {
 			QString xemlCode;
 			QTextStream out(&xemlCode);
 			out.setCodec("UTF-8");
-			QDomNode xmlNode = this->doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+			QDomNode xmlNode = this->doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\"");
 			this->doc.insertBefore(xmlNode, this->doc.firstChild());
 			this->doc.save(out, Indent);
 			return xemlCode;
@@ -264,7 +264,7 @@ namespace Xeml {
 			this->doc.firstChildElement("xeml:XEMLDocument").appendChild(resources);
 		}
 		void                  XemlDocument::write_stories(StoryNode * _node,StoryNode *_parent){
-			std::cerr << "entering write stories (xemldocument)" << std::endl;
+			//std::cerr << "entering write stories (xemldocument)" << std::endl;
 			if(_parent==NULL){
 				QDomElement story=this->doc.createElement("xeml:Story");
 				story.setAttribute("Label",_node->get_story()->get_label());
@@ -342,7 +342,7 @@ namespace Xeml {
 			}
 		}
 		void                  XemlDocument::write_paramater(QDomElement * _elem,StoryNode * _node){
-			std::cerr << "entering write parameters " << std::endl;
+			//std::cerr << "entering write parameters " << std::endl;
 			DynamicTerm * _term;
 			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it=_node->get_story()->get_variablesCollection()->begin();it!=_node->get_story()->get_variablesCollection()->end();++it){
 
@@ -358,7 +358,7 @@ namespace Xeml {
 				QDateTime previous_datetime;
 				for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it2=_term->get_dynamicvaluecollection()->begin();it2!=_term->get_dynamicvaluecollection()->end();++it2){
 
-					std::cerr << "datetime in write param : " << static_cast<QDateTime>((*it2).second).toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+					//std::cerr << "datetime in write param : " << static_cast<QDateTime>((*it2).second).toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
 					if (it2==_term->get_dynamicvaluecollection()->begin()){
 						current_datetime=(*it2).second;
 					}
@@ -367,10 +367,10 @@ namespace Xeml {
 						current_datetime=(*it2).second;
 					}
 					if(previous_datetime!=current_datetime){
-						std::cerr << "prev datetime != cur time  " << std::endl;
+						//std::cerr << "prev datetime != cur time  " << std::endl;
 
-						std::cerr << "prev datetime in write param : " << previous_datetime.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
-						std::cerr << "current datetime in write param : " << current_datetime.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+						//std::cerr << "prev datetime in write param : " << previous_datetime.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+						//std::cerr << "current datetime in write param : " << current_datetime.toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
 
 
 						Vs=this->doc.createElement("xeml:ValueSet");
@@ -388,7 +388,7 @@ namespace Xeml {
 					//std::cerr << "month = " << static_cast<QDateTime>((*it2).second).date().month() << std::endl;
 					//std::cerr << "day = " << static_cast<QDateTime>((*it2).second).date().day() << std::endl;
 					//std::cerr << "year = " << static_cast<QDateTime>((*it2).second).date().year() << std::endl;
-					std::cerr << "write timepoint" << (*it2).second.toString("dd-MM-yyyyThh:mm:ss").toStdString()<< std::endl;
+					//std::cerr << "write timepoint" << (*it2).second.toString("dd-MM-yyyyThh:mm:ss").toStdString()<< std::endl;
 					qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it2).second);
 					Vs.setAttribute("TimePoint",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
 					//Vs.setAttribute("TimePoint",(*it2).second.toString("dd.hh:mm:ss"));
@@ -399,7 +399,7 @@ namespace Xeml {
 			}
 		}
 		void                  XemlDocument::write_values(QDomElement * _elem,ValueBase* _vb){
-			std::cerr << "entering write values" << std::endl;
+			//std::cerr << "entering write values" << std::endl;
 			QDomElement val;
 			if(!_vb->get_is_cycle()){
 				val=this->doc.createElement("xeml:Value");;
@@ -426,7 +426,7 @@ namespace Xeml {
 
 			}
 			else if(_vb->get_is_cycle()){
-				std::cerr << "entering cycle values" << std::endl;
+				//std::cerr << "entering cycle values" << std::endl;
 				val=this->doc.createElement("xeml:Cycle");
 				Cycle * c = static_cast<Cycle*>(_vb);
 				if(c->get_context()!=""){
@@ -446,7 +446,7 @@ namespace Xeml {
 			}
 		}
 		void                  XemlDocument::write_observationPoint(QDomElement * _elem,StoryNode * _node){
-			std::cerr << "entering write observation Point (xemlDocument)" << std::endl;
+			//std::cerr << "entering write observation Point (xemlDocument)" << std::endl;
 
 			Observation * ob;
 			//ObservationPoint * test_debug;
@@ -456,7 +456,7 @@ namespace Xeml {
 				obspoint.setAttribute("Id",QString::number((*it).first->get_id()));
 				//obspoint.setAttribute("TargetTime",(*it).second->get_timespan_Qstr_format());
 				qint64 milliseconds_ellapsed=get_seconds_from_date(this->startDate,(*it).first->get_timepoint());
-				std::cerr << "ObsPoint Id : " << (*it).first->get_id() << " Msecs : " << milliseconds_ellapsed << std::endl;
+				//std::cerr << "ObsPoint Id : " << (*it).first->get_id() << " Msecs : " << milliseconds_ellapsed << std::endl;
 				//test_debug=(*it).first;
 
 				obspoint.setAttribute("TargetTime",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
@@ -571,24 +571,24 @@ namespace Xeml {
 				else{
 
 					for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
-						std::cerr << "node label : " <<_node->get_label().toStdString() << "it label : " <<  (*it)->get_label().toStdString() << std::endl;
+						//std::cerr << "node label : " <<_node->get_label().toStdString() << "it label : " <<  (*it)->get_label().toStdString() << std::endl;
 						if((*it)->get_label()==_node->get_label()){
-							std::cerr << "same label :" << std::endl;
+							//std::cerr << "same label :" << std::endl;
 							it_to_erase=it;
 
-							std::cerr << "same label2 :" << std::endl;
+							//std::cerr << "same label2 :" << std::endl;
 						}
-						std::cerr << "same label3 :" << std::endl;
+						//std::cerr << "same label3 :" << std::endl;
 					}
 					this->storyBoard->get_storyBoard()->erase(it_to_erase);
-					std::cerr << "same label4 :" << std::endl;
+					//std::cerr << "same label4 :" << std::endl;
 
 				}
 				delete _node;
 				//purge_stories(_node);//,(*it)->get_parent());
 			}
 			else{
-				std::cerr << "node childs size :" << _node->get_parent()->get_childs()->size() << std::endl;
+				//std::cerr << "node childs size :" << _node->get_parent()->get_childs()->size() << std::endl;
 				for (std::list<StoryNode*>::iterator it=_node->get_parent()->get_childs()->begin();it!=_node->get_parent()->get_childs()->end();++it){
 
 					if((*it)->get_label()==_node->get_story()->get_label()){
@@ -604,7 +604,7 @@ namespace Xeml {
 					}
 				}
 				_node->get_parent()->get_childs()->erase(it_to_erase);
-				std::cerr << "breakpoint" << std::endl;
+				//std::cerr << "breakpoint" << std::endl;
 				if(!_node->get_childs()->empty()){
 					//std::cerr << "childs is not empty"  << std::endl;
 					for (std::list<StoryNode*>::iterator it=_node->get_childs()->begin();it!=_node->get_childs()->end();++it){
@@ -634,11 +634,11 @@ namespace Xeml {
 			std::cerr << "story and his substories were purged" << std::endl;
 
 			this->storyBoard->get_storyBoard()->remove(_node);
-			std::cerr << "node has been removed" << std::endl;
+			//std::cerr << "node has been removed" << std::endl;
 		}
 		void                  XemlDocument::purge_substory(StoryNode * _substory){
 			std::list<StoryNode*>::iterator it_to_erase;
-			std::cerr << "entering purge substory " << std::endl;
+			//std::cerr << "entering purge substory " << std::endl;
 			if(!(_substory->get_childs()->empty())){
 				for (std::list<StoryNode*>::iterator it=_substory->get_childs()->begin();it!=_substory->get_childs()->end();++it){
 					purge_substory((*it));
@@ -647,7 +647,7 @@ namespace Xeml {
 
 			}
 
-			std::cerr << "breakpoint2 " << std::endl;
+			//std::cerr << "breakpoint2 " << std::endl;
 			for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 				if((*it)->get_label()==_substory->get_label()){
 					it_to_erase=it;
@@ -746,7 +746,13 @@ namespace Xeml {
 						try{
 
 
-							this->Id=(*new QUuid(x));
+							if(this->asTemplate){
+								this->Id=this->Id.createUuid();// (*new QUuid());
+							}
+							else{
+								this->Id=(*new QUuid(x));
+							}
+
 						}
 						catch(exception ex)
 						{

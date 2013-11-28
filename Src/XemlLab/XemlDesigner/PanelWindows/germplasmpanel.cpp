@@ -6,7 +6,7 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 {
 	view = new QTableView();
 	this->view->setStyleSheet("QTableView QTableCornerButton::section {background: black;border: 2px outset black;}");
-	model = new QStandardItemModel(1,7,this); //2 Rows and 3 Columns
+	model = new QStandardItemModel(1,7,this); //1 Rows and 7 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("pool Id")));
 	model->setHorizontalHeaderItem(1, new QStandardItem(QString("Species")));
 	model->setHorizontalHeaderItem(2, new QStandardItem(QString("Accession")));
@@ -34,12 +34,55 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 	setWindowTitle(tr("GermPlasm informations"));
 
 }
+void GermPlasmPanel::remove_row(){
+
+	QString germplasm;
+	QItemSelectionModel * selection = this->view->selectionModel();
+	QModelIndex indexelementselected= selection->currentIndex();
+	if(selection->isSelected(indexelementselected)){
+		int ligne = view->currentIndex().row();
+		germplasm=view->currentIndex().data().toString();
+		model->removeRows(ligne,1);
+		for(std::list<StoryNode*>::iterator it=doc->get_storyboard()->get_storyBoard()->begin();it!=doc->get_storyboard()->get_storyBoard()->end();++it){
+			if((*it)->get_parent()==NULL){
+
+				Story * current= static_cast<Story*>((*it)->get_story());
+				std::map<IndividualsPool*,QString>::iterator it_to_erase;
+				for(std::map<IndividualsPool*,QString>::iterator it = current->get_individualspoolcollection()->begin();it!=current->get_individualspoolcollection()->end();++it){
+
+					if ((*it).first->get_germplasm()==germplasm){
+						it_to_erase=it;
+						delete (*it).first;
+					}
+				}
+				current->get_individualspoolcollection()->erase(it_to_erase);
+
+			}
+		}
+
+	}
+	else{
+		QMessageBox::information(this,"added element","select a genotype to remove");
+	}
+
+}
+void GermPlasmPanel::get_selected_element(){
+
+	QItemSelectionModel * selection = this->view->selectionModel();
+	QModelIndex indexelementselected= selection->currentIndex();
+	if(selection->isSelected(indexelementselected)){
+		int ligne = view->currentIndex().row();
+		model->removeRows(ligne,1);
+	}
+}
+
 void GermPlasmPanel::clean_model(){
 	this->model->clear();
 }
 
 void GermPlasmPanel::initialize(ItfDocument * _xemlDoc){
 	//std::cerr << "entering initialize" << std::endl;
+	this->doc=_xemlDoc;
 	this->model->setHorizontalHeaderItem(0, new QStandardItem(QString("pool Id")));
 	this->model->setHorizontalHeaderItem(1, new QStandardItem(QString("Species")));
 	this->model->setHorizontalHeaderItem(2, new QStandardItem(QString("Accession")));

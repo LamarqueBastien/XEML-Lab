@@ -22,6 +22,7 @@
         <file>XEML/PO_Structure.obo</file>
         <file>XEML/EnvO.obo</file>
         <file>XEML/XEO_Positioning.obo</file>
+        <file>Images/SaveAs.png</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

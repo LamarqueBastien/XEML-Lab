@@ -8,6 +8,10 @@ namespace Xeml {
 			this->parent=NULL;
 			this->label="";
 		}
+		void StoryNode::set_label(QString _label){
+			this->label=_label;
+		}
+
 		StoryNode::StoryNode(StoryBase * st,bool _isStorySplit,QString _mainstoryname){
 			this->childs = new std::list<StoryNode*>();
 			this->isContainer =false;

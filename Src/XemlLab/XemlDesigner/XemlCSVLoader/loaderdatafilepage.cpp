@@ -28,6 +28,7 @@ LoaderDataFilePage::LoaderDataFilePage(QWidget *parent)
 	//connect(selectDataDelimiter,SIGNAL(activated(int)),dataDelimiter,SLOT(show()));
 	this->selectDataDelimiter->addItem(",");
 	this->selectDataDelimiter->addItem("/");
+	this->selectDataDelimiter->addItem(";");
 
 	textDelimiter= new QLabel(tr("text delimiters:"));
 	this->selectTextDelimiter =new QComboBox;
@@ -241,6 +242,7 @@ void LoaderDataFilePage::load_file(){
 		msgBox.setText(missingValues+"Do you want to keep this datafile ? ");
 		msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
 		msgBox.setDefaultButton(QMessageBox::No);
+		msgBox.show();
 		if(msgBox.exec() == QMessageBox::Yes){
 			this->FilenameLineEdit->setText(fileName);
 

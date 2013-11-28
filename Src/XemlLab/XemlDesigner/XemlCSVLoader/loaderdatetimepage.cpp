@@ -95,6 +95,7 @@ LoaderDateTimePage::LoaderDateTimePage(int _column,int _row,QWidget *parent)
 	this->selectDateTimeDelimiter->addItem("MM/DD/YY HH:MM");
 	this->selectDateTimeDelimiter->addItem("YY/DD/MM HH:MM");
 	this->selectDateTimeDelimiter->addItem("DD/MM/YY HH:MM");
+	this->selectDateTimeDelimiter->addItem("dd/MM/yyyy hh:mm");
 	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:MM");
 	this->selectDateTimeDelimiter->addItem("DD/YY/MM HH:MM");
 

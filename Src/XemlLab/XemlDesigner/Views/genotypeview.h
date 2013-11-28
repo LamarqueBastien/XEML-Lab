@@ -23,6 +23,7 @@ class GenotypeView : public QWidget
 	private:
 		ItfDocument        * currentDoc;
 		QPushButton * addGenotype;
+		QPushButton * removeGenotype;
 		GermPlasmPanel * gpp;
 		GenotypeDialog * new_genotype;
 
@@ -38,6 +39,7 @@ class GenotypeView : public QWidget
 		void refresh_view(ItfDocument * _xemldoc);
 		void genotype_to_add(QString _idtext,QString _freetext,QString _taxontext);
 		void add_genotype();
+		void remove_genotype();
 };
 
 #endif // GENOTYPEVIEW_H

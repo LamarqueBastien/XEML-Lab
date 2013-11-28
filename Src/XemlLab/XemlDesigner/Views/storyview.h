@@ -89,6 +89,7 @@ class StoryView : public QWidget
 		QDateTimeEdit      * StoryStartTime;
 		QLabel             * StoryStartTimeLabel;
 		QLabel             * ZoomFactorLabel;
+		StoryBase          * my_selected_story;
 
 
 	public slots:

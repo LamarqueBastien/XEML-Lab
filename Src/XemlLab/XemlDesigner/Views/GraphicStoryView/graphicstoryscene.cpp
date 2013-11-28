@@ -12,7 +12,7 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 	this->my_selected_story=NULL;
 	this->my_selected_event=NULL;
 	this->my_selected_obsPoint=NULL;
-	connect(this,SIGNAL(selectionChanged()),this,SLOT(changedSelection()));
+	//connect(this,SIGNAL(selectionChanged()),this,SLOT(changedSelection()));
 	createActions();
 	//createMenus();
 
@@ -37,6 +37,8 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 
 	//connect(this,SIGNAL(sceneRectChanged(QRectF)),my_item,SLOT()
 }
+
+/*
 void GraphicStoryScene::changedSelection(){
 	for (int i=0; i<selectedItems().size(); i++){
 		switch(selectedItems().at(i)->type()){
@@ -68,6 +70,7 @@ void GraphicStoryScene::changedSelection(){
 	}
 	std::cerr << "selection changed" << std::endl;
 }
+*/
 void GraphicStoryScene::set_doc(ItfDocument  * _currentDoc){
 	this->currentDoc=_currentDoc;
 }
@@ -155,6 +158,8 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 				case GraphicStoryItem::Type:
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+					emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
+
 
 					break;
 				case GraphicEventItem::Type:
@@ -432,6 +437,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					break;
 			}
 		}
+
 		/*
 		for (QList<QGraphicsItem*>::iterator it =child_to_move->childItems().begin();it!=child_to_move->childItems().end();++it){
 			std::cerr << "in da loop "<< std::endl;
@@ -666,7 +672,7 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 	int counter=0;
 	int counter_hour=0;
 	this->zoomFactor=_zoomFactor;
-	QFont serifFont("Times", 14, QFont::Bold);
+	QFont serifFont("Roman", 14, QFont::Bold);
 	QFont serifFont2("Times", 10, QFont::Bold);
 	qreal number_of_days=width/(24*zoomFactor);
 	int k=0;
@@ -680,8 +686,14 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 		tmp_line->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
 		this->addItem(tmp_line);
 		//group->addToGroup(tmp_line);
-		QGraphicsTextItem * tmp_text=new QGraphicsTextItem(QString::number(counter),tmp_timeline);
+		QDateTime dateTime= get_date(currentDoc->get_startdate(),translate_Distance_in_Msecs(i/zoomFactor));
+		QString time=dateTime.toString("dd-MM-yyyy");// translate_second_in_DD_HH_MM_SS(translate_Distance_in_Msecs(i));
+		//std::cerr << "time : " << time.toStdString() << std::endl;
+		QGraphicsTextItem * tmp_text=new QGraphicsTextItem(time,tmp_timeline);
+
+		//QGraphicsTextItem * tmp_text=new QGraphicsTextItem(QString::number(counter),tmp_timeline);
 		tmp_text->setRotation(-60);
+
 
 		tmp_text->setFlag(QGraphicsItem::ItemIsSelectable,false);
 		tmp_text->setFlag(QGraphicsItem::ItemIsMovable,false);

@@ -225,6 +225,7 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
 
+	connect(this->StoryLabelEdit,SIGNAL(textEdited(QString)),this,SLOT(reset_StoryName(QString)));
 	connect(this->infoButton,SIGNAL(clicked()),this,SLOT(remove_parameter()));
 	connect(editExperiment,SIGNAL(clicked()),this,SLOT(edit_Experiment()));
 	connect(addstorysplit,SIGNAL(clicked()),this,SLOT(newStorySplit()));
@@ -276,10 +277,36 @@ void StoryView::display_plot(StoryBase * _story){
 }
 
 void StoryView::reset_StoryName(QString label){
+	//if(this->GraphicScene->get_selected_story()!=NULL){
 
+		std::cerr << "entering reset story NAme with new label :" <<label.toStdString()<< std::endl;
+
+		StoryNode * node=this->currentDoc->get_storyboard()->findNode(my_selected_story->get_label());
+		node->get_story()->set_label(label);
+		node->set_label(label);
+		//if (node->get_parent()!=NULL){
+			//node->get_parent()->set_label(label);
+		//}
+
+
+
+		if (!node->get_childs()->empty()){
+			std::cerr << "node get childs "<< std::endl;
+			for (std::list<StoryNode*>::iterator it=node->get_childs()->begin();it!=node->get_childs()->end();++it){
+				static_cast<StoryNode*>((*it))->get_parent()->get_story()->set_label(label);
+				static_cast<StoryNode*>((*it))->get_parent()->set_label(label);
+			}
+		}
+
+
+		emit refresh_story_view(this);
+	//}
 }
 void StoryView::set_story_info(StoryBase* story){
+	std::cerr << "entering set story info for qstory :" << story->get_label().toStdString() << std::endl;
+	my_selected_story=story;
 	this->StoryLabelEdit->setText(story->get_label());
+
 	if (story->get_IsStorySplit()){
 		this->StoryStartTime->setDateTime(static_cast<StorySplit*>(story)->get_timepoint());
 	}
@@ -741,6 +768,7 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 			std::cerr << "in da loop" << std::endl;
+			std::cerr << "story node get Label :" << static_cast<StoryNode*>((*it))->get_label().toStdString() << std::endl;
 			build_graphic_story_hierarchy((*it));
 
 
@@ -883,8 +911,12 @@ void StoryView::newStorySplit(){
 void StoryView::add_graphic_split_story(QString _label){
 	std::cerr << " entering slot" << std::endl;
 	std::cerr << "selected items" << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
+	std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
+
 	if(this->GraphicScene->get_selected_story()!=NULL){
+		std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
 		StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+
 		if(parent!=NULL){// && parent->get_parent()==NULL
 			QString mainname=parent->get_mainStoryName();
 			std::cerr << "parent name :" << mainname.toStdString() << std::endl;

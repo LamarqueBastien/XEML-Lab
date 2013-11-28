@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	storyView= new StoryView;
 	ontologyView= new ParameterTreeView(this->fmg->get_current_xeml()->get_doc_resources());
 	genotypeView= new GenotypeView;
+	XemlCode=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
 	//std::cerr << this->fmg->get_current_xeml()->get_doc_resources()->get_xeoHandler()->size() << std::endl;
 
 	this->setWindowTitle("Xeml Interactive Designer 1.0");
@@ -59,8 +60,19 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->storyView,SIGNAL(refresh_genotype_view(ItfDocument *)),this->genotypeView,SLOT(refresh_view(ItfDocument *)));
 	connect(this->storyView,SIGNAL(refresh_story_view(StoryView*)),this,SLOT(refresh_story_tree(StoryView*)));
 	timer = new QTimer(this);
+	QDir dir(QCoreApplication::applicationFilePath());
+	my_dir=dir;
+	while (! my_dir.path().endsWith("XEML-Lab")){
+		my_dir.cdUp();
+	}
+	my_dir.mkdir("Files");
+	my_dir.cd("Files");
+	curFile=my_dir.path()+"/last.xeml";
+	this->fmg->get_current_xeml()->Save(curFile);
+
+	//std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
 	connect(timer, SIGNAL(timeout()), this, SLOT(auto_save()));
-	timer->start(3000000);
+	timer->start(3000);
 	//QTimer::singleShot(10000, this, SLOT(auto_save()));
 
 	QString fen1ObjectName("Ontology");
@@ -388,6 +400,11 @@ void    MainWindow::createActions(){
 	parameterInfoAction->setStatusTip(tr("show informations for this parameter"));
 	connect(parameterInfoAction, SIGNAL(triggered()), this->ontologyView, SLOT(showSelection()));
 
+	saveAsAction=new QAction(QIcon("://Images/SaveAs.png"),tr("&Save As"), this);
+	saveAsAction->setIconVisibleInMenu(true);
+	saveAsAction->setShortcut(tr("Ctrl+A"));
+	saveAsAction->setStatusTip(tr("Save this file as "));
+	connect(saveAsAction,SIGNAL(triggered()),this,SLOT(validate_xml_to_save_as()));
 	/*
 	cutAction = new QAction(tr("&Cut"), this);
 	cutAction->setShortcut(tr("Ctrl+C"));
@@ -419,6 +436,7 @@ void    MainWindow::createMenus() {
 	fileMenu->addAction(newStoryAction);
 	fileMenu->addAction(openAction);
 	fileMenu->addAction(saveAction);
+	fileMenu->addAction(saveAsAction);
 	fileMenu->addAction(loadCSVAction);
 
 	separatorAction = fileMenu->addSeparator();
@@ -446,6 +464,7 @@ void    MainWindow::createToolBars() {
 
 	fileToolBar->addAction(openAction);
 	fileToolBar->addAction(saveAction);
+	fileToolBar->addAction(saveAsAction);
 	fileToolBar->addAction(exitAction);
 	fileToolBar->addAction(loadCSVAction);
 
@@ -461,7 +480,8 @@ void    MainWindow::createToolBars() {
 //want to create a new document
 //or open or save a document
 bool    MainWindow::okToContinue() {
-	QString fileName;
+
+	/*
 #if defined(Q_OS_WIN)
 								   fileName= "C:/Documents and Settings/Bryan/Mes documents/Cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
 #elif defined(Q_OS_MACX)
@@ -469,10 +489,18 @@ bool    MainWindow::okToContinue() {
 #else
 								   fileName="/home/bdartigues/cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
 #endif
-	QFile standard_xeml(fileName.toStdString().c_str());
+*/
+	QString fileName;
+	fileName="://XEMLStore/Templates/Standard.xeml";
+
+	//QFile file(filePath);
+	QFile standard_xeml(fileName);
+	//QFile standard_xeml(fileName.toStdString().c_str());
 	QString standardxeml=this->fmg->LoadXemlCodeFromFile(&standard_xeml);
 	QString currentxeml=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
-	if (standardxeml!=currentxeml){
+	//std::cerr << "current xeml : " << currentxeml.toStdString() << std::endl;
+	//std::cerr << "standard xeml : " << standardxeml.toStdString() << std::endl;
+	if (XemlCode!=currentxeml){
 		this->setWindowModified(true);
 	}
 	if (isWindowModified()) {
@@ -620,6 +648,7 @@ void    MainWindow::open(){
 	if(okToContinue()){
 		QString fileName = QFileDialog::getOpenFileName(this,tr("open xeml files"),"\\/",tr("xeml files (*.xml *.xeml)\n"));
 		if (!fileName.isEmpty()) {
+			this->curFile=fileName;
 			this->fmg->purgedetailsFromdocument();
 			this->fmg->LoadFile(fileName,false);
 			this->loadResources();
@@ -635,16 +664,28 @@ bool    MainWindow::validate_xml_to_save(){
 
 	xmlValid->show();
 }
+bool    MainWindow::validate_xml_to_save_as(){
+	ValidationWindow * xmlValid=new ValidationWindow(false,static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml());
+	connect(xmlValid,SIGNAL(validated(bool)),this,SLOT(saveAs(bool)));
 
-void    MainWindow::auto_save(){
-	//std::cerr << "saving files" << std::endl;
-	this->fmg->get_current_xeml()->Save("/Users/benjamindartigues/Documents/test_last.xeml");
+
+	xmlValid->show();
 }
 
-bool    MainWindow::save(bool _IsValid){
+void    MainWindow::auto_save(){
+	//std::cerr << " path to :" << QCoreApplication::applicationFilePath().toStdString() << std::endl;
 
+	//std::cerr << "saving files" << std::endl;
+	//my_dir.cd( "Files");
+	//std::cerr << "path to :" << my_dir.path().toStdString() << std::endl;
+	this->fmg->get_current_xeml()->Save(curFile);
+	//this->fmg->get_current_xeml()->Save("/Users/benjamindartigues/Documents/test_last.xeml");
+}
+bool    MainWindow::saveAs(bool _IsValid){
+	std::cerr << " entering save as " << std::endl;
 
 	if (_IsValid){
+		std::cerr << "is valid :" << std::endl;
 		QString fileName = QFileDialog::getSaveFileName(this,tr("Save Xeml"), ".",tr("Spreadsheet files (*.xeml)"));
 		if (fileName.isEmpty()){
 
@@ -658,6 +699,40 @@ bool    MainWindow::save(bool _IsValid){
 
 			return true;
 		}
+	}
+	else{
+
+		QMessageBox::information(this,"no selection","Document not valid! can't save");
+
+		return false;
+	}
+}
+
+bool    MainWindow::save(bool _IsValid){
+
+
+
+
+
+	if (_IsValid){
+
+		this->fmg->get_current_xeml()->Save(curFile);
+		/*
+		QString fileName = QFileDialog::getSaveFileName(this,tr("Save Xeml"), ".",tr("Spreadsheet files (*.xeml)"));
+		if (fileName.isEmpty()){
+
+			return false;
+		}
+		else{
+
+			this->fmg->get_current_xeml()->Save(fileName);
+			//ValidationWindow * xmlValid=new ValidationWindow(fileName);
+			//connect(xmlValid,SIGNAL(validated(bool))
+
+			return true;
+		}
+		*/
+		return true;
 	}
 	else{
 

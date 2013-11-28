@@ -128,6 +128,7 @@ ValidationWindow::ValidationWindow(bool _load,QString _filename)
 //! [1]
 void ValidationWindow::save(){
 	emit validated(true);
+	this->close();
 }
 
 void ValidationWindow::schemaSelected(int index)
@@ -203,7 +204,8 @@ void ValidationWindow::validate()
 		moveCursor(messageHandler.line(), messageHandler.column());
 	} else {
 		validationStatus->setText(tr("validation successful"));
-		//emit validated(true);
+		//std::cerr << "validation succesfull " << std::endl;
+		emit validated(true);
 	}
 
 	const QString styleSheet = QString("QLabel {background: %1; padding: 3px}")

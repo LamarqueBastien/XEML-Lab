@@ -79,7 +79,7 @@ class GraphicStoryScene : public QGraphicsScene
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);
 		void add_Obs_point(ObservationPoint * _op);
-		void changedSelection();
+		//void changedSelection();
 		void details_story();
 		void display_plot_parameters();
 

@@ -72,6 +72,8 @@ class MainWindow : public QMainWindow
 		static Xeml::Document::DocumentResources * doc_ressources;
 		static FileManager                       * fmg;
 		LoaderWizard                             * csvLoader;
+		QString                                    XemlCode;
+		QDir                                       my_dir;
 		//QStandardItemModel                       * my_model;
 		//QStandardItemModel                       * my_modelstory;
 
@@ -117,10 +119,12 @@ class MainWindow : public QMainWindow
 		QAction                                  * viewModeAction;
 		QAction                                  * newStoryAction;
 		QAction                                  * saveAction;
+		QAction                                  * saveAsAction;
 		QAction                                  * openAction;
 		QAction                                  * aboutQtAction;
 		QAction                                  * exitAction;
 		QAction                                  * loadCSVAction;
+		QAction                                  * ValidationAction;
 
 
 
@@ -149,11 +153,13 @@ class MainWindow : public QMainWindow
 		void                                       open();
 		void                                       auto_save();
 		bool                                       save(bool _IsValid);
+		bool                                       saveAs(bool _IsValid);
 		void                                       exit();
 		void                                       cut();
 		void                                       edit_xeml();
 		void                                       set_experimenter(QString _firstnametext,QString _lastnametext,QString _organisationtext,QString _emailtext);
 		bool                                       validate_xml_to_save();
+		bool                                       validate_xml_to_save_as();
 		void                                       refresh_story_tree(StoryView * _storyview);
 		void                                       refresh_story_tree(bool _Mode,StoryView * _storyview);
 		void                                       refresh_onto_tree(ParameterTreeView * _ontoview);

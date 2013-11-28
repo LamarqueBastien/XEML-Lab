@@ -51,6 +51,7 @@ void LoaderParamSettingPage::send_data(std::vector<std::vector<QString> *> * _ve
 
 void LoaderParamSettingPage::initializePage(){
 	this->stories = new std::vector<StoryNode*>();
+	this->termHeaderLabel=new std::vector<QString>();
 
 	this->terms=new std::vector<std::pair<ItfOntologyTerm *,QString> >();
 	connect(this->table,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(on_item_selected(QModelIndex)));
@@ -65,6 +66,14 @@ void LoaderParamSettingPage::initializePage(){
 	//terms (indexlist->size()-1);
 	(*indexlist)=static_cast<QItemSelectionModel*>(field("headerViewSelection").value<QItemSelectionModel*>())->selectedColumns();
 	for (int i=0;i<indexlist->size();i++){
+
+		if (i!=0){
+
+			this->termHeaderLabel->push_back(indexlist->at(i).data().toString());
+
+		}
+
+
 		std::cerr << indexlist->at(i).data().toString().toStdString() << std::endl;
 		this->model->setItem(i,0,new QStandardItem(indexlist->at(i).data().toString()));
 		this->model->setItem(i,1,new QStandardItem("-Click to set-"));
@@ -145,6 +154,8 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 	//this->ontologyPage->show();
 	*/
 
+
+
 	if(_index.column()==0){
 
 
@@ -169,6 +180,7 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 		//connect(this->storyPage,SIGNAL(send_details_story(int,int,StoryNode*)),this,SLOT(store_information_story(int,int,StoryNode*)));
 
 		//this->storyPage->show();
+
 	}
 	else if(_index.column()==3){
 		//passer en arguments du loader datetime page;
@@ -179,6 +191,7 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 		this->dateTimePage=new LoaderDateTimePage(_index.column(),_index.row());
 		connect(this->dateTimePage,SIGNAL(delimitered_dateTime(int,int,QString)),this,SLOT(store_information_time(int,int,QString)));
 		this->dateTimePage->show();
+		//this->termHeaderLabel->push_back(_index.data().toString());
 		//std::cerr << "index==1 "<< "row : " << _index.row()<< std::endl;
 
 	}
@@ -200,6 +213,23 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 int LoaderParamSettingPage::nextId() const
 {
 
+	std::vector<int> * position=new std::vector<int>();
+	int counter=0;
+	for (int i=0;i<this->terms->size();i++){
+		for (int j =1;j<LoaderWizard::get_CSV_data()->size();j++){
+
+			std::cerr << "data label :" << LoaderWizard::get_CSV_data()->at(j)->at(0).toStdString() << std::endl;
+			std::cerr << "header label :" << this->termHeaderLabel->at(i).toStdString() << std::endl;
+			if (LoaderWizard::get_CSV_data()->at(j)->at(0)==this->termHeaderLabel->at(i)){
+
+				std::cerr << LoaderWizard::get_CSV_data()->at(j)->at(0).toStdString() << "====" << this->termHeaderLabel->at(i).toStdString() << std::endl;
+				position->push_back(j);
+				std::cerr << "position value :" << position->at(i) << std::endl;
+				std::cerr << "j :" << j << std::endl;
+			}
+		}
+	}
+	std::cerr << "position size : " << position->size() << std::endl;
 	//this->complete_xeml_doc(this->stories,this->time_expression,this->terms);
 	//for (unsigned i=0; i<this->stories->size(); i++)
 		//std::cerr << static_cast<StoryNode*>(this->stories->at(i))->get_label().toStdString() << std::endl;//=i;
@@ -219,6 +249,8 @@ int LoaderParamSettingPage::nextId() const
 		DynamicTerm * tmp_term=static_cast<DynamicTerm*>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype());
 		//tmp_term->contextList();
 		StoryNode * tmp=stories->at(i);
+		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+		std::cerr << "CSV vector size : " << LoaderWizard::get_CSV_data()->at(0)->size() << std::endl;
 		for (unsigned j=1; j<LoaderWizard::get_CSV_data()->at(0)->size();j++){
 			DynamicValue * v = new DynamicValue();
 			v->set_is_cyclevalue(false);
@@ -253,7 +285,8 @@ int LoaderParamSettingPage::nextId() const
 			tmp_unit=tmp_unit.remove(0,1);
 			//std::cerr << "2----"  << tmp_unit.toStdString() << std::endl;
 			v->set_unit(tmp_unit.remove(tmp_unit.size()-1,1));
-			v->set_value(LoaderWizard::get_CSV_data()->at(i+1)->at(j));
+			std::cerr << "position at i :" << position->at(i) << std::endl;
+			v->set_value(LoaderWizard::get_CSV_data()->at(position->at(i))->at(j));
 			if(!(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->contain_variable(tmp_term))){
 				tmp_term->add_dynamicvalue(v);
 

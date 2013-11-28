@@ -30,6 +30,7 @@ namespace Xeml {
 				bool                    get_isRoot();
 				bool                    get_isContainer();
 				QString                 get_label();
+				void                    set_label(QString _label);
 				StoryBase             * get_story();
 				StoryNode             * get_parent();
 				std::list<StoryNode*> * get_childs();

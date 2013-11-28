@@ -2,6 +2,8 @@
 #define VALIDATIONWINDOW_H
 
 #include <QMainWindow>
+#include<iostream>
+using namespace std;
 
 #if defined(Q_WS_MAEMO_5) || defined(Q_WS_SIMULATOR)
 	#include "ui_schema_mobiles.h"

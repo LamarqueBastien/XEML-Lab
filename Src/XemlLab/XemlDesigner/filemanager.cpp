@@ -53,7 +53,7 @@ void FileManager::New(){
 		//std::cerr <<"templatefilepath" << this->filePath << std::endl;
 
 		this->filePath="://XEMLStore/Templates/Standard.xeml";
-		QDir::setSearchPaths("templates", QStringList("://XEMLStore/Templates"));
+		//QDir::setSearchPaths("templates", QStringList("://XEMLStore/Templates"));
 		QFile file(filePath);
 		
 		// On ouvre notre fichier en lecture seule et on vérifie l'ouverture

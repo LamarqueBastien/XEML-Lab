@@ -18,9 +18,12 @@ class GermPlasmPanel : public QWidget
 	private:
 		QTableView         * view;
 		QStandardItemModel * model;
+		ItfDocument        * doc;
 	public:
 		GermPlasmPanel(QWidget * parent=0);
 		void                 clean_model();
+		void                 remove_row();
+		void                 get_selected_element();
 		void                 initialize(ItfDocument * _xemlDoc);
 };
 
