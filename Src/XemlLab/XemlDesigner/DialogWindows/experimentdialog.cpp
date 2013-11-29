@@ -33,6 +33,9 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 
 	connect(experimentlabelEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
+	connect(this->startdateEdit,SIGNAL(dateTimeChanged(QDateTime)),this,SLOT(avoid_endTime_reachout(QDateTime)));
+
+	connect(this->enddateEdit,SIGNAL(dateTimeChanged(QDateTime)),this,SLOT(avoid_equal_time(QDateTime)));
 
 	QHBoxLayout * topleftLayout = new QHBoxLayout;
 	topleftLayout->addWidget(experimentlabel);
@@ -72,6 +75,22 @@ void ExperimentDialog::enabledOkButton(const QString &text){
 	Q_UNUSED(text)
 	this->okButton->setEnabled(true);
 }
+
+//when Enddate is equal to Startdate, always add a second to enddate.
+void ExperimentDialog::avoid_equal_time(QDateTime _newTime){
+	if (this->startdateEdit->dateTime()==_newTime){
+		this->enddateEdit->setDateTime(_newTime.addSecs(1));
+	}
+	//else{
+
+	//}
+}
+//Avoid Enddate be earlier than Startdate
+void ExperimentDialog::avoid_endTime_reachout(QDateTime _newTime){
+	this->enddateEdit->setMinimumDateTime(_newTime);
+
+}
+
 void ExperimentDialog::initialize(){
 	this->descriptionEdit->setPlainText(this->current_doc->get_experimentheader()->get_summary());
 	this->experimentlabelEdit->setText(this->current_doc->get_experiment_name());

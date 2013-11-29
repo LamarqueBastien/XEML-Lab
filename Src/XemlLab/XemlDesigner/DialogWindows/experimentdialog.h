@@ -42,6 +42,8 @@ class ExperimentDialog : public QDialog
 		private slots:
 
 			void            OkClicked();
+			void            avoid_endTime_reachout(QDateTime _newTime);
+			void            avoid_equal_time(QDateTime _newTime);
 			void            enabledOkButton(const QString &text);
 
 };

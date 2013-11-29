@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	//std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
 	connect(timer, SIGNAL(timeout()), this, SLOT(auto_save()));
-	timer->start(3000);
+	timer->start(30000000);
 	//QTimer::singleShot(10000, this, SLOT(auto_save()));
 
 	QString fen1ObjectName("Ontology");

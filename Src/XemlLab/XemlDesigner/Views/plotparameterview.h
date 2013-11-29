@@ -5,6 +5,7 @@
 #include<QTabWidget>
 #include<QGraphicsView>
 #include<QVBoxLayout>
+#include<QVector>
 #include <QGraphicsPathItem>
 #include<Views/GraphicStoryView/graphicplotscene.h>
 #include"CoreObjects/storybase.h"

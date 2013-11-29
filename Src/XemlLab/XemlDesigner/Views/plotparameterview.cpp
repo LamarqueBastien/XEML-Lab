@@ -19,10 +19,19 @@ void PlotParameterView::initialize(){
 	//build using QCustomPlot
 
 	qreal x_length_split;
+	x_length=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),current_doc->get_enddate()));
+
+	//x_length=translate_second_in_distance(get_seconds_from_date(current_doc->get_startdate(),current_doc->get_enddate()));
+	QVector<double> x(x_length), y(x_length);
+	QString unit;
+
+	bool last_value_is_cycle=false;
 	for (std::vector<std::pair<BasicTerm*,QString> >::iterator it=this->current_story->get_variablesCollection()->begin();it!=current_story->get_variablesCollection()->end();++it){
 
 
 
+		x.clear();
+		y.clear();
 		if((*it).first->get_namespacealias()=="XEO_Positioning"){
 
 		}
@@ -30,16 +39,284 @@ void PlotParameterView::initialize(){
 
 
 			std::cerr << " basic term label : " << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
+			int Quant_value_number=0;
+			for (int i=0;i<static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size();i++){
+				if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_context()=="Quantity"){
+					Quant_value_number++;
+				}
 
+			}
+			std::cerr << "quatn value number :" << Quant_value_number << std::endl;
 
 			QCustomPlot * plot = new QCustomPlot();
+			QVector< QVector< int > > ValuesX(Quant_value_number);//(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size());
+			QVector< QVector< double > > ValuesY(Quant_value_number);//(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size());
+
+
+			//QVector< QVector< int > > twoDArray;      // Empty.
+			//QVector< QVector< int > > twoDArray( 2 ); // Contains two int arrays.
+			//twoDArray[0].resize(4);
+			//twoDArray[0][2] = 4;
+
+
 
 			tabWidget->addTab(plot,static_cast<DynamicTerm*>((*it).first)->get_name());
-			x_length=translate_second_in_distance(get_seconds_from_date(current_doc->get_startdate(),current_doc->get_enddate()));
-			QVector<double> x(x_length), y(x_length);
+
+
+
+			int counter =0;
+
+
+			for (int i=0;i<static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size();i++){
+				std::cerr << "term:" << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
+
+				if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_context()=="Quantity"){
+
+
+
+
+					int cycle_size=0;
+					int cycle_division=0;
+					if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_is_cycle()){
+
+						last_value_is_cycle=true;
+
+						Cycle * c =static_cast<Cycle*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first);
+						cycle_size=c->get_cycleValues()->size();
+						cycle_division=24/c->get_cycleValues()->size();
+						ValuesX[counter].resize(cycle_size);
+						ValuesY[counter].resize(cycle_size);
+						int counter_cycle=0;
+						int counter_hours_to_add=0;
+						for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it2=c->get_cycleValues()->begin();it2!=c->get_cycleValues()->end();++it2){
+
+							ValuesX[counter][counter_cycle]=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint().addSecs(counter_hours_to_add*3600)));
+							ValuesY[counter][counter_cycle]=static_cast<DynamicValue*>((*it2).first)->get_value().toDouble();
+							counter_cycle++;
+							counter_hours_to_add+=cycle_division;
+							//static_cast<DynamicValue*>((*it2).first)->get_value()
+						}
+
+
+
+					}
+					else{
+						unit=static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_unit();
+
+						//QVector<int> tmpvecX(1);
+						//QVector<double> tmpvecY(1);
+						//tmpvecX.append(translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint())));
+						//tmpvecY.append(static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_value().toDouble());
+						//ValuesX.append(tmpvecX);
+						//ValuesY.append(tmpvecY);
+						//tmpvecX.clear();
+						//tmpvecY.clear();
+
+						ValuesX[counter].resize(1);
+						ValuesY[counter].resize(1);
+						ValuesX[counter][0]=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint()));
+						ValuesY[counter][0]=static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_value().toDouble();
+						//ValuesX.at(counter).at(0).append(translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint())));
+						//ValuesY.at(counter).append(static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_value().toDouble());
+						//std::cerr << "add value at position:" << translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint())) << std::endl;
+
+
+						last_value_is_cycle=false;
+
+					}
+					counter++;
+
+				}
+			}
+			std::cerr << "value x at 0 : " << ValuesX.at(0).at(0) << std::endl;
+			std::cerr << "term has been added" << std::endl;
+
+			int j;
+			int k;
+			int z=0;
+
+			if (last_value_is_cycle){
+
+			}
+			else{
+				std::cerr <<  "test1 " << std::endl;
+				//std::cerr << "value x size : " << ValuesX.size() <<  std::endl;
+				//std::cerr << "value x1 size : " << ValuesX[0].size() <<  std::endl;
+				//std::cerr << "value x2 size : " << ValuesX[1].size() <<  std::endl;
+				//std::cerr << "value x1 : " << ValuesX[0][0] <<  std::endl;
+				//std::cerr << "value x2 : " << ValuesX[1][0] <<  std::endl;
+				for (j=0;j<ValuesX.size()-1;j++){
+					std::cerr <<  "test2 " << std::endl;
+					//std::cerr << " j : " << j << std::endl;
+					//std::cerr << "value[j] x size : " << ValuesX[j].size() << std::endl;
+					for (;z<ValuesX[j].size();z++){
+						std::cerr <<  "test3 " << std::endl;
+
+						if (ValuesX[j].size()>1){
+
+							int diff=0;
+							std::cerr <<  "test4 " << std::endl;
+							for (int w=0;w<ValuesX[j].size();w++){
+								std::cerr <<  "test5 " << std::endl;
+								if(w==ValuesX[j].size()-1){
+									std::cerr <<  "test 6" << std::endl;
+									std::cerr <<  "z : " << z <<  std::endl;
+									std::cerr << "ValuesX[j].at(w) : "  << ValuesX[j].at(w) << std::endl;
+									std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
+
+									for (k=ValuesX[j].at(w);k<ValuesX[j+1].at(0);k++){
+										//std::cerr <<  "test 7" << std::endl;
+										x.append(k);
+										y.append(ValuesY[j].at(w));
+									}
+
+									/*
+									for (k=ValuesX[j].at(w);k<ValuesX[j].at(w+1);k++){
+										x.append(k);
+										y.append(ValuesY[j].at(w));
+									}
+									*/
+									std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
+								}
+								else{
+									std::cerr <<  "test 8" << std::endl;
+									diff=ValuesX[j].at(w+1)-ValuesX[j].at(w);
+									for (k=ValuesX[j].at(w);k<ValuesX[j].at(w+1);k++){
+										x.append(k);
+										y.append(ValuesY[j].at(w));
+									}
+									std::cerr <<  "test 9" << std::endl;
+								}
+							}
+						}
+						else{
+							//std::cerr << " ValuesX[j] is not a cycle " << std::endl;
+							std::cerr << " z : " << z << std::endl;
+
+							for (k=ValuesX[j].at(z);k<ValuesX[j+1].at(z);k++){
+								x.append(k);
+								y.append(ValuesY[j].at(z));
+							}
+						}
+						std::cerr << " z : " << z << std::endl;
+					}
+					z--;
+					std::cerr << " z : " << z << std::endl;
+				}
+
+				std::cerr << "all initials values have been added" << std::endl;
+				//std::cerr << "z : " << z << "k : " << k << " j : " << j << "ValueX Size : " << ValuesX.size() <<  "ValuesX[j] : " << ValuesX[j].at(z) << "x_length : " << x_length <<std::endl;
+				if(k!=x_length){
+
+					for (int l=ValuesX[j].at(ValuesX[j].size()-1);l<x_length;l++){
+						x.append(l);
+						y.append(ValuesY[j].at(ValuesX[j].size()-1));
+					}
+				}
+				else{
+					x.append(ValuesX[j].at(ValuesX[j].size()-1));
+					y.append(ValuesY[j].at(ValuesX[j].size()-1));
+				}
+			}
+
+			/*
+			QVector <int> ValuesX(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size());
+			QVector <double> ValuesY(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size());
+
+			tabWidget->addTab(plot,static_cast<DynamicTerm*>((*it).first)->get_name());
+
+
+
+			for (int i=0;i<static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size();i++){
+				std::cerr << "term:" << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
+
+				if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_context()=="Quantity"){
+
+
+					if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_is_cycle()){
+
+						last_value_is_cycle=true;
+
+						Cycle * c =static_cast<Cycle*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first);
+						cycle_size=c->get_cycleValues()->size();
+						for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it2=c->get_cycleValues()->begin();it2!=c->get_cycleValues()->end();++it2){
+
+						}
+
+
+
+					}
+					else{
+						unit=static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_unit();
+						ValuesX.append(translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint())));
+						ValuesY.append(static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_value().toDouble());
+						//std::cerr << "add value at position:" << translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint())) << std::endl;
+
+
+						last_value_is_cycle=false;
+
+					}
+				}
+			}
+			std::cerr << "term has been added" << std::endl;
+			int j;
+			int k;
+
+			if (last_value_is_cycle){
+
+			}
+			else{
+				for (j=0;j<ValuesX.size()-1;j++){
+					for (k=ValuesX[j];k<ValuesX[j+1];k++){
+						x.append(k);
+						y.append(ValuesY[j]);
+					}
+				}
+
+				//std::cerr << "all initials values have been added" << std::endl;
+				//std::cerr << "k : " << k << " j : " << j << "ValueX Size : " << ValuesX.size() <<  "ValuesX[j+1] : " << ValuesX[j] << "x_length : " << x_length <<std::endl;
+				if(k!=x_length){
+
+					for (int l=ValuesX[j];l<x_length;l++){
+						x.append(l);
+						y.append(ValuesY[j]);
+					}
+				}
+				else{
+					x.append(ValuesX[j]);
+					y.append(ValuesY[j]);
+				}
+			}
+
+
+			*/
+			//plot representation
+			plot->addGraph();
+			plot->graph(0)->setData(x, y);
+			// give the axes some labels:
+			plot->xAxis->setLabel("Time (minutes)");
+			plot->yAxis->setLabel(unit);
+
+
+			// set axes ranges, so we see all data:
+			plot->xAxis->setRange(0, x_length);
+			plot->xAxis->setTickLength(1440);
+			plot->yAxis->setRange(0, 100);
+
+			plot->replot();
+
+
+
+
+
+
+			/*
 			QVector<double> x1, y2;
 
 			x_length_split=x_length;
+
+
+
 			if (current_story->get_IsStorySplit()){
 				x_length_split=translate_second_in_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<StorySplit*>(current_story)->get_timepoint()));
 			}
@@ -113,6 +390,8 @@ void PlotParameterView::initialize(){
 			std::cerr << "QVsize :" << quantitativeValues.size() <<std::endl;
 
 			//QVector<DynamicValue*> quantitativeValues(quantity_value_number+1);//(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size());
+
+			*/
 			/*
 			for (int i=0;i<quantity_value_number+1;i++){
 				if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_context()=="Quantity"){
@@ -123,8 +402,9 @@ void PlotParameterView::initialize(){
 			}
 			*/
 
+			/*
 			for (int j=0;j<values.size()-1;j++){
-				std::cerr << " j :" << j  << std::endl;
+				std::cerr << "j :" << j  << std::endl;
 				std::cerr << "first limit : " << values[j] << "second limit :" << values[j+1]<< std::endl;
 
 				double cycle_value;
@@ -143,7 +423,7 @@ void PlotParameterView::initialize(){
 
 					}
 					else{
-						std::cerr << " j :" << j  << std::endl;
+						std::cerr << "j :" << j  << std::endl;
 						std::cerr << "counter :" << counter << std::endl;
 						std::cerr << "k :" << k << std::endl;
 						std::cerr << "y :" << quantitativeValues[j] << std::endl;
@@ -158,6 +438,27 @@ void PlotParameterView::initialize(){
 					}
 				}
 			}
+
+
+
+			//plot representation
+			plot->addGraph();
+			plot->graph(0)->setData(x, y);
+			// give the axes some labels:
+			plot->xAxis->setLabel("Time (days)");
+			plot->yAxis->setLabel(unit);
+
+
+			// set axes ranges, so we see all data:
+			plot->xAxis->setRange(0, x_length);
+			plot->xAxis->setTickLength(1);
+			plot->yAxis->setRange(0, 100);
+
+			plot->replot();
+			*/
+
+
+
 			/*
 			for (std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it2= static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->begin();it2!=static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->end();++it2){
 
@@ -294,22 +595,6 @@ void PlotParameterView::initialize(){
 			newBars->setName("Parameter plot");
 			newBars->setData(x, y);
 			*/
-
-
-			//plot representation
-			plot->addGraph();
-			plot->graph(0)->setData(x, y);
-			// give the axes some labels:
-			plot->xAxis->setLabel("Time (days)");
-			plot->yAxis->setLabel(unit);
-
-
-			// set axes ranges, so we see all data:
-			plot->xAxis->setRange(0, x_length);
-			plot->xAxis->setTickLength(1);
-			plot->yAxis->setRange(0, 100);
-
-			plot->replot();
 		}
 	}
 
