@@ -36,7 +36,7 @@ LoaderWizard::LoaderWizard(QStandardItemModel * _model,ItfDocument * _doc,Docume
 	//connect(this,SIGNAL(),this->loaderDataFilePage,SLOT()
 
 	setWindowTitle(tr("Loader extra data Wizard"));
-	setWindowFlags(Qt::WindowStaysOnTopHint);
+	//setWindowFlags(Qt::WindowStaysOnTopHint);
 
 
 }

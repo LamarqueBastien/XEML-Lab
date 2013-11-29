@@ -11,6 +11,7 @@ TARGET = XemlCore
 TEMPLATE = lib
 CONFIG += staticlib
 
+
 SOURCES += \
     CoreObjects/xemldocument.cpp \
     CoreObjects/xemlcomponentloadfailedexception.cpp \
@@ -76,7 +77,8 @@ SOURCES += \
     Ontologies/PlantStructure/simpleoboterm.cpp \
     Ontologies/PlantStructure/plantstructureontologyhandler.cpp \
     Ontologies/Positioning/posterm.cpp \
-    Ontologies/Positioning/positioningontologyhandler.cpp
+    Ontologies/Positioning/positioningontologyhandler.cpp \
+    Test/coreobjecttest.cpp
 
 
 HEADERS += \
@@ -152,7 +154,8 @@ HEADERS += \
     Ontologies/PlantStructure/simpleoboterm.h \
     Ontologies/PlantStructure/plantstructureontologyhandler.h \
     Ontologies/Positioning/posterm.h \
-    Ontologies/Positioning/positioningontologyhandler.h
+    Ontologies/Positioning/positioningontologyhandler.h \
+    Test/coreobjecttest.h
 
 unix:!symbian {
     maemo5 {

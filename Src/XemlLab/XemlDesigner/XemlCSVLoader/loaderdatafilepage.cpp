@@ -238,6 +238,9 @@ void LoaderDataFilePage::load_file(){
 
 	if(!validated){
 		QMessageBox msgBox;
+		msgBox.setModal(true);
+
+		//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
 		msgBox.setWindowTitle("Loader Wizard missing values");
 		msgBox.setText(missingValues+"Do you want to keep this datafile ? ");
 		msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
@@ -248,6 +251,8 @@ void LoaderDataFilePage::load_file(){
 
 		}else {
 			tmpvec->clear();
+
+
 
 
 
