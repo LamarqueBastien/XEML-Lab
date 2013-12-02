@@ -89,9 +89,9 @@ void PlotParameterView::initialize(){
 						int counter_cycle=0;
 						int counter_hours_to_add=0;
 						qreal current_pos=0;
-						qreal next_param_start=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i+1).first)->get_timepoint()));
-						while(current_pos<next_param_start){
-							counter_cycle=0;
+						//qreal next_param_start=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i+1).first)->get_timepoint()));
+						//while(current_pos<next_param_start){
+							//counter_cycle=0;
 						for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it2=c->get_cycleValues()->begin();it2!=c->get_cycleValues()->end();++it2){
 
 							current_pos=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint().addSecs(counter_hours_to_add*3600)));
@@ -101,7 +101,7 @@ void PlotParameterView::initialize(){
 							counter_hours_to_add+=cycle_division;
 							//static_cast<DynamicValue*>((*it2).first)->get_value()
 						}
-						}
+						//}
 
 
 

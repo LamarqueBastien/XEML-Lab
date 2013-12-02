@@ -8,8 +8,8 @@ LoaderParamSettingPage::LoaderParamSettingPage(QStandardItemModel * _model,ItfDo
 	this->modeltree=_model;
 	this->doc_resources=_resources;
 	setTitle(tr("Header/Term Association"));
-	setSubTitle(tr("Please try to find a corresponding term for each header in a selection of ontologies."
-					   "in a selection of ontologies"));
+	setSubTitle(tr("Please try to find a corresponding term for each header"
+					   " in a selection of ontologies."));
 	table =new QTableView();
 	this->table->setSelectionMode(QAbstractItemView::MultiSelection);
 

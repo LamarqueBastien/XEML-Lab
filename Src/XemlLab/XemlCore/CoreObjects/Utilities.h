@@ -268,40 +268,42 @@ namespace Xeml{
 				return distance;
 		}
 		inline qreal translate_second_in_real_distance(qint64 _milliseconds){
-			qint64 n;		/* n : durée donnée en secondes */
-			qint64 r;		/* r : le reste du modulo */
-			//bool isNull=false;
+
+			qint64 n;
+			/*
+
+			qint64 r;
+
 
 			qint64 days=0;
 			qint64 hours=0;
 			qint64 minutes=0;
-			qint64 seconds=0;/* a : la quantité de jours, heures, minutes ou secondes */
-			//std::vector<int> * tab=new std::vector<int>();
+			qint64 seconds=0;
 
+
+			*/
 			n=_milliseconds;
+
 			if (n>=0){
-				/* 1 jour = 24*60*60 = 86400 secondes */
-				r=n%86400000;		/* on calcul le reste */
+
+				/*
+				r=n%86400000;
 				days=(n-r)/86400000;
-				//std::cerr << "days = " << days << std::endl;
-				//tab->push_back(days);
-				n=r;			/* on ne retient que les secondes restantes */
-				r=n%3600000;		/* on calcul le reste */
+
+				n=r;
+				r=n%3600000;
 				hours=(n-r)/3600000;
 				if(days>=30){
-					//hours--;
-				}
-				//std::cerr << "hours = " << hours << std::endl;
-				//tab->push_back(hours);
-				n=r;		/* on ne retient que les secondes restantes */
-				r=n%60000;		/* on calcul le reste */
-				minutes=(n-r)/60000;
-				//std::cerr << "minutes = " << minutes << std::endl;
-				//tab->push_back(minutes);
-				seconds=r/1000;
-				//std::cerr << "seconds = " << seconds << std::endl;
 
-				//tab->push_back(seconds);
+				}
+
+				n=r;
+				r=n%60000;
+				minutes=(n-r)/60000;
+
+				seconds=r/1000;
+				*/
+
 
 			}
 
@@ -314,6 +316,7 @@ namespace Xeml{
 				std::cerr << "erreur : nombre négatif !!!!!\n" << std::endl;
 			}
 			//QString current_time;
+			//RETURN TIME IN MINUTES
 			qreal distance=_milliseconds/60000;
 			//double distance=days*24+hours+minutes/60+seconds/3600;
 			/*
