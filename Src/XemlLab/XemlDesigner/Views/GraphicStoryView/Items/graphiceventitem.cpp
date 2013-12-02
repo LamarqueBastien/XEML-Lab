@@ -149,8 +149,8 @@ QRectF GraphicEventItem::boundingRect() const{
 	//extra=0;
 	//std::cerr << " extra : " << extra << std::endl;
 	*/
-	qreal miny;
-	qreal maxy;
+	//qreal miny;
+	//qreal maxy;
 	qreal minx;
 	qreal maxx;
 	//GraphicStoryItem * test=static_cast<GraphicStoryItem*>(parent);
@@ -160,11 +160,11 @@ QRectF GraphicEventItem::boundingRect() const{
 	//std::cerr << " posY : " << posy << std::endl;
 	minx = rect.width() < 0 ? rect.width() : 0;
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
-	miny = rect.height() < 0 ? rect.height() : posy;
-	maxy = rect.height() < 0 ? 0 : posy+rect.height();
+	//miny = rect.height() < 0 ? rect.height() : posy;
+	//maxy = rect.height() < 0 ? 0 : posy+rect.height();
 	qreal parent_y=0;
 
-	qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+	//qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 	if (this->parent!=NULL){
 		parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 	}

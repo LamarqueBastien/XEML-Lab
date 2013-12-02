@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
 	// display Splashscreen during initialization
 	QSplashScreen *splash = new QSplashScreen;
-	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner
+	splash->setPixmap(QPixmap("://Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner
 	splash->show();
 
 	Qt::Alignment topRight = Qt::AlignRight | Qt::AlignTop;
