@@ -42,7 +42,7 @@ namespace Xeml{
 		}
 
 		void DynamicValue::set_timepoint(QDateTime _timepoint){
-			std::cerr << "duration value in set timepoint:" << _timepoint.toString("hh:mm:ss").toStdString() << std::endl;
+			//std::cerr << "duration value in set timepoint:" << _timepoint.toString("hh:mm:ss").toStdString() << std::endl;
 
 			this->timepoint=_timepoint;
 		}

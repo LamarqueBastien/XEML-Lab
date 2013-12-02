@@ -176,6 +176,9 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 			}
 		}
 		else{
+			this->my_selected_story=NULL;
+			this->my_selected_obsPoint=NULL;
+			this->my_selected_event=NULL;
 			std::cerr << "empty selection" << std::endl;
 		}
 		selectedItems().clear();
@@ -264,7 +267,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 	if (!item->childItems().empty()){
 		std::cerr << "size : " << item->childItems().size() << std::endl;
 		for(int i=0;i<item->childItems().size();i++){
-			std::cerr << "in da loop "<< std::endl;
+			//std::cerr << "in da loop "<< std::endl;
 			child_item=item->childItems().at(i);
 
 

@@ -38,6 +38,7 @@ namespace Xeml {
 
 		void                  XemlDocument::Load(QString xemlCode,bool _asTemplate){
 			QFile Xeml_doc(xemlCode.toStdString().c_str());
+			std::cerr << "file loaded" << std::endl;
 			this->asTemplate=_asTemplate;
 			QDomDocument * Xeml_dom = new QDomDocument("template_xeml");
 
@@ -873,11 +874,11 @@ namespace Xeml {
 			}
 		}
 		void                  XemlDocument::InitStory(QDomElement  _elem, StoryNode * _node,QString _storyname){
-			std::cerr << "entering init story " << std::endl;
+			//std::cerr << "entering init story " << std::endl;
 			StoryNode * sns=NULL;
 			QString storyname=_storyname;
 			if(_elem.tagName()=="xeml:Story"){
-				std::cerr << "entering  story " << std::endl;
+				//std::cerr << "entering  story " << std::endl;
 				Story  * s = new Story();
 				QDomNodeList QNL=_elem.childNodes();
 				InitAnnotations(_elem,s);
@@ -887,7 +888,7 @@ namespace Xeml {
 				this->storyBoard->add_Node(sns);
 				for (int i = 0; i < QNL.length(); i++) {
 					if(QNL.item(i).toElement().tagName()=="xeml:IndividualsPool"){
-						std::cerr << "found indivi" << std::endl;
+						//std::cerr << "found indivi" << std::endl;
 						InitPools(QNL.item(i).toElement(),s);
 					}
 					/*
@@ -915,7 +916,7 @@ namespace Xeml {
 				s->set_label(_elem.attributeNode("Label").value());//+" ("+storyname+")");
 				//QDateTime date=get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(_elem.attributeNode("TimePoint").value()));
 				//std::cerr << date.toString("dd-MM-yyyyThh:mm:ss.").toStdString() << std::endl;
-				std::cerr << "before set timepoint" << _elem.attributeNode("TimePoint").value().toStdString() << std::endl;
+				//std::cerr << "before set timepoint" << _elem.attributeNode("TimePoint").value().toStdString() << std::endl;
 				s->set_timepoint(get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(_elem.attributeNode("TimePoint").value())));
 
 				//s->set_timepoint(QDateTime::fromString(_elem.attributeNode("TimePoint").value(),"dd.hh:mm:ss"));
@@ -961,7 +962,7 @@ namespace Xeml {
 
 		}
 		void                  XemlDocument::InitPools(QDomElement _elem, XemlAnnotableObject * _xo){
-			std::cerr << "entering individual pool" << std::endl;
+			//std::cerr << "entering individual pool" << std::endl;
 			IndividualsPool * ip = new IndividualsPool();
 			InitAnnotations(_elem,ip);
 			ip->set_ns(_elem.attributeNode("NS").value());
@@ -979,7 +980,7 @@ namespace Xeml {
 			static_cast<Story*>(_xo)->add_individualspool(ip);
 		}
 		void                  XemlDocument::InitVariable(QDomElement _elem,bool _isStorysplit,StoryBase * _storyBase){
-			std::cerr << "entering  variable " << std::endl;
+			//std::cerr << "entering  variable " << std::endl;
 			QString termId =_elem.attributeNode("TermId").value();
 			DynamicTerm * p = new DynamicTerm(termId);
 			InitAnnotations(_elem,p);
@@ -998,15 +999,15 @@ namespace Xeml {
 			for (int i = 0; i < QNL.length(); i++) {
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:ValueSet"){
 					//TimeSpan * ts = new TimeSpan(35,0,0,0);
-					std::cerr << QNL.item(i).toElement().attributeNode("TimePoint").value().toStdString() << std::endl;
-					std::cerr << "before getDate " << std::endl;
+					//std::cerr << QNL.item(i).toElement().attributeNode("TimePoint").value().toStdString() << std::endl;
+					//std::cerr << "before getDate " << std::endl;
 
 					//QDateTime ts=get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(_elem.attributeNode("TimePoint").value()));
-					std::cerr << "after getDate " << std::endl;
+					//std::cerr << "after getDate " << std::endl;
 
 					//QDateTime ts=QDateTime::fromString(QNL.item(i).toElement().attributeNode("TimePoint").value(),"dd.hh:mm:ss");
 					qint64 seconds=translate_DD_HH_MM_SS_in_Msecs(QNL.item(i).toElement().attributeNode("TimePoint").value());
-					std::cerr << "after translate : " << seconds << std::endl;
+					//std::cerr << "after translate : " << seconds << std::endl;
 					InitValues(QNL.item(i).toElement(),_isStorysplit,p,get_date(this->startDate,seconds),_storyBase);
 
 				}
@@ -1018,15 +1019,16 @@ namespace Xeml {
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Value"){
 					DynamicValue * v = new DynamicValue();
 					v->set_is_cyclevalue(false);
-					std::cerr << "set timepoint" << _timepoint.toString("dd.hh:mm:ss").toStdString();
+					//std::cerr << "set timepoint" << _timepoint.toString("dd.hh:mm:ss").toStdString();
 					v->set_timepoint(_timepoint);
 					v->set_context(QNL.item(i).toElement().attributeNode("Context").value());
 					v->set_unit(QNL.item(i).toElement().attributeNode("Unit").value());
 					v->set_label(QNL.item(i).toElement().attributeNode("Label").value());
 					v->set_value(QNL.item(i).toElement().text());
-					if(_term->find(v)){
-						std::cerr << "Value double entry. The value will be overriden" << std::endl;
-					}
+
+					//if(_term->find(v)){
+						//std::cerr << "Value double entry. The value will be overriden" << std::endl;
+					//}
 					if(_isStorySplit){
 						if(static_cast<StorySplit*>(_storyBase)->get_timepoint()<=v->get_timepoint()){
 							_term->add_dynamicvalue(v);//,_timepoint);
@@ -1057,10 +1059,10 @@ namespace Xeml {
 							c->add_cycleValue(make_pair(v,v->get_timepoint()));
 						}
 					}
-					if(_term->find(c)){
-						std::cerr << "Value double entry. The value will be overriden" << std::endl;
+					//if(_term->find(c)){
+						//std::cerr << "Value double entry. The value will be overriden" << std::endl;
 						//_term->
-					}
+					//}
 					if(_isStorySplit){
 						if(static_cast<StorySplit*>(_storyBase)->get_timepoint()<=c->get_timepoint()){
 							_term->add_dynamicvalue(c);
@@ -1087,7 +1089,7 @@ namespace Xeml {
 		}
 		void                  XemlDocument::InitObserverPoint(QDomElement _elem,bool _isStorySplit, StoryBase * _storyBase){
 			Q_UNUSED(_isStorySplit);
-			std::cerr << "entering add observerPoint" << std::cerr;
+			//std::cerr << "entering add observerPoint" << std::cerr;
 			ObservationPoint * op = new ObservationPoint();
 			this->observationPointsCounter++;
 

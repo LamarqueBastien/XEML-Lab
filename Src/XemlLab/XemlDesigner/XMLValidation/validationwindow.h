@@ -25,7 +25,7 @@ private Q_SLOTS:
 	void schemaSelected(int index);
 	void instanceSelected(int index);
 	void instanceSelected(QString _XemlCode);
-	void validate();
+	void validate(bool _confirm);
 	void textChanged();
 	void save();
 

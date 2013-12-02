@@ -151,6 +151,7 @@ class MainWindow : public QMainWindow
 		void                                       newFile();
 		void                                       loadCSV();
 		void                                       open();
+		void                                       openRecentFile();
 		void                                       auto_save();
 		bool                                       save(bool _IsValid);
 		bool                                       saveAs(bool _IsValid);

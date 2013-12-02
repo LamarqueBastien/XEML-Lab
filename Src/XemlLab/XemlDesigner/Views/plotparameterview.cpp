@@ -88,13 +88,19 @@ void PlotParameterView::initialize(){
 						ValuesY[counter].resize(cycle_size);
 						int counter_cycle=0;
 						int counter_hours_to_add=0;
+						qreal current_pos=0;
+						qreal next_param_start=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i+1).first)->get_timepoint()));
+						while(current_pos<next_param_start){
+							counter_cycle=0;
 						for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it2=c->get_cycleValues()->begin();it2!=c->get_cycleValues()->end();++it2){
 
-							ValuesX[counter][counter_cycle]=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint().addSecs(counter_hours_to_add*3600)));
+							current_pos=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_timepoint().addSecs(counter_hours_to_add*3600)));
+							ValuesX[counter][counter_cycle]=current_pos;
 							ValuesY[counter][counter_cycle]=static_cast<DynamicValue*>((*it2).first)->get_value().toDouble();
 							counter_cycle++;
 							counter_hours_to_add+=cycle_division;
 							//static_cast<DynamicValue*>((*it2).first)->get_value()
+						}
 						}
 
 
@@ -156,19 +162,39 @@ void PlotParameterView::initialize(){
 
 							int diff=0;
 							std::cerr <<  "test4 " << std::endl;
+							//**********TEST*****************
+
+							//while(k!=ValuesX[j+1].at(0)){
+							//****************************
 							for (int w=0;w<ValuesX[j].size();w++){
 								std::cerr <<  "test5 " << std::endl;
+								//the end of the cycle
 								if(w==ValuesX[j].size()-1){
 									std::cerr <<  "test 6" << std::endl;
 									std::cerr <<  "z : " << z <<  std::endl;
 									std::cerr << "ValuesX[j].at(w) : "  << ValuesX[j].at(w) << std::endl;
 									std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
 
+									//**********TEST*****************
+
+									//for (k=ValuesX[j].at(w);k<ValuesX[j].at(w)+diff;k++){
+									//****************************
 									for (k=ValuesX[j].at(w);k<ValuesX[j+1].at(0);k++){
+
+									//****************************
 										//std::cerr <<  "test 7" << std::endl;
 										x.append(k);
 										y.append(ValuesY[j].at(w));
 									}
+									//**********TEST*****************
+									if (k!=ValuesX[j+1].at(0)){
+										std::cerr <<  "k : " <<  k <<  std::endl;
+										for (int x=0;x<ValuesX[j].size();x++){
+											int test=ValuesX[j].at(w);
+											ValuesX[j][w]=test+diff;
+										}
+									}
+									//****************************
 
 									/*
 									for (k=ValuesX[j].at(w);k<ValuesX[j].at(w+1);k++){
@@ -181,6 +207,9 @@ void PlotParameterView::initialize(){
 								else{
 									std::cerr <<  "test 8" << std::endl;
 									diff=ValuesX[j].at(w+1)-ValuesX[j].at(w);
+
+									//for (k=ValuesX[j].at(w);k<ValuesX[j].at(w)+diff;k++){
+
 									for (k=ValuesX[j].at(w);k<ValuesX[j].at(w+1);k++){
 										x.append(k);
 										y.append(ValuesY[j].at(w));
@@ -188,6 +217,7 @@ void PlotParameterView::initialize(){
 									std::cerr <<  "test 9" << std::endl;
 								}
 							}
+							//}
 						}
 						else{
 							//std::cerr << " ValuesX[j] is not a cycle " << std::endl;

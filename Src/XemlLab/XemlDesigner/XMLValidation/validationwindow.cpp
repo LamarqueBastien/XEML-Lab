@@ -152,7 +152,7 @@ void ValidationWindow::schemaSelected(int index)
 	const QString schemaText(QString::fromUtf8(schemaFile.readAll()));
 	schemaView->setPlainText(schemaText);
 
-	validate();
+	validate(false);
 }
 //! [1]
 
@@ -164,22 +164,24 @@ void ValidationWindow::instanceSelected(int index)
 	const QString instanceText(QString::fromUtf8(instanceFile.readAll()));
 	instanceEdit->setPlainText(instanceText);
 
-	validate();
+	validate(true);
 }
 void ValidationWindow::instanceSelected(QString _XemlCode)
 {
+	std::cerr << "entering instance selected " << std::endl;
 	//QFile instanceFile(this->filename);
 	//instanceFile.open(QIODevice::ReadOnly);
 	//const QString instanceText(QString::fromUtf8(instanceFile.readAll()));
 	instanceEdit->setPlainText(_XemlCode);
 
-	validate();
+	validate(true);
 }
 //! [2]
 
 //! [3]
-void ValidationWindow::validate()
+void ValidationWindow::validate(bool _confirm)
 {
+	std::cerr << "entering validate " << std::endl;
 	const QByteArray schemaData = schemaView->toPlainText().toUtf8();
 	const QByteArray instanceData = instanceEdit->toPlainText().toUtf8();
 
@@ -204,9 +206,14 @@ void ValidationWindow::validate()
 		moveCursor(messageHandler.line(), messageHandler.column());
 	} else {
 		validationStatus->setText(tr("validation successful"));
-		//std::cerr << "validation succesfull " << std::endl;
-		emit validated(true);
+		std::cerr << "validation succesfull " << std::endl;
+		if (_confirm){
+			emit validated(true);
+			this->close();
+			std::cerr << "emission signal succesfull " << std::endl;
+		}
 	}
+
 
 	const QString styleSheet = QString("QLabel {background: %1; padding: 3px}")
 									  .arg(errorOccurred ? QColor(Qt::red).lighter(160).name() :

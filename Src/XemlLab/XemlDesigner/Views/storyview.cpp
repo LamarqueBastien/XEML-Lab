@@ -48,9 +48,12 @@ StoryView::StoryView(QWidget *parent) :
 
 	StoryStartTime=new QDateTimeEdit;
 	StoryStartTime->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
-	StoryStartTime->setCalendarPopup(true);
+	StoryStartTime->setDisabled(true);
+	//StoryStartTime->setCalendarPopup(true);
+
 	StoryStartTimeLabel=new QLabel("Start time :");
 	StoryStartTimeLabel->setBuddy(StoryStartTime);
+
 
 	QString stylesheet("background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 			"border-style: outset;"
@@ -277,7 +280,7 @@ void StoryView::display_plot(StoryBase * _story){
 }
 
 void StoryView::reset_StoryName(QString label){
-	//if(this->GraphicScene->get_selected_story()!=NULL){
+	if(this->GraphicScene->get_selected_story()!=NULL){
 
 		std::cerr << "entering reset story NAme with new label :" <<label.toStdString()<< std::endl;
 
@@ -300,7 +303,7 @@ void StoryView::reset_StoryName(QString label){
 
 
 		emit refresh_story_view(this);
-	//}
+	}
 }
 void StoryView::set_story_info(StoryBase* story){
 	std::cerr << "entering set story info for qstory :" << story->get_label().toStdString() << std::endl;
@@ -654,7 +657,7 @@ void StoryView::build_story_hierarchy(StoryNode * _node,std::list<StoryNode*> * 
 }
 void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 
-	std::cerr << "entering build graphic story hierarchy :" << std::endl;
+	//std::cerr << "entering build graphic story hierarchy :" << std::endl;
 	this->GraphicScene->initialize_x_Axis(width,this->zoomFactor);
 	Is_timeline_visible=true;
 	qreal pos_x;
@@ -767,8 +770,8 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 		this->GraphicScene->setSceneRect(-150,-150,width+300,6000);
 
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
-			std::cerr << "in da loop" << std::endl;
-			std::cerr << "story node get Label :" << static_cast<StoryNode*>((*it))->get_label().toStdString() << std::endl;
+			//std::cerr << "in da loop" << std::endl;
+			//std::cerr << "story node get Label :" << static_cast<StoryNode*>((*it))->get_label().toStdString() << std::endl;
 			build_graphic_story_hierarchy((*it));
 
 

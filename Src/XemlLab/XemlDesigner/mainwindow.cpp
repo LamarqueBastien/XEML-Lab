@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	curFile=my_dir.path()+"/last.xeml";
 	this->fmg->get_current_xeml()->Save(curFile);
 
+
 	//std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
 	connect(timer, SIGNAL(timeout()), this, SLOT(auto_save()));
 	timer->start(30000000);
@@ -114,6 +115,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	createActions();
 	createMenus();
 	createToolBars();
+	setCurrentFile(curFile);
 
 
 
@@ -134,7 +136,7 @@ void    MainWindow::loadResources(){
 
 	doc_ressources=fmg->get_current_xeml()->get_doc_resources();
 	if(doc_ressources->contains("XEO",Xeml::Document::Contracts::Environment)){
-		std::cerr << " XEO foundsss" << std::endl;
+		//std::cerr << " XEO foundsss" << std::endl;
 
 		(*doc_ressources->get_xeoHandler())["XEO"]->loadOntology();
 
@@ -420,12 +422,11 @@ void    MainWindow::createActions(){
 	aboutQtAction->setStatusTip(tr("Show the Qt library’s About box"));
 	connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
-	//for (int i = 0; i < MaxRecentFiles; ++i) {
-	//    recentFileActions[i] = new QAction(this);
-	//    recentFileActions[i]->setVisible(false);
-	//    connect(recentFileActions[i], SIGNAL(triggered()),
-	//this, SLOT(openRecentFile()));
-	//}
+	for (int i = 0; i < MaxRecentFiles; ++i) {
+		recentFileActions[i] = new QAction(this);
+		recentFileActions[i]->setVisible(false);
+		connect(recentFileActions[i], SIGNAL(triggered()),this, SLOT(openRecentFile()));
+	}
 }
 void    MainWindow::createMenus() {
 
@@ -440,6 +441,10 @@ void    MainWindow::createMenus() {
 	fileMenu->addAction(loadCSVAction);
 
 	separatorAction = fileMenu->addSeparator();
+	for (int i = 0; i < MaxRecentFiles; ++i){
+		fileMenu->addAction(recentFileActions[i]);
+	}
+		//fileMenu->addSeparator();
 	fileMenu->addSeparator();
 	fileMenu->addAction(exitAction);
 
@@ -566,6 +571,22 @@ void    MainWindow::updateRecentFileActions() {
 	}
 	separatorAction->setVisible(!recentFiles.isEmpty());
 }
+void MainWindow::openRecentFile()
+{
+	if (okToContinue()) {
+		QAction *action = qobject_cast<QAction *>(sender());
+		if (action)
+
+				this->curFile=action->data().toString();
+				setCurrentFile(this->curFile);
+				this->fmg->purgedetailsFromdocument();
+				std::cerr  << " file to load :" << this->curFile.toStdString() << std::endl;
+				this->fmg->LoadFile(this->curFile,false);
+				this->loadResources();
+				this->refresh_trees();
+
+			//loadFile(action->data().toString());
+} }
 
 bool    MainWindow::loadFile(const QString &fileName){
 	return true;
@@ -649,6 +670,7 @@ void    MainWindow::open(){
 		QString fileName = QFileDialog::getOpenFileName(this,tr("open xeml files"),"\\/",tr("xeml files (*.xml *.xeml)\n"));
 		if (!fileName.isEmpty()) {
 			this->curFile=fileName;
+			setCurrentFile(curFile);
 			this->fmg->purgedetailsFromdocument();
 			this->fmg->LoadFile(fileName,false);
 			this->loadResources();
@@ -659,8 +681,10 @@ void    MainWindow::open(){
 }
 
 bool    MainWindow::validate_xml_to_save(){
+	std::cerr << " entering validate_xml_to_save " << std::endl;
 	ValidationWindow * xmlValid=new ValidationWindow(false,static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml());
 	connect(xmlValid,SIGNAL(validated(bool)),this,SLOT(save(bool)));
+	//xmlValid->setVisible(false);
 
 	xmlValid->show();
 }
@@ -686,7 +710,7 @@ bool    MainWindow::saveAs(bool _IsValid){
 
 	if (_IsValid){
 		std::cerr << "is valid :" << std::endl;
-		QString fileName = QFileDialog::getSaveFileName(this,tr("Save Xeml"), ".",tr("Spreadsheet files (*.xeml)"));
+		QString fileName = QFileDialog::getSaveFileName(this,tr("Save Xeml"), ".",tr("Xeml files (*.xeml)"));
 		if (fileName.isEmpty()){
 
 			return false;
@@ -694,6 +718,7 @@ bool    MainWindow::saveAs(bool _IsValid){
 		else{
 
 			this->fmg->get_current_xeml()->Save(fileName);
+			setCurrentFile(fileName);
 			//ValidationWindow * xmlValid=new ValidationWindow(fileName);
 			//connect(xmlValid,SIGNAL(validated(bool))
 
@@ -711,12 +736,14 @@ bool    MainWindow::saveAs(bool _IsValid){
 bool    MainWindow::save(bool _IsValid){
 
 
+	std::cerr << " entering save " << std::endl;
 
 
 
 	if (_IsValid){
 
 		this->fmg->get_current_xeml()->Save(curFile);
+
 		/*
 		QString fileName = QFileDialog::getSaveFileName(this,tr("Save Xeml"), ".",tr("Spreadsheet files (*.xeml)"));
 		if (fileName.isEmpty()){
