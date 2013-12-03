@@ -82,7 +82,7 @@ How to add environmental terms to a story
 	 
 	 1. first, select a story to defined and choose a term in the ontologies trees and click on addParameter button. 
 	 
-	 2. choose the timepoint for the term value set (i.e you can add multiples valueset if your parameter value changed during the experiment).
+	 2. choose the timepoint for the defined term value  (i.e you can add multiples value sets if your variable value changed during the experiment).
 	 
 	 3. you have to describe related contexts to this terms (i.e quantitative, qualitative and freetext context).
 	 
@@ -98,7 +98,7 @@ how to import sensor recorded environmental data using CSVLoader Wizard
 
 	3. select CSV columns headers you want to upload in your document.
 
-	4. for each headers kept, choose the ontology related term and the related story in which you want to add this terms, then validate by clicking on finish.
+	4. for each headers selected, choose the related ontology term and the related story in which you want to add this term, then validate by clicking on finish.
 
 *** 
 
