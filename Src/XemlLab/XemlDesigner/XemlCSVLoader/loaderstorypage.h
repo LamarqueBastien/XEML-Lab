@@ -18,11 +18,13 @@ class LoaderStoryPage : public QWidget
 		void createExperiment(ItfDocument *  _current_xeml);
 		void build_story_hierarchy(StoryNode * _node,std::list<StoryNode*> * _processed_nodes,StoryItem * _tmp_item,QString _storyname);
 		bool contains(StoryNode * _node,std::list<StoryNode*> * _processed_nodes,QString _storyname);
+		bool Tree_is_loaded();
 		//void set_up_finished(QString _storyname);
 
 
 
 	private:
+		bool                 Tree_loaded;
 		int                  row;
 		int                  column;
 		QString              experimentName;

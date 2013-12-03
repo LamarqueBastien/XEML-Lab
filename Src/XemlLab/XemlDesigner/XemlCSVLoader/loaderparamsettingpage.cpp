@@ -31,6 +31,7 @@ LoaderParamSettingPage::LoaderParamSettingPage(QStandardItemModel * _model,ItfDo
 	QHBoxLayout * layout= new QHBoxLayout;
 	//QGridLayout *layout = new QGridLayout;
 	layout->addWidget(table);
+	setWindowFlags(Qt::WindowStaysOnTopHint);
 	setLayout(layout);
 
 
@@ -51,9 +52,13 @@ void LoaderParamSettingPage::send_data(std::vector<std::vector<QString> *> * _ve
 
 void LoaderParamSettingPage::initializePage(){
 	this->stories = new std::vector<StoryNode*>();
+	//this->stories2 = QVector <StoryNode*> ((indexlist->size())-1);
+	//this->stories->resize(indexlist->size()-1);
 	this->termHeaderLabel=new std::vector<QString>();
 
+
 	this->terms=new std::vector<std::pair<ItfOntologyTerm *,QString> >();
+	//this->terms->resize(indexlist->size()-1);
 	connect(this->table,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(on_item_selected(QModelIndex)));
 	connect(this->table,SIGNAL(doubleClicked(QModelIndex)),this->table,SLOT(edit(QModelIndex)));
 	this->indexlist=new QModelIndexList;
@@ -65,6 +70,9 @@ void LoaderParamSettingPage::initializePage(){
 	//}
 	//terms (indexlist->size()-1);
 	(*indexlist)=static_cast<QItemSelectionModel*>(field("headerViewSelection").value<QItemSelectionModel*>())->selectedColumns();
+	//this->stories2 = QVector <StoryNode*> (indexlist->size()-1);
+	//this->terms2 = QVector <std::pair<ItfOntologyTerm *,QString> > (indexlist->size()-1);
+
 	for (int i=0;i<indexlist->size();i++){
 
 		if (i!=0){
@@ -95,6 +103,9 @@ void LoaderParamSettingPage::initializePage(){
 void LoaderParamSettingPage::store_information_term_and_story(int column,int _row,StoryNode * _storynode,ItfOntologyTerm * _term,QString _unit){
 	this->model->setItem(_row,1,new QStandardItem(_term->get_prototype()->get_termId()));
 	this->model->setItem(_row,2,new QStandardItem(_storynode->get_story()->get_label()));
+
+	//this->stories2[_row]=_storynode;
+	//this->terms2[_row]=make_pair(_term,_unit);
 	this->stories->push_back(_storynode);
 	this->terms->push_back(make_pair(_term,_unit));
 
@@ -246,8 +257,12 @@ int LoaderParamSettingPage::nextId() const
 
 	for (unsigned i=0; i<this->stories->size(); i++){
 		//static_cast<XeoTerm*>(this->terms->at(i).first)->get_contextCollection()
+		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+
 		DynamicTerm * tmp_term=static_cast<DynamicTerm*>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype());
 		//tmp_term->contextList();
+		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+
 		StoryNode * tmp=stories->at(i);
 		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
 		std::cerr << "CSV vector size : " << LoaderWizard::get_CSV_data()->at(0)->size() << std::endl;

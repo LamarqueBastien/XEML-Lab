@@ -23,6 +23,7 @@
         <file>XEML/EnvO.obo</file>
         <file>XEML/XEO_Positioning.obo</file>
         <file>Images/SaveAs.png</file>
+        <file>XEMLReport.html</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

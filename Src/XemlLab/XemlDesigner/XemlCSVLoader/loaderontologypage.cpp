@@ -8,10 +8,13 @@ LoaderOntologyPage::LoaderOntologyPage(QStandardItemModel * _model,int _column,i
 	std::cerr << "create onto page "<< std::endl;
 	this->termPage=new LoaderTermPage(_xeml_res);
 	this->storypage=new LoaderStoryPage(_model,_column,_row,_doc);
-	this->storypage->createExperiment(_doc);
+	if (!this->storypage->Tree_is_loaded()){
+		this->storypage->createExperiment(_doc);
+	}
 	//this->timepage=new LoaderDateTimePage(_row);
-
+	counter_validated_tab=0;
 	this->finishButton=new QPushButton("Finish");
+	this->finishButton->setEnabled(false);
 	connect(this->termPage,SIGNAL(send_details_term(ItfOntologyTerm*,QString)),this,SLOT(get_term(ItfOntologyTerm*,QString)));
 	connect(this->storypage,SIGNAL(send_details_story(int,int,StoryNode*)),this,SLOT(get_story(int,int,StoryNode*)));
 	connect(this->finishButton,SIGNAL(clicked()),this,SLOT(finished()));
@@ -43,6 +46,10 @@ void LoaderOntologyPage::get_term(ItfOntologyTerm* _term ,QString _unit){
 	//emit send_term(this->column,this->row,_term ,_unit);
 	this->term=_term;
 	this->unit=_unit;
+	this->counter_validated_tab++;
+	if (counter_validated_tab==2){
+		this->finishButton->setEnabled(true);
+	}
 	//this->close();
 }
 //void LoaderOntologyPage::get_time(int _row ,QString _date){
@@ -55,5 +62,9 @@ void LoaderOntologyPage::get_story(int _column,int _row ,StoryNode * _story){
 	Q_UNUSED(_column)
 	Q_UNUSED(_row)
 	this->story=_story;
+	this->counter_validated_tab++;
+	if (counter_validated_tab==2){
+		this->finishButton->setEnabled(true);
+	}
 	//this->close();
 }

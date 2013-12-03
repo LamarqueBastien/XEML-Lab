@@ -70,7 +70,8 @@ SOURCES += \
     XMLValidation/validationwindow.cpp \
     Views/plotparameterview.cpp \
     Views/GraphicStoryView/graphicplotscene.cpp \
-    Div/qcustomplot.cpp
+    Div/qcustomplot.cpp \
+    Views/HTMLReportView/htmlreportview.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -135,7 +136,8 @@ HEADERS += \
     XMLValidation/validationwindow.h \
     Views/plotparameterview.h \
     Views/GraphicStoryView/graphicplotscene.h \
-    Div/qcustomplot.h
+    Div/qcustomplot.h \
+    Views/HTMLReportView/htmlreportview.h
 
 RESOURCES += \
     Divers.qrc

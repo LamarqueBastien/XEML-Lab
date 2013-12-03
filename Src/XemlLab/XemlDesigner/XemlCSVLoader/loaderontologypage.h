@@ -22,6 +22,7 @@ class LoaderOntologyPage : public QWidget
 		StoryNode * story;
 		QString unit;
 		ItfOntologyTerm * term;
+		int counter_validated_tab;
 		//LoaderDateTimePage * timepage;
 		int row;
 		int column;

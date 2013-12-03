@@ -36,6 +36,7 @@
 #include"XemlCSVLoader/loaderwizard.h"
 #include"XMLValidation/validationwindow.h"
 #include"Views/xemlcodeeditor.h"
+#include"Views/HTMLReportView/htmlreportview.h"
 
 using namespace std;
 using Xeml::Document::DocumentResources;
@@ -125,6 +126,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * exitAction;
 		QAction                                  * loadCSVAction;
 		QAction                                  * ValidationAction;
+		QAction                                  * HtmlReportAction;
 
 
 
@@ -150,6 +152,7 @@ class MainWindow : public QMainWindow
 
 		void                                       newFile();
 		void                                       loadCSV();
+		void                                       generate_html_report();
 		void                                       open();
 		void                                       openRecentFile();
 		void                                       auto_save();

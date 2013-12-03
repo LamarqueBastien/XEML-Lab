@@ -356,6 +356,11 @@ void    MainWindow::createActions(){
 	newAction->setStatusTip(tr("Create a new file"));
 	connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
+	HtmlReportAction=new QAction(QIcon(":/Images/new.png"),tr("&HtmlReport"), this);
+	HtmlReportAction->setShortcut(tr("Ctrl+H"));
+	HtmlReportAction->setStatusTip(tr("generate Html Report"));
+	connect(HtmlReportAction, SIGNAL(triggered()), this, SLOT(generate_html_report()));
+
 	/*
 	viewModeAction=new QAction(QIcon(":/Images/new.png"),tr("&View Mode"), this);
 	viewModeAction->setShortcut(tr("Ctrl+V"));
@@ -428,6 +433,14 @@ void    MainWindow::createActions(){
 		connect(recentFileActions[i], SIGNAL(triggered()),this, SLOT(openRecentFile()));
 	}
 }
+void    MainWindow::generate_html_report(){
+	std::cerr << "entering html generation (MainWindows)" << std::endl;
+	HtmlReportView * htmlView=new HtmlReportView();
+	htmlView->set_up(static_cast<XemlDocument*>(this->fmg->get_current_xeml()));
+	htmlView->generate_report();
+	htmlView->show();
+}
+
 void    MainWindow::createMenus() {
 
 
@@ -458,6 +471,7 @@ void    MainWindow::createMenus() {
 
 	toolsMenu = QMainWindow::menuBar()->addMenu(tr("&Tools"));
 	toolsMenu->addAction(editXemlAction);
+	toolsMenu->addAction(HtmlReportAction);
 	//toolsMenu->addAction(addParameterAction);
 	//toolsMenu->addAction(parameterInfoAction);
 

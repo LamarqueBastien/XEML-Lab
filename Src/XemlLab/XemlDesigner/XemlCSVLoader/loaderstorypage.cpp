@@ -11,7 +11,7 @@ LoaderStoryPage::LoaderStoryPage(QStandardItemModel * _model,int _column,int _ro
 	this->bottomLabel= new QLabel("<i>Double click a node to select it</i>");
 	this->storytree= new QTreeView;
 	this->my_treestory= _model;//new QStandardItemModel;
-
+	Tree_loaded=false;
 	//std::cerr << "my model count : " << my_treestory->i
 	this->storyChosen=new QLineEdit;
 	this->okButton=new QPushButton("OK");
@@ -45,6 +45,10 @@ LoaderStoryPage::LoaderStoryPage(QStandardItemModel * _model,int _column,int _ro
 	setWindowFlags(Qt::WindowStaysOnTopHint);
 	this->setWindowTitle("Story Choice");
 }
+bool LoaderStoryPage::Tree_is_loaded(){
+	return Tree_loaded;
+}
+
 void LoaderStoryPage::set_up_finished(QString _storyname){
 	this->okButton->setEnabled(true);
 	this->removeButton->setEnabled(true);
@@ -106,9 +110,9 @@ void LoaderStoryPage::build_story_hierarchy(StoryNode * _node,std::list<StoryNod
 	_tmp_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 	if(_node->get_parent()!=NULL && !contains(_node->get_parent(),_processed_nodes,_storyname)){
-		std::cerr << "first if" << std::endl;
+		//std::cerr << "first if" << std::endl;
 		if(this->my_treestory->findItems((_node->get_parent()->get_story()->get_label()+"("+_storyname+")"),Qt::MatchFixedString | Qt::MatchRecursive,0).size()!=0){
-			std::cerr << "second if" << std::endl;
+			//std::cerr << "second if" << std::endl;
 			this->my_treestory->findItems((_node->get_parent()->get_story()->get_label()+"("+_storyname+")"),Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
 		}
 		else{
@@ -180,4 +184,5 @@ void LoaderStoryPage::createExperiment(ItfDocument *  _current_xeml){
 
 		}
 	}
+	Tree_loaded=true;
 }

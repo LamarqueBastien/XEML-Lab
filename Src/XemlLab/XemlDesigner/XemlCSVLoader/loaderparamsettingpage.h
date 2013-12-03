@@ -36,6 +36,8 @@ class LoaderParamSettingPage : public QWizardPage
 
 		std::vector<std::pair<ItfOntologyTerm *,QString> > *  terms;
 		std::vector<StoryNode*> * stories;
+		QVector<StoryNode*>  stories2;
+		QVector<std::pair<ItfOntologyTerm *,QString> >  terms2;
 		std::vector<QString> * termHeaderLabel;
 
 

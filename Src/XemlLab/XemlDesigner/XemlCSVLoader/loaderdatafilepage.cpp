@@ -165,7 +165,7 @@ void LoaderDataFilePage::load_file(){
 				count_column++;
 			}
 			else if(character == '\n'){
-				std::cerr << "end of line" << std::endl;
+				//std::cerr << "end of line" << std::endl;
 				if(count_row==0){
 					tmpvec->push_back(new std::vector<QString>());
 					word.remove(QRegExp("^"+this->selectTextDelimiter->currentText()));
