@@ -2,9 +2,11 @@
 #define HTMLREPORTVIEW_H
 
 #include <QWidget>
-#include<QTextEdit>
+#include<QTextBrowser>
+#include<QTextDocument>
 #include<QHBoxLayout>
 #include"Interface/itfdocument.h"
+#include"CoreObjects/documentresources.h"
 using namespace Xeml::Document;
 
 class HtmlReportView : public QWidget
@@ -13,7 +15,7 @@ class HtmlReportView : public QWidget
 	public:
 		explicit HtmlReportView(QWidget *parent = 0);
 		void     extract_report_files();
-		void     set_up(ItfDocument * _xemldoc);
+		void     set_up(ItfDocument * _xemldoc,DocumentResources * _documentResources);
 		QString  load_HTMl_from_file(QFile * _html_doc);
 		void     generate_report();
 		QString  generate_observation_schedule_table();
@@ -25,7 +27,11 @@ class HtmlReportView : public QWidget
 
 	private:
 		ItfDocument * current_doc;
-		QTextEdit * HtmlEdit;
+		DocumentResources * documentResources;
+		QTextDocument html_text;
+		QTextBrowser * HtmlEdit;
+		int obsPointCount;
+		int sampleCount;
 
 
 	signals:

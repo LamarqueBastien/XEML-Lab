@@ -436,7 +436,7 @@ void    MainWindow::createActions(){
 void    MainWindow::generate_html_report(){
 	std::cerr << "entering html generation (MainWindows)" << std::endl;
 	HtmlReportView * htmlView=new HtmlReportView();
-	htmlView->set_up(static_cast<XemlDocument*>(this->fmg->get_current_xeml()));
+	htmlView->set_up(static_cast<XemlDocument*>(this->fmg->get_current_xeml()),this->doc_ressources);
 	htmlView->generate_report();
 	htmlView->show();
 }
