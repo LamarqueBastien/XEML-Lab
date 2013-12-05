@@ -26,6 +26,12 @@ ObservationGenotypePage::ObservationGenotypePage(StoryNode * _root,QWidget *pare
 	this->genModel = new QStringListModel((*genList));
 	this->genView= new QListView;
 	genView->setModel(this->genModel);
+	genView->setSelectionMode(QAbstractItemView::MultiSelection);
+
+
+	qRegisterMetaType<QItemSelectionModel*>("QItemSelectionModel*");
+	registerField("genViewSelection", this, "selectionModel");
+
 	QVBoxLayout *layout = new QVBoxLayout;
 	layout->addWidget(this->genView);
 	QHBoxLayout * bottomLayout = new QHBoxLayout;

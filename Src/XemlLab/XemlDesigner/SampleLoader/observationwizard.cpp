@@ -24,64 +24,73 @@ ObservationWizard::ObservationWizard(StoryNode * _root,ObservationPoint * _obs,D
 }
 void ObservationWizard::accept(){
 	//int replica=field("Replica").toInt();
-	for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->begin();it!=static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->end();++it){
-		if((*it).second==field("GermPlasm").toString()){
-			for(int i = 0; i<field("Individuals").toInt();i++){
+	this->indexlist=new QModelIndexList;
+	(*indexlist)=static_cast<QItemSelectionModel*>(field("genViewSelection").value<QItemSelectionModel*>())->selectedRows();
+	for (int i=0;i<indexlist->size();i++){
+		std::cerr << "index list germplasm :" << indexlist->at(i).data().toString().toStdString() << std::endl;
 
-				Individual * ind = new Individual(1+ rand() % 1000000000);
-				static_cast<IndividualsPool*>((*it).first)->add_Individual(ind);
+	}
+	for (int j=0;j<indexlist->size();j++){
+		for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->begin();it!=static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->end();++it){
+			if((*it).second==indexlist->at(j).data().toString()){
+			//if((*it).second==field("GermPlasm").toString()){
+				for(int i = 0; i<field("Individuals").toInt();i++){
 
-				Observation * ob = new Observation();
-				QString test=QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss");
-				ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
+					Individual * ind = new Individual(1+ rand() % 1000000000);
+					static_cast<IndividualsPool*>((*it).first)->add_Individual(ind);
+
+					Observation * ob = new Observation();
+					QString test=QDateTime::fromString(field("Duration").toString(),"yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss");
+					ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
 
 
-				//check here to change from destructive to non destructive
-				ob->set_destructiveinfo(true);
-				ob->set_ind(ind);
-				ob->set_pool((*it).first);
+					//check here to change from destructive to non destructive
+					ob->set_destructiveinfo(true);
+					ob->set_ind(ind);
+					ob->set_pool((*it).first);
 
-				Partition * p = new Partition();
-				static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-				p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+					Partition * p = new Partition();
+					static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+					p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 
-				BasicTerm * devTerm= new BasicTerm(field("DevTermId").toString());
-				devTerm->set_name(field("DevName").toString());
-				devTerm->set_namespacealias("PO_Development");
+					BasicTerm * devTerm= new BasicTerm(field("DevTermId").toString());
+					devTerm->set_name(field("DevName").toString());
+					devTerm->set_namespacealias("PO_Development");
 
-				BasicTerm * structTerm =new BasicTerm(field("StructTermID").toString());
-				structTerm->set_namespacealias("PO_Structure");
-				structTerm->set_name(field("structName").toString());
+					BasicTerm * structTerm =new BasicTerm(field("StructTermID").toString());
+					structTerm->set_namespacealias("PO_Structure");
+					structTerm->set_name(field("structName").toString());
 
-				VariableTerm * posTerm=new VariableTerm(field("PosTermId").toString());
-				posTerm->set_namespacealias("XEO_Positioning");
-				posTerm->set_name(field("PosTermName").toString());
+					VariableTerm * posTerm=new VariableTerm(field("PosTermId").toString());
+					posTerm->set_namespacealias("XEO_Positioning");
+					posTerm->set_name(field("PosTermName").toString());
 
-				Value * quantityContext= new Value();
-				quantityContext->set_context("Quantity");
-				quantityContext->set_unit(field("Unit").toString());
-				quantityContext->set_value(field("QValue").toString());
-				posTerm->add_value(quantityContext);
+					Value * quantityContext= new Value();
+					quantityContext->set_context("Quantity");
+					quantityContext->set_unit(field("Unit").toString());
+					quantityContext->set_value(field("QValue").toString());
+					posTerm->add_value(quantityContext);
 
-				Value * qualityContext =new Value();
-				qualityContext->set_context("Quality");
-				qualityContext->set_value(field("Value").toString());
-				posTerm->add_value(qualityContext);
+					Value * qualityContext =new Value();
+					qualityContext->set_context("Quality");
+					qualityContext->set_value(field("Value").toString());
+					posTerm->add_value(qualityContext);
 
-				p->addPositionTerm(posTerm);
-				p->addMaterialTerm(structTerm);
-				if(!(ob->contain_stages(field("DevTermId").toString()))){
-					ob->add_stage(devTerm);
+					p->addPositionTerm(posTerm);
+					p->addMaterialTerm(structTerm);
+					if(!(ob->contain_stages(field("DevTermId").toString()))){
+						ob->add_stage(devTerm);
+					}
+					if(!(ob->contain_partition(p))){
+						ob->add_partition(p);
+					}
+					ob->set_individualInfluence(false);
+
+					this->obspoint->add_observation(ob);
 				}
-				if(!(ob->contain_partition(p))){
-					ob->add_partition(p);
-				}
-				ob->set_individualInfluence(false);
-
-				this->obspoint->add_observation(ob);
 			}
-		}
 
+		}
 	}
 
 	QDialog::accept();

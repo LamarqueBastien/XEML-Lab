@@ -82,6 +82,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 	QMdiSubWindow *sousFenetre1 = zoneCentrale->addSubWindow(this->ontologyView);
+	//connect(sousFenetre1,SIGNAL(destroyed()),this,SLOT()
+	//sousFenetre1->
 	sousFenetre1->setObjectName(fen1ObjectName);
 	sousFenetre1->setStyleSheet("QWidget#"+fen1ObjectName +"{ background-image: url(://Images/BlueMetal.png);}"); ///Users/benjamindartigues/Pictures/BlueMetal.png
 	sousFenetre1->setWindowTitle("Ontologies Panel");
@@ -422,7 +424,13 @@ void    MainWindow::createActions(){
 	editXemlAction->setShortcut(tr("Ctrl+C"));
 	editXemlAction->setStatusTip(tr("Display Xeml document"));
 	connect(editXemlAction, SIGNAL(triggered()), this, SLOT(edit_xeml()));
+/*
+	undoAction = undoStack->createUndoAction(this, tr("&Undo"));
+	undoAction->setShortcuts(QKeySequence::Undo);
 
+	redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+	redoAction->setShortcuts(QKeySequence::Redo);
+*/
 	aboutQtAction = new QAction(tr("About &Qt"), this);
 	aboutQtAction->setStatusTip(tr("Show the Qt library’s About box"));
 	connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -439,6 +447,12 @@ void    MainWindow::generate_html_report(){
 	htmlView->set_up(static_cast<XemlDocument*>(this->fmg->get_current_xeml()),this->doc_ressources);
 	htmlView->generate_report();
 	htmlView->show();
+}
+void MainWindow::createUndoView(){
+	undoView = new QUndoView(undoStack);
+	undoView->setWindowTitle(tr("Command List"));
+	undoView->show();
+	undoView->setAttribute(Qt::WA_QuitOnClose, false);
 }
 
 void    MainWindow::createMenus() {

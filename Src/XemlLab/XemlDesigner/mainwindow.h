@@ -62,6 +62,7 @@ class MainWindow : public QMainWindow
 		void                                       createActions();
 		void                                       createMenus();
 		void                                       createToolBars();
+		void                                       createUndoView();
 
 		bool                                       okToContinue();
 		void                                       updateRecentFileActions();
@@ -127,6 +128,10 @@ class MainWindow : public QMainWindow
 		QAction                                  * loadCSVAction;
 		QAction                                  * ValidationAction;
 		QAction                                  * HtmlReportAction;
+		QAction                                  * undoAction;
+		QAction                                  * redoAction;
+		QUndoStack                               * undoStack;
+		QUndoView                                * undoView;
 
 
 

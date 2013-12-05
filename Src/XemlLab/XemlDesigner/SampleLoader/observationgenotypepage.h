@@ -6,14 +6,22 @@
 #include"CoreObjects/storynode.h"
 #include"CoreObjects/story.h"
 #include"CoreObjects/observationpoint.h"
+#include<QMetaType>
 using namespace Xeml::Document;
 
 
+Q_DECLARE_METATYPE(QItemSelectionModel*)
 class ObservationGenotypePage : public QWizardPage
 {
 		Q_OBJECT
+		Q_PROPERTY(QItemSelectionModel* selectionModel READ selectionModel)
+
 	public:
 		ObservationGenotypePage(StoryNode * _root,QWidget *parent = 0);
+		QItemSelectionModel * selectionModel(void)
+		{
+			return genView->selectionModel();
+		}
 	private:
 
 		QLabel           * germPlasm;

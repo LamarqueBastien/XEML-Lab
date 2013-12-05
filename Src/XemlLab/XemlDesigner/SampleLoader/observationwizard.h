@@ -3,6 +3,8 @@
 #include<QWizard>
 #include<QWizardPage>
 #include<QtWidgets>
+#include<QModelIndexList>
+#include<QStandardItemModel>
 #include"CoreObjects/storybase.h"
 #include"CoreObjects/storyboard.h"
 #include"Interface/itfdocument.h"
@@ -11,12 +13,15 @@
 
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Document;
+
 class ObservationWizard : public QWizard
 {
 		Q_OBJECT
+
 	private:
 
 		DocumentResources * doc_resources;
+		QModelIndexList   * indexlist;
 		StoryNode        * storyRoot;
 		ObservationPoint * obspoint;
 		ItfDocument      * xeml_doc;
@@ -28,6 +33,7 @@ class ObservationWizard : public QWizard
 		//QWizardPage      * ConclusionPage;
 
 	public:
+
 		//enum { Page_Intro, Page_DataFile, Page_ParamSet, Page_Validation,
 				   //Page_Conclusion };
 		ObservationWizard(StoryNode * _root,ObservationPoint * _obs,DocumentResources  * _doc_resources,ItfDocument * _doc,  QWidget *parent = 0);

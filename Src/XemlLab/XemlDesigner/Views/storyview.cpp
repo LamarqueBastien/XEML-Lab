@@ -186,7 +186,7 @@ StoryView::StoryView(QWidget *parent) :
 	//first button line
 	buttonlayout1->addWidget(editExperiment);
 	buttonlayout1->addWidget(addstory);
-	buttonlayout1->addWidget(addstorysplit);
+	//buttonlayout1->addWidget(addstorysplit);
 	buttonlayout1->addWidget(addobsPoint);
 	buttonlayout1->addWidget(addSamples);
 	buttonlayout1->addWidget(addEvent);
@@ -194,7 +194,7 @@ StoryView::StoryView(QWidget *parent) :
 	//second buttons line
 	buttonlayout2->addWidget(infoButton);
 	buttonlayout2->addWidget(removestory);
-	buttonlayout2->addWidget(removeStorySplit);
+	//buttonlayout2->addWidget(removeStorySplit);
 	buttonlayout2->addWidget(removeObsPoint);
 	buttonlayout2->addWidget(removeSample);
 	buttonlayout2->addWidget(rmEvent);

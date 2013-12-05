@@ -675,8 +675,9 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 	int counter=0;
 	int counter_hour=0;
 	this->zoomFactor=_zoomFactor;
-	QFont serifFont("Roman", 14, QFont::Bold);
+	QFont serifFont("Times New Roman", 14, QFont::Bold);
 	QFont serifFont2("Times", 10, QFont::Bold);
+
 	qreal number_of_days=width/(24*zoomFactor);
 	int k=0;
 	for (int i=0;i<=width;i+=width/number_of_days){
