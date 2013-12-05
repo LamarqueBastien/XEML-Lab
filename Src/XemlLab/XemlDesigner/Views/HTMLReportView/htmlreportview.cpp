@@ -51,9 +51,9 @@ void HtmlReportView::createActions(){
 void HtmlReportView::print(){
 
 	printer=new QPrinter(QPrinter::HighResolution);
-	//printer->setPageSize(QPrinter::A4);
-	//printer->setFullPage(true);
-	printer->setPaperSize(QSizeF(144, 216), QPrinter::Millimeter);
+	printer->setPageSize(QPrinter::A4);
+	printer->setFullPage(true);
+	//printer->setPaperSize(QSizeF(144, 216), QPrinter::Millimeter);
 	//printer->setOutputFormat(QPrinter::PdfFormat);
 	//printer->setOutputFileName(fileName);
 	QPrintDialog *dialog = new QPrintDialog(printer,this);
