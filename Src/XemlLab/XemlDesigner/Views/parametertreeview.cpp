@@ -36,7 +36,7 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 
 	//this->parameterTree->setStyleSheet("QTreeView::item:selected:active{background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6ea1f1, stop: 1 #567dbc);}");
 	//this->parameterTree->setStyleSheet("QTreeView::item:selected:!active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6b9be8, stop: 1 #577fbf);}");
-	this->parameterInfo = new QPushButton("get info on parameter");
+	this->parameterInfo = new QPushButton("get definition variable");
 	//this->parameterInfo->style()->standardPalette().setColor(QPalette::Normal,QPalette::Background,QColor(Qt::blue));
 	//this->parameterInfo->setBackgroundRole(QPalette::Light);
 	this->parameterInfo->setStyleSheet("QPushButton {"
@@ -53,7 +53,7 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 				"color:rgb(0,0,0);"
 				"padding: 6px;}"
 			);//->setStyleSheet("background-color: rgb(255,255,255)");
-	this->addParameter = new QPushButton("add this parameter");
+	this->addParameter = new QPushButton("add variable");
 	this->addParameter->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"

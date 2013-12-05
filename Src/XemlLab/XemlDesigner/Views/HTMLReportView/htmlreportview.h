@@ -5,6 +5,12 @@
 #include<QTextBrowser>
 #include<QTextDocument>
 #include<QHBoxLayout>
+#include<QMenu>
+#include<QAction>
+#include<QMainWindow>
+#include<QMenuBar>
+#include<QPrinter>
+#include<QPrintDialog>
 #include"Interface/itfdocument.h"
 #include"CoreObjects/documentresources.h"
 using namespace Xeml::Document;
@@ -14,6 +20,9 @@ class HtmlReportView : public QWidget
 		Q_OBJECT
 	public:
 		explicit HtmlReportView(QWidget *parent = 0);
+		void  createMenus();
+		void  createActions();
+
 		void     extract_report_files();
 		void     set_up(ItfDocument * _xemldoc,DocumentResources * _documentResources);
 		QString  load_HTMl_from_file(QFile * _html_doc);
@@ -23,20 +32,30 @@ class HtmlReportView : public QWidget
 		QString  generate_sample_count();
 		QString  generate_obs_count();
 		QString  generate_variable_table();
+		QString  generate_dynamic_variable_table();
 		QString  generate_ontology_table();
 
 	private:
-		ItfDocument * current_doc;
+		ItfDocument       * current_doc;
 		DocumentResources * documentResources;
-		QTextDocument html_text;
-		QTextBrowser * HtmlEdit;
-		int obsPointCount;
-		int sampleCount;
+		QTextDocument     * doc;
+		QTextBrowser      * HtmlEdit;
+		QVBoxLayout       * layout;
+		QMenuBar          * menubar;
+		int                 obsPointCount;
+		int                 sampleCount;
+		QMenu             * fileMenu;
+		QAction           * saveAction;
+		QAction           * printAction;
+		QPrinter          * printer;
 
 
 	signals:
 
 	public slots:
+	private slots:
+		void save();
+		void print();
 
 };
 

@@ -980,13 +980,17 @@ namespace Xeml {
 			static_cast<Story*>(_xo)->add_individualspool(ip);
 		}
 		void                  XemlDocument::InitVariable(QDomElement _elem,bool _isStorysplit,StoryBase * _storyBase){
-			//std::cerr << "entering  variable " << std::endl;
+			std::cerr << "entering  variable " << std::endl;
 			QString termId =_elem.attributeNode("TermId").value();
+			std::cerr << "term ID " << termId.toStdString() << std::endl;
+
 			DynamicTerm * p = new DynamicTerm(termId);
 			InitAnnotations(_elem,p);
 			p->set_name(_elem.attributeNode("Name").value());
 			p->set_namespacealias(_elem.attributeNode("NS").value());
-			if(p->get_namespacealias()!="none" && !this->documentResources->contains(p->get_namespacealias(),Xeml::Document::Contracts::Environment)){
+			std::cerr << "namespaceALias : " << p->get_namespacealias().toStdString() << std::endl;
+
+			if(p->get_namespacealias()=="none" ){//&& this->documentResources->contains(p->get_namespacealias(),Xeml::Document::Contracts::Environment)==false
 				std::cerr << "namespace resource not found" << std::endl;
 			}
 			else if(_storyBase->contain_variable(p)){

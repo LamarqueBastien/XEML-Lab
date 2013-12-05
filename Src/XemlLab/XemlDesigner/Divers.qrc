@@ -24,6 +24,7 @@
         <file>XEML/XEO_Positioning.obo</file>
         <file>Images/SaveAs.png</file>
         <file>XEMLReport.html</file>
+        <file>Images/print.jpg</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

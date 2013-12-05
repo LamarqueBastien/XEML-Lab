@@ -94,7 +94,7 @@ StoryView::StoryView(QWidget *parent) :
 	addstorysplit->setStyleSheet(stylesheet);
 
 
-	addobsPoint= new QPushButton("add observation");
+	addobsPoint= new QPushButton("add observationPoint");
 	addobsPoint->setToolTip("Add a new observation point after choose timepoint for it--"
 							"populate this observation point by adding samples");
 	addobsPoint->setStyleSheet(stylesheet);
