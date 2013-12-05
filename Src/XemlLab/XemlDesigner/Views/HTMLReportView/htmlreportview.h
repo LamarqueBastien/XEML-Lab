@@ -11,6 +11,7 @@
 #include<QMenuBar>
 #include<QPrinter>
 #include<QPrintDialog>
+#include<QPrintPreviewDialog>
 #include"Interface/itfdocument.h"
 #include"CoreObjects/documentresources.h"
 using namespace Xeml::Document;
@@ -35,6 +36,7 @@ class HtmlReportView : public QWidget
 		QString  generate_dynamic_variable_table();
 		QString  generate_ontology_table();
 
+
 	private:
 		ItfDocument       * current_doc;
 		DocumentResources * documentResources;
@@ -47,15 +49,20 @@ class HtmlReportView : public QWidget
 		QMenu             * fileMenu;
 		QAction           * saveAction;
 		QAction           * printAction;
+		QAction           * printPreviewAction;
 		QPrinter          * printer;
+		//QPrintPreviewDialog preview;
 
 
 	signals:
 
 	public slots:
 	private slots:
+
 		void save();
 		void print();
+		void printPreview(QPrinter *printer);
+		void filePrintPreview();
 
 };
 

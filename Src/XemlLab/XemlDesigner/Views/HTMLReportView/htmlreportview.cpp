@@ -25,6 +25,7 @@ void HtmlReportView::createMenus(){
 	fileMenu = new QMenu("&File", this);
 	fileMenu->addAction(saveAction);
 	fileMenu->addAction(printAction);
+	fileMenu->addAction(printPreviewAction);
 	menubar->addMenu(fileMenu);
 
 
@@ -42,18 +43,42 @@ void HtmlReportView::createActions(){
 	printAction->setStatusTip(tr("Print current file"));
 	connect(printAction, SIGNAL(triggered()), this, SLOT(print()));
 
+	printPreviewAction = new QAction(QIcon(":/Images/print_preview.jpg"),tr("& Preview"), this);
+	printPreviewAction->setShortcut(tr("Ctrl+Alt+P"));
+	printPreviewAction->setStatusTip(tr("Preview before print"));
+	connect(printPreviewAction, SIGNAL(triggered()), this, SLOT(filePrintPreview()));
 }
 void HtmlReportView::print(){
 
 	printer=new QPrinter(QPrinter::HighResolution);
-	printer->setPageSize(QPrinter::A4);
-	printer->setFullPage(true);
+	//printer->setPageSize(QPrinter::A4);
+	//printer->setFullPage(true);
+	printer->setPaperSize(QSizeF(144, 216), QPrinter::Millimeter);
 	//printer->setOutputFormat(QPrinter::PdfFormat);
 	//printer->setOutputFileName(fileName);
 	QPrintDialog *dialog = new QPrintDialog(printer,this);
 	dialog->setWindowTitle(tr("Impression du document"));
 	if (dialog->exec() != QDialog::Accepted) return;
 	doc->print(printer);
+}
+void HtmlReportView::filePrintPreview()
+{
+#ifndef QT_NO_PRINTER
+	printer=new QPrinter(QPrinter::HighResolution);
+	QPrintPreviewDialog preview(printer, this);
+
+	connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(printPreview(QPrinter *)));
+	preview.exec();
+#endif
+}
+
+void HtmlReportView::printPreview(QPrinter *printer)
+{
+#ifdef QT_NO_PRINTER
+	Q_UNUSED(printer);
+#else
+	doc->print(printer);
+#endif
 }
 
 void HtmlReportView::save(){
