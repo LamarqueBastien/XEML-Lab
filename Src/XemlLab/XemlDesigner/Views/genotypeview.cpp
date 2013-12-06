@@ -75,14 +75,14 @@ void GenotypeView::add_genotype(){
 
 }
 void GenotypeView::refresh_view(ItfDocument * _xemldoc){
-	std::cerr << "refresh view" << std::endl;
+	//std::cerr << "refresh view" << std::endl;
 	this->gpp->clean_model();
 	this->gpp->initialize(_xemldoc);
 	this->show();
 }
 
 void GenotypeView::genotype_to_add(QString _idtext,QString _freetext,QString _taxontext){
-	std::cerr << "new genotypes : " << _idtext.toStdString() << std::endl;
+	//std::cerr << "new genotypes : " << _idtext.toStdString() << std::endl;
 
 	emit this->on_new_genotype(_idtext,_freetext,_taxontext);
 }

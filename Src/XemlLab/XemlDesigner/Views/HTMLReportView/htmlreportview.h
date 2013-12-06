@@ -14,6 +14,8 @@
 #include<QPrintPreviewDialog>
 #include"Interface/itfdocument.h"
 #include"CoreObjects/documentresources.h"
+#include"CoreObjects/xemldocument.h"
+
 using namespace Xeml::Document;
 
 class HtmlReportView : public QWidget

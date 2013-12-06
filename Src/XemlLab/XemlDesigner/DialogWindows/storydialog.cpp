@@ -8,6 +8,8 @@ StoryDialog::StoryDialog(QWidget * parent)
 	this->label = new QLabel(tr("Label :"));
 	labelEdit = new QLineEdit;
 	this->label->setBuddy(labelEdit);
+	this->is_split=new QCheckBox("Split");
+	this->is_split->setChecked(false);
 
 	this->okButton =new QPushButton(tr("OK"));
 	this->okButton->setDefault(true);
@@ -29,6 +31,7 @@ StoryDialog::StoryDialog(QWidget * parent)
 	QVBoxLayout * rightLayout = new QVBoxLayout;
 	rightLayout->addWidget(this->cancelButton);
 	rightLayout->addWidget(this->okButton);
+	rightLayout->addWidget(this->is_split);
 	rightLayout->addStretch();
 
 	QHBoxLayout * mainLayout = new QHBoxLayout;
@@ -46,7 +49,13 @@ void StoryDialog::enabledOkButton(const QString &text){
 }
 void StoryDialog::OkClicked(){
 	QString text= labelEdit->text();
-	emit this->mon_signal(text);
+	if (is_split->isChecked()){
+		emit this->new_story_split(text);
+	}
+	else{
+		emit this->new_story(text);
+
+	}
 
 }
 

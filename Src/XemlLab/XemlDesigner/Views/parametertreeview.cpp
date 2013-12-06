@@ -68,7 +68,7 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 				"color:rgb(0,0,0);"
 				"padding: 6px;"
 			);//->setStyleSheet("background-color: rgb(255,255,255)");
-	this->addOntology = new QPushButton("add a new ontology");
+	this->addOntology = new QPushButton("manage ontology");
 	//QGraphicsDropShadowEffect * dse = new QGraphicsDropShadowEffect();
 	//dse->setBlurRadius(10);
 	//addOntology->setGraphicsEffect(dse);

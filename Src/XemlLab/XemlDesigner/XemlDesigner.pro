@@ -71,7 +71,9 @@ SOURCES += \
     Views/plotparameterview.cpp \
     Views/GraphicStoryView/graphicplotscene.cpp \
     Div/qcustomplot.cpp \
-    Views/HTMLReportView/htmlreportview.cpp
+    Views/HTMLReportView/htmlreportview.cpp \
+    DialogWindows/annotationdialog.cpp \
+    Views/xemlobjectinfoview.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -137,7 +139,9 @@ HEADERS += \
     Views/plotparameterview.h \
     Views/GraphicStoryView/graphicplotscene.h \
     Div/qcustomplot.h \
-    Views/HTMLReportView/htmlreportview.h
+    Views/HTMLReportView/htmlreportview.h \
+    DialogWindows/annotationdialog.h \
+    Views/xemlobjectinfoview.h
 
 RESOURCES += \
     Divers.qrc

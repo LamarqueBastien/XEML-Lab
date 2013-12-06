@@ -37,6 +37,7 @@
 #include"Views/GraphicStoryView/graphicstoryview.h"
 #include"Views/GraphicStoryView/graphicstoryscene.h"
 #include"Views/plotparameterview.h"
+#include"Views/xemlobjectinfoview.h"
 using Xeml::Document::Contracts::ItfOntologyTerm;
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Utilities;
@@ -51,11 +52,12 @@ class StoryView : public QWidget
 		DocumentResources  * doc_ressources;
 		QString              experimentName;
 		QTreeView          * storytree;
+		XemlObjectInfoView * info_view;
 		GraphicStoryView   * graphicStory;
 		PlotParameterView  * graphicPlot;
 		GraphicStoryScene  * GraphicScene;
 		QPushButton        * removestory;
-		QPushButton        * infoButton;
+		QPushButton        * remove_variable;
 		QPushButton        * editExperiment;
 		QPushButton        * addstorysplit;
 		QPushButton        * addstory;

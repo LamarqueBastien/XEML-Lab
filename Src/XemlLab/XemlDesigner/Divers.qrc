@@ -26,6 +26,9 @@
         <file>XEMLReport.html</file>
         <file>Images/print.jpg</file>
         <file>Images/print_preview.jpg</file>
+        <file>Images/html.jpg</file>
+        <file>Images/html2.jpg</file>
+        <file>Images/annotation.png</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

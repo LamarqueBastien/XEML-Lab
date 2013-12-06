@@ -5,22 +5,14 @@ StoryView::StoryView(QWidget *parent) :
 	QWidget(parent)
 {
 
-
+	//deprecated
 	this->storytree= new QTreeView;
+	//init position in Y for the first story
 	this->posY_item=0;
-	this->zoomFactor=1;
-	this->zoomFactorSelector=new QComboBox;
-	/*
-	this->zoomFactorSelector->addItem("1");
-	this->zoomFactorSelector->addItem("2");
-	this->zoomFactorSelector->addItem("3");
-	this->zoomFactorSelector->addItem("4");
-	this->zoomFactorSelector->addItem("6");
-	this->zoomFactorSelector->addItem("8");
-	this->zoomFactorSelector->addItem("12");
-	this->zoomFactorSelector->addItem("24");
-*/
 
+	this->zoomFactor=1;
+	/*
+	this->zoomFactorSelector=new QComboBox;
 	this->zoomFactorSelector->addItem("day slot");
 	this->zoomFactorSelector->addItem("12 hours slot");
 	this->zoomFactorSelector->addItem("8 hours slot");
@@ -29,6 +21,7 @@ StoryView::StoryView(QWidget *parent) :
 	this->zoomFactorSelector->addItem("3 hours slot");
 	this->zoomFactorSelector->addItem("2 hours slot");
 	this->zoomFactorSelector->addItem(" hour slot");
+	*/
 
 
 	this->GraphicScene=new GraphicStoryScene(posY_item);
@@ -40,16 +33,20 @@ StoryView::StoryView(QWidget *parent) :
 
 	this->GraphicMode=true;
 
+
+	this->info_view=new XemlObjectInfoView();
+
+	//info panel for xeml annotable object
 	StoryLabelEdit= new QLineEdit;
-	ZoomFactorLabel=new QLabel("Time Step :");
-	ZoomFactorLabel->setBuddy(zoomFactorSelector);
+	//ZoomFactorLabel=new QLabel("Time Step :");
+	//ZoomFactorLabel->setBuddy(zoomFactorSelector);
 	StoryLabel=new QLabel("Label :");
 	StoryLabel->setBuddy(StoryLabelEdit);
 
 	StoryStartTime=new QDateTimeEdit;
 	StoryStartTime->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
 	StoryStartTime->setDisabled(true);
-	//StoryStartTime->setCalendarPopup(true);
+
 
 	StoryStartTimeLabel=new QLabel("Start time :");
 	StoryStartTimeLabel->setBuddy(StoryStartTime);
@@ -69,9 +66,9 @@ StoryView::StoryView(QWidget *parent) :
 			"padding: 6px;");
 
 
-	infoButton= new QPushButton("remove term");
-	infoButton->setToolTip("remove a parameter from the selected story");
-	infoButton->setStyleSheet(stylesheet);
+	remove_variable= new QPushButton("remove variable");
+	remove_variable->setToolTip("remove a parameter from the selected story");
+	remove_variable->setStyleSheet(stylesheet);
 
 
 
@@ -117,7 +114,7 @@ StoryView::StoryView(QWidget *parent) :
 
 
 
-	this->infoButton->setCursor(Qt::PointingHandCursor);
+	this->remove_variable->setCursor(Qt::PointingHandCursor);
 	this->editExperiment->setCursor(Qt::PointingHandCursor);
 	this->addstory->setCursor(Qt::PointingHandCursor);
 	this->addstorysplit->setCursor(Qt::PointingHandCursor);
@@ -174,15 +171,17 @@ StoryView::StoryView(QWidget *parent) :
 	}
 
 	//info story line
-
+/*
 	infoLayout->addWidget(StoryLabel);
 	infoLayout->addWidget(StoryLabelEdit);
 	infoLayout->addWidget(StoryStartTimeLabel);
 	infoLayout->addWidget(StoryStartTime);
-	infoLayout->addWidget(ZoomFactorLabel);
-	infoLayout->addWidget(zoomFactorSelector);
-	infoLayout->addStretch(4);
 
+	//infoLayout->addWidget(ZoomFactorLabel);
+	//infoLayout->addWidget(zoomFactorSelector);
+	infoLayout->addStretch(4);
+*/
+	infoLayout->addWidget(info_view);
 	//first button line
 	buttonlayout1->addWidget(editExperiment);
 	buttonlayout1->addWidget(addstory);
@@ -192,7 +191,7 @@ StoryView::StoryView(QWidget *parent) :
 	buttonlayout1->addWidget(addEvent);
 
 	//second buttons line
-	buttonlayout2->addWidget(infoButton);
+	buttonlayout2->addWidget(remove_variable);
 	buttonlayout2->addWidget(removestory);
 	//buttonlayout2->addWidget(removeStorySplit);
 	buttonlayout2->addWidget(removeObsPoint);
@@ -204,8 +203,7 @@ StoryView::StoryView(QWidget *parent) :
 
 	setLayout(layout);
 
-	//connect(StoryLabelEdit,SIGNAL(textChanged(QString)),this,SLOT());
-	//connect()
+
 
 
 
@@ -213,23 +211,28 @@ StoryView::StoryView(QWidget *parent) :
 	connect(zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setupMatrix()));
 	connect(zoomInIcon, SIGNAL(clicked()), this, SLOT(zoomIn()));
 	connect(zoomOutIcon, SIGNAL(clicked()), this, SLOT(zoomOut()));
-	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this,SLOT(set_up_zoom_factor(QString)));
+	//connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this,SLOT(set_up_zoom_factor(QString)));
 
 	//connect(this,SIGNAL(destroyed())
 	connect(this->storytree,SIGNAL(clicked(QModelIndex)),this,SLOT(refresh_genotypeView(QModelIndex)));
 	connect(this->storytree,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(clicSelection(QModelIndex)));
+
+	//connect this storyview to the graphic view slots
 	connect(this,SIGNAL(add_graphic_story(QString,StoryBase*)),this->graphicStory,SLOT(add_root_story(QString,StoryBase*)));
 	connect(this,SIGNAL(add_graphic_story_split(QString,StoryBase*)),this->graphicStory,SLOT(add_split_story(QString,StoryBase*)));
 	connect(this,SIGNAL(add_observationPoint(ObservationPoint*)),this->graphicStory,SLOT(add_obsPoint(ObservationPoint *)));
 
+	//connect the graphic scene menu to this story view
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
 	connect(this->GraphicScene,SIGNAL(event2removed()),this,SLOT(remove_event()));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
+	connect(this->GraphicScene,SIGNAL(set_details_in_view(QGraphicsItem*)),this->info_view,SLOT(set_object_info(QGraphicsItem*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
 
-	connect(this->StoryLabelEdit,SIGNAL(textEdited(QString)),this,SLOT(reset_StoryName(QString)));
-	connect(this->infoButton,SIGNAL(clicked()),this,SLOT(remove_parameter()));
+	//connect all the buttons
+	connect(StoryLabelEdit,SIGNAL(textEdited(QString)),this,SLOT(reset_StoryName(QString)));
+	connect(remove_variable,SIGNAL(clicked()),this,SLOT(remove_parameter()));
 	connect(editExperiment,SIGNAL(clicked()),this,SLOT(edit_Experiment()));
 	connect(addstorysplit,SIGNAL(clicked()),this,SLOT(newStorySplit()));
 	connect(addstory,SIGNAL(clicked()),this,SLOT(newStory()));
@@ -319,6 +322,7 @@ void StoryView::set_story_info(StoryBase* story){
 }
 
 void StoryView::set_up_zoom_factor(QString _zoomfactor){
+	std::cerr << "entering set up zoom factor" << std::endl;
 	if (_zoomfactor=="day slot"){
 		this->zoomFactor=1;
 	}
@@ -425,6 +429,9 @@ void  StoryView::add_genotype(QString _idtext,QString _freetext,QString _taxonte
 			else{
 				QMessageBox::information(this,"added element","can't add a pool to a story split");
 			}
+		}
+		else{
+			QMessageBox::information(this,"added element","no story selected");
 		}
 	}
 	//std::cerr << "entering add_genotype : " << _idtext.toStdString() << std::endl;
@@ -759,6 +766,7 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 
 	this->doc_ressources=_doc_ressources;
 	this->GraphicScene->set_doc(currentDoc);
+	this->info_view->set_doc(currentDoc);
 	//this->width=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),this->currentDoc->get_enddate()));
 
 	//this->GraphicScene->setSceneRect(-150,-150,width+300,600);
@@ -850,7 +858,9 @@ void StoryView::clean_tree(){
 void StoryView::newStory(){
 	this->storydialog = new StoryDialog;
 	this->storydialog->setVisible(true);
-	connect(storydialog,SIGNAL(mon_signal(QString)),this,SLOT(addStory(QString)));
+	connect(storydialog,SIGNAL(new_story(QString)),this,SLOT(addStory(QString)));
+	connect(storydialog,SIGNAL(new_story_split(QString)),this,SLOT(add_graphic_split_story(QString)));
+
 }
 void StoryView::addStory(QString _text){
 
@@ -1053,7 +1063,7 @@ void StoryView::removeStory(){
 
 }
 
-//Function below not use
+//Function deprecated
 void StoryView::createStory(QString _text){
 	StoryItem * tmp =new StoryItem(_text,new Story(_text),false,false);
 	tmp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

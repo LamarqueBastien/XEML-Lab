@@ -18,7 +18,8 @@ HtmlReportView::HtmlReportView(QWidget *parent) :
 	createMenus();
 	this->setMinimumSize(500,500);
 	this->setLayout(layout);
-	//this->generate_report();
+
+
 
 }
 void HtmlReportView::createMenus(){
@@ -51,8 +52,12 @@ void HtmlReportView::createActions(){
 void HtmlReportView::print(){
 
 	printer=new QPrinter(QPrinter::HighResolution);
-	printer->setPageSize(QPrinter::A4);
-	printer->setFullPage(true);
+	//printer->setPageSize(QPrinter::A4);
+	//printer->setFullPage(true);
+	printer->setOrientation(QPrinter::Portrait);
+	printer->setPageSize(QPrinter::A3);
+	//printer->set
+	//printer->setOutputFormat(QPrinter::PdfFormat);
 	//printer->setPaperSize(QSizeF(144, 216), QPrinter::Millimeter);
 	//printer->setOutputFormat(QPrinter::PdfFormat);
 	//printer->setOutputFileName(fileName);
@@ -128,7 +133,7 @@ void HtmlReportView::generate_report(){
 		template_html=load_HTMl_from_file(&html_file);
 	}
 	QString html;
-	html = "<html><head>"
+	html = "<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'><head>"
 		   "<link rel='stylesheet' type='text/css' href='format.css'>"
 		   "</head><body class = tuning>"
 		   //"Your HTML code with tags, which have classes or ids. For example "
@@ -147,24 +152,27 @@ void HtmlReportView::generate_report(){
 		   "Organization : $xeml_experimenter_organisation$ <br />"
 		   "<hr>"
 		   "<span class= 'blues'>Experiment : </span><br />"
-		   "$xeml_experiment_name$ are started at $xeml_experiment_date$. <br />"
-
-
+		   "$xeml_experiment_name$ are started at $xeml_experiment_date$ and finished at $xeml_experiment_enddate$ <br />"
+		   "<hr>"
+		   "<span class= 'blues'>Description : </span><br />"
+		   "$xeml_experiment_description$<br />"
+		   "<hr>"
 		   "Within this experiment, $xeml_observationpoint_count$ observation point(s) "
 		   "and $xeml_sample_count$ samples collected.<br /> "
 		   "<hr>"
-		   "For this samples these material "
-		   "are observed $xeml_material_table$.<br /> "
+		   "<span class= 'blues'>For this samples these material are observed</span> "
+		   "<hr width = \"100%\">"
+		   "$xeml_material_table$.<br /> "
 		   "<hr>"
-		   "The following ontologies are referenced by this document: <br/>"
+		   "<span class= 'blues'>The following ontologies are referenced by this document:</span> <br/>"
 		   "$xeml_ontology_table$ <br/>"
 		   "<hr>"
-		   "For the definition of the environmental conditions the following parameters are used:<br />"
+		   "<span class= 'blues'>For the definition of the environmental conditions the following parameters are used:</span><br />"
 		   "$xeml_variables_table$<br />"
 		   "<hr>"
-		   "From these parameter the following are variables:<br />"
+		   "<span class= 'blues'>From these parameter the following are variables:</span><br />"
 		   "$xeml_dynamic_variables_table$<br />"
-		   "ObservationPoint schedule :<br />"
+		   "<span class= 'blues'>ObservationPoint schedule :</span><br />"
 		   "$xeml_observationschedule_table$</span><br />"
 		   "</body></html>";
 
@@ -179,8 +187,12 @@ void HtmlReportView::generate_report(){
 
 	html.replace("$xeml_experiment_name$",current_doc->get_experiment_name());
 
+
+	html.replace("$xeml_experiment_description$",static_cast<XemlDocument*>(current_doc)->get_experimentheader()->get_summary());
 	//ajouter format pour affichage plus complet de l'heure
-	html.replace("$xeml_experiment_date$",current_doc->get_startdate().toString("dddd, MMMM MM, yyyy hh:mm:ss AP"));
+	html.replace("$xeml_experiment_date$",current_doc->get_startdate().toString("dddd, MMMM dd, yyyy hh:mm:ss AP"));
+	html.replace("$xeml_experiment_enddate$",current_doc->get_enddate().toString("dddd, MMMM dd, yyyy hh:mm:ss AP"));
+
 	html.replace("$xeml_ontology_table$",generate_ontology_table());
 	html.replace("$xeml_material_table$",generate_material_table());
 
@@ -190,7 +202,7 @@ void HtmlReportView::generate_report(){
 	html.replace("$xeml_variables_table$",generate_variable_table());
 	html.replace("$xeml_dynamic_variables_table$",generate_dynamic_variable_table());
 
-	//html.replace("$xeml_observationschedule_table$",generate_observation_schedule_table());
+	html.replace("$xeml_observationschedule_table$",generate_observation_schedule_table());
 
 
 /*
@@ -228,6 +240,10 @@ void HtmlReportView::generate_report(){
 
 	// Create a QTextDocument with the defined HTML, CSS and the images
 	doc = new QTextDocument;
+	QFont font;
+	font.setFamily("Arial");
+	font.setPointSize(6);
+	doc->setDefaultFont(font);
 
 	/*
 	 * This shows how to bind the images, where the name for QUrl is the same name
@@ -260,6 +276,16 @@ QString HtmlReportView::generate_observation_schedule_table()
 {
 	// create a table with all informations about observation
 	// Date, Time, Duration, #individuals
+	QString ontologyTable="";
+	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"orange\">"
+				   "<th width = \"150\" height = \"100\">Date</th>"
+				   "<th width = \"150\" height = \"100\">Time</th>"
+				   "<th width = \"100\" height = \"100\">Duration</th>"
+				   "<th width = \"100\" height = \"100\">Individuals #</th>"
+				   "</tr>";
+	ontologyTable+="</table>";
+	return ontologyTable;
 
 }
 
@@ -267,11 +293,11 @@ QString HtmlReportView::generate_material_table()
 {
 	//create table with all material used during experiment
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"1250\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"150\" height = \"100\">NameSpaceAlias</th>"
-				   "<th width = \"800\" height = \"100\">Material</th>"
-				   "<th width = \"300\" height = \"100\">TermId</th>"
+				   "<th width = \"100\" height = \"100\">NameSpaceAlias</th>"
+				   "<th width = \"200\" height = \"100\">Material</th>"
+				   "<th width = \"200\" height = \"100\">TermId</th>"
 				   "</tr>";
 
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
@@ -329,13 +355,13 @@ QString HtmlReportView::generate_obs_count()
 
 QString HtmlReportView::generate_dynamic_variable_table(){
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"1250\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"150\" height = \"100\">NameSpaceAlias</th>"
-				   "<th width = \"400\" height = \"100\">Name</th>"
-				   "<th width = \"150\" height = \"100\">TermId</th>"
-				   "<th width = \"350\" height = \"100\">Changed at:</th>"
-				   "<th width = \"100\" height = \"100\">Value:</th>"
+				   "<th width = \"100\" height = \"100\">NameSpaceAlias</th>"
+				   "<th width = \"100\" height = \"100\">Name</th>"
+				   "<th width = \"50\" height = \"100\">TermId</th>"
+				   "<th width = \"100\" height = \"100\">Changed at:</th>"
+				   "<th width = \"50\" height = \"100\">Value:</th>"
 				   "<th width = \"100\" height = \"100\">Unit:</th>"
 
 
@@ -438,11 +464,11 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 QString HtmlReportView::generate_variable_table()
 {
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"1250\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
-				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"150\" height = \"100\">NameSpaceAlias</th>"
-				   "<th width = \"800\" height = \"100\">Name</th>"
-				   "<th width = \"300\" height = \"100\">TErmID</th>"
+	ontologyTable ="<table bgcolor = \"white\" border width = \"500\">" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"orange\" height = \"200\">"
+				   "<th width = \"100\" height = \"200\">NameSpaceAlias</th>"
+				   "<th width = \"200\" height = \"200\">Name</th>"
+				   "<th width = \"200\" height = \"200\">TermId</th>"
 
 				   "</tr>";
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
@@ -452,11 +478,11 @@ QString HtmlReportView::generate_variable_table()
 		for(std::vector<std::pair<BasicTerm*,QString> >::iterator it2=tmpstory->get_variablesCollection()->begin();it2!=tmpstory->get_variablesCollection()->end();++it2){
 			DynamicTerm * tmp_term=static_cast<DynamicTerm*>((*it2).first);
 			ontologyTable+="<tr bgcolor = \"cyan\">";
-			QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
+			QString msg = QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_namespacealias());
 			ontologyTable+=msg;
-			msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
+			msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_name());
 			ontologyTable+=msg;
-			msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_termId());
+			msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_termId());
 			ontologyTable+=msg;
 
 			ontologyTable+="</tr>";
@@ -476,11 +502,11 @@ QString HtmlReportView::generate_variable_table()
 QString HtmlReportView::generate_ontology_table()
 {
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"1250\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"150\" height = \"100\">Alias</th>"
-				   "<th width = \"800\" height = \"100\">NameSpace</th>"
-				   "<th width = \"300\" height = \"100\">Ontology</th>"
+				   "<th width = \"100\" height = \"100\">Alias</th>"
+				   "<th width = \"200\" height = \"100\">NameSpace</th>"
+				   "<th width = \"200\" height = \"100\">Ontology</th>"
 				   "</tr>";
 
 

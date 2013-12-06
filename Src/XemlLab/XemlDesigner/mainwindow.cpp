@@ -37,6 +37,18 @@ MainWindow::MainWindow(QWidget *parent) :
 	//this->setStyleSheet("QWidget { background-color: rgb(1,121,111); }");
 
 
+	this->zoomFactorSelector=new QComboBox;
+	ZoomFactorLabel=new QLabel("Time Step :");
+	ZoomFactorLabel->setBuddy(zoomFactorSelector);
+	this->zoomFactorSelector->addItem("day slot");
+	this->zoomFactorSelector->addItem("12 hours slot");
+	this->zoomFactorSelector->addItem("8 hours slot");
+	this->zoomFactorSelector->addItem("6 hours slot");
+	this->zoomFactorSelector->addItem("4 hours slot");
+	this->zoomFactorSelector->addItem("3 hours slot");
+	this->zoomFactorSelector->addItem("2 hours slot");
+	this->zoomFactorSelector->addItem(" hour slot");
+
 	QMdiArea *zoneCentrale = new QMdiArea;
 	//zoneCentrale->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	//zoneCentrale->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -59,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->genotypeView,SIGNAL(on_new_genotype(QString,QString,QString)),this->storyView,SLOT(add_genotype(QString,QString,QString)));
 	connect(this->storyView,SIGNAL(refresh_genotype_view(ItfDocument *)),this->genotypeView,SLOT(refresh_view(ItfDocument *)));
 	connect(this->storyView,SIGNAL(refresh_story_view(StoryView*)),this,SLOT(refresh_story_tree(StoryView*)));
+	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this->storyView,SLOT(set_up_zoom_factor(QString)));
+
 	timer = new QTimer(this);
 	QDir dir(QCoreApplication::applicationFilePath());
 	my_dir=dir;
@@ -122,6 +136,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -353,12 +368,12 @@ void MainWindow::set_up_germplasm(){
 //creation of menu, toolbar, etc...
 void    MainWindow::createActions(){
 
-	newAction = new QAction(QIcon(":/Images/new.png"),tr("&NewFile"), this);
+	newAction = new QAction(QIcon(":/Images/new.png"),tr("&New"), this);
 	newAction->setShortcut(tr("Ctrl+F"));
 	newAction->setStatusTip(tr("Create a new file"));
 	connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
-	HtmlReportAction=new QAction(QIcon(":/Images/new.png"),tr("&HtmlReport"), this);
+	HtmlReportAction=new QAction(QIcon(":/Images/html2.jpg"),tr("&HtmlReport"), this);
 	HtmlReportAction->setShortcut(tr("Ctrl+H"));
 	HtmlReportAction->setStatusTip(tr("generate Html Report"));
 	connect(HtmlReportAction, SIGNAL(triggered()), this, SLOT(generate_html_report()));
@@ -500,6 +515,11 @@ void    MainWindow::createToolBars() {
 	fileToolBar->addAction(saveAsAction);
 	fileToolBar->addAction(exitAction);
 	fileToolBar->addAction(loadCSVAction);
+	fileToolBar->addAction(HtmlReportAction);
+	fileToolBar->addSeparator();
+	fileToolBar->addWidget(ZoomFactorLabel);
+
+	fileToolBar->addWidget(zoomFactorSelector);
 
 
 	//editToolBar = addToolBar(tr("&Edit"));

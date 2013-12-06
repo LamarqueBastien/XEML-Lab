@@ -58,6 +58,8 @@ class MainWindow : public QMainWindow
 		Ui::MainWindow                           * ui;
 		QTimer                                   * timer;
 		QBasicTimer                                m_timer;
+		QComboBox                                * zoomFactorSelector;
+		QLabel                                   * ZoomFactorLabel;
 		QTime                                      m_firstChange;
 		void                                       createActions();
 		void                                       createMenus();

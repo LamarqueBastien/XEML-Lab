@@ -27,6 +27,7 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 
 
 
+	//connect(view,SIGNAL(objectNameChanged(QString)),this,SLOT(germplasm_set_label(QString)));
 	view->setModel(model);
 	QHBoxLayout * mainLayout= new QHBoxLayout;
 	mainLayout->addWidget(view);
@@ -34,6 +35,10 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 	setWindowTitle(tr("GermPlasm informations"));
 
 }
+void GermPlasmPanel::germplasm_set_label(QString _label){
+	std::cerr << "label germplasm : " << _label.toStdString() << std::endl;
+}
+
 void GermPlasmPanel::remove_row(){
 
 	QString germplasm;
@@ -44,18 +49,21 @@ void GermPlasmPanel::remove_row(){
 		germplasm=view->currentIndex().data().toString();
 		model->removeRows(ligne,1);
 		for(std::list<StoryNode*>::iterator it=doc->get_storyboard()->get_storyBoard()->begin();it!=doc->get_storyboard()->get_storyBoard()->end();++it){
+
 			if((*it)->get_parent()==NULL){
 
 				Story * current= static_cast<Story*>((*it)->get_story());
 				std::map<IndividualsPool*,QString>::iterator it_to_erase;
-				for(std::map<IndividualsPool*,QString>::iterator it = current->get_individualspoolcollection()->begin();it!=current->get_individualspoolcollection()->end();++it){
+				if (!current->get_individualspoolcollection()->empty()){
+					for(std::map<IndividualsPool*,QString>::iterator it = current->get_individualspoolcollection()->begin();it!=current->get_individualspoolcollection()->end();++it){
 
-					if ((*it).first->get_germplasm()==germplasm){
-						it_to_erase=it;
-						delete (*it).first;
+						if ((*it).first->get_germplasm()==germplasm){
+							it_to_erase=it;
+							delete (*it).first;
+						}
 					}
+					current->get_individualspoolcollection()->erase(it_to_erase);
 				}
-				current->get_individualspoolcollection()->erase(it_to_erase);
 
 			}
 		}

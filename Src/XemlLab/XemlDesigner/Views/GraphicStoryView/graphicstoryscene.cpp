@@ -142,6 +142,50 @@ void GraphicStoryScene::display_plot_parameters(){
 }
 void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 
+
+
+	std::cerr << "entering double click" << std::endl;
+		QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
+		//QGraphicsItem* item = mouseGrabberItem();
+		if(item!=0){
+			switch(item->type()){
+
+				case GraphicStoryItem::Type:
+					std::cerr << "entering story item type" << std::endl;
+
+					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+					//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
+					emit set_details_in_view(item);
+					std::cerr << "emit signals" << std::endl;
+
+
+
+					break;
+				case GraphicEventItem::Type:
+					this->my_selected_event=static_cast<GraphicEventItem*>(item);
+					emit set_details_in_view(item);
+
+					break;
+				case GraphicObservationPointItem::Type:
+					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
+					emit set_details_in_view(item);
+
+
+
+
+					break;
+			}
+
+		}
+		else{
+			this->my_selected_story=NULL;
+			this->my_selected_obsPoint=NULL;
+			this->my_selected_event=NULL;
+			std::cerr << "empty selection" << std::endl;
+		}
+		selectedItems().clear();
+		QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
+
 }
 
 void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -149,6 +193,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 	//std::cerr << "entering mouse press event" << std::endl;
 
+	/*
 	if (mouseEvent->button() == Qt::LeftButton){
 
 		QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
@@ -183,8 +228,11 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		}
 		selectedItems().clear();
 	}
+	*/
 
-	else if(mouseEvent->button() == Qt::RightButton){
+	//else if(mouseEvent->button() == Qt::RightButton){
+	if(mouseEvent->button() == Qt::RightButton){
+
 		QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
 
 		if(item!=0){
@@ -248,7 +296,7 @@ GraphicObservationPointItem     * GraphicStoryScene::get_selected_obsPoint(){
 }
 void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movement){
 
-	std::cerr << "entering set right for child" << std::endl;
+	//std::cerr << "entering set right for child" << std::endl;
 
 	QGraphicsItem * child_item;
 	GraphicStoryItem * tmp;
@@ -551,7 +599,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 										static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
 										selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),
 																														 static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
-										emit set_details_in_view(selected_story->get_story());
+										//emit set_details_in_view(selected_story->get_story());
 									}
 								}
 

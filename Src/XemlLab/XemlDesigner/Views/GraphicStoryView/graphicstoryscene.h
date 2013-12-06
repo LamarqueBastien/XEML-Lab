@@ -53,6 +53,8 @@ class GraphicStoryScene : public QGraphicsScene
 		void itemInserted(GraphicStoryItem *item);
 		void show_details_story(GraphicStoryItem * _storyselected);
 		void set_details_in_view(StoryBase * _story);
+		void set_details_in_view(QGraphicsItem * _item);
+
 		void on_displayed_plot_parameter(StoryBase * _story);
 	private:
 		QMenu * contextMenu;

@@ -25,6 +25,11 @@ class GermPlasmPanel : public QWidget
 		void                 remove_row();
 		void                 get_selected_element();
 		void                 initialize(ItfDocument * _xemlDoc);
+	private slots:
+		void                 germplasm_set_label(QString _germplasmlabel);
+
+	signals:
+		void                 reset_label(QString _label);
 };
 
 #endif // GERMPLASMPANEL_H
