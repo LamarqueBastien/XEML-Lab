@@ -11,6 +11,7 @@ class AnnotationDialog : public QDialog
 		Q_OBJECT
 	public:
 		AnnotationDialog(QWidget *parent = 0);
+		AnnotationDialog(QString _tag,QWidget * parent=0);
 	private:
 		QLabel * tag_label;
 		QLabel * annotation_label;

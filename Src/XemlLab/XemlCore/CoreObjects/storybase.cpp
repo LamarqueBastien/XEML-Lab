@@ -128,6 +128,7 @@ namespace Xeml {
 			return NULL;
 		}
 		void									               StoryBase::add_variable(BasicTerm * t){
+
 			this->variablesCollection->push_back(std::make_pair(t,t->get_termId()));
 		}
 		void                                                   StoryBase::rm_variable(QString _termId){

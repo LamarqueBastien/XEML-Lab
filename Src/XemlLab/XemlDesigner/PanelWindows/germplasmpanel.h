@@ -12,6 +12,8 @@
 #include"Interface/itfdocument.h"
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Document;
+
+
 class GermPlasmPanel : public QWidget
 {
 		Q_OBJECT

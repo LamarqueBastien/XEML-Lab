@@ -24,6 +24,7 @@ class GenotypeView : public QWidget
 		ItfDocument        * currentDoc;
 		QPushButton * addGenotype;
 		QPushButton * removeGenotype;
+		QPushButton * Edit;
 		GermPlasmPanel * gpp;
 		GenotypeDialog * new_genotype;
 
@@ -34,10 +35,10 @@ class GenotypeView : public QWidget
 		void clean_view();
 
 	signals:
-		void on_new_genotype(QString _idtext,QString _freetext,QString _taxontext);
+		void on_new_genotype(IndividualsPool * _pool,QString _idtext,QString _freetext,QString _taxontext);
 	private slots:
 		void refresh_view(ItfDocument * _xemldoc);
-		void genotype_to_add(QString _idtext,QString _freetext,QString _taxontext);
+		void genotype_to_add(IndividualsPool * _pool, QString _idtext,QString _freetext,QString _taxontext);
 		void add_genotype();
 		void remove_genotype();
 };

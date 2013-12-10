@@ -4,6 +4,7 @@
 
 
 
+
 using Xeml::Document::DocumentResources;
 
 
@@ -68,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->ontologyView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this->storyView,SLOT(new_parameter(ItfOntologyTerm*)));
 	connect(this->ontologyView,SIGNAL(ontology_to_load(bool,bool,bool)),this,SLOT(add_ontologies(bool,bool,bool)));
 	connect(this->storyView,SIGNAL(experimenter_settings(QString,QString,QString,QString)),this,SLOT(set_experimenter(QString,QString,QString,QString)));
-	connect(this->genotypeView,SIGNAL(on_new_genotype(QString,QString,QString)),this->storyView,SLOT(add_genotype(QString,QString,QString)));
+	connect(this->genotypeView,SIGNAL(on_new_genotype(IndividualsPool*,QString,QString,QString)),this->storyView,SLOT(add_genotype(IndividualsPool*,QString,QString,QString)));
 	connect(this->storyView,SIGNAL(refresh_genotype_view(ItfDocument *)),this->genotypeView,SLOT(refresh_view(ItfDocument *)));
 	connect(this->storyView,SIGNAL(refresh_story_view(StoryView*)),this,SLOT(refresh_story_tree(StoryView*)));
 	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this->storyView,SLOT(set_up_zoom_factor(QString)));
@@ -343,6 +344,7 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 //initialize this story view by callling the create experiment
 //function from story view class.
 void    MainWindow::set_up_storytree(){
+	//this->storyView->setv
 	this->storyView->createExperiment(this->fmg->get_current_xeml(),this->doc_ressources);
 }
 
@@ -694,6 +696,7 @@ void    MainWindow::newFile(){
 
 }
 
+
 void    MainWindow::refresh_story_tree(StoryView * _storyview){
 	std::cerr << "entering refresh story view ( Main window)" << std::endl;
 	_storyview->clean_tree();
@@ -701,9 +704,13 @@ void    MainWindow::refresh_story_tree(StoryView * _storyview){
 	_storyview->show();
 }
 void MainWindow::refresh_story_tree(bool _Mode,StoryView * _storyview){
-	_storyview->clean_tree();
-	this->set_up_storytree();
+
+	_storyview->hide();
 	_storyview->show();
+
+	//_storyview->clean_tree();
+	//this->set_up_storytree();
+	//_storyview->show();
 }
 
 void    MainWindow::refresh_onto_tree(ParameterTreeView * _ontoview){

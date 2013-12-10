@@ -135,6 +135,7 @@ class StoryView : public QWidget
 	private slots:
 
 
+		void                 refresh();
 		void                 display_plot(StoryBase * _story);
 		void                 setupMatrix();
 		void                 set_up_zoom_factor(QString _zoomfactor);
@@ -161,7 +162,7 @@ class StoryView : public QWidget
 		void                 add_observationPoint();
 		void                 remove_obs_point();
 		void                 send_refresh_story_signal();
-		void                 add_genotype(QString _idtext,QString _freetext,QString _taxontext);
+		void                 add_genotype(IndividualsPool * _pool, QString _idtext,QString _freetext,QString _taxontext);
 		void                 add_samples();
 		void                 remove_samples();
 		void                 choose_obsPoint();

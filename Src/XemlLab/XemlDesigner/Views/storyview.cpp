@@ -27,6 +27,8 @@ StoryView::StoryView(QWidget *parent) :
 	this->GraphicScene=new GraphicStoryScene(posY_item);
 
 	this->graphicStory=new GraphicStoryView(this->GraphicScene);
+	this->graphicStory->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
 	this->my_treestory= new QStandardItemModel;
 	this->storytree->setModel(this->my_treestory);
 	this->storytree->header()->hide();
@@ -35,6 +37,8 @@ StoryView::StoryView(QWidget *parent) :
 
 
 	this->info_view=new XemlObjectInfoView();
+
+	connect(this->info_view,SIGNAL(refresh_view()),this,SLOT(refresh()));
 
 	//info panel for xeml annotable object
 	StoryLabelEdit= new QLineEdit;
@@ -66,7 +70,7 @@ StoryView::StoryView(QWidget *parent) :
 			"padding: 6px;");
 
 
-	remove_variable= new QPushButton("remove variable");
+	remove_variable= new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove variable");
 	remove_variable->setToolTip("remove a parameter from the selected story");
 	remove_variable->setStyleSheet(stylesheet);
 
@@ -78,13 +82,13 @@ StoryView::StoryView(QWidget *parent) :
 	editExperiment->setStyleSheet(stylesheet);
 
 
-	addstory= new QPushButton("add story");
+	addstory= new QPushButton(QIcon(":/Images/StoryLogo.png"),"add story");
 	addstory->setToolTip("Add a new story "
 						 "(story time is equivalent to the experiment time)");
 	addstory->setStyleSheet(stylesheet);
 
 
-	addstorysplit= new QPushButton("add story split");
+	addstorysplit= new QPushButton(QIcon(":/Images/SplitLogo.png"),"add story split");
 	addstorysplit->setToolTip("Add a new split to the selected story--"
 							  "change story time by left clicking and dragging it "
 							  "(one story should be selected )");
@@ -96,20 +100,20 @@ StoryView::StoryView(QWidget *parent) :
 							"populate this observation point by adding samples");
 	addobsPoint->setStyleSheet(stylesheet);
 
-	addEvent= new QPushButton("add Event");
+	addEvent= new QPushButton(QIcon(":/Images/EventLogo.png"),"add Event");
 	addEvent->setToolTip("Add a new event after choose his label");
 	addEvent->setStyleSheet(stylesheet);
-	rmEvent= new QPushButton("remove Event");
+	rmEvent= new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove Event");
 	rmEvent->setStyleSheet(stylesheet);
 	addSamples= new QPushButton("add sample");
 	addSamples->setStyleSheet(stylesheet);
-	removestory=new QPushButton("remove story");
+	removestory=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove story");
 	removestory->setStyleSheet(stylesheet);
-	removeObsPoint=new QPushButton("remove observation");
+	removeObsPoint=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove observation");
 	removeObsPoint->setStyleSheet(stylesheet);
-	removeSample=new QPushButton("remove sample");
+	removeSample=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove sample");
 	removeSample->setStyleSheet(stylesheet);
-	removeStorySplit=new QPushButton("remove split");
+	removeStorySplit=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove split");
 	removeStorySplit->setStyleSheet(stylesheet);
 
 
@@ -267,6 +271,23 @@ StoryView::StoryView(QWidget *parent) :
 
 
 }
+void StoryView::refresh(){
+	std::cerr << "entering in refresh (storyView)" << std::endl;
+
+	//QWidget* viewport = this->viewport();
+	//viewport->update();
+
+	this->GraphicScene->update();
+	//this->graphicStory->update();
+	this->graphicStory->setScene(this->GraphicScene);
+	//emit refresh_story_view(this);
+	//this->graphicStory->repaint();
+	//this->update();
+	//this->repaint();
+	//this->show();
+
+}
+
 void StoryView::display_plot(StoryBase * _story){
 	std::cerr << "entering display plot" << std::endl;
 
@@ -308,6 +329,7 @@ void StoryView::reset_StoryName(QString label){
 		emit refresh_story_view(this);
 	}
 }
+
 void StoryView::set_story_info(StoryBase* story){
 	std::cerr << "entering set story info for qstory :" << story->get_label().toStdString() << std::endl;
 	my_selected_story=story;
@@ -406,14 +428,15 @@ QStandardItemModel * StoryView::get_model(){
 	return this->my_treestory;
 }
 
-void  StoryView::add_genotype(QString _idtext,QString _freetext,QString _taxontext){
+void  StoryView::add_genotype(IndividualsPool * _pool, QString _idtext,QString _freetext,QString _taxontext){
 	if (GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 			if (!node->get_isStorySplit()){
 				std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
 
-				IndividualsPool * pool = new IndividualsPool();
+				_pool->display_all_tags();
+				IndividualsPool * pool = _pool;
 				//pool->set_ns("none");
 				pool->set_germplasm(_idtext);
 				if((!_freetext.isEmpty())&&(!_freetext.isNull())){

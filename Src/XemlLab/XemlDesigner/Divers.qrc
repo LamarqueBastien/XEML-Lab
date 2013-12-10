@@ -29,6 +29,11 @@
         <file>Images/html.jpg</file>
         <file>Images/html2.jpg</file>
         <file>Images/annotation.png</file>
+        <file>Images/AddTableHS.png</file>
+        <file>Images/DeleteHS.png</file>
+        <file>Images/EventLogo.png</file>
+        <file>Images/SplitLogo.png</file>
+        <file>Images/StoryLogo.png</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

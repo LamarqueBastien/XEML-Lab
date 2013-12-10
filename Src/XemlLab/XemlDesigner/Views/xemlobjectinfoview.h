@@ -30,6 +30,8 @@ class XemlObjectInfoView : public QWidget
 
 
 	signals:
+		void on_label_changed(QString _label);
+		void refresh_view();
 
 	public slots:
 
@@ -37,6 +39,7 @@ class XemlObjectInfoView : public QWidget
 		//void on_annotation_added(QString _annot,QString _tag);
 		void set_object_info(QGraphicsItem * _object);
 		void on_annotation_added(QString _annot,QString _tag);
+		void change_name(QString _label);
 
 
 };

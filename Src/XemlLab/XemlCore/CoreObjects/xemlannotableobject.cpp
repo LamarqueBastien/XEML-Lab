@@ -16,14 +16,15 @@ namespace Xeml {
 		void XemlAnnotableObject::display_all_tags(){
 			for( this->it = this->TaggedannotationCollection->begin(); this->it != this->TaggedannotationCollection->end(); this->it++ ) {
 
-				std::cout <<this->it->first->getTag().toStdString()<<std::endl;
+				std::cerr <<this->it->first->getTag().toStdString()<<std::endl;
+				std::cerr <<this->it->first->getAnnotation().toStdString()<<std::endl;
 			}
 		}
 		void XemlAnnotableObject::display_specific_tag(TaggedAnnotation* TA){
 			for( this->it = this->TaggedannotationCollection->begin(); this->it != this->TaggedannotationCollection->end(); this->it++ ) {
 				if(TA->getTag()==this->it->first->getTag()){
 
-					std::cout <<this->it->first->getTag().toStdString()<<std::endl;
+					std::cerr <<this->it->first->getTag().toStdString()<<std::endl;
 				}
 			}
 		}

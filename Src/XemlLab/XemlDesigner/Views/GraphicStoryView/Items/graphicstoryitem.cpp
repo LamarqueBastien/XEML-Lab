@@ -65,7 +65,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	//this->setParentItem(_parent);
 	this->rect=QRectF(posx, posy, this->width, 60);
 	this->storyLabel=_label;
-	QGraphicsTextItem * label_text=new QGraphicsTextItem(_label,this);
+	label_text=new QGraphicsTextItem(_label,this);
 
 	//std::cerr << "pos x in constructor :" << this->posx << std::endl;
 	//std::cerr << "pos y in constructor :" << this->posy << std::endl;
@@ -148,6 +148,11 @@ QString GraphicStoryItem::get_label(){
 }
 void GraphicStoryItem::set_posx(qreal _posx){
 	this->posx=_posx;
+}
+void GraphicStoryItem::set_label(QString _label){
+	this->storyLabel=_label;
+	label_text->setPlainText(_label);
+	this->update();
 }
 
 void GraphicStoryItem::set_posy(qreal _posy){

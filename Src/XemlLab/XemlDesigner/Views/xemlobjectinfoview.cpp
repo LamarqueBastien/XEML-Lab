@@ -17,6 +17,7 @@ XemlObjectInfoView::XemlObjectInfoView(QWidget *parent) :
 	ObjectStartTimeLabel->setBuddy(ObjectStartTime);
 
 	annotation= new QPushButton(QIcon(":/Images/annotation.png"),"Annotation");
+	this->annotation->setEnabled(false);
 	QHBoxLayout * hLayout=new QHBoxLayout;
 	hLayout->addWidget(ObjectLabel);
 	hLayout->addWidget(ObjectLabelEdit);
@@ -25,9 +26,55 @@ XemlObjectInfoView::XemlObjectInfoView(QWidget *parent) :
 	hLayout->addWidget(annotation);
 	hLayout->addStretch(4);
 	connect(annotation,SIGNAL(clicked()),this,SLOT(add_annotation()));
+	connect(ObjectLabelEdit,SIGNAL(textChanged(QString)),this,SLOT(change_name(QString)));
 	this->setLayout(hLayout);
 
 }
+void XemlObjectInfoView::change_name(QString _label){
+	//emit on_label_changed(_label);
+	GraphicStoryItem * my_selected_story;
+	GraphicEventItem * my_selected_event;
+	GraphicObservationPointItem  * my_selected_obsPoint;
+	if(this->object!=0){
+		switch(object->type()){
+			case GraphicStoryItem::Type:
+				my_selected_story=static_cast<GraphicStoryItem*>(object);
+				my_selected_story->set_label(_label);
+				my_selected_story->get_story()->set_label(_label);
+				my_selected_story->set_label(_label);
+
+
+
+
+
+
+				break;
+			case GraphicEventItem::Type:
+				my_selected_event=static_cast<GraphicEventItem*>(object);
+				my_selected_event->get_event()->set_label(_label);
+
+
+
+
+				break;
+			case GraphicObservationPointItem::Type:
+				my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(object);
+				my_selected_obsPoint->get_obspoint()->set_id(_label.toInt());
+
+
+
+
+
+
+
+
+				break;
+		}
+	}
+	emit refresh_view();
+
+}
+
 void XemlObjectInfoView::add_annotation(){
 
 	this->annot_dialog=new AnnotationDialog();
@@ -76,12 +123,14 @@ void  XemlObjectInfoView::on_annotation_added(QString _annot,QString _tag){
 }
 
 void  XemlObjectInfoView::set_doc( ItfDocument * _xemldoc){
+
 	this->current_doc=_xemldoc;
 	this->ObjectStartTime->setDateTime(this->current_doc->get_startdate());
 
 }
 
 void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
+
 
 	std::cerr << "entering set_object_info" << std::endl;
 
@@ -136,6 +185,7 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 
 				break;
 		}
+		this->annotation->setEnabled(true);
 	}
 }
 

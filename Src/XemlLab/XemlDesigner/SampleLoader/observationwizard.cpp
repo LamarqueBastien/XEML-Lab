@@ -56,10 +56,40 @@ void ObservationWizard::accept(){
 					BasicTerm * devTerm= new BasicTerm(field("DevTermId").toString());
 					devTerm->set_name(field("DevName").toString());
 					devTerm->set_namespacealias("PO_Development");
+					std::list<TermNode*>  * my_devtree=static_cast<DevelopmentalOntologyHandler*>((*doc_resources->get_devHandler())["PO_Development"]->get_handler())->get_listNodes();
+					for (std::list<TermNode*>::iterator it=my_devtree->begin();it!=my_devtree->end();++it){
+						if (static_cast<TermNode*>((*it))->get_term()->get_termId()==devTerm->get_termId()){
+							BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
+							for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
+
+								devTerm->add_tagged_annotation((*it2).first);
+							}
+							delete test;
+						}
+					}
+
+
 
 					BasicTerm * structTerm =new BasicTerm(field("StructTermID").toString());
 					structTerm->set_namespacealias("PO_Structure");
 					structTerm->set_name(field("structName").toString());
+					std::list<TermNode*>  * my_structree=static_cast<PlantStructureOntologyHandler*>((*doc_resources->get_structHandler())["PO_Structure"]->get_handler())->get_listNodes();
+
+					for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
+						if (static_cast<TermNode*>((*it))->get_term()->get_termId()==structTerm->get_termId()){
+							BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
+							//std::cerr << "displaying tag annotation" << std::endl;
+							//test->display_all_tags();
+							//std::cerr << "end displaying tag annotation" << std::endl;
+							for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
+								structTerm->add_tagged_annotation((*it2).first);
+
+								//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
+							}
+							delete test;
+
+						}
+					}
 
 					VariableTerm * posTerm=new VariableTerm(field("PosTermId").toString());
 					posTerm->set_namespacealias("XEO_Positioning");

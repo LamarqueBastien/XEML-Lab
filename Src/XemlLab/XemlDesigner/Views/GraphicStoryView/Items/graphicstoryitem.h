@@ -40,6 +40,7 @@ class GraphicStoryItem : public QGraphicsItem
 		void change();
 		bool get_isStorySplit();
 		QString get_label();
+		void set_label(QString _label);
 		void set_right(qreal width);
 		StoryBase * get_story();
 		qreal get_posx();
@@ -67,6 +68,7 @@ class GraphicStoryItem : public QGraphicsItem
 
 
 		ItfDocument * current_doc;
+		QGraphicsTextItem * label_text;
 		qreal posx, posy;
 		int myHoverPoint;
 		int mySelPoint;
