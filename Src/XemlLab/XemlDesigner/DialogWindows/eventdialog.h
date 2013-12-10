@@ -31,14 +31,17 @@ class EventDialog : public QDialog
 		QPushButton * okButton;
 		StoryBase   * current_story;
 		ItfDocument * current_doc;
+		Event       * event;
+		bool          Mode;
 
 
 	public:
-		EventDialog(ItfDocument * _xemldoc,StoryBase * _story,QWidget *parent = 0);
+		EventDialog(bool _mode,Event * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget *parent = 0);
 		//QVariant     element_selected;
 
 	signals:
 		void event_set(Event * e);
+		void event_edited();
 
 	private slots:
 		void OkClicked();

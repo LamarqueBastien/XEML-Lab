@@ -329,19 +329,21 @@ void ParameterTreeView::showSelection()
 	if(selection->isSelected(indexelementselected)){
 		ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(indexelementselected));
 		QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
+
 		/*
 		if(tmp->isRoot){
 			QMessageBox::information(this,"added element","can't have information , root term");
 		}
 		else{
+		}
 		*/
-		if (tmp->get_term()->get_definition()!=""){
-			QMessageBox::information(this,"selected element",tmp->get_term()->get_definition());
-		}
-		else{
-			QMessageBox::information(this,"selected element","No definition");
-
-		}
+		//if (tmp->column()!=0){
+			if (tmp->get_term()->get_definition()!="" || !(tmp->get_term()->get_definition().isEmpty())){
+				QMessageBox::information(this,"selected element",tmp->get_term()->get_definition());
+			}
+			else{
+				QMessageBox::information(this,"selected element","No definition");
+			}
 		//}
 	}
 	else{

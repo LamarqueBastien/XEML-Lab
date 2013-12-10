@@ -1,13 +1,18 @@
 #include <QtGui>
 #include "eventdialog.h"
 
-EventDialog::EventDialog(ItfDocument * _xemldoc,StoryBase * _story,QWidget * parent)
+EventDialog::EventDialog(bool _mode,Event  * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget * parent)
 	: QDialog(parent)
 {
+	this->Mode=_mode;
+	this->event=_event;
 	this->current_doc=_xemldoc;
 	this->current_story=_story;
 	this->label = new QLabel(tr("Label :"));
 	this->lineEdit = new QLineEdit;
+	if (Mode){
+		this->lineEdit->setText(_event->get_label());
+	}
 	this->label->setBuddy(lineEdit);
 	this->okButton =new QPushButton(tr("OK"));
 	this->okButton->setDefault(true);
@@ -42,6 +47,7 @@ EventDialog::EventDialog(ItfDocument * _xemldoc,StoryBase * _story,QWidget * par
 	//connect(lineEditTimePoint,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	*/
 
+	connect(cancelButton,SIGNAL(clicked()),this,SLOT(close()));
 	connect(lineEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
 
@@ -70,6 +76,7 @@ EventDialog::EventDialog(ItfDocument * _xemldoc,StoryBase * _story,QWidget * par
 
 
 }
+
 void EventDialog::enabledOkButton(const QString & text){
 	Q_UNUSED(text)
 	this->okButton->setEnabled(true);
@@ -77,14 +84,23 @@ void EventDialog::enabledOkButton(const QString & text){
 void EventDialog::OkClicked(){
 
 	QString text= lineEdit->text();
-	QDateTime _datetime=get_date(this->current_doc->get_startdate(),86400000);  //this->daytimeedit->dateTime();
-	Event * e=new Event(_datetime);
-	e->set_label(text);
+	//QDateTime _datetime=get_date(this->current_doc->get_startdate(),86400000);  //this->daytimeedit->dateTime();
+	//Event * e=new Event(_datetime);
+	//Event * e =new Event();
+	event->set_label(text);
 
-	this->current_story->add_event(e);
+	if (!Mode){
+		this->current_story->add_event(event);
+		emit event_set(event);
+	}
+	else{
+		emit event_edited();
+	}
 
 
-	emit event_set(e);
+
+
+
 	this->close();
 }
 

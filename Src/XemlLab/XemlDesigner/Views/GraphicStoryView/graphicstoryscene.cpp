@@ -114,11 +114,19 @@ void GraphicStoryScene::createActions(){
 	removeEvent = new QAction(QIcon(":/Images/new.png"),tr("&Remove"), this);
 	removeEvent->setShortcut(tr("Ctrl+R"));
 	removeEvent->setStatusTip(tr("Remove event"));
+	editEvent = new QAction(QIcon(":/Images/new.png"),tr("&Edit"), this);
+	editEvent->setShortcut(tr("Ctrl+R"));
+	editEvent->setStatusTip(tr("Edit Event"));
 
 	connect(show_details, SIGNAL(triggered()), this, SLOT(details_story()));
 	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));
 	connect(removeOP, SIGNAL(triggered()), this, SLOT(remove_obsPoint()));
 	connect(removeEvent,SIGNAL(triggered()),this,SLOT(remove_event()));
+	connect(editEvent,SIGNAL(triggered()),this,SLOT(edit_event()));
+}
+
+void  GraphicStoryScene::edit_event(){
+	emit event2edit();
 }
 
 void GraphicStoryScene::createMenus(){
@@ -239,7 +247,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 			switch(item->type()){
 				case GraphicStoryItem::Type:
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
-					contextMenu =new QMenu("Details",mouseEvent->widget());
+					contextMenu =new QMenu("Story",mouseEvent->widget());
 					contextMenu->addAction(show_details);
 					contextMenu->addAction(display_plot);
 					contextMenu->exec(mouseEvent->screenPos());
@@ -247,15 +255,16 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					break;
 				case GraphicObservationPointItem::Type:
 					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
-					contextMenu =new QMenu("Remove Story",mouseEvent->widget());
+					contextMenu =new QMenu("Observation Point",mouseEvent->widget());
 					contextMenu->addAction(removeOP);
 					contextMenu->exec(mouseEvent->screenPos());
 
 					break;
 				case GraphicEventItem::Type:
 					this->my_selected_event=static_cast<GraphicEventItem*>(item);
-					contextMenu =new QMenu("Remove",mouseEvent->widget());
+					contextMenu =new QMenu("Event",mouseEvent->widget());
 					contextMenu->addAction(removeEvent);
+					contextMenu->addAction(editEvent);
 					contextMenu->exec(mouseEvent->screenPos());
 
 					break;
@@ -312,6 +321,7 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 	qreal tmp_size;
 	qreal shift;
 
+	QString new_toolTipEvent="";
 	if (!item->childItems().empty()){
 		std::cerr << "size : " << item->childItems().size() << std::endl;
 		for(int i=0;i<item->childItems().size();i++){
@@ -410,9 +420,15 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 					tmp_event=static_cast<GraphicEventItem*>(child_item);
 					newpos=tmp_event->mapToScene(tmp_event->mapFromParent(tmp_event->pos().x(),tmp_event->pos().y()));
 					shift=max_width-static_cast<GraphicStoryItem*>(item)->get_rect().width();
+
 					if (newpos.x()<this->max_width){
 						tmp_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
-						tmp_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint())));
+						//tmp_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint())));
+						new_toolTipEvent+=tmp_event->get_event()->get_label();
+						new_toolTipEvent+="\n";
+						new_toolTipEvent+="-----------\n";
+						new_toolTipEvent+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint()));
+						tmp_event->setToolTip(new_toolTipEvent);
 					}
 					else{
 						if(newpos.x()>=this->max_width){
@@ -421,7 +437,12 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 							std::cerr << "shift : " << shift << std::endl;
 							tmp_event->setPos((newpos.x()-(shift*zoomFactor))-_movement,0);
 							tmp_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(newpos.x()/zoomFactor)));
-							tmp_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint())));
+							//tmp_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint())));
+							new_toolTipEvent+=tmp_event->get_event()->get_label();
+							new_toolTipEvent+="\n";
+							new_toolTipEvent+="-----------\n";
+							new_toolTipEvent+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),tmp_event->get_event()->get_timepoint()));
+							tmp_event->setToolTip(new_toolTipEvent);
 						}
 
 					}
@@ -561,6 +582,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 			qint64 hours;
 			//ObservationPoint * tmp=0;
 			//QDateTime tmptime;
+			QString new_toolTipEvent="";
 
 			switch(selected_item->type()){
 				case GraphicStoryItem::Type:
@@ -635,7 +657,12 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 								selected_event->setPos(mouse_point.x()-shift,0);//-shift
 								hours=mouse_point.x()/zoomFactor;
 								selected_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-								selected_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint())));
+								//selected_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint())));
+								new_toolTipEvent+=selected_event->get_event()->get_label();
+								new_toolTipEvent+="\n";
+								new_toolTipEvent+="-----------\n";
+								new_toolTipEvent+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint()));
+								selected_event->setToolTip(new_toolTipEvent);
 							}
 						//}
 					}

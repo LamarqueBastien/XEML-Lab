@@ -16,7 +16,7 @@ HtmlReportView::HtmlReportView(QWidget *parent) :
 
 	createActions();
 	createMenus();
-	this->setMinimumSize(500,500);
+	this->setMinimumSize(550,700);
 	this->setLayout(layout);
 
 
@@ -242,7 +242,7 @@ void HtmlReportView::generate_report(){
 	doc = new QTextDocument;
 	QFont font;
 	font.setFamily("Arial");
-	font.setPointSize(6);
+	font.setPointSize(10);
 	doc->setDefaultFont(font);
 
 	/*

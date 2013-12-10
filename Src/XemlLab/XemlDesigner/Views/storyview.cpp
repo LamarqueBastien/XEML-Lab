@@ -230,9 +230,11 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
 	connect(this->GraphicScene,SIGNAL(event2removed()),this,SLOT(remove_event()));
+	connect(this->GraphicScene,SIGNAL(event2edit()),this,SLOT(edit_event()));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(QGraphicsItem*)),this->info_view,SLOT(set_object_info(QGraphicsItem*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
+
 
 	//connect all the buttons
 	connect(StoryLabelEdit,SIGNAL(textEdited(QString)),this,SLOT(reset_StoryName(QString)));
@@ -720,7 +722,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		qreal x=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(_node->get_story())->get_timepoint()));
 		qreal Width=this->width-(x*zoomFactor);
 		GraphicStoryItem * parent;
-		parent=static_cast<GraphicStoryItem*>(this->GraphicScene->get_item_by_label(_node->get_parent()->get_label()));
+		parent=static_cast<GraphicStoryItem*>(this->GraphicScene->get_item_by_label(_node->get_parent()->get_story()->get_label()));
 		qreal width_parent=parent->get_rect().width();
 		if (parent!=NULL){
 
@@ -1416,7 +1418,7 @@ void StoryView::add_observationPoint(){
 
 }
 void StoryView::send_refresh_story_signal(){
-	std::cerr << "entering on remove obspoint (StoryView) " << std::endl;
+	std::cerr << "entering on remove obspoint or event (StoryView) " << std::endl;
 	emit refresh_story_view(this);
 }
 
@@ -1480,7 +1482,8 @@ void StoryView::new_event(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
-			EventDialog * event=new EventDialog(this->currentDoc,current_storyNode->get_story());
+			Event * e =new Event();
+			EventDialog * event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story());
 			connect(event,SIGNAL(event_set(Event*)),this->graphicStory,SLOT(add_event(Event*)));
 			event->setVisible(true);
 		}
@@ -1501,7 +1504,8 @@ void StoryView::new_event(){
 				QMessageBox::information(this,"root exception","can't add an event to experiment");
 			}
 			else{
-				EventDialog * event=new EventDialog(this->currentDoc,tmp->get_story());
+				Event * e =new Event();
+				EventDialog * event=new EventDialog(false,e,this->currentDoc,tmp->get_story());
 				//this->splitstorydialog = new StorySplitDialog(elementSelected);
 
 				event->setVisible(true);
@@ -1564,6 +1568,20 @@ void StoryView::remove_event(){
 			}
 	}
 
+
+}
+void StoryView::edit_event(){
+	if(this->GraphicScene->get_selected_event()!=NULL){
+		StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+
+		Event * event=this->GraphicScene->get_selected_event()->get_event();
+		EventDialog * eventdialog=new EventDialog(true,event,this->currentDoc,current_storyNode->get_story());
+		connect(eventdialog,SIGNAL(event_edited()),eventdialog,SLOT(close()));
+		eventdialog->setVisible(true);
+
+
+
+	}
 
 }
 

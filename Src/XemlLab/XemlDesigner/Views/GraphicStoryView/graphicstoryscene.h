@@ -48,6 +48,7 @@ class GraphicStoryScene : public QGraphicsScene
 
 	signals:
 
+		void event2edit();
 		void event2removed();
 		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);
@@ -63,6 +64,7 @@ class GraphicStoryScene : public QGraphicsScene
 		QAction * removeOP;
 		QAction * removeStory;
 		QAction * removeEvent;
+		QAction * editEvent;
 		ItfDocument * currentDoc;
 
 		GraphicEventItem * my_item;
@@ -77,6 +79,7 @@ class GraphicStoryScene : public QGraphicsScene
 
 		void remove_obsPoint();
 		void remove_event();
+		void edit_event();
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);

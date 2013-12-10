@@ -7,6 +7,7 @@ XemlObjectInfoView::XemlObjectInfoView(QWidget *parent) :
 	ObjectLabelEdit= new QLineEdit;
 	ObjectLabel=new QLabel("Label :");
 	ObjectLabel->setBuddy(ObjectLabelEdit);
+	ObjectLabelEdit->setEnabled(false);
 
 	ObjectStartTime=new QDateTimeEdit;
 	ObjectStartTime->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
@@ -140,6 +141,7 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 	GraphicObservationPointItem  * my_selected_obsPoint;
 
 	if(object!=0){
+
 		switch(object->type()){
 			case GraphicStoryItem::Type:
 				std::cerr << "entering story item type" << std::endl;
@@ -186,6 +188,7 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 				break;
 		}
 		this->annotation->setEnabled(true);
+		this->ObjectLabelEdit->setEnabled(true);
 	}
 }
 

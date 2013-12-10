@@ -169,6 +169,7 @@ class StoryView : public QWidget
 		void                 new_event();
 		void                 add_event(QString _storyName,QString _label,QDateTime _datetime);
 		void                 remove_event();
+		void                 edit_event();
 		void                 reset_StoryName(QString label);
 		void                 set_story_info(StoryBase* story);
 

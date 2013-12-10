@@ -24,14 +24,25 @@ GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width
 	qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 	QPointF point2=QPointF(posx,parent_y+parent_h/2);
 	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
-
+	QString tmp_name="";
 	if (static_cast<GraphicStoryItem*>(parent)->get_isStorySplit()){
 		this->event->set_timepoint(_eventdate);
-		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint())));
+
+		tmp_name+=this->eventLabel;
+		tmp_name+="\n";
+		tmp_name+="-----------\n";
+		tmp_name+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint()));
+		this->setToolTip(tmp_name);
+		//this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint())));
 	}
 	else{
 		this->event->set_timepoint(_eventdate);
-		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint())));
+		tmp_name+=this->eventLabel;
+		tmp_name+="\n";
+		tmp_name+="-----------\n";
+		tmp_name+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint()));
+		this->setToolTip(tmp_name);
+		//this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->event->get_timepoint())));
 
 
 	}
