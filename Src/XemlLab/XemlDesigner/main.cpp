@@ -52,6 +52,10 @@ int main(int argc, char *argv[])
 	// starting point of program
 	QApplication                                             a(argc, argv);
 	a.setStyle(QStyleFactory::create("Fusion"));
+	QStringList tmp_list=QStyleFactory::keys();
+	for (int i =0;i<tmp_list.size();i++){
+		std::cerr << "tmp_list : " << tmp_list.at(i).toStdString() << std::endl;
+	}
 
 	// display Splashscreen during initialization
 	QSplashScreen *splash = new QSplashScreen;
