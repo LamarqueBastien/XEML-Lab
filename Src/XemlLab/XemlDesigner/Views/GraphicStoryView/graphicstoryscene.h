@@ -49,6 +49,7 @@ class GraphicStoryScene : public QGraphicsScene
 	signals:
 
 		void event2edit();
+		void obsPoint2edit();
 		void event2removed();
 		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);

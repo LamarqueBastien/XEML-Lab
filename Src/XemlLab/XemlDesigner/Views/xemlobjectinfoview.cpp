@@ -152,6 +152,7 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 				std::cerr << "finishing story item type" << std::endl;
 
 				this->ObjectLabelEdit->setText(my_selected_story->get_story()->get_label());
+				this->ObjectLabel->setText("Story Label");
 				if (my_selected_story->get_story()->get_IsStorySplit()){
 					this->ObjectStartTime->setDateTime(static_cast<StorySplit*>(my_selected_story->get_story())->get_timepoint());
 				}
@@ -169,6 +170,7 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 			case GraphicEventItem::Type:
 				my_selected_event=static_cast<GraphicEventItem*>(object);
 				this->ObjectLabelEdit->setText(my_selected_event->get_label());
+				this->ObjectLabel->setText("Event Label");
 				this->ObjectStartTime->setDateTime(static_cast<Event*>(my_selected_event->get_event())->get_timepoint());
 
 
@@ -176,7 +178,8 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 				break;
 			case GraphicObservationPointItem::Type:
 				my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(object);
-				this->ObjectLabelEdit->setText(QString ("obs Point n°%1").arg(my_selected_obsPoint->get_obspoint()->get_id()));
+				this->ObjectLabel->setText("obs Point n°");
+				this->ObjectLabelEdit->setText(QString ("%1").arg(my_selected_obsPoint->get_obspoint()->get_id()));
 				this->ObjectStartTime->setDateTime(static_cast<ObservationPoint*>(my_selected_obsPoint->get_obspoint())->get_timepoint());
 
 
