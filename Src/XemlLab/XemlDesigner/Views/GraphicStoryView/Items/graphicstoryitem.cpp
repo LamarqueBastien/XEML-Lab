@@ -12,10 +12,14 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	myHandlerWidth=2.0;
 	this->width=_width;
 	this->parent=_parent;
+
 	this->my_parent_width=_width_parent;
 	this->setParentItem(_parent);
 	this->rect=QRectF(posx, posy, this->width, 60);
 	if(_IsStorySplit){
+
+
+
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
 	}
 	//this->setToolTip("test");
@@ -61,6 +65,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	this->parent=_parent;
 	this->my_parent_width=_width_parent;
 	this->width=_width;
+
 	this->setParentItem(_parent);
 	//this->setParentItem(_parent);
 	this->rect=QRectF(posx, posy, this->width, 60);
@@ -72,6 +77,8 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	label_text->setPos(0,this->posy);
 	if(_IsStorySplit){
 		std::cerr << "storySplit width:" << this->width << std::endl;
+
+
 
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
 	}

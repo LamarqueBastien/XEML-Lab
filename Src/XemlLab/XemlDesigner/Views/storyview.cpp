@@ -255,7 +255,7 @@ StoryView::StoryView(QWidget *parent) :
 	//Users/benjamindartigues/Pictures/BlueMetal.png
 	QString fenObjectName("StoryView");
 	this->setObjectName(fenObjectName);
-	this->setStyleSheet("QWidget#"+fenObjectName +"{ background-color: rgb(225,206,154);}");
+	this->setStyleSheet("QWidget#"+fenObjectName +"{ background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
 	/*
 					"border-style: outset;"
 					"border-width: 1px;"
@@ -292,6 +292,7 @@ void StoryView::refresh(){
 
 void StoryView::display_plot(StoryBase * _story){
 	std::cerr << "entering display plot" << std::endl;
+
 
 	if (_story->get_variablesCollection()->empty()){
 		QMessageBox::information(this,"no parameter","no parameter to plot");

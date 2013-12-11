@@ -9,6 +9,7 @@
 #include<QPen>
 #include<QPainter>
 #include<iostream>
+#include<QToolTip>
 #include<QStyleOptionGraphicsItem>
 #include"CoreObjects/storybase.h"
 #include"CoreObjects/Utilities.h"
