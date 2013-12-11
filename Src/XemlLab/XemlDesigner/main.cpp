@@ -51,11 +51,16 @@ int main(int argc, char *argv[])
 {
 	// starting point of program
 	QApplication                                             a(argc, argv);
-	a.setStyle(QStyleFactory::create("Fusion"));
+	a.setStyle(QStyleFactory::create("Windows"));
 	QStringList tmp_list=QStyleFactory::keys();
-	for (int i =0;i<tmp_list.size();i++){
-		std::cerr << "tmp_list : " << tmp_list.at(i).toStdString() << std::endl;
+	foreach (QString str, tmp_list){
+		std::cerr << "tmp_list : " << str.toStdString() << std::endl;
 	}
+
+	//for (int i =0;i<tmp_list.size();i++){
+	//	std::cerr << "tmp_list : " << tmp_list.at(i).toStdString() << std::endl;
+	//}
+
 
 	// display Splashscreen during initialization
 	QSplashScreen *splash = new QSplashScreen;
