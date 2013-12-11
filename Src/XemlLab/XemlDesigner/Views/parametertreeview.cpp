@@ -101,7 +101,7 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 
 	QString WindowObjectName("OntologyTree");
 	this->setObjectName(WindowObjectName);
-	this->setStyleSheet("QWidget#"+WindowObjectName +"{background-color: rgb(225,206,154);}");
+	this->setStyleSheet("QWidget#"+WindowObjectName +"{background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
 	setLayout(layout);
 	//this->setStyleSheet("background-color: rgb(104,157,113);");
 					//"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
