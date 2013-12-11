@@ -64,7 +64,16 @@ int main(int argc, char *argv[])
 
 	// display Splashscreen during initialization
 	QSplashScreen *splash = new QSplashScreen;
-	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner
+
+#if defined(Q_OS_WIN)
+	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
+#elif defined(Q_OS_MACX)
+	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
+#else
+	splash->setPixmap(QPixmap("/home/bdartigues/XEML-Lab/Src/XemlLab/XemlDesigner/Images/XemlLogo.png"));
+#endif
+	//splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner
+
 	splash->show();
 
 	Qt::Alignment topRight = Qt::AlignRight | Qt::AlignTop;
