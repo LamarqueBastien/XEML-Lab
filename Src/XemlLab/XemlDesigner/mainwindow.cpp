@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->ontologyView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this->storyView,SLOT(new_parameter(ItfOntologyTerm*)));
 	connect(this->ontologyView,SIGNAL(ontology_to_load(bool,bool,bool)),this,SLOT(add_ontologies(bool,bool,bool)));
 	connect(this->storyView,SIGNAL(experimenter_settings(QString,QString,QString,QString)),this,SLOT(set_experimenter(QString,QString,QString,QString)));
-	connect(this->genotypeView,SIGNAL(on_new_genotype(IndividualsPool*,QString,QString,QString)),this->storyView,SLOT(add_genotype(IndividualsPool*,QString,QString,QString)));
+	connect(this->genotypeView,SIGNAL(on_new_genotype(IndividualsPool*)),this->storyView,SLOT(add_genotype(IndividualsPool*)));
 	connect(this->storyView,SIGNAL(refresh_genotype_view(ItfDocument *)),this->genotypeView,SLOT(refresh_view(ItfDocument *)));
 	connect(this->storyView,SIGNAL(refresh_story_view(StoryView*)),this,SLOT(refresh_story_tree(StoryView*)));
 	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this->storyView,SLOT(set_up_zoom_factor(QString)));

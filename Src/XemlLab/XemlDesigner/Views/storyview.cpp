@@ -431,13 +431,14 @@ QStandardItemModel * StoryView::get_model(){
 	return this->my_treestory;
 }
 
-void  StoryView::add_genotype(IndividualsPool * _pool, QString _idtext,QString _freetext,QString _taxontext){
+void  StoryView::add_genotype(IndividualsPool * _pool){
 	if (GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 			if (!node->get_isStorySplit()){
-				std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
+				//std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
 
+				/*
 				_pool->display_all_tags();
 				IndividualsPool * pool = _pool;
 				//pool->set_ns("none");
@@ -448,8 +449,9 @@ void  StoryView::add_genotype(IndividualsPool * _pool, QString _idtext,QString _
 				if((!_taxontext.isEmpty())&&(!_taxontext.isNull())){
 					pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",_taxontext));
 				}
+				*/
 
-				static_cast<Story*>(node->get_story())->add_individualspool(pool);
+				static_cast<Story*>(node->get_story())->add_individualspool(_pool);
 				emit this->refresh_genotype_view(this->currentDoc);
 			}
 			else{
@@ -476,6 +478,7 @@ void  StoryView::add_genotype(IndividualsPool * _pool, QString _idtext,QString _
 			else{
 				StoryItem  * exp=static_cast<StoryItem*>(tmp);
 				if (!exp->get_isStorySplit()){
+					/*
 					std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
 
 					IndividualsPool * pool = new IndividualsPool();
@@ -487,8 +490,9 @@ void  StoryView::add_genotype(IndividualsPool * _pool, QString _idtext,QString _
 					if((!_taxontext.isEmpty())&&(!_taxontext.isNull())){
 						pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",_taxontext));
 					}
+					*/
 
-					static_cast<Story*>(exp->get_story())->add_individualspool(pool);
+					static_cast<Story*>(exp->get_story())->add_individualspool(_pool);
 					emit this->refresh_genotype_view(this->currentDoc);
 				}
 				else{

@@ -25,6 +25,8 @@ class GermPlasmPanel : public QWidget
 		GermPlasmPanel(QWidget * parent=0);
 		void                 clean_model();
 		void                 remove_row();
+		QString              get_germplasm();
+
 		void                 get_selected_element();
 		void                 initialize(ItfDocument * _xemlDoc);
 	private slots:

@@ -8,6 +8,7 @@
 #include<QTextEdit>
 #include<iostream>
 #include<QStringList>
+#include"Interface/itfdocument.h"
 #include"CoreObjects/individualspool.h"
 #include"DialogWindows/annotationdialog.h"
 
@@ -36,6 +37,7 @@ class GenotypeDialog : public QDialog
 		QPushButton * annotation_mutant;
 		QPushButton * annotation_transgenic;
 		AnnotationDialog * annot_dialog;
+		ItfDocument * current_doc;
 
 
 		IndividualsPool * pool;
@@ -43,13 +45,17 @@ class GenotypeDialog : public QDialog
 		QPushButton * okButton;
 		QStringList * list_id_label;
 		QString table[4];
+		bool EditMode;
 	public:
 		GenotypeDialog(QWidget *parent = 0);
+		GenotypeDialog(ItfDocument *_xemldoc,IndividualsPool * _pool,QWidget * parent=0);
+
 
 	signals:
 
-		void          genotype_added(IndividualsPool * _pool, QString _idtext,QString _freetext,QString _taxontext);
+		void          genotype_added(IndividualsPool * _pool);
 
+		void          genotype_edited(ItfDocument * _currentdoc);
 	private slots:
 
 		void          OkClicked();

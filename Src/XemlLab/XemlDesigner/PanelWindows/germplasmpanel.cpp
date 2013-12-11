@@ -39,6 +39,17 @@ void GermPlasmPanel::germplasm_set_label(QString _label){
 	std::cerr << "label germplasm : " << _label.toStdString() << std::endl;
 }
 
+QString  GermPlasmPanel::get_germplasm(){
+	QString germplasm="";
+	QItemSelectionModel * selection = this->view->selectionModel();
+	QModelIndex indexelementselected= selection->currentIndex();
+	if(selection->isSelected(indexelementselected)){
+		int ligne = view->currentIndex().row();
+		germplasm=view->currentIndex().data().toString();
+	}
+	return germplasm;
+}
+
 void GermPlasmPanel::remove_row(){
 
 	QString germplasm;
@@ -55,11 +66,11 @@ void GermPlasmPanel::remove_row(){
 				Story * current= static_cast<Story*>((*it)->get_story());
 				std::map<IndividualsPool*,QString>::iterator it_to_erase;
 				if (!current->get_individualspoolcollection()->empty()){
-					for(std::map<IndividualsPool*,QString>::iterator it = current->get_individualspoolcollection()->begin();it!=current->get_individualspoolcollection()->end();++it){
+					for(std::map<IndividualsPool*,QString>::iterator it2 = current->get_individualspoolcollection()->begin();it2!=current->get_individualspoolcollection()->end();++it2){
 
-						if ((*it).first->get_germplasm()==germplasm){
-							it_to_erase=it;
-							delete (*it).first;
+						if ((*it2).first->get_germplasm()==germplasm){
+							it_to_erase=it2;
+							delete (*it2).first;
 						}
 					}
 					current->get_individualspoolcollection()->erase(it_to_erase);
@@ -124,6 +135,8 @@ void GermPlasmPanel::initialize(ItfDocument * _xemlDoc){
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));
 					model->setItem(cpt,1,new GenotypeItem(tmplist.at(0)));
 					model->setItem(cpt,2,new GenotypeItem(tmplist.at(1)));
+					model->setItem(cpt,3,new GenotypeItem(tmplist.at(2)));
+					model->setItem(cpt,4,new GenotypeItem(tmplist.at(3)));
 					model->setItem(cpt,6,new GenotypeItem(current->get_label()));
 
 				}

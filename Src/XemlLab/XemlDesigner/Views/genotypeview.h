@@ -35,12 +35,13 @@ class GenotypeView : public QWidget
 		void clean_view();
 
 	signals:
-		void on_new_genotype(IndividualsPool * _pool,QString _idtext,QString _freetext,QString _taxontext);
+		void on_new_genotype(IndividualsPool * _pool);
 	private slots:
 		void refresh_view(ItfDocument * _xemldoc);
-		void genotype_to_add(IndividualsPool * _pool, QString _idtext,QString _freetext,QString _taxontext);
+		void genotype_to_add(IndividualsPool * _pool);
 		void add_genotype();
 		void remove_genotype();
+		void edit_genotype();
 };
 
 #endif // GENOTYPEVIEW_H
