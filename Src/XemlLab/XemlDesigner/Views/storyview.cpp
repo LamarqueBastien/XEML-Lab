@@ -77,7 +77,7 @@ StoryView::StoryView(QWidget *parent) :
 
 
 	editExperiment = new QPushButton("experiment details");
-	editExperiment->setToolTip("Edit experiment start/end date "
+	editExperiment->setToolTip("Edit experiment start/end date \n"
 							   "and all details about experimlenter");
 	editExperiment->setStyleSheet(stylesheet);
 
@@ -89,15 +89,15 @@ StoryView::StoryView(QWidget *parent) :
 
 
 	addstorysplit= new QPushButton(QIcon(":/Images/SplitLogo.png"),"add story split");
-	addstorysplit->setToolTip("Add a new split to the selected story--"
-							  "change story time by left clicking and dragging it "
+	addstorysplit->setToolTip("Add a new split to the selected story \n"
+							  "change story time by left clicking and dragging it \n"
 							  "(one story should be selected )");
 	addstorysplit->setStyleSheet(stylesheet);
 
 
 	addobsPoint= new QPushButton("add observationPoint");
-	addobsPoint->setToolTip("Add a new observation point after choose timepoint for it--"
-							"populate this observation point by adding samples");
+	addobsPoint->setToolTip("1.Add a new observation point after drag the item to the right timepoint \n"
+							"2.populate this observation point by adding samples");
 	addobsPoint->setStyleSheet(stylesheet);
 
 	addEvent= new QPushButton(QIcon(":/Images/EventLogo.png"),"add Event");
