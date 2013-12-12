@@ -49,7 +49,7 @@ class GraphicStoryItem : public QGraphicsItem
 		void set_posx(qreal _posx);
 		void set_posy(qreal _posy);
 		bool get_story_child();
-
+		void add_point_selection();
 
 
 
@@ -81,7 +81,7 @@ class GraphicStoryItem : public QGraphicsItem
 		bool IsStorySplit;
 		QGraphicsItem * parent;
 		QLinearGradient * gradient;
-		//QPen pen;
+		QPen pen;
 		QPainter * painter;
 		QRectF rect;
 		QRectF anchor_rect;

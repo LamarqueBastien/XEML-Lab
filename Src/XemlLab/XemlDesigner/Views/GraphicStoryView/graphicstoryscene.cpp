@@ -162,6 +162,7 @@ void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEve
 					std::cerr << "entering story item type" << std::endl;
 
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+					//this->my_selected_story->add_point_selection();
 					this->my_selected_obsPoint=NULL;
 					this->my_selected_event=NULL;
 					//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
@@ -655,7 +656,9 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 							//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
 								if(selected_parent_item->get_isStorySplit()){
 
-									shift=this->max_width-my_selected_story->get_rect().width();
+									//shift=this->max_width-my_selected_story->get_rect().width();
+									shift=this->max_width-selected_parent_item->get_rect().width();
+
 
 								}
 

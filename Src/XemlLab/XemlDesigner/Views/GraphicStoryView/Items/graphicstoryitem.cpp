@@ -125,10 +125,10 @@ bool GraphicStoryItem::get_story_child(){
 }
 
 void GraphicStoryItem::set_right(qreal width){
-	std::cerr << "width in setRight : "<< width << std::endl;
-	std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
+	//std::cerr << "width in setRight : "<< width << std::endl;
+	//std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
 	this->rect.setRight(width);
-	std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
+	//std::cerr << "rect width in setRight : "<< this->rect.width() << std::endl;
 
 	//update();
 }
@@ -170,6 +170,14 @@ GraphicStoryItem::~GraphicStoryItem()
 {
 
 }
+void GraphicStoryItem::add_point_selection(){
+	QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
+	pen=QPen(Qt::red);
+	painter->setBrush(selBrush);
+	painter->setPen(pen);
+	QPointF point=QPointF(posx,(rect.height()/2)+posy);
+	painter->drawRect(QRectF(point-QPointF(2,2),point+QPointF(2,2)));
+}
 
 void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem * option,QWidget *widget){
 
@@ -177,6 +185,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 	Q_UNUSED(widget);
 
+	painter=_painter;
 	//QColor fillColor = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
 	//if (option->state & QStyle::State_MouseOver)
 	//	fillColor = fillColor.light(125);
@@ -275,12 +284,18 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 
 
+		/*
 		QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
 		QPen selPen=QPen(Qt::red);
 		_painter->setBrush(selBrush);
 		_painter->setPen(selPen);
 		QPointF point=QPointF(posx,(rect.height()/2)+posy);
 		_painter->drawRect(QRectF(point-QPointF(2,2),point+QPointF(2,2)));
+		*/
+
+
+
+
 
 		if(HeatMap){
 
@@ -327,7 +342,7 @@ void GraphicStoryItem::hoverMoveEvent(QGraphicsSceneHoverEvent *e) {
 	//std::cerr << "x : " << e->pos().rx() << std::endl;
 	//std::cerr << "y : " << e->pos().ry() << std::endl;
 	update();
-	QGraphicsItem::hoverEnterEvent(e);
+	QGraphicsItem::hoverMoveEvent(e);
 
 
 }
