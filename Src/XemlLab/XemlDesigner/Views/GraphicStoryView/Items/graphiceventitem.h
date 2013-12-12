@@ -27,8 +27,10 @@ class GraphicEventItem : public QGraphicsItem
 		QRectF get_rect();
 		Event * get_event();
 		QGraphicsItem * get_parent();
+		void set_label(QString _label);
 	private:
 		qreal posx, posy;
+		QDateTime document_startDate;
 		QGraphicsItem * parent;
 		QRectF rect;
 		qreal width;

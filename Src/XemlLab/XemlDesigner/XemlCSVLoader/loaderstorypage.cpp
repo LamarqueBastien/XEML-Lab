@@ -10,7 +10,8 @@ LoaderStoryPage::LoaderStoryPage(QStandardItemModel * _model,int _column,int _ro
 	this->storyLabel=new QLabel("Choose a Story for the following header : ");
 	this->bottomLabel= new QLabel("<i>Double click a node to select it</i>");
 	this->storytree= new QTreeView;
-	this->my_treestory= _model;//new QStandardItemModel;
+	this->my_treestory= _model;
+	this->my_treestory->clear();//new QStandardItemModel;
 	Tree_loaded=false;
 	//std::cerr << "my model count : " << my_treestory->i
 	this->storyChosen=new QLineEdit;

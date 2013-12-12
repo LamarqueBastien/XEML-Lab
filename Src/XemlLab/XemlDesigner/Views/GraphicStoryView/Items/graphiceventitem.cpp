@@ -10,6 +10,7 @@ GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width
 	this->posx=_posx;
 	this->posy=_posy;
 	this->eventLabel=_label;
+	this->document_startDate=_startdate;
 
 
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -66,6 +67,17 @@ QRectF GraphicEventItem::get_rect(){
 QString GraphicEventItem::get_label(){
 	return this->eventLabel;
 }
+void GraphicEventItem::set_label(QString _label){
+	this->eventLabel=_label;
+	QString tmp_name="";
+	tmp_name+=this->eventLabel;
+	tmp_name+="\n";
+	tmp_name+="-----------\n";
+	tmp_name+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->document_startDate,this->event->get_timepoint()));
+	this->setToolTip(tmp_name);
+	//this->setToolTip();
+}
+
 /*
 QPainterPath GraphicEventItem::shape() const
 {

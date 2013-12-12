@@ -1579,8 +1579,8 @@ void StoryView::edit_event(){
 	if(this->GraphicScene->get_selected_event()!=NULL){
 		StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 
-		Event * event=this->GraphicScene->get_selected_event()->get_event();
-		EventDialog * eventdialog=new EventDialog(true,event,this->currentDoc,current_storyNode->get_story());
+		//Event * event=this->GraphicScene->get_selected_event()->get_event();
+		EventDialog * eventdialog=new EventDialog(true,this->GraphicScene->get_selected_event(),this->currentDoc,current_storyNode->get_story());
 		connect(eventdialog,SIGNAL(event_edited()),eventdialog,SLOT(close()));
 		eventdialog->setVisible(true);
 

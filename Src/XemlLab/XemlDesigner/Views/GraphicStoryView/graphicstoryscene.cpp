@@ -162,6 +162,8 @@ void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEve
 					std::cerr << "entering story item type" << std::endl;
 
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+					this->my_selected_obsPoint=NULL;
+					this->my_selected_event=NULL;
 					//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
 					emit set_details_in_view(item);
 					std::cerr << "emit signals" << std::endl;
@@ -171,12 +173,17 @@ void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEve
 					break;
 				case GraphicEventItem::Type:
 					this->my_selected_event=static_cast<GraphicEventItem*>(item);
+					this->my_selected_story=NULL;
+					this->my_selected_obsPoint=NULL;
 					emit set_details_in_view(item);
 
 					break;
 				case GraphicObservationPointItem::Type:
 					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
+					this->my_selected_event=NULL;
+					this->my_selected_story=NULL;
 					emit set_details_in_view(item);
+
 
 
 
@@ -186,9 +193,11 @@ void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEve
 
 		}
 		else{
+
 			this->my_selected_story=NULL;
 			this->my_selected_obsPoint=NULL;
 			this->my_selected_event=NULL;
+			emit set_details_in_view(item);
 			std::cerr << "empty selection" << std::endl;
 		}
 		selectedItems().clear();
@@ -575,10 +584,10 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 			//QPointF test;
 			//QPointF map_parent_item2Scene;
 			QPointF mouse_point;
-			QPointF story_startpoint;
-			bool isSplit;
+			//QPointF story_startpoint;
+			bool isSplit=false;
 			qreal shift=0;
-			qreal selectable_zone=0;
+			//qreal selectable_zone=0;
 			qint64 hours;
 			//ObservationPoint * tmp=0;
 			//QDateTime tmptime;
@@ -586,85 +595,89 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 			switch(selected_item->type()){
 				case GraphicStoryItem::Type:
-					std::cerr << "type storyitem" << std::endl;
-					selected_story=my_selected_story;
-					//my_selected_story->setZValue(100000);
-					isSplit=selected_story->get_isStorySplit();
-					if(!isSplit){
-						std::cerr << "not split story" << std::endl;
-					}
-					else{
-						if (selected_story->isSelected()){
-							mouse_point = e->scenePos();
-							std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
-							if(mouse_point.x()>=0 && mouse_point.y()>=0){
-								shift=this->max_width-my_selected_story->get_parent()->get_rect().width();
-								if(mouse_point.x()>=(selected_story->pos().x()+shift)-40 && mouse_point.x()<=(selected_story->pos().x()+shift)+40){
-									std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
-									selected_story->change();
-									//storysplit without childs
-
-									if ((mouse_point.x()<=selected_story->get_parent()->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
-
-										qreal distance_to_move=mouse_point.x() - (selected_story->pos().x()+shift) ;
-
-										selected_story->set_right(selected_story->get_parent()->get_rect().width() - (mouse_point.x()-shift));
-
-										selected_story->setPos(mouse_point.x()-shift,0);//map_parent_item2Scene.x()
-
-										//if(my_selected_story->get_story_child()==true){
-										if(!my_selected_story->childItems().empty()){
-
-											set_right_for_childs(my_selected_story, distance_to_move);
-										}
-										hours=mouse_point.x()/zoomFactor;
-										static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-										selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),
-																														 static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
-										//emit set_details_in_view(selected_story->get_story());
-									}
-								}
-
-
-
-							}
+					if (my_selected_story!=NULL){
+						std::cerr << "type storyitem" << std::endl;
+						selected_story=my_selected_story;
+						//my_selected_story->setZValue(100000);
+						isSplit=my_selected_story->get_isStorySplit();
+						if(!isSplit){
+							std::cerr << "not split story" << std::endl;
 						}
+						else{
+							if (selected_story->isSelected()){
+								mouse_point = e->scenePos();
+								std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
+								if(mouse_point.x()>=0 && mouse_point.y()>=0){
+									shift=this->max_width-my_selected_story->get_parent()->get_rect().width();
+									if(mouse_point.x()>=(selected_story->pos().x()+shift)-40 && mouse_point.x()<=(selected_story->pos().x()+shift)+40){
+										std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
+										selected_story->change();
+										//storysplit without childs
 
+										if ((mouse_point.x()<=selected_story->get_parent()->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
+
+											qreal distance_to_move=mouse_point.x() - (selected_story->pos().x()+shift) ;
+
+											selected_story->set_right(selected_story->get_parent()->get_rect().width() - (mouse_point.x()-shift));
+
+											selected_story->setPos(mouse_point.x()-shift,0);//map_parent_item2Scene.x()
+
+											//if(my_selected_story->get_story_child()==true){
+											if(!my_selected_story->childItems().empty()){
+
+												set_right_for_childs(my_selected_story, distance_to_move);
+											}
+											hours=mouse_point.x()/zoomFactor;
+											static_cast<StorySplit*>(selected_story->get_story())->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+											selected_story->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),
+																															 static_cast<StorySplit*>(selected_story->get_story())->get_timepoint())));
+											//emit set_details_in_view(selected_story->get_story());
+										}
+									}
+
+
+
+								}
+							}
+
+						}
 					}
 					break;
 				case GraphicEventItem::Type:
 					std::cerr << "type event item" << std::endl;
-					selected_event=my_selected_event;
-					mouse_point = e->scenePos();
+					if(my_selected_event!=NULL){
+						selected_event=my_selected_event;
+						mouse_point = e->scenePos();
 
-					//item_point=selected_story->mapFromParent(QPointF(mouse_point.x(),mouse_point.y()));
-					selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_event->get_parent());
-					if(selected_parent_item!=NULL){
-						//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
-							if(selected_parent_item->get_isStorySplit()){
+						//item_point=selected_story->mapFromParent(QPointF(mouse_point.x(),mouse_point.y()));
+						selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_event->get_parent());
+						if(selected_parent_item!=NULL){
+							//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
+								if(selected_parent_item->get_isStorySplit()){
 
-								shift=this->max_width-my_selected_story->get_rect().width();
+									shift=this->max_width-my_selected_story->get_rect().width();
 
-							}
+								}
 
-							std::cerr << "item pos x : " << mouse_point.x() -shift << std::endl;
-							std::cerr << "shift : " << shift << std::endl;
+								std::cerr << "item pos x : " << mouse_point.x() -shift << std::endl;
+								std::cerr << "shift : " << shift << std::endl;
 
 
-							if ((mouse_point.x()<=selected_parent_item->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
+								if ((mouse_point.x()<=selected_parent_item->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
 
-								selected_event->change();
-								selected_event->setPos(mouse_point.x()-shift,0);//-shift
-								hours=mouse_point.x()/zoomFactor;
-								selected_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-								//selected_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint())));
-								new_toolTipEvent+=selected_event->get_event()->get_label();
-								new_toolTipEvent+="\n";
-								new_toolTipEvent+="-----------\n";
-								new_toolTipEvent+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint()));
-								selected_event->setToolTip(new_toolTipEvent);
-							}
-						//}
+									selected_event->change();
+									selected_event->setPos(mouse_point.x()-shift,0);//-shift
+									hours=mouse_point.x()/zoomFactor;
+									selected_event->get_event()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+									//selected_event->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint())));
+									new_toolTipEvent+=selected_event->get_event()->get_label();
+									new_toolTipEvent+="\n";
+									new_toolTipEvent+="-----------\n";
+									new_toolTipEvent+=translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),selected_event->get_event()->get_timepoint()));
+									selected_event->setToolTip(new_toolTipEvent);
+								}
+							//}
+						}
 					}
 
 
@@ -673,26 +686,28 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 					std::cerr << "type obs point item" << std::endl;
 					mouse_point = e->scenePos();
 
-					selected_obsPoint=this->my_selected_obsPoint;
-					selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_obsPoint->get_parent());
-					//this->my_selected_story=selected_parent_item;
-					if(selected_parent_item!=NULL){
-						//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
-							if(selected_parent_item->get_isStorySplit()){
+					if(my_selected_obsPoint!=NULL){
+						selected_obsPoint=this->my_selected_obsPoint;
+						selected_parent_item = static_cast<GraphicStoryItem*>(this->my_selected_obsPoint->get_parent());
+						//this->my_selected_story=selected_parent_item;
+						if(selected_parent_item!=NULL){
+							//if(selected_parent_item->get_label()==this->my_selected_story->get_label()){
+								if(selected_parent_item->get_isStorySplit()){
 
-								shift=this->max_width-selected_parent_item->get_rect().width();
-								std::cerr << "shift : " << shift << std::endl;
-							}
-							if ((mouse_point.x()<=selected_parent_item->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
+									shift=this->max_width-selected_parent_item->get_rect().width();
+									std::cerr << "shift : " << shift << std::endl;
+								}
+								if ((mouse_point.x()<=selected_parent_item->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
 
-								selected_obsPoint->change();
-								selected_obsPoint->setPos(mouse_point.x()-shift,0);
-								hours=mouse_point.x()/zoomFactor;
-								selected_obsPoint->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
-								selected_obsPoint->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),
-																													selected_obsPoint->get_obspoint()->get_timepoint())));
-							}
-						//}
+									selected_obsPoint->change();
+									selected_obsPoint->setPos(mouse_point.x()-shift,0);
+									hours=mouse_point.x()/zoomFactor;
+									selected_obsPoint->get_obspoint()->set_timepoint(get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(hours)));
+									selected_obsPoint->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->currentDoc->get_startdate(),
+																														selected_obsPoint->get_obspoint()->get_timepoint())));
+								}
+							//}
+						}
 					}
 
 

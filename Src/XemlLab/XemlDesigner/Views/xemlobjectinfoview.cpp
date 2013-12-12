@@ -53,6 +53,7 @@ void XemlObjectInfoView::change_name(QString _label){
 			case GraphicEventItem::Type:
 				my_selected_event=static_cast<GraphicEventItem*>(object);
 				my_selected_event->get_event()->set_label(_label);
+				my_selected_event->set_label(_label);
 
 
 
@@ -192,6 +193,11 @@ void XemlObjectInfoView::set_object_info(QGraphicsItem * _object){
 		}
 		this->annotation->setEnabled(true);
 		this->ObjectLabelEdit->setEnabled(true);
+	}
+	else{
+
+		this->ObjectLabelEdit->setText("");
+		this->ObjectLabel->setText("Label ");
 	}
 }
 

@@ -8,9 +8,9 @@ LoaderOntologyPage::LoaderOntologyPage(QStandardItemModel * _model,int _column,i
 	std::cerr << "create onto page "<< std::endl;
 	this->termPage=new LoaderTermPage(_xeml_res);
 	this->storypage=new LoaderStoryPage(_model,_column,_row,_doc);
-	if (!this->storypage->Tree_is_loaded()){
-		this->storypage->createExperiment(_doc);
-	}
+	//if (!this->storypage->Tree_is_loaded()){
+	this->storypage->createExperiment(_doc);
+	//}
 	//this->timepage=new LoaderDateTimePage(_row);
 	counter_validated_tab=0;
 	this->finishButton=new QPushButton("Finish");
@@ -39,6 +39,7 @@ LoaderOntologyPage::LoaderOntologyPage(QStandardItemModel * _model,int _column,i
 }
 void LoaderOntologyPage::finished(){
 	emit send_term_and_story(this->column,this->row,this->story,this->term,this->unit);
+
 	this->close();
 }
 

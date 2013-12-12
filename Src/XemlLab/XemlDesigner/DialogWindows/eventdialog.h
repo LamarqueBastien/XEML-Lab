@@ -11,6 +11,7 @@
 #include<QVariant>
 #include"CoreObjects/storybase.h"
 #include"Interface/itfdocument.h"
+#include"Views/GraphicStoryView/Items/graphiceventitem.h"
 using namespace std;
 using namespace Xeml::Document;
 //class QCheckBox;
@@ -32,11 +33,14 @@ class EventDialog : public QDialog
 		StoryBase   * current_story;
 		ItfDocument * current_doc;
 		Event       * event;
+		GraphicEventItem * graphicEvent;
 		bool          Mode;
 
 
 	public:
 		EventDialog(bool _mode,Event * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget *parent = 0);
+		EventDialog(bool _mode,GraphicEventItem * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget *parent = 0);
+
 		//QVariant     element_selected;
 
 	signals:
