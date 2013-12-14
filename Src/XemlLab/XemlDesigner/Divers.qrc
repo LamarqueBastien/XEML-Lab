@@ -35,6 +35,7 @@
         <file>Images/SplitLogo.png</file>
         <file>Images/StoryLogo.png</file>
         <file>StyleSheet/style.qss</file>
+        <file>StyleSheet/html.css</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

@@ -1,0 +1,40 @@
+span.red { 
+	color:#DE0000; 
+}
+ 
+span.blues {
+	color:blue;
+}
+
+span.styles { 
+	color:black; font-family: Times New Roman; text-align: justify; 
+} 
+body {
+  padding-left: 11em;
+  font-family: Georgia, "Times New Roman";
+  color: purple;
+  /*background-color: #d8da3d;*/
+}
+table {
+  margin: 0;
+  border: 1px solid gray; /* Pas de bordure = "none". */
+  border-collapse: collapse; /* Valeur par défaut: "separate". */
+  border-spacing: 5;
+}
+table td, table th {
+  padding: 4px; /* Pas de retrait autour du texte = "0". */
+  border: 1px solid #ccc; /* Pas de bordure = "none". */
+  vertical-align: top; /* Valeur par défaut: "middle" */
+}
+
+/*
+span#bgimage { 
+	background-image: url(':/Images/SaveAs.png'); 
+}
+*/
+/*
+body.tuning {
+	background-color : white;
+}
+*/
+

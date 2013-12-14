@@ -135,7 +135,7 @@ void HtmlReportView::generate_report(){
 	QString html;
 	html = "<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'><head>"
 		   "<link rel='stylesheet' type='text/css' href='format.css'>"
-		   "</head><body class = tuning>"
+		   "</head><body >" //class = tuning
 		   //"Your HTML code with tags, which have classes or ids. For example "
 		   //"<span class='red'>this text is colored red</span>.<br/>"
 		   //"And you can also display images: <img src=':/Images/SaveAs.png'><br/>"
@@ -229,11 +229,25 @@ void HtmlReportView::generate_report(){
 */
 	//std::cerr << "Template :" << html.toStdString() << std::endl;
 	QString css;
+	QFile * style = new QFile("://StyleSheet/html.css");
+
+		if(!style->open(QIODevice::ReadOnly))
+		{
+			QMessageBox::warning(this,"Erreur de chargement du style", "La feuille de style par défaut n'a pas pu être chargée correctement, veuillez relancer le logiciel afin que celle-ci prennent effet.");
+		}
+		else
+		{
+			QString htmlcss(style->readAll());
+			css=htmlcss;
+
+
+		}
+		/*
 	css  = "span.red { color:#DE0000; } "
 		   "span.blues {color:blue;}"
 		   "span.styles { color:black; font-family: Times New Roman; text-align: justify; } "
 		   "span#bgimage { background-image: url(':/Images/SaveAs.png'); } "
-		   "body.tuning {background-color : white;}";
+		   "body.tuning {background-color : white;}";*/
 		   //"tr.test {width : 100}"
 		   //"th.thtest {width : 100}"
 		   //"table.tune {background-color : blue; cellspacing : 50; }";
@@ -277,7 +291,8 @@ QString HtmlReportView::generate_observation_schedule_table()
 	// create a table with all informations about observation
 	// Date, Time, Duration, #individuals
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\"  >" //border
+			//width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"Bisque\">"
 				   "<th  height = \"100\">Date</th>"
 				   "<th  height = \"100\">Time</th>"
@@ -293,7 +308,8 @@ QString HtmlReportView::generate_material_table()
 {
 	//create table with all material used during experiment
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\"   >" //border
+			//width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"Bisque\">"
 				   "<th  height = \"100\">NameSpaceAlias</th>"
 				   "<th  height = \"100\">Material</th>"
@@ -355,7 +371,8 @@ QString HtmlReportView::generate_obs_count()
 
 QString HtmlReportView::generate_dynamic_variable_table(){
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\"  >" //border
+			//width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"Bisque\">"
 				   "<th  height = \"100\">NameSpaceAlias</th>"
 				   "<th  height = \"100\">Name</th>"
@@ -464,7 +481,8 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 QString HtmlReportView::generate_variable_table()
 {
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\"  >" //border
+			//width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"Bisque\" height = \"200\">"
 				   "<th  height = \"200\">NameSpaceAlias</th>"
 				   "<th  height = \"200\">Name</th>"
@@ -502,7 +520,8 @@ QString HtmlReportView::generate_variable_table()
 QString HtmlReportView::generate_ontology_table()
 {
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+	ontologyTable ="<table bgcolor = \"white\" >" //border
+			//width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
 				   "<tr bgcolor = \"Bisque\">"
 				   "<th height = \"100\">Alias</th>"
 				   "<th height = \"100\">NameSpace</th>"
