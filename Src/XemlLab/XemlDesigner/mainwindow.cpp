@@ -101,8 +101,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	//connect(sousFenetre1,SIGNAL(destroyed()),this,SLOT()
 	//sousFenetre1->
 	sousFenetre1->setObjectName(fen1ObjectName);
-	sousFenetre1->setStyleSheet("QWidget#"+fen1ObjectName +"{ background-image: url(://Images/BlueMetal.png);}"); ///Users/benjamindartigues/Pictures/BlueMetal.png
-	sousFenetre1->setWindowTitle("Ontologies Panel");
+	//sousFenetre1->setStyleSheet("QWidget#"+fen1ObjectName +"{ background-image: url(://Images/BlueMetal.png);}"); ///Users/benjamindartigues/Pictures/BlueMetal.png
+	//sousFenetre1->setWindowTitle("Ontologies Panel");
 	//sousFenetre1->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 
@@ -112,14 +112,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	sousFenetre2->setWindowFlags(Qt::FramelessWindowHint);
 	sousFenetre2->setObjectName(fen2ObjectName);
-	sousFenetre2->setStyleSheet("QWidget#"+fen2ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
-	sousFenetre2->setWindowTitle("Experiment Panel");
+	//sousFenetre2->setStyleSheet("QWidget#"+fen2ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
+	//sousFenetre2->setWindowTitle("Experiment Panel");
 
 	QMdiSubWindow *sousFenetre3 = zoneCentrale->addSubWindow(this->genotypeView);
+	//remove the buttons and the title
 	sousFenetre3->setWindowFlags(Qt::FramelessWindowHint);
+	//set the name for this windows to be connected with css stylesheet
 	sousFenetre3->setObjectName(fen3ObjectName);
-	sousFenetre3->setStyleSheet("QWidget#"+fen3ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
-	sousFenetre3->setWindowTitle("Germplasm Panel");
+	//sousFenetre3->setStyleSheet("QWidget#"+fen3ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
+	//sousFenetre3->setWindowTitle("Germplasm Panel");
 
 	rightSplitter = new QSplitter(Qt::Vertical);
 	rightSplitter->addWidget(sousFenetre2);

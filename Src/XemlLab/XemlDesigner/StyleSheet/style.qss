@@ -9,7 +9,7 @@ QLabel {
     font: normal;
 }
  
- 
+ /*
 QPushButton {
     background-color: palegoldenrod;
     border-width: 1px;
@@ -20,7 +20,47 @@ QPushButton {
     min-width: 9ex;
     min-height: 2.5ex;
 }
- 
+*/
+/*rgb(104,157,113);*/
+QTreeView#VariableTree {
+	background-color: white; 
+}
+/*rgb(225,206,154);*/
+StoryView#StoryView {
+	 background-color: lightgray;
+	 
+}
+GenoTypeView#GenotypeView {
+	background-color: white;
+	border-radius: 10px;
+}
+GraphicStoryView#GraphicView {
+
+	border-radius: 10px;
+
+}	
+StoryView QToolTip{ 
+	color: #fff; background-color: #000; border: none; 
+}
+QMdiSubWindow#Ontology, QMdiSubWindow#Story , QMdiSubWindow#Genotype{
+	background-image: url(://Images/BlueMetal.png);
+
+
+}
+QPushButton {
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+	border-style: outset;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: beige;
+	font: bold 10px;
+	color:black;
+	min-width: 8em;
+	min-height: 0.95em;
+	margin: 0 1px 0 1px;
+	color:rgb(0,0,0);
+	padding: 6px;
+}
 QPushButton:hover {
    background-color: khaki;
 }
@@ -35,7 +75,7 @@ QPushButton:pressed {
 QLabel, QAbstractButton {
     font: bold;
 }
- 
+/* 
 QComboBox, QLineEdit {
     background-color: cornsilk;
     selection-color: #0a214c;
@@ -46,7 +86,18 @@ QComboBox, QLineEdit {
     border-color: darkkhaki;
     border-radius: 5px;
 }
- 
+
+QComboBox, QLineEdit {
+    background-color: white;
+    selection-color: #0a214c;
+    selection-background-color: #C19A6B;
+    border-width: 1px;
+    padding: 1px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+}
+ */
 QLineEdit:focus {
     border-width: 2px;
     padding: 0px;

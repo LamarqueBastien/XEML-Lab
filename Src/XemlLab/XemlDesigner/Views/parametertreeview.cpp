@@ -14,8 +14,9 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	this->search=new QLineEdit;
 	this->searchLabel->setBuddy(search);
 	connect(this->search,SIGNAL(textChanged(QString)),this,SLOT(search_term(QString)));
-	this->parameterTree->setStyleSheet("QTreeView {background-color: rgb(104,157,113);");
+	//this->parameterTree->setStyleSheet("QTreeView {background-color: rgb(104,157,113);");
 
+	this->parameterTree->setObjectName("VariableTree");
 	this->parameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
 	//this->setStyleSheet("QWidget { background-color: rgb(255,255,255); }");

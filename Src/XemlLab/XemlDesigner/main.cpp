@@ -52,6 +52,27 @@ int main(int argc, char *argv[])
 	// starting point of program
 	QApplication                                             a(argc, argv);
 	a.setStyle(QStyleFactory::create("Macintosh"));
+
+	/************************************************
+	 * load the qss file for stylesheet
+	*************************************************/
+	QFile * style = new QFile("://StyleSheet/style.qss");
+
+		if(!style->open(QIODevice::ReadOnly))
+		{
+			//QMessageBox::warning(this,"Erreur de chargement du style", "La feuille de style par défaut n'a pas pu être chargée correctement, veuillez relancer le logiciel afin que celle-ci prennent effet.");
+		}
+		else
+		{
+			QString StyleSheetDefaut(style->readAll());
+			a.setStyleSheet(StyleSheetDefaut);
+
+		}
+
+	/************************************************
+	 * retrieve all style available on this OS
+	*************************************************/
+
 	//QStringList tmp_list=QStyleFactory::keys();
 	//foreach (QString str, tmp_list){
 	//	std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -61,8 +82,10 @@ int main(int argc, char *argv[])
 	//	std::cerr << "tmp_list : " << tmp_list.at(i).toStdString() << std::endl;
 	//}
 
+	/************************************************
+	 * display Splashscreen during initialization
+	*************************************************/
 
-	// display Splashscreen during initialization
 	QSplashScreen *splash = new QSplashScreen;
 
 #if defined(Q_OS_WIN)

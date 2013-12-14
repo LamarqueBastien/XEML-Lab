@@ -27,6 +27,7 @@ StoryView::StoryView(QWidget *parent) :
 	this->GraphicScene=new GraphicStoryScene(posY_item);
 
 	this->graphicStory=new GraphicStoryView(this->GraphicScene);
+	this->graphicStory->setObjectName("GraphicView");
 	this->graphicStory->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
 	this->my_treestory= new QStandardItemModel;
@@ -55,7 +56,7 @@ StoryView::StoryView(QWidget *parent) :
 	StoryStartTimeLabel=new QLabel("Start time :");
 	StoryStartTimeLabel->setBuddy(StoryStartTime);
 
-
+/*
 	QString stylesheet("background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 			"border-style: outset;"
 			"border-width: 1px;"
@@ -68,53 +69,54 @@ StoryView::StoryView(QWidget *parent) :
 		   " margin: 0 1px 0 1px;"
 			"color:rgb(0,0,0);"
 			"padding: 6px;");
+			*/
 
 
 	remove_variable= new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove variable");
 	remove_variable->setToolTip("remove a parameter from the selected story");
-	remove_variable->setStyleSheet(stylesheet);
+	//remove_variable->setStyleSheet(stylesheet);
 
 
 
 	editExperiment = new QPushButton("experiment details");
 	editExperiment->setToolTip("Edit experiment start/end date \n"
 							   "and all details about experimlenter");
-	editExperiment->setStyleSheet(stylesheet);
+	//editExperiment->setStyleSheet(stylesheet);
 
 
 	addstory= new QPushButton(QIcon(":/Images/StoryLogo.png"),"add story");
 	addstory->setToolTip("Add a new story "
 						 "(story time is equivalent to the experiment time)");
-	addstory->setStyleSheet(stylesheet);
+	//addstory->setStyleSheet(stylesheet);
 
 
 	addstorysplit= new QPushButton(QIcon(":/Images/SplitLogo.png"),"add story split");
 	addstorysplit->setToolTip("Add a new split to the selected story \n"
 							  "change story time by left clicking and dragging it \n"
 							  "(one story should be selected )");
-	addstorysplit->setStyleSheet(stylesheet);
+	//addstorysplit->setStyleSheet(stylesheet);
 
 
 	addobsPoint= new QPushButton("add observationPoint");
 	addobsPoint->setToolTip("1.Add a new observation point after drag the item to the right timepoint \n"
 							"2.populate this observation point by adding samples");
-	addobsPoint->setStyleSheet(stylesheet);
+	//addobsPoint->setStyleSheet(stylesheet);
 
 	addEvent= new QPushButton(QIcon(":/Images/EventLogo.png"),"add Event");
 	addEvent->setToolTip("Add a new event after choose his label");
-	addEvent->setStyleSheet(stylesheet);
+	//addEvent->setStyleSheet(stylesheet);
 	rmEvent= new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove Event");
-	rmEvent->setStyleSheet(stylesheet);
+	//rmEvent->setStyleSheet(stylesheet);
 	addSamples= new QPushButton("add sample");
-	addSamples->setStyleSheet(stylesheet);
+	//addSamples->setStyleSheet(stylesheet);
 	removestory=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove story");
-	removestory->setStyleSheet(stylesheet);
+	//removestory->setStyleSheet(stylesheet);
 	removeObsPoint=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove observation");
-	removeObsPoint->setStyleSheet(stylesheet);
+	//removeObsPoint->setStyleSheet(stylesheet);
 	removeSample=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove sample");
-	removeSample->setStyleSheet(stylesheet);
+	//removeSample->setStyleSheet(stylesheet);
 	removeStorySplit=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove split");
-	removeStorySplit->setStyleSheet(stylesheet);
+	//removeStorySplit->setStyleSheet(stylesheet);
 
 
 
@@ -255,7 +257,7 @@ StoryView::StoryView(QWidget *parent) :
 	//Users/benjamindartigues/Pictures/BlueMetal.png
 	QString fenObjectName("StoryView");
 	this->setObjectName(fenObjectName);
-	this->setStyleSheet("QWidget#"+fenObjectName +"{ background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
+	//this->setStyleSheet("QWidget#"+fenObjectName +"{ background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
 	/*
 					"border-style: outset;"
 					"border-width: 1px;"
@@ -400,6 +402,7 @@ void StoryView::setupMatrix()
 
 
 void StoryView::refresh_genotypeView(QModelIndex _elementSelected){
+	Q_UNUSED(_elementSelected);
 	emit on_refresh_genotype_view();
 }
 /*

@@ -206,7 +206,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	QBrush brush(gradient);
 	brush.setStyle(Qt::LinearGradientPattern);
 	_painter->setBrush(brush);
-	_painter->drawRect(this->rect);
+	_painter->drawRoundedRect(this->rect,5,5);
 	//QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
 	//QPen selPen=QPen(Qt::red);
 	//_painter->setBrush(selBrush);
