@@ -233,7 +233,7 @@ void HtmlReportView::generate_report(){
 		   "span.blues {color:blue;}"
 		   "span.styles { color:black; font-family: Times New Roman; text-align: justify; } "
 		   "span#bgimage { background-image: url(':/Images/SaveAs.png'); } "
-		   "body.tuning { background-color : white;}";
+		   "body.tuning {background-color : white;}";
 		   //"tr.test {width : 100}"
 		   //"th.thtest {width : 100}"
 		   //"table.tune {background-color : blue; cellspacing : 50; }";
@@ -277,12 +277,12 @@ QString HtmlReportView::generate_observation_schedule_table()
 	// create a table with all informations about observation
 	// Date, Time, Duration, #individuals
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
-				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"150\" height = \"100\">Date</th>"
-				   "<th width = \"150\" height = \"100\">Time</th>"
-				   "<th width = \"100\" height = \"100\">Duration</th>"
-				   "<th width = \"100\" height = \"100\">Individuals #</th>"
+	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"Bisque\">"
+				   "<th  height = \"100\">Date</th>"
+				   "<th  height = \"100\">Time</th>"
+				   "<th  height = \"100\">Duration</th>"
+				   "<th  height = \"100\">Individuals #</th>"
 				   "</tr>";
 	ontologyTable+="</table>";
 	return ontologyTable;
@@ -293,11 +293,11 @@ QString HtmlReportView::generate_material_table()
 {
 	//create table with all material used during experiment
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
-				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"100\" height = \"100\">NameSpaceAlias</th>"
-				   "<th width = \"200\" height = \"100\">Material</th>"
-				   "<th width = \"200\" height = \"100\">TermId</th>"
+	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"Bisque\">"
+				   "<th  height = \"100\">NameSpaceAlias</th>"
+				   "<th  height = \"100\">Material</th>"
+				   "<th  height = \"100\">TermId</th>"
 				   "</tr>";
 
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
@@ -318,7 +318,7 @@ QString HtmlReportView::generate_material_table()
 						for (std::map<BasicTerm*,QString>::iterator it5=tmp_part->get_materialCollection()->begin();it5!=tmp_part->get_materialCollection()->end();++it5){
 							BasicTerm * tmp_term= static_cast<BasicTerm*>((*it5).first);
 							//VariableTerm * tmp_variable_term=static_cast<VariableTerm*>(tmp_term);
-							ontologyTable+="<tr bgcolor = \"cyan\">";
+							ontologyTable+="<tr bgcolor = \"LightCyan\">";
 							QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
 							ontologyTable+=msg;
 							msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
@@ -355,14 +355,14 @@ QString HtmlReportView::generate_obs_count()
 
 QString HtmlReportView::generate_dynamic_variable_table(){
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
-				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"100\" height = \"100\">NameSpaceAlias</th>"
-				   "<th width = \"100\" height = \"100\">Name</th>"
-				   "<th width = \"50\" height = \"100\">TermId</th>"
-				   "<th width = \"100\" height = \"100\">Changed at:</th>"
-				   "<th width = \"50\" height = \"100\">Value:</th>"
-				   "<th width = \"100\" height = \"100\">Unit:</th>"
+	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"Bisque\">"
+				   "<th  height = \"100\">NameSpaceAlias</th>"
+				   "<th  height = \"100\">Name</th>"
+				   "<th  height = \"100\">TermId</th>"
+				   "<th  height = \"100\">Changed at:</th>"
+				   "<th  height = \"100\">Value:</th>"
+				   "<th  height = \"100\">Unit:</th>"
 
 
 				   "</tr>";
@@ -391,7 +391,7 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 								cycle_size=c->get_cycleValues()->size();
 								cycle_division=24/cycle_size;
 
-								ontologyTable+="<tr bgcolor = \"cyan\">";
+								ontologyTable+="<tr bgcolor = \"LightCyan\">";
 								QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
 								ontologyTable+=msg;
 								msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
@@ -425,7 +425,7 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 								ontologyTable+="</tr>";
 							}
 							else{
-								ontologyTable+="<tr bgcolor = \"cyan\">";
+								ontologyTable+="<tr bgcolor = \"LightCyan\">";
 								QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
 								ontologyTable+=msg;
 								msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
@@ -464,11 +464,11 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 QString HtmlReportView::generate_variable_table()
 {
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"500\">" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
-				   "<tr bgcolor = \"orange\" height = \"200\">"
-				   "<th width = \"100\" height = \"200\">NameSpaceAlias</th>"
-				   "<th width = \"200\" height = \"200\">Name</th>"
-				   "<th width = \"200\" height = \"200\">TermId</th>"
+	ontologyTable ="<table bgcolor = \"white\" border >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"Bisque\" height = \"200\">"
+				   "<th  height = \"200\">NameSpaceAlias</th>"
+				   "<th  height = \"200\">Name</th>"
+				   "<th  height = \"200\">TermId</th>"
 
 				   "</tr>";
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
@@ -477,7 +477,7 @@ QString HtmlReportView::generate_variable_table()
 		StoryBase * tmpstory = static_cast<StoryBase*>(tmpnode->get_story());
 		for(std::vector<std::pair<BasicTerm*,QString> >::iterator it2=tmpstory->get_variablesCollection()->begin();it2!=tmpstory->get_variablesCollection()->end();++it2){
 			DynamicTerm * tmp_term=static_cast<DynamicTerm*>((*it2).first);
-			ontologyTable+="<tr bgcolor = \"cyan\">";
+			ontologyTable+="<tr bgcolor = \"LightCyan\">";
 			QString msg = QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_namespacealias());
 			ontologyTable+=msg;
 			msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_name());
@@ -502,18 +502,18 @@ QString HtmlReportView::generate_variable_table()
 QString HtmlReportView::generate_ontology_table()
 {
 	QString ontologyTable="";
-	ontologyTable ="<table bgcolor = \"white\" border width = \"500\" >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
-				   "<tr bgcolor = \"orange\">"
-				   "<th width = \"100\" height = \"100\">Alias</th>"
-				   "<th width = \"200\" height = \"100\">NameSpace</th>"
-				   "<th width = \"200\" height = \"100\">Ontology</th>"
+	ontologyTable ="<table bgcolor = \"white\" border  >" //width=\"100%\"  bordercolor=\"#3399FF\" id=\"contenttable\">\r\n
+				   "<tr bgcolor = \"Bisque\">"
+				   "<th height = \"100\">Alias</th>"
+				   "<th height = \"100\">NameSpace</th>"
+				   "<th height = \"100\">Ontology</th>"
 				   "</tr>";
 
 
 	//QString msg = QString ("Loading %1").arg(i);
 
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_devHandler()->begin();it!=this->documentResources->get_devHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td height = \"100\">%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());
@@ -526,7 +526,7 @@ QString HtmlReportView::generate_ontology_table()
 
 
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_structHandler()->begin();it!=this->documentResources->get_structHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td height = \"100\">%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());
@@ -538,7 +538,7 @@ QString HtmlReportView::generate_ontology_table()
 
 	}
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_xeoHandler()->begin();it!=this->documentResources->get_xeoHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td height = \"100\">%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());
@@ -550,7 +550,7 @@ QString HtmlReportView::generate_ontology_table()
 
 	}
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_genHandler()->begin();it!=this->documentResources->get_genHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td height = \"100\">%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());
@@ -562,7 +562,7 @@ QString HtmlReportView::generate_ontology_table()
 
 	}
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_posHandler()->begin();it!=this->documentResources->get_posHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td>%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());
@@ -574,7 +574,7 @@ QString HtmlReportView::generate_ontology_table()
 
 	}
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_EOHandler()->begin();it!=this->documentResources->get_EOHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td height = \"100\">%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());
@@ -586,7 +586,7 @@ QString HtmlReportView::generate_ontology_table()
 
 	}
 	for(std::map<QString,OntologyHandlerResources*>::iterator it= this->documentResources->get_EnvOHandler()->begin();it!=this->documentResources->get_EnvOHandler()->end();++it){
-		ontologyTable+="<tr bgcolor = \"cyan\">";
+		ontologyTable+="<tr bgcolor = \"LightCyan\">";
 		QString msg = QString ("<td height = \"100\">%1</td>").arg((*it).first);
 		ontologyTable+=msg;
 		msg=QString ("<td height = \"100\">%1</td>").arg((*it).second->get_location());

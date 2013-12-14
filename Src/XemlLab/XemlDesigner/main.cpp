@@ -30,7 +30,7 @@
 #include<QDir>
 
 
-#define HOME = "/Users/benjamindartigues/Qt5.0.1/Root/";
+//#define HOME = "/Users/benjamindartigues/Qt5.0.1/Root/";
 
 using namespace std;
 using namespace Xeml::Document;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 {
 	// starting point of program
 	QApplication                                             a(argc, argv);
-	a.setStyle(QStyleFactory::create("Fusion"));
+	a.setStyle(QStyleFactory::create("Macintosh"));
 	//QStringList tmp_list=QStyleFactory::keys();
 	//foreach (QString str, tmp_list){
 	//	std::cerr << "tmp_list : " << str.toStdString() << std::endl;

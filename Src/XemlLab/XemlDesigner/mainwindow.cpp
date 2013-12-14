@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 	QMdiSubWindow *sousFenetre1 = zoneCentrale->addSubWindow(this->ontologyView);
+	sousFenetre1->setWindowFlags(Qt::FramelessWindowHint);
 	//connect(sousFenetre1,SIGNAL(destroyed()),this,SLOT()
 	//sousFenetre1->
 	sousFenetre1->setObjectName(fen1ObjectName);
@@ -109,11 +110,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	//QMdiSubWindow *sousFenetre2 = zoneCentrale->addSubWindow(this->graphicStoryView);
 
 
+	sousFenetre2->setWindowFlags(Qt::FramelessWindowHint);
 	sousFenetre2->setObjectName(fen2ObjectName);
 	sousFenetre2->setStyleSheet("QWidget#"+fen2ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
 	sousFenetre2->setWindowTitle("Experiment Panel");
 
 	QMdiSubWindow *sousFenetre3 = zoneCentrale->addSubWindow(this->genotypeView);
+	sousFenetre3->setWindowFlags(Qt::FramelessWindowHint);
 	sousFenetre3->setObjectName(fen3ObjectName);
 	sousFenetre3->setStyleSheet("QWidget#"+fen3ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
 	sousFenetre3->setWindowTitle("Germplasm Panel");
