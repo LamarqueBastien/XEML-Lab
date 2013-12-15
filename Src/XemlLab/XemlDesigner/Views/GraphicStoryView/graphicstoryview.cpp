@@ -5,6 +5,7 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 {
 	this->setMouseTracking(true);
 
+	this->setAcceptDrops(true);
 	this->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 	this->current_scene=_currentScene;
 	connect(this->current_scene,SIGNAL(sceneRectChanged(QRectF)),this,SLOT(updateSceneRect(QRectF)));

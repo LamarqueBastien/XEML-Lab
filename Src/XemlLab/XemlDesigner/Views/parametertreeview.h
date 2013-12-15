@@ -21,6 +21,7 @@
 #include"CoreObjects/documentresources.h"
 #include"AboutWindows/aboutparameter.h"
 #include"PanelWindows/ontologypanel.h"
+#include"Views/parameterview.h"
 
 using Xeml::Document::Contracts::ItfOntologyTerm;
 using namespace Xeml::Document::Contracts;
@@ -29,7 +30,8 @@ class ParameterTreeView : public QWidget
 		Q_OBJECT
 
 	private:
-		QTreeView                                * parameterTree;
+		ParameterView                            * parameterTree;
+		//QTreeView                                * parameterTree;
 		QPushButton                              * parameterInfo;
 		QPushButton                              * addParameter;
 		QPushButton                              * addOntology;

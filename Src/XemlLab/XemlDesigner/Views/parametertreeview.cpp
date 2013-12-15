@@ -6,7 +6,8 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	this->doc_ressources=_doc;
 	QVBoxLayout * layout = new QVBoxLayout;
 	this->mode=false;
-	this->parameterTree=new QTreeView;
+	//this->parameterTree=new QTreeView;
+	this->parameterTree=new ParameterView;
 	this->parameterTree->setAnimated(true);
 	//this->parameterTree->setItemsExpandable(true);
 	//this->parameterTree->set
@@ -18,6 +19,8 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 
 	this->parameterTree->setObjectName("VariableTree");
 	this->parameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	this->parameterTree->setAcceptDrops(true);
+	this->parameterTree->setDragEnabled(true);
 
 	//this->setStyleSheet("QWidget { background-color: rgb(255,255,255); }");
 	//Users/benjamindartigues/GraphicView/Images/XemlLogo.png
@@ -102,7 +105,8 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 
 	QString WindowObjectName("OntologyTree");
 	this->setObjectName(WindowObjectName);
-	this->setStyleSheet("QWidget#"+WindowObjectName +"{background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
+	this->setAcceptDrops(true);
+	//this->setStyleSheet("QWidget#"+WindowObjectName +"{background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
 	setLayout(layout);
 	//this->setStyleSheet("background-color: rgb(104,157,113);");
 					//"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"

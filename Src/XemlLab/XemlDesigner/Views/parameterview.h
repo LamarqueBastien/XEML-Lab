@@ -1,14 +1,29 @@
 #ifndef PARAMETERVIEW_H
 #define PARAMETERVIEW_H
 #include<QTableView>
+#include<QTreeView>
+#include<QDragEnterEvent>
+#include<QDropEvent>
+#include<QDragMoveEvent>
+#include<QMouseEvent>
+#include<iostream>
+#include<QLabel>
+#include<QMimeData>
+#include<QDrag>
+#include<QPainter>
+#include"Views/Items/parameteritem.h"
+using namespace std;
 
-class ParameterView
+class ParameterView :public QTreeView
 {
-	private:
-		QTableView paramTable;
+		Q_OBJECT
 	public:
-		ParameterView();
-
+		ParameterView(QTreeView * parent = 0);
+	protected:
+		void dragEnterEvent(QDragEnterEvent *event);
+		void dragMoveEvent(QDragMoveEvent *event);
+		void dropEvent(QDropEvent *event);
+		void mousePressEvent(QMouseEvent *event);
 
 };
 

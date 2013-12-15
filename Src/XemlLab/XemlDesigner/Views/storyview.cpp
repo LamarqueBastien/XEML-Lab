@@ -257,6 +257,7 @@ StoryView::StoryView(QWidget *parent) :
 	//Users/benjamindartigues/Pictures/BlueMetal.png
 	QString fenObjectName("StoryView");
 	this->setObjectName(fenObjectName);
+	this->setAcceptDrops(true);
 	//this->setStyleSheet("QWidget#"+fenObjectName +"{ background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
 	/*
 					"border-style: outset;"

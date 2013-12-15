@@ -22,6 +22,16 @@ QPushButton {
 }
 */
 /*rgb(104,157,113);*/
+ParameterTreeView#OntologyTree {
+	background-color: rgb(225,206,154);
+	
+}
+ParameterTreeView QToolTip { 
+	color: #fff; 
+	background-color: #000; 
+	border: none; 
+	
+}
 QTreeView#VariableTree {
 	background-color: white; 
 }
@@ -29,6 +39,11 @@ QTreeView#VariableTree {
 StoryView#StoryView {
 	 background-color: lightgray;
 	 
+}
+StoryView QToolTip { 
+	color: #fff; 
+	background-color: #000; 
+	border: none; 
 }
 GenoTypeView#GenotypeView {
 	background-color: white;
@@ -39,10 +54,8 @@ GraphicStoryView#GraphicView {
 	border-radius: 10px;
 
 }	
-StoryView QToolTip{ 
-	color: #fff; background-color: #000; border: none; 
-}
-QMdiSubWindow#Ontology, QMdiSubWindow#Story , QMdiSubWindow#Genotype{
+
+QMdiSubWindow#Ontology, QMdiSubWindow#Story , QMdiSubWindow#Genotype {
 	background-image: url(://Images/BlueMetal.png);
 
 

@@ -45,6 +45,9 @@ class GraphicStoryScene : public QGraphicsScene
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
 		void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 		void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
+		void dropEvent(QDropEvent *event);
+		void dragEnterEvent(QDragEnterEvent *event);
+		void dragMoveEvent(QDragMoveEvent *event);
 
 	signals:
 

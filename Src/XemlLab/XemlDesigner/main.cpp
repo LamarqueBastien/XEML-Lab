@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 {
 	// starting point of program
 	QApplication                                             a(argc, argv);
-	a.setStyle(QStyleFactory::create("Macintosh"));
+
 
 	/************************************************
 	 * load the qss file for stylesheet
@@ -88,11 +88,14 @@ int main(int argc, char *argv[])
 
 	QSplashScreen *splash = new QSplashScreen;
 
+	a.setStyle(QStyleFactory::create("Fusion"));
 #if defined(Q_OS_WIN)
 	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
 #elif defined(Q_OS_MACX)
+	a.setStyle(QStyleFactory::create("Macintosh"));
 	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
 #else
+
 	splash->setPixmap(QPixmap("/home/bdartigues/XEML-Lab/Src/XemlLab/XemlDesigner/Images/XemlLogo.png"));
 #endif
 	//splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner

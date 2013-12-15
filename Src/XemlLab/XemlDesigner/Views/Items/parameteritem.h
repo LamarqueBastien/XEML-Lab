@@ -1,6 +1,9 @@
 #ifndef PARAMETERITEM_H
 #define PARAMETERITEM_H
 #include<QStandardItem>
+#include<QDragEnterEvent>
+#include<QDragMoveEvent>
+#include<QDropEvent>
 #include"CoreObjects/termattribute.h"
 #include"Interface/itfontologyterm.h"
 #include"CoreObjects/basicterm.h"

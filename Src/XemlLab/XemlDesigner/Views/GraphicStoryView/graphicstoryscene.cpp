@@ -12,6 +12,8 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 	this->my_selected_story=NULL;
 	this->my_selected_event=NULL;
 	this->my_selected_obsPoint=NULL;
+
+
 	//connect(this,SIGNAL(selectionChanged()),this,SLOT(changedSelection()));
 	createActions();
 	//createMenus();
@@ -148,6 +150,17 @@ void GraphicStoryScene::remove_event(){
 void GraphicStoryScene::display_plot_parameters(){
 	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
+void GraphicStoryScene::dropEvent(QDropEvent *event){
+		std::cerr << "event_drop" << std::endl;
+}
+void GraphicStoryScene::dragEnterEvent(QDragEnterEvent *event){
+	std::cerr << "drag_enter_event" << std::endl;
+}
+
+void GraphicStoryScene::dragMoveEvent(QDragMoveEvent *event){
+	std::cerr << "drag_move_event" << std::endl;
+}
+
 void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 
 
