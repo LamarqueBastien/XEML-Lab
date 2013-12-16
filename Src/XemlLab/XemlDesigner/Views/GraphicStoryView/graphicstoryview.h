@@ -3,6 +3,7 @@
 
 #include<QGraphicsView>
 #include<QMouseEvent>
+#include<QLabel>
 #include"Views/GraphicStoryView/graphicstoryscene.h"
 #include"CoreObjects/storybase.h"
 using namespace Xeml::Document;
@@ -17,6 +18,7 @@ class GraphicStoryView : public QGraphicsView
 		void drawBackground(QPainter *p, const QRectF &rect);
 		//void add_root_story(QString label,StoryBase * _story);
 		//void mousePressEvent(QMouseEvent *event);
+
 	private:
 		GraphicStoryScene * current_scene;
 		qreal width;

@@ -150,14 +150,42 @@ void GraphicStoryScene::remove_event(){
 void GraphicStoryScene::display_plot_parameters(){
 	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
-void GraphicStoryScene::dropEvent(QDropEvent *event){
+void GraphicStoryScene::dropEvent(QGraphicsSceneDragDropEvent * event){
 		std::cerr << "event_drop" << std::endl;
+
+		if (my_selected_story!=NULL){
+			if (event->mimeData()->hasText()) {
+				const QMimeData *mime = event->mimeData();
+				QStringList pieces = mime->text().split(QRegExp("\\s+"),
+									  QString::SkipEmptyParts);
+				QPoint position = event->pos().toPoint();
+				QPoint hotSpot;
+
+				QList<QByteArray> hotSpotPos = mime->data("application/x-hotspot").split(' ');
+				if (hotSpotPos.size() == 2) {
+					hotSpot.setX(hotSpotPos.first().toInt());
+					hotSpot.setY(hotSpotPos.last().toInt());
+				}
+
+				foreach (QString piece, pieces) {
+					//QMessageBox::information(NULL,"added element",piece);
+					emit variable_to_add(piece);
+
+				}
+
+			}
+
+		}
+		else{
+			QMessageBox::information(NULL,"added element","no story selected");
+
+		}
 }
-void GraphicStoryScene::dragEnterEvent(QDragEnterEvent *event){
+void GraphicStoryScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
 	std::cerr << "drag_enter_event" << std::endl;
 }
 
-void GraphicStoryScene::dragMoveEvent(QDragMoveEvent *event){
+void GraphicStoryScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
 	std::cerr << "drag_move_event" << std::endl;
 }
 

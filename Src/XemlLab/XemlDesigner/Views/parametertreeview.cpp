@@ -298,18 +298,19 @@ void ParameterTreeView::set_up_Ontologytree(DocumentResources * _doc,QStringList
 			my_treeparameter->appendRow(new ParameterItem(NULL,_ontologies->at(i),true));
 			build_ontology_tree(&my_structree,_ontologies->at(i));
 		}
+
 		if(_doc->contains(_ontologies->at(i),Xeml::Document::Contracts::Positioning)){
 			std::list<TermNode*> my_postree=(*static_cast<PositioningOntologyHandler*>((*_doc->get_posHandler())[_ontologies->at(i)]->get_handler())->get_listNodes());
 			my_treeparameter->appendRow(new ParameterItem(NULL,_ontologies->at(i),true));
 			build_ontology_tree(&my_postree,_ontologies->at(i));
 		}
 
-
 		if(_doc->contains(_ontologies->at(i),Xeml::Document::Contracts::EO)){
 			std::list<TermNode*> my_EOtree=(*static_cast<PEOHandler*>((*_doc->get_EOHandler())[_ontologies->at(i)]->get_handler())->get_listNodes());
 			my_treeparameter->appendRow(new ParameterItem(NULL,_ontologies->at(i),true));
 			build_ontology_tree(&my_EOtree,_ontologies->at(i));
 		}
+
 		if(_doc->contains(_ontologies->at(i),Xeml::Document::Contracts::EnvO)){
 			std::list<TermNode*> my_EnvOtree=(*static_cast<EnvOHandler*>((*_doc->get_EnvOHandler())[_ontologies->at(i)]->get_handler())->get_listNodes());
 			my_treeparameter->appendRow(new ParameterItem(NULL,_ontologies->at(i),true));
@@ -357,18 +358,22 @@ void ParameterTreeView::showSelection()
 }
 void ParameterTreeView::add_parameter()
 {
+	std::cerr << "entering add_parameter (ParameterTreeView)" << std::endl;
 	QItemSelectionModel * selection = this->parameterTree->selectionModel();
 	QModelIndex indexelementselected= selection->currentIndex();
 	if(selection->isSelected(indexelementselected)){
-		QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
+		std::cerr << "is selected (ParameterTreeView)" << std::endl;
+
+		//QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
 		ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(indexelementselected));
-		if(tmp->isRoot){
-			QMessageBox::information(this,"added element","can't add a root term "+ tmp->get_term()->get_prototype()->get_name()+ " to a story");
-		}
-		else{
-
-
-			emit onParameterselected(tmp->get_term());
+		if(!tmp==NULL){
+			if(tmp->isRoot){
+				QMessageBox::information(this,"added element","can't add a root term "+ tmp->get_term()->get_prototype()->get_name()+ " to a story");
+			}
+			else{
+				std::cerr << "emit message on parameterselected (ParameterTreeView)" << std::endl;
+				emit onParameterselected(tmp->get_term());
+			}
 		}
 	}
 }

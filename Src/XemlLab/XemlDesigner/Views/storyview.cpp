@@ -237,7 +237,8 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(QGraphicsItem*)),this->info_view,SLOT(set_object_info(QGraphicsItem*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
 
-
+	connect(this->GraphicScene,SIGNAL(variable_to_add(QString)),this,SLOT(add_dropped_variable(QString)));
+	connect(this,SIGNAL(drop_variable_added(ItfOntologyTerm*)),this,SLOT(new_parameter(ItfOntologyTerm*)));
 	//connect all the buttons
 	connect(StoryLabelEdit,SIGNAL(textEdited(QString)),this,SLOT(reset_StoryName(QString)));
 	connect(remove_variable,SIGNAL(clicked()),this,SLOT(remove_parameter()));
@@ -291,6 +292,51 @@ void StoryView::refresh(){
 	//this->repaint();
 	//this->show();
 
+}
+void   StoryView::add_dropped_variable(QString _termId){
+	//retrieve the NamespaceAlias (i.e. XEO,EO,EnvO...)
+	QStringList term_complete_id=_termId.split(":");
+	QString ns=term_complete_id.at(0);
+	ItfOntologyTerm * term;
+	if(doc_ressources->contains(ns,Xeml::Document::Contracts::Environment)){
+		std::list<TermNode*> my_xeotree=(*static_cast<XeoHandler*>((*doc_ressources->get_xeoHandler())[ns]->get_handler())->get_listNodes());
+		for (std::list<TermNode*>::iterator it=my_xeotree.begin();it!=my_xeotree.end();++it){
+			if(static_cast<TermNode*>((*it))->get_term()->get_termId()==_termId){
+				term=static_cast<TermNode*>((*it))->get_term();
+			}
+		}
+		//ParameterItem * root_parameter=new ParameterItem(NULL,_ontologies->at(i),true);
+		//root_parameter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		//my_treeparameter->appendRow(root_parameter);
+		//build_ontology_tree(&my_xeotree,_ontologies->at(i));
+	}
+	else if(doc_ressources->contains(ns,Xeml::Document::Contracts::EO)){
+		std::list<TermNode*> my_EOtree=(*static_cast<PEOHandler*>((*doc_ressources->get_EOHandler())[ns]->get_handler())->get_listNodes());
+		for (std::list<TermNode*>::iterator it=my_EOtree.begin();it!=my_EOtree.end();++it){
+			if(static_cast<TermNode*>((*it))->get_term()->get_termId()==_termId){
+				term=static_cast<TermNode*>((*it))->get_term();
+			}
+		}
+		//my_treeparameter->appendRow(new ParameterItem(NULL,_ontologies->at(i),true));
+		//build_ontology_tree(&my_EOtree,_ontologies->at(i));
+	}
+
+	else if(doc_ressources->contains(ns,Xeml::Document::Contracts::EnvO)){
+		std::list<TermNode*> my_EnvOtree=(*static_cast<EnvOHandler*>((*doc_ressources->get_EnvOHandler())[ns]->get_handler())->get_listNodes());
+		for (std::list<TermNode*>::iterator it=my_EnvOtree.begin();it!=my_EnvOtree.end();++it){
+			if(static_cast<TermNode*>((*it))->get_term()->get_termId()==_termId){
+				term=static_cast<TermNode*>((*it))->get_term();
+			}
+		}
+		//my_treeparameter->appendRow(new ParameterItem(NULL,_ontologies->at(i),true));
+		//build_ontology_tree(&my_EnvOtree,_ontologies->at(i));
+	}
+	else{
+
+	}
+	//search in the doc_resources trees
+	emit drop_variable_added(term);
+	//emit signal with the selected ontology term
 }
 
 void StoryView::display_plot(StoryBase * _story){
@@ -1106,6 +1152,7 @@ void StoryView::createStory(QString _text){
 
 //Parameter slots
 void StoryView::new_parameter(ItfOntologyTerm * _term){
+	std::cerr << "entering new_parameter (StoryView)" << std::endl;
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());

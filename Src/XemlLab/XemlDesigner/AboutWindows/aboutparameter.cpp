@@ -484,7 +484,8 @@ void AboutParameter::initialize(){
 	this->setLayout(this->mainlayout);
 	this->setStyleSheet("QDialog { background-color: white }");
 	listWidget->setCurrentRow(0);
-	this->setWindowTitle("Set Parameter Context");
+
+	this->setWindowTitle(QString ("Set Parameter Context : %1").arg(this->term->get_prototype()->get_name()));
 	this->show();
 }
 

@@ -45,12 +45,13 @@ class GraphicStoryScene : public QGraphicsScene
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
 		void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 		void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
-		void dropEvent(QDropEvent *event);
-		void dragEnterEvent(QDragEnterEvent *event);
-		void dragMoveEvent(QDragMoveEvent *event);
+		void dropEvent(QGraphicsSceneDragDropEvent *event);
+		void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+		void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
 
 	signals:
 
+		void variable_to_add(QString _termId);
 		void event2edit();
 		void obsPoint2edit();
 		void event2removed();

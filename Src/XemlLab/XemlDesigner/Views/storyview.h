@@ -128,6 +128,7 @@ class StoryView : public QWidget
 		void                 add_graphic_story(QString _label, StoryBase* _story);
 		void                 add_graphic_story_split(QString _label,StoryBase * _split);
 		void                 add_observationPoint(ObservationPoint * _op);
+		void                 drop_variable_added(ItfOntologyTerm * _term);
 	//protected:
 		//void mouseMoveEvent(QMouseEvent *_event);
 		//void mouseDoubleClickEvent(QMouseEvent * _event);
@@ -135,6 +136,7 @@ class StoryView : public QWidget
 	private slots:
 
 
+		void                 add_dropped_variable(QString _termId);
 		void                 refresh();
 		void                 display_plot(StoryBase * _story);
 		void                 setupMatrix();

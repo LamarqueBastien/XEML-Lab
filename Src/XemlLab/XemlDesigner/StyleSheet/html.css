@@ -23,6 +23,8 @@ table {
 }
 table td, table th {
   padding: 4px; /* Pas de retrait autour du texte = "0". */
+  padding-left : 6px;
+  padding-right : 6px;
   border: 1px solid #ccc; /* Pas de bordure = "none". */
   vertical-align: top; /* Valeur par défaut: "middle" */
 }

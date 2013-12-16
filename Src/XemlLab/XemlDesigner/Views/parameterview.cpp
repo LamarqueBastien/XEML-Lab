@@ -97,6 +97,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 	else{
 		std::cerr << "test" << tmp->get_term()->get_termId().toStdString() << std::endl;
 		QLabel  * child=new QLabel(tmp->get_term()->get_termId());
+		child->move(event->pos().x(),event->pos().y());
 		child->setAutoFillBackground(true);
 		child->setFrameShape(QFrame::Panel);
 		child->setFrameShadow(QFrame::Raised);
@@ -106,7 +107,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 
 		//child->setScaledContents(true);
 		std::cerr << "eventpos : " << event->pos().x() << "----" << event->pos().y() << std::endl;
-		QPoint hotSpot = event->pos();// - child->pos();
+		QPoint hotSpot = event->pos()- child->pos();
 
 		QMimeData *mimeData = new QMimeData;
 		mimeData->setText(child->text());
@@ -114,7 +115,8 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 						  QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
 
 		//QPixmap pixmap(child->size());
-		QPixmap pixmap(100,100);
+		QPixmap pixmap(70,20);
+		pixmap.scaledToWidth(child->width());
 		child->render(&pixmap);
 
 		QDrag *drag = new QDrag(this);
