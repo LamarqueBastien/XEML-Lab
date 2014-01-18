@@ -1,5 +1,5 @@
 
-QT += core gui xml xmlpatterns network
+QT += core gui xml xmlpatterns network sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT += printsupport
 TARGET = XemlDesigner

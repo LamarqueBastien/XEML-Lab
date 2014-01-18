@@ -1,6 +1,7 @@
 cache()
 TEMPLATE = subdirs
 QT += testlib
+
 SUBDIRS+= \
 	XemlCore \
 	XemlDesigner

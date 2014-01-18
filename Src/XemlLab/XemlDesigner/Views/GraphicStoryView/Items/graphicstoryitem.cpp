@@ -406,7 +406,7 @@ QRectF GraphicStoryItem::boundingRect() const{
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-150,miny,maxx-minx+250,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-250,miny,maxx-minx+350,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

@@ -17,6 +17,7 @@
 #include<QTimer>
 #include<QDomDocument>
 #include<QtXml>
+#include<QtSql>
 #include"mainwindow.h"
 #include"CoreObjects/story.h"
 #include<QRegExp>
@@ -81,6 +82,70 @@ int main(int argc, char *argv[])
 	//for (int i =0;i<tmp_list.size();i++){
 	//	std::cerr << "tmp_list : " << tmp_list.at(i).toStdString() << std::endl;
 	//}
+
+	/************************************************
+	 * test SQL database connection
+	*************************************************/
+
+
+
+	QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
+	//147.100.103.188
+	db.setHostName("localhost");
+	db.setUserName("postgres");
+	db.setPassword("bD1#popi");
+	db.setPort(5432);
+	db.setDatabaseName("postgres");
+
+	//PGconn *con = PQconnectdb("host=server user=bart password=simpson dbname=springfield");
+	//QPSQLDriver *drv =  new QPSQLDriver(con);
+	//QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL"); // devient la nouvelle connexion par défaut
+	//QSqlQuery query;
+
+	if (db.isValid()){
+		std::cerr << "valid connection" << std::endl;
+	}
+	else{
+		std::cerr << "not valid connection" << std::endl;
+	}
+	if(db.open())
+	{
+		QStringList list=db.tables();
+		std::cerr << "number of tables : " << list.size() << std::endl;
+
+		std::cerr << "Vous êtes maintenant connecté à " << db.hostName().toStdString() << std::endl;
+
+		QSqlQuery query;
+		query = QSqlQuery (db);
+
+
+		if(query.exec("select * from weather"))
+		{
+			std::cerr <<  "column number  : " <<query.record().count() << std::endl;
+			//std::cerr << query.record().value("city").toStringList()[0].toStdString() << std::endl;
+		}
+		else
+		{
+			std::cerr << "Une erreur s'est produite. :(" << std::endl << query.lastError().text().toStdString() << std::endl;
+		}
+
+		/*
+		QSqlQuery query1("select * from weather");
+			 while (query1.next()) {
+				 //QString country = query1.value(0).toString();
+				 //std::cerr << country.toStdString() << std::endl;
+				 std::cout << "column number  : " << query1.record().count() << std::endl;
+			 }
+
+			 */
+		db.close();
+
+	}
+	else
+	{
+		std::cout << "La connexion a échouée, désolé" << std::endl;
+	}
+
 
 	/************************************************
 	 * display Splashscreen during initialization
