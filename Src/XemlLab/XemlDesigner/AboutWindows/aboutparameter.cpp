@@ -12,7 +12,14 @@ AboutParameter::AboutParameter(ItfDocument * _xemldoc,StoryNode * _story,QWidget
 	this->daytimeedit=new QDateTimeEdit(static_cast<XemlDocument*>(this->current_doc)->get_startdate());
 	this->daytimeedit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
 	this->daytimeedit->setCalendarPopup(true);
-	this->daytimeedit->setMinimumDateTime(static_cast<XemlDocument*>(this->current_doc)->get_startdate());
+	if (story->get_isStorySplit()){
+
+		this->daytimeedit->setMinimumDateTime(static_cast<StorySplit*>(this->story->get_story())->get_timepoint());
+	}
+	else{
+		this->daytimeedit->setMinimumDateTime(static_cast<XemlDocument*>(this->current_doc)->get_startdate());
+	}
+
 	this->daytimeedit->setMaximumDateTime(static_cast<XemlDocument*>(this->current_doc)->get_enddate());
 	//connect(this->daytimeedit,SIGNAL(dateTimeChanged(QDateTime)),this->freeText,SLOT(set_dateTime(QDateTime)));
 	//connect(this->daytimeedit,SIGNAL(dateTimeChanged(QDateTime)),this->quantity,SLOT(set_dateTime(QDateTime)));

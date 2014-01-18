@@ -38,6 +38,7 @@
 #include"Views/GraphicStoryView/graphicstoryscene.h"
 #include"Views/plotparameterview.h"
 #include"Views/xemlobjectinfoview.h"
+#include"Views/Items/infoballoontip.h"
 using Xeml::Document::Contracts::ItfOntologyTerm;
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Utilities;

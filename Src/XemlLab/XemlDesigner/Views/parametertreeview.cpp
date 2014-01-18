@@ -43,6 +43,7 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	this->parameterInfo = new QPushButton("get definition variable");
 	//this->parameterInfo->style()->standardPalette().setColor(QPalette::Normal,QPalette::Background,QColor(Qt::blue));
 	//this->parameterInfo->setBackgroundRole(QPalette::Light);
+	/*
 	this->parameterInfo->setStyleSheet("QPushButton {"
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
@@ -56,9 +57,9 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 			   " margin: 0 1px 0 1px;"
 				"color:rgb(0,0,0);"
 				"padding: 6px;}"
-			);//->setStyleSheet("background-color: rgb(255,255,255)");
+			);//->setStyleSheet("background-color: rgb(255,255,255)");*/
 	this->addParameter = new QPushButton("add variable");
-	this->addParameter->setStyleSheet(
+	/*this->addParameter->setStyleSheet(
 				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				"border-style: outset;"
 				"border-width: 2px;"
@@ -71,13 +72,13 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 			   " margin: 0 1px 0 1px;"
 				"color:rgb(0,0,0);"
 				"padding: 6px;"
-			);//->setStyleSheet("background-color: rgb(255,255,255)");
+			);*///->setStyleSheet("background-color: rgb(255,255,255)");
 	this->addOntology = new QPushButton("manage ontology");
 	//QGraphicsDropShadowEffect * dse = new QGraphicsDropShadowEffect();
 	//dse->setBlurRadius(10);
 	//addOntology->setGraphicsEffect(dse);
 	//this->addOntology->setStyleSheet("background-color: rgb(255,255,255);""border-radius: 15px;");
-	addOntology->setStyleSheet(
+	/*addOntology->setStyleSheet(
 				 "background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 				 "border-style: outset;"
 				 "border-width: 2px;"
@@ -90,7 +91,7 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 				" margin: 0 1px 0 1px;"
 				 "color:rgb(0,0,0);"
 				 "padding: 6px;"
-			 );
+			 );*/
 	this->parameterInfo->setCursor(Qt::PointingHandCursor);
 	this->addParameter->setCursor(Qt::PointingHandCursor);
 	this->addOntology->setCursor(Qt::PointingHandCursor);

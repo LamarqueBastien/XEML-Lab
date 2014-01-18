@@ -483,7 +483,7 @@ void    MainWindow::createMenus() {
 	fileMenu = new QMenu("&File", this);
 	QMainWindow::menuBar()->addMenu(fileMenu);
 	fileMenu->addAction(newAction);
-	fileMenu->addAction(newStoryAction);
+	//fileMenu->addAction(newStoryAction);
 	fileMenu->addAction(openAction);
 	fileMenu->addAction(saveAction);
 	fileMenu->addAction(saveAsAction);

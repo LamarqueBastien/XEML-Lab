@@ -39,7 +39,7 @@ void ParameterView::dragMoveEvent(QDragMoveEvent *event)
 
 	event->acceptProposedAction();
 }
-
+/*
 void ParameterView::dropEvent(QDropEvent *event)
 {
 
@@ -70,6 +70,7 @@ void ParameterView::dropEvent(QDropEvent *event)
 
 	event->acceptProposedAction();
 }
+*/
 
 void ParameterView::mousePressEvent(QMouseEvent *event)
 {
@@ -99,8 +100,10 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 		QLabel  * child=new QLabel(tmp->get_term()->get_termId());
 		child->move(event->pos().x(),event->pos().y());
 		child->setAutoFillBackground(true);
+		child->adjustSize();
 		child->setFrameShape(QFrame::Panel);
 		child->setFrameShadow(QFrame::Raised);
+		//child->setAttribute(Qt::WA_TranslucentBackground,true);
 		//QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
 		if (!child)
 			return;
@@ -115,7 +118,8 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 						  QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
 
 		//QPixmap pixmap(child->size());
-		QPixmap pixmap(70,20);
+		QPixmap pixmap(child->size());
+		std::cerr <<"child width :" << child->width() << "child height : " << child->height() << std::endl;
 		pixmap.scaledToWidth(child->width());
 		child->render(&pixmap);
 

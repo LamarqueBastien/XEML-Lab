@@ -119,16 +119,22 @@ void GraphicStoryScene::createActions(){
 	editEvent = new QAction(QIcon(":/Images/new.png"),tr("&Edit"), this);
 	editEvent->setShortcut(tr("Ctrl+R"));
 	editEvent->setStatusTip(tr("Edit Event"));
-
+	addSamples = new QAction(QIcon(":/Images/new.png"),tr("&Add samples"), this);
+	addSamples->setShortcut(tr("Ctrl+Alt+S"));
+	addSamples->setStatusTip(tr("Add Samples"));
 	connect(show_details, SIGNAL(triggered()), this, SLOT(details_story()));
 	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));
 	connect(removeOP, SIGNAL(triggered()), this, SLOT(remove_obsPoint()));
 	connect(removeEvent,SIGNAL(triggered()),this,SLOT(remove_event()));
 	connect(editEvent,SIGNAL(triggered()),this,SLOT(edit_event()));
+	connect(addSamples,SIGNAL(triggered()),this,SLOT(add_sample()));
 }
 
 void  GraphicStoryScene::edit_event(){
 	emit event2edit();
+}
+void GraphicStoryScene::add_sample(){
+	emit sample_to_add();
 }
 
 void GraphicStoryScene::createMenus(){
@@ -301,6 +307,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					contextMenu =new QMenu("Story",mouseEvent->widget());
 					contextMenu->addAction(show_details);
 					contextMenu->addAction(display_plot);
+					contextMenu->addAction(addSamples);
 					contextMenu->exec(mouseEvent->screenPos());
 
 					break;
@@ -831,6 +838,9 @@ void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 
 		//QGraphicsTextItem * tmp_text=new QGraphicsTextItem(QString::number(counter),tmp_timeline);
 		tmp_text->setRotation(-60);
+
+
+
 
 
 		tmp_text->setFlag(QGraphicsItem::ItemIsSelectable,false);

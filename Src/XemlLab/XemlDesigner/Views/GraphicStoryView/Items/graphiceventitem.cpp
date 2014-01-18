@@ -103,6 +103,7 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	QPen selPen=QPen(Qt::yellow);
 	_painter->setBrush(selBrush);
 	_painter->setPen(selPen);
+	_painter->setRenderHint(QPainter::Antialiasing,true);
 	if(parent!=NULL){
 		qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 		//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();

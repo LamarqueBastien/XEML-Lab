@@ -53,6 +53,7 @@ class GraphicStoryScene : public QGraphicsScene
 
 		void variable_to_add(QString _termId);
 		void event2edit();
+		void sample_to_add();
 		void obsPoint2edit();
 		void event2removed();
 		void obsPoint2removed();
@@ -70,6 +71,7 @@ class GraphicStoryScene : public QGraphicsScene
 		QAction * removeStory;
 		QAction * removeEvent;
 		QAction * editEvent;
+		QAction * addSamples;
 		ItfDocument * currentDoc;
 
 		GraphicEventItem * my_item;
@@ -82,6 +84,7 @@ class GraphicStoryScene : public QGraphicsScene
 		//int  positionY;
 	private slots:
 
+		void add_sample();
 		void remove_obsPoint();
 		void remove_event();
 		void edit_event();

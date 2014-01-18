@@ -186,6 +186,8 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	Q_UNUSED(widget);
 
 	painter=_painter;
+	painter->setRenderHint(QPainter::Antialiasing,true);
+
 	//QColor fillColor = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
 	//if (option->state & QStyle::State_MouseOver)
 	//	fillColor = fillColor.light(125);

@@ -135,6 +135,7 @@ void FreeTextParameter::add_cycle(){
 
 
 	extension->resize(static_cast<QGridLayout*>(extension->layout())->maximumSize());
+	//this->resize(extension->layout())->maximumSize());
 	extension->setVisible(true);
 	extension->setFixedHeight(sizeHint().height());
 }

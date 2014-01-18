@@ -73,7 +73,8 @@ SOURCES += \
     Div/qcustomplot.cpp \
     Views/HTMLReportView/htmlreportview.cpp \
     DialogWindows/annotationdialog.cpp \
-    Views/xemlobjectinfoview.cpp
+    Views/xemlobjectinfoview.cpp \
+    Views/Items/infoballoontip.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -141,7 +142,9 @@ HEADERS += \
     Div/qcustomplot.h \
     Views/HTMLReportView/htmlreportview.h \
     DialogWindows/annotationdialog.h \
-    Views/xemlobjectinfoview.h
+    Views/xemlobjectinfoview.h \
+    Views/Items/infotipbutton.h \
+    Views/Items/infoballoontip.h
 
 RESOURCES += \
     Divers.qrc

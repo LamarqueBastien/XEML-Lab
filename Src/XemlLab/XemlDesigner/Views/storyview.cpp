@@ -73,7 +73,9 @@ StoryView::StoryView(QWidget *parent) :
 
 
 	remove_variable= new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove variable");
+
 	remove_variable->setToolTip("remove a parameter from the selected story");
+
 	//remove_variable->setStyleSheet(stylesheet);
 
 
@@ -236,7 +238,7 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(QGraphicsItem*)),this->info_view,SLOT(set_object_info(QGraphicsItem*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
-
+	connect(this->GraphicScene,SIGNAL(sample_to_add()),this,SLOT(choose_obsPoint()));
 	connect(this->GraphicScene,SIGNAL(variable_to_add(QString)),this,SLOT(add_dropped_variable(QString)));
 	connect(this,SIGNAL(drop_variable_added(ItfOntologyTerm*)),this,SLOT(new_parameter(ItfOntologyTerm*)));
 	//connect all the buttons
@@ -1364,7 +1366,7 @@ void StoryView::choose_obsPoint(){
 				opp->setVisible(true);
 			}
 			else{
-				QMessageBox::information(this,"no selection","this story has no observation point to whom add samples, please add one");
+				QMessageBox::information(this,"no selection","this story has no point of observation, please add one.");
 			}
 		}
 		else{
@@ -1483,15 +1485,21 @@ void StoryView::remove_obs_point(){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+			if (current_storyNode->get_story()->get_obsPointCollection()->empty()){
+				QMessageBox::information(this,"added element","This story has no point of observation to remove");
+
+			}
+			else{
 			ObservationPointPanel * opp =new ObservationPointPanel(true);
 			opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
 			opp->show();
 			connect(opp,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
+			}
 
 			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
 		}
 		else{
-			QMessageBox::information(this,"added element","no story selected");
+			QMessageBox::information(this,"added element","No story selected");
 		}
 	}
 	else{
@@ -1591,10 +1599,18 @@ void StoryView::remove_event(){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 
-			EventPanel * eventInfo=new EventPanel(true);
-			eventInfo->initialize(this->currentDoc,current_storyNode->get_story(),current_storyNode->get_isStorySplit());
-			eventInfo->setVisible(true);
-			connect(eventInfo,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
+			if (current_storyNode->get_story()->get_eventcollection()->empty()){
+				QMessageBox::information(this,"added element","This story has no event to remove");
+
+			}
+			else{
+				EventPanel * eventInfo=new EventPanel(true);
+				eventInfo->initialize(this->currentDoc,current_storyNode->get_story(),current_storyNode->get_isStorySplit());
+				eventInfo->setVisible(true);
+				connect(eventInfo,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
+			}
+
+
 		}
 		else{
 			QMessageBox::information(this,"no selection","no story selected");
