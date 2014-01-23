@@ -13,6 +13,7 @@
 #include<QHBoxLayout>
 #include<map>
 #include<QUrl>
+#include <QtPlugin>
 #include<QEventLoop>
 #include<QTimer>
 #include<QDomDocument>
@@ -47,6 +48,8 @@ class Individual;
 class IndividualsPool;
 class FileManager;
 
+
+//Q_IMPORT_PLUGIN(qsqlodbc)
 
 int main(int argc, char *argv[])
 {
@@ -88,7 +91,7 @@ int main(int argc, char *argv[])
 	*************************************************/
 
 
-
+/*
 	QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
 	//147.100.103.188
 	db.setHostName("localhost");
@@ -96,21 +99,68 @@ int main(int argc, char *argv[])
 	db.setPassword("bD1#popi");
 	db.setPort(5432);
 	db.setDatabaseName("postgres");
+	*/
+
+
+	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+	//147.100.103.188
+	//127.0.0.1
+	db.setHostName("147.100.103.188");
+	db.setUserName("bdartigues");
+	db.setPassword("bD1#popi");
+	db.setPort(1433);
+	db.setDatabaseName("PlatoDB");
+
+
+
+	//QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+	//db.setHostName("147.100.103.188");
+	//db.setDatabaseName("PlatoDB");
+	//147.100.103.188
+
+	//db.setDatabaseName("DRIVER={SQL SERVER}; SERVER=147.100.103.188; DATABASE=PlatoDB");
+
+	//db.setDatabaseName("Driver={MySQL ODBC 5.1 Driver};SERVER=147.100.103.188;DATABASE=PlatoDB;");
+
+	//QString ipserver,LoginName,database,Pass;
+
+
+		/*
+	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC3");
+
+	db.setDatabaseName("DRIVER={SQL Server (MSSQLSERVER)};Server=147.100.103.188;Database=PlatoDB;Uid=LabDesigner;Pwd=glucose;");
+	db.setHostName("147.100.103.188");
+	*/
+	//db.setHostName("147.100.103.188");
+	//db.setUserName("labdesigner");
+	//db.setPassword("glucose");
+
+
+
+	//db.setPort(5432);
+	//db.setDatabaseName("PlatoDB");
 
 	//PGconn *con = PQconnectdb("host=server user=bart password=simpson dbname=springfield");
 	//QPSQLDriver *drv =  new QPSQLDriver(con);
 	//QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL"); // devient la nouvelle connexion par défaut
 	//QSqlQuery query;
+	QStringList tmp2 =QSqlDatabase::drivers();
+	foreach (QString str, tmp2){
+		std::cerr << "tmp_list : " << str.toStdString() << std::endl;
+	}
 
 	if (db.isValid()){
 		std::cerr << "valid connection" << std::endl;
 	}
 	else{
-		std::cerr << "not valid connection" << std::endl;
+		std::cerr << "invalid connection" << std::endl;
 	}
+	QSqlRecord record;
 	if(db.open())
 	{
 		QStringList list=db.tables();
+		record=db.record("weather");
+
 		std::cerr << "number of tables : " << list.size() << std::endl;
 
 		std::cerr << "Vous êtes maintenant connecté à " << db.hostName().toStdString() << std::endl;
@@ -122,6 +172,9 @@ int main(int argc, char *argv[])
 		if(query.exec("select * from weather"))
 		{
 			std::cerr <<  "column number  : " <<query.record().count() << std::endl;
+			for (int i =0;i<query.record().count();i++){
+				std::cerr << "firts column : " << record.fieldName(i).toStdString() << std::endl;
+			}
 			//std::cerr << query.record().value("city").toStringList()[0].toStdString() << std::endl;
 		}
 		else
@@ -143,7 +196,9 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		std::cout << "La connexion a échouée, désolé" << std::endl;
+		std::cerr << "dbtext " << db.lastError().databaseText().toStdString()  <<  std::endl;
+		std::cerr << "drivertext : " << db.lastError().driverText().toStdString() << std::endl;
+		//std::cerr << db.lastError().text().toStdString() <<"La connexion a échouée, désolé" << std::endl;
 	}
 
 
