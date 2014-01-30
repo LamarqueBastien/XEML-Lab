@@ -28,11 +28,11 @@ namespace Xeml {
 
 
 		}
-		XemlDocument::XemlDocument(QString filename){
+							  XemlDocument::XemlDocument(QString filename){
 
 			this->Load(filename,false);
 		}
-		XemlDocument::~XemlDocument(void){
+							  XemlDocument::~XemlDocument(void){
 
 		}
 
@@ -111,7 +111,7 @@ namespace Xeml {
 			this->doc.save(out, Indent);
 			return 0;
 		}
-		QString                   XemlDocument::generate_string_xml(){
+		QString               XemlDocument::generate_string_xml(){
 			const int Indent = 4;
 			//string name=":/"+filename;
 			//if (QFile::exists(fileName)) {
@@ -275,6 +275,7 @@ namespace Xeml {
 				write_paramater(&story,_node);
 				write_observationPoint(&story,_node);
 				write_event(&story,_node);
+				write_sample(&story,_node);
 				QDomElement storysplit;
 				if((_node->get_childs()!=NULL) && (_node->get_childs()->size()!=0)){
 					std::cerr << "childs exist : " << _node->get_childs()->size() << std::endl;
@@ -290,6 +291,7 @@ namespace Xeml {
 						write_paramater(&storysplit,(*it));
 						write_observationPoint(&storysplit,(*it));
 						write_event(&storysplit,(*it));
+						write_sample(&storysplit,(*it));
 						story.appendChild(storysplit);
 						if(!(*it)->get_childs()->empty()){
 							write_substories(&storysplit,(*it));
@@ -312,6 +314,7 @@ namespace Xeml {
 				write_paramater(&storysplit,(*it));
 				write_observationPoint(&storysplit,(*it));
 				write_event(&storysplit,(*it));
+				write_sample(&storysplit,(*it));
 				_elem->appendChild(storysplit);
 				if((*it)->get_childs()!=NULL){
 					write_substories(&storysplit,(*it));
@@ -481,6 +484,7 @@ namespace Xeml {
 					}
 					if(ob->get_pool()!=NULL){
 						obs.setAttribute("poolNS",ob->get_pool()->get_ns());
+						std::cerr << "poolGermPlasm: " << ob->get_pool()->get_germplasm().toStdString() << std::endl;
 						obs.setAttribute("poolGermPlasm",ob->get_pool()->get_germplasm());
 						//std::cerr << "duration obs :" << ob->get_duration().toString("hh:mm:ss").toStdString() << std::endl;
 						obs.setAttribute("Duration",ob->get_duration().toString("hh:mm:ss"));
@@ -543,7 +547,7 @@ namespace Xeml {
 			}
 
 		}
-		void XemlDocument::write_event(QDomElement * _elem,StoryNode * _node){
+		void                  XemlDocument::write_event(QDomElement * _elem,StoryNode * _node){
 			for(std::map<Event*,QDateTime>::iterator it=_node->get_story()->get_eventcollection()->begin();it!=_node->get_story()->get_eventcollection()->end();++it){
 				QDomElement event=this->doc.createElement("xeml:Event");
 				//QDateTime timepoint=(*it).second;
@@ -555,6 +559,23 @@ namespace Xeml {
 				_elem->appendChild(event);
 			}
 
+
+		}
+		void                  XemlDocument::write_sample(QDomElement * _elem,StoryNode * _node){
+			for(std::vector<std::pair<Sample*,int> >::iterator it=_node->get_story()->get_samplesCollection()->begin();it!=_node->get_story()->get_samplesCollection()->end();++it){
+				QDomElement sample=this->doc.createElement("xeml:Sample");
+				Sample * s =static_cast<Sample*>((*it).first);
+				int id=static_cast<Sample*>((*it).first)->get_id();
+				std::cerr << "writing new sample with id :" << static_cast<Sample*>((*it).first)->get_id() << std::endl;
+				sample.setAttribute("Id",QString::number(id));
+				sample.setAttribute("TimeIntermix","Min");
+				_elem->appendChild(sample);
+				foreach (Partition* p, (*s->get_partitions())) {
+					QDomElement biosource=this->doc.createElement("xeml:BioSource");
+					biosource.setAttribute("partition",p->get_id());
+					sample.appendChild(biosource);
+				}
+			}
 
 		}
 
@@ -933,7 +954,7 @@ namespace Xeml {
 					InitObserverPoint(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Sample"){
-					//InitSample(QNL.item(i).toElement(),sns->get_isStorySplit());
+					InitSample(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Event"){
 					InitEvent(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
@@ -1287,6 +1308,53 @@ namespace Xeml {
 				}
 			}
 		}
+		void                  XemlDocument::InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase){
+			std::cerr << "entering init sample" << std::endl;
+			QDomNodeList QNL=_elem.childNodes();
+			Sample * s= new Sample();
+			int id =_elem.attributeNode("Id").value().toInt();
+			std::cerr << "initialize new sample with id : " << id << std::endl;
+
+			s->set_id(id);
+
+			for (int i = 0; i < QNL.length(); i++) {
+
+
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:BioSource"){
+					bool found= false;
+					int partId=QNL.item(i).toElement().attributeNode("partition").value().toInt();
+					storyBase->get_obsPointCollection();
+					for (std::vector< std::pair<ObservationPoint*,QDateTime> >::iterator it=storyBase->get_obsPointCollection()->begin();it!=storyBase->get_obsPointCollection()->end();++it){
+						ObservationPoint * op= static_cast<ObservationPoint*>((*it).first);
+						op->get_observationscollection();
+						for (std::vector< std::pair<Observation*,QDateTime> >::iterator it2=op->get_observationscollection()->begin();it2!=op->get_observationscollection()->end();++it2){
+							Observation * o = static_cast<Observation*>((*it2).first);
+							o->get_partitionCollection();
+							for (std::map<Partition*,int>::iterator it3=o->get_partitionCollection()->begin();it3!=o->get_partitionCollection()->end();++it3){
+								Partition * p =static_cast<Partition*>((*it3).first);
+								if (p->get_id()==partId){
+									s->add_partition(p);
+									found =true;
+								}
+							}
+							if (found){
+								break;
+							}
+
+						}
+						if (found){
+							break;
+						}
+
+					}
+
+				}
+
+			}
+			storyBase->add_sample(s);
+
+		}
+
 
 		QUuid                 XemlDocument::get_id(){
 			return this->Id;
@@ -1304,11 +1372,11 @@ namespace Xeml {
 			//std::cerr << "-------------2--"<< put_date_in_string(this->startDate) << std::endl;
 
 		}
-		QString             XemlDocument::get_obs_time(){
+		QString               XemlDocument::get_obs_time(){
 			return this->observationTime;
 		}
 
-		void                XemlDocument::set_obs_time(QString _time){
+		void                  XemlDocument::set_obs_time(QString _time){
 			this->observationTime=_time;
 		}
 
@@ -1365,7 +1433,7 @@ namespace Xeml {
 
 		//region helper
 
-		QString                XemlDocument::put_date_in_string(time_t _startdate){
+		QString               XemlDocument::put_date_in_string(time_t _startdate){
 
 			//char *_date;
 			QString date;
@@ -1388,13 +1456,13 @@ namespace Xeml {
 		QString               XemlDocument::put_id_in_Qstring(QUuid _id){
 			return _id.toString();
 		}
-		QString           XemlDocument::put_id_in_string(QUuid _id){
+		QString               XemlDocument::put_id_in_string(QUuid _id){
 			return _id.toString();
 		}
-		QString  XemlDocument::get_description(){
+		QString               XemlDocument::get_description(){
 			return this->description;
 		}
-		void XemlDocument::set_description(QString _description){
+		void                  XemlDocument::set_description(QString _description){
 			this->description=_description;
 		}
 	}

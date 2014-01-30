@@ -15,7 +15,9 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 	model->setHorizontalHeaderItem(5, new QStandardItem(QString("Free Annotation")));
 	model->setHorizontalHeaderItem(6, new QStandardItem(QString("Storyname")));
 	//model->horizontalHeaderItem(4)
-	this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	this->view->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch);
+	this->view->resizeColumnToContents(4);
+	//this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->view->horizontalHeader()->setStyleSheet("QHeaderView::section {"
 												  "background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 #616161, stop: 0.5 #505050,stop: 0.6 #434343, stop:1 #656565);"
 												  "color: white;"
@@ -132,11 +134,16 @@ void GermPlasmPanel::initialize(ItfDocument * _xemlDoc){
 				}
 				else{
 
+
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));
-					model->setItem(cpt,1,new GenotypeItem(tmplist.at(0)));
-					model->setItem(cpt,2,new GenotypeItem(tmplist.at(1)));
-					model->setItem(cpt,3,new GenotypeItem(tmplist.at(2)));
-					model->setItem(cpt,4,new GenotypeItem(tmplist.at(3)));
+					for (int i=1;i<=tmplist.size();i++){
+						model->setItem(cpt,i,new GenotypeItem(tmplist.at(i-1)));
+
+					}
+					//model->setItem(cpt,1,new GenotypeItem(tmplist.at(0)));
+					//model->setItem(cpt,2,new GenotypeItem(tmplist.at(1)));
+					//model->setItem(cpt,3,new GenotypeItem(tmplist.at(2)));
+					//model->setItem(cpt,4,new GenotypeItem(tmplist.at(3)));
 					model->setItem(cpt,6,new GenotypeItem(current->get_label()));
 
 				}

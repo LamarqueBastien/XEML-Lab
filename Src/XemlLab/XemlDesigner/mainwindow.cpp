@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	//QTextEdit *zoneTexte3 = new QTextEdit;
 	//graphicStoryView=new GraphicStoryView;
 	storyView= new StoryView;
-	ontologyView= new ParameterTreeView(this->fmg->get_current_xeml()->get_doc_resources());
+	ontologyView= new ParameterTreeView(true,this->fmg->get_current_xeml()->get_doc_resources());
 	genotypeView= new GenotypeView;
 	XemlCode=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
 	//std::cerr << this->fmg->get_current_xeml()->get_doc_resources()->get_xeoHandler()->size() << std::endl;

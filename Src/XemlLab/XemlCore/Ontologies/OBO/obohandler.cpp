@@ -414,6 +414,9 @@ namespace Xeml{
 							if(!file.exists()){
 								downloadManager->download_File(tmp_url,FileLocationPrefix);
 							}
+							else{
+								std::cerr << "Do you want to use ontologies from ressources or do you want to load new file"  << std::endl;
+							}
 							std::cerr << "file downloaded" <<std::endl;
 							delete downloadManager;
 							if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

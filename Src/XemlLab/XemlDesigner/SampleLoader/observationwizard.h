@@ -25,6 +25,7 @@ class ObservationWizard : public QWizard
 		StoryNode        * storyRoot;
 		ObservationPoint * obspoint;
 		ItfDocument      * xeml_doc;
+		StoryNode        * current_storynode;
 		//QWizardPage      * IntroPage;
 		//QWizardPage      * GenotypePage;
 		//QWizardPage      * ObservationPage;
@@ -36,7 +37,7 @@ class ObservationWizard : public QWizard
 
 		//enum { Page_Intro, Page_DataFile, Page_ParamSet, Page_Validation,
 				   //Page_Conclusion };
-		ObservationWizard(StoryNode * _root,ObservationPoint * _obs,DocumentResources  * _doc_resources,ItfDocument * _doc,  QWidget *parent = 0);
+		ObservationWizard(StoryNode * _current,StoryNode * _root,ObservationPoint * _obs,DocumentResources  * _doc_resources,ItfDocument * _doc,  QWidget *parent = 0);
 
 
 		//this function retrieve all informations collected

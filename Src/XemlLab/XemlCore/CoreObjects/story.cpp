@@ -8,6 +8,7 @@ namespace Xeml {
 
 			this->individualspoolcollection=new std::map<IndividualsPool*,QString>();
 			this->IsStorySplit=false;
+			this->sample_count=0;
 		}
 		Story::Story(QString _label)
 		{
@@ -53,6 +54,12 @@ namespace Xeml {
 			}
 			return NULL;
 
+		}
+		void Story::increment_sample_count(){
+			this->sample_count++;
+		}
+		int Story::get_sample_count(){
+			return this->sample_count;
 		}
 
 

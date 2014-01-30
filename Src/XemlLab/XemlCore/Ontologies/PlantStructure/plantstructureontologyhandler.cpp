@@ -19,7 +19,7 @@ namespace Xeml {
 									   this->FileLocationPrefix=QString("/home/bdartigues/cosmos/XemlLab/XemlDesigner/XEML/PO_Structure.obo");
 #endif
 */
-				this->FileLocationPrefix=QString("://XEML/PO_Structure.obo");
+				this->FileLocationPrefix=QString("://XEML/po_anatomy.obo");
 
                 //FileLocationPrefix="/Users/benjamindartigues/cosmos/XemlLab/XemlDesigner/XEML/PO_Structure.obo";
 			}

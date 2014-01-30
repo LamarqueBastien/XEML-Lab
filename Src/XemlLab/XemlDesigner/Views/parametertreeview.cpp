@@ -1,14 +1,29 @@
 #include "parametertreeview.h"
 
-ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
+ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources * _doc,QWidget *parent) :
 	QWidget(parent)
 {
 	this->doc_ressources=_doc;
 	QVBoxLayout * layout = new QVBoxLayout;
 	this->mode=false;
-	//this->parameterTree=new QTreeView;
-	this->parameterTree=new ParameterView;
-	this->parameterTree->setAnimated(true);
+	this->drag_and_drop_mode=_drag_and_drop_mode;
+	if (drag_and_drop_mode){
+		this->draggableParameterTree=new ParameterView;
+		this->draggableParameterTree->setAnimated(true);
+		this->draggableParameterTree->setObjectName("VariableTree");
+		this->draggableParameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+		this->draggableParameterTree->setAcceptDrops(true);
+		this->draggableParameterTree->setDragEnabled(true);
+	}
+	else{
+		this->parameterTree=new QTreeView;
+		this->parameterTree->setAnimated(true);
+		this->parameterTree->setObjectName("VariableTree");
+		this->parameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+	}
+
+
 	//this->parameterTree->setItemsExpandable(true);
 	//this->parameterTree->set
 	this->searchLabel=new QLabel("Search term");
@@ -17,10 +32,6 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	connect(this->search,SIGNAL(textChanged(QString)),this,SLOT(search_term(QString)));
 	//this->parameterTree->setStyleSheet("QTreeView {background-color: rgb(104,157,113);");
 
-	this->parameterTree->setObjectName("VariableTree");
-	this->parameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	this->parameterTree->setAcceptDrops(true);
-	this->parameterTree->setDragEnabled(true);
 
 	//this->setStyleSheet("QWidget { background-color: rgb(255,255,255); }");
 	//Users/benjamindartigues/GraphicView/Images/XemlLogo.png
@@ -28,70 +39,13 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	//this->setStyleSheet(styleSheet());
 
 	this->my_treeparameter= new QStandardItemModel;
-	//this->parameterTree->setStyleSheet("QTreeView::item {border: 1px solid #d9d9d9;border-top-color: transparent;border-bottom-color: transparent;}");
 
-	//*this->parameterTree->setStyleSheet("QTreeView::item:hover {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);border: 1px solid #bfcde4;}");
-
-	//this->parameterTree->setStyleSheet("background-color: rgb(104,157,113);");
-
-	//*this->parameterTree->setStyleSheet("background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);");
-
-	//this->parameterTree->setStyleSheet("QTreeView::item:selected {border: 1px solid #567dbc;}");
-
-	//this->parameterTree->setStyleSheet("QTreeView::item:selected:active{background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6ea1f1, stop: 1 #567dbc);}");
-	//this->parameterTree->setStyleSheet("QTreeView::item:selected:!active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6b9be8, stop: 1 #577fbf);}");
 	this->parameterInfo = new QPushButton("get definition variable");
-	//this->parameterInfo->style()->standardPalette().setColor(QPalette::Normal,QPalette::Background,QColor(Qt::blue));
-	//this->parameterInfo->setBackgroundRole(QPalette::Light);
-	/*
-	this->parameterInfo->setStyleSheet("QPushButton {"
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 2px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 12px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.75em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;}"
-			);//->setStyleSheet("background-color: rgb(255,255,255)");*/
+
 	this->addParameter = new QPushButton("add variable");
-	/*this->addParameter->setStyleSheet(
-				"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				"border-style: outset;"
-				"border-width: 2px;"
-				"border-radius: 10px;"
-				"border-color: beige;"
-				"font: bold 12px;"
-				"color:black;"
-				"min-width: 8em;"
-				"min-height: 0.75em;"
-			   " margin: 0 1px 0 1px;"
-				"color:rgb(0,0,0);"
-				"padding: 6px;"
-			);*///->setStyleSheet("background-color: rgb(255,255,255)");
+
 	this->addOntology = new QPushButton("manage ontology");
-	//QGraphicsDropShadowEffect * dse = new QGraphicsDropShadowEffect();
-	//dse->setBlurRadius(10);
-	//addOntology->setGraphicsEffect(dse);
-	//this->addOntology->setStyleSheet("background-color: rgb(255,255,255);""border-radius: 15px;");
-	/*addOntology->setStyleSheet(
-				 "background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-				 "border-style: outset;"
-				 "border-width: 2px;"
-				 "border-radius: 10px;"
-				 "border-color: beige;"
-				 "font: bold 12px;"
-				 "color:black;"
-				 "min-width: 8em;"
-				 "min-height: 0.75em;"
-				" margin: 0 1px 0 1px;"
-				 "color:rgb(0,0,0);"
-				 "padding: 6px;"
-			 );*/
+
 	this->parameterInfo->setCursor(Qt::PointingHandCursor);
 	this->addParameter->setCursor(Qt::PointingHandCursor);
 	this->addOntology->setCursor(Qt::PointingHandCursor);
@@ -99,7 +53,13 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	searchLayout->addWidget(searchLabel);
 	searchLayout->addWidget(search);
 	layout->addLayout(searchLayout);
-	layout->addWidget(this->parameterTree);
+	if (drag_and_drop_mode){
+		layout->addWidget(this->draggableParameterTree);
+	}
+	else{
+		layout->addWidget(this->parameterTree);
+	}
+
 	layout->addWidget(this->addOntology);
 	layout->addWidget(addParameter);
 	layout->addWidget(parameterInfo);
@@ -107,50 +67,24 @@ ParameterTreeView::ParameterTreeView(DocumentResources * _doc,QWidget *parent) :
 	QString WindowObjectName("OntologyTree");
 	this->setObjectName(WindowObjectName);
 	this->setAcceptDrops(true);
-	//this->setStyleSheet("QWidget#"+WindowObjectName +"{background-color: rgb(225,206,154);}"+"QToolTip { color: #fff; background-color: #000; border: none; }");
 	setLayout(layout);
-	//this->setStyleSheet("background-color: rgb(104,157,113);");
-					//"background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
-					//"background-color: rgb(225,206,154);"
-	/*
-					"background-color: rgb(104,157,113);"
-					"border-style: outset;"
-					"border-width: 1px;"
-					"border-radius: 10px;"
-					"border-color: beige;"
-					"font: bold 12px;"
-					"color:black;"
-					"min-width: 8em;"
-					"min-height: 0.95em;"
-					"margin: 0 1px 0 1px;"
-					"color:rgb(0,0,0);"
-					"padding: 15px;"
-				);
-				*/
+
 	connect(addParameter,SIGNAL(clicked()),this,SLOT(add_parameter()));
 	connect(addOntology,SIGNAL(clicked()),this,SLOT(add_ontology()));
 	connect(parameterInfo,SIGNAL(clicked()),this,SLOT(showSelection()));
 
 }
-//void ParameterTreeView::paintEvent(QPaintEvent *){
-	//QStyleOption opt;
-	//opt.init(this);
-	//QPainter p(this);
-	//style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-//}
+
 bool                                       ParameterTreeView::contains(TermNode * _node,std::list<TermNode*> * _processed_nodes,QString _namespace){
 	//std::cerr << "entering contains" << std::endl;
 	if(_namespace=="XEO_Positioning"){
 		for(std::list<TermNode*>::iterator it=_processed_nodes->begin();it!=_processed_nodes->end();++it){
-			//std::cerr << "loop turn" << std::endl;
 			if((*it)->get_label()==_node->get_label()){
-				//std::cerr << "true" << std::endl;
 				return true;
 
 
 			}
 		}
-		//std::cerr << "false" << std::endl;
 		return false;
 	}
 
@@ -159,26 +93,28 @@ bool                                       ParameterTreeView::contains(TermNode 
 		for(std::list<TermNode*>::iterator it=_processed_nodes->begin();it!=_processed_nodes->end();++it){
 			if((*it)->get_label()+" ("+(*it)->get_term()->get_termId()+")"==_node->get_label()+" ("+_node->get_term()->get_termId()+")"){
 				return true;
-				//std::cerr << "true" << std::endl;
 
 			}
 		}
-		//std::cerr << "false" << std::endl;
 		return false;
 	}
 }
 void ParameterTreeView::search_term(QString _term){
-	this->parameterTree->expandAll();
-	this->parameterTree->keyboardSearch(_term);
-	//this->parameterTree->keyboardGrabber();
+	if(drag_and_drop_mode){
+		this->draggableParameterTree->expandAll();
+		this->draggableParameterTree->keyboardSearch(_term);
+	}
+	else{
+		this->parameterTree->expandAll();
+		this->parameterTree->keyboardSearch(_term);
+	}
+
 
 }
 
 void ParameterTreeView::add_ontology(){
 	std::cerr << "entering add_ontology()" << std::endl;
 	OntologyPanel * onto=new OntologyPanel;
-	//std::cerr << this->doc_ressources->get_xeoHandler()->size()<< std::endl;
-	//if(this->doc_ressources->contains("XEO"))
 	onto->initialize(this->doc_ressources);
 	onto->show();
 	connect(onto,SIGNAL(ontologies_to_load(bool,bool,bool)),this,SLOT(send_ontologies(bool,bool,bool)));
@@ -190,8 +126,6 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,QString _namespace){
 	if(node->get_parent()==NULL){
 		this->my_treeparameter->findItems(_namespace,Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(new ParameterItem(_namespace,node,node->get_label(),node->get_term(),true));
 		for(std::list<AttributeRelation<TermNode*>*>::iterator it=node->get_childs()->begin();it!=node->get_childs()->end();++it){
-			//if(findNode((*it)->relation,termId)!=NULL){
-		//for (std::list<TermNode*>::iterator it = node->get_childs()->begin();it!=node->get_childs()->end();++it){
 			buildNodeHierarchy((*it)->relation,node->get_label());
 		}
 	}
@@ -322,17 +256,35 @@ void ParameterTreeView::set_up_Ontologytree(DocumentResources * _doc,QStringList
 
 
 
-	this->parameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
-	//this->parameterTree->header()->setStretchLastSection(false);
-	this->parameterTree->setModel(this->my_treeparameter);
-	this->parameterTree->setMouseTracking(true);
-	this->parameterTree->header()->hide();
+	if(drag_and_drop_mode){
+		this->draggableParameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
+		//this->parameterTree->header()->setStretchLastSection(false);
+		this->draggableParameterTree->setModel(this->my_treeparameter);
+		this->draggableParameterTree->setMouseTracking(true);
+		this->draggableParameterTree->header()->hide();
+	}
+	else{
+		this->parameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
+		//this->parameterTree->header()->setStretchLastSection(false);
+		this->parameterTree->setModel(this->my_treeparameter);
+		this->parameterTree->setMouseTracking(true);
+		this->parameterTree->header()->hide();
+	}
+
 }
 
 void ParameterTreeView::showSelection()
 {
-	QItemSelectionModel * selection = this->parameterTree->selectionModel();
+	QItemSelectionModel * selection;
+	if(drag_and_drop_mode){
+			selection = this->draggableParameterTree->selectionModel();
+	}
+	else{
+			selection = this->parameterTree->selectionModel();
+	}
+
 	QModelIndex indexelementselected= selection->currentIndex();
+
 	if(selection->isSelected(indexelementselected)){
 		ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(indexelementselected));
 		QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
@@ -359,8 +311,16 @@ void ParameterTreeView::showSelection()
 }
 void ParameterTreeView::add_parameter()
 {
+	QItemSelectionModel * selection;
 	std::cerr << "entering add_parameter (ParameterTreeView)" << std::endl;
-	QItemSelectionModel * selection = this->parameterTree->selectionModel();
+	if(drag_and_drop_mode){
+			selection = this->draggableParameterTree->selectionModel();
+	}
+	else{
+			selection = this->parameterTree->selectionModel();
+	}
+
+
 	QModelIndex indexelementselected= selection->currentIndex();
 	if(selection->isSelected(indexelementselected)){
 		std::cerr << "is selected (ParameterTreeView)" << std::endl;
@@ -372,7 +332,7 @@ void ParameterTreeView::add_parameter()
 				QMessageBox::information(this,"added element","can't add a root term "+ tmp->get_term()->get_prototype()->get_name()+ " to a story");
 			}
 			else{
-				std::cerr << "emit message on parameterselected (ParameterTreeView)" << std::endl;
+				std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
 				emit onParameterselected(tmp->get_term());
 			}
 		}

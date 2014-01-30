@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 	db.setPassword("bD1#popi");
 	db.setPort(5432);
 	db.setDatabaseName("postgres");
-	*/
+
 
 
 	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
@@ -125,12 +125,15 @@ int main(int argc, char *argv[])
 	//QString ipserver,LoginName,database,Pass;
 
 
-		/*
-	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC3");
 
-	db.setDatabaseName("DRIVER={SQL Server (MSSQLSERVER)};Server=147.100.103.188;Database=PlatoDB;Uid=LabDesigner;Pwd=glucose;");
-	db.setHostName("147.100.103.188");
-	*/
+	//QSqlDatabase db = QSqlDatabase::addDatabase("QODBC3");
+
+	//db.setDatabaseName("DRIVER={SQL Server (MSSQLSERVER)};Server=147.100.103.188;Database=PlatoDB;Uid=LabDesigner;Pwd=glucose;");
+	//db.setHostName("147.100.103.188");
+
+
+
+
 	//db.setHostName("147.100.103.188");
 	//db.setUserName("labdesigner");
 	//db.setPassword("glucose");
@@ -182,15 +185,15 @@ int main(int argc, char *argv[])
 			std::cerr << "Une erreur s'est produite. :(" << std::endl << query.lastError().text().toStdString() << std::endl;
 		}
 
-		/*
-		QSqlQuery query1("select * from weather");
-			 while (query1.next()) {
+
+		//QSqlQuery query1("select * from weather");
+			// while (query1.next()) {
 				 //QString country = query1.value(0).toString();
 				 //std::cerr << country.toStdString() << std::endl;
-				 std::cout << "column number  : " << query1.record().count() << std::endl;
-			 }
+				// std::cout << "column number  : " << query1.record().count() << std::endl;
+			 //}
 
-			 */
+
 		db.close();
 
 	}
@@ -200,6 +203,7 @@ int main(int argc, char *argv[])
 		std::cerr << "drivertext : " << db.lastError().driverText().toStdString() << std::endl;
 		//std::cerr << db.lastError().text().toStdString() <<"La connexion a échouée, désolé" << std::endl;
 	}
+	*/
 
 
 	/************************************************

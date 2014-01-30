@@ -137,6 +137,6 @@ void ObservationPointPanel::display_selected_item(QModelIndex _QMI){
 	this->model->index(row_num,2).data();
 	StoryNode * rootStory=get_root_story_node(this->storyNode);
 	ObservationPoint * current_OP = get_obsPoint_byId(this->model->index(row_num,0).data().toInt());
-	this->obsWizard =new ObservationWizard(rootStory,current_OP,this->doc_resources,this->doc,this);
+	this->obsWizard =new ObservationWizard(this->storyNode,rootStory,current_OP,this->doc_resources,this->doc,this);
 	this->obsWizard->show();
 }

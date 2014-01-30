@@ -25,10 +25,10 @@ ObservationMaterialPage::ObservationMaterialPage(DocumentResources * _doc_resour
 	this->replica = new QLabel("Replica") ;
 	this->repBox=new QSpinBox;
 	this->replica->setBuddy(this->repBox);
-	this->structView= new ParameterTreeView(this->doc_resources);
+	this->structView= new ParameterTreeView(false,this->doc_resources);
 	connect(this->structView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this,SLOT(get_structTerm(ItfOntologyTerm*)));
 
-	this->posView=new ParameterTreeView(this->doc_resources);
+	this->posView=new ParameterTreeView(false,this->doc_resources);
 	connect(this->posView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this,SLOT(get_posTerm(ItfOntologyTerm*)));
 
 

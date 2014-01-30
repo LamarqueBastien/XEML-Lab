@@ -10,7 +10,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 
 
-	my_treeView= new ParameterTreeView(this->doc_resources);
+	my_treeView= new ParameterTreeView(false,this->doc_resources);
 	connect(this->my_treeView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this,SLOT(get_term(ItfOntologyTerm*)));
 	germplasmEdit = new QLineEdit;
 	germLabel = new QLabel("GermPlasm");

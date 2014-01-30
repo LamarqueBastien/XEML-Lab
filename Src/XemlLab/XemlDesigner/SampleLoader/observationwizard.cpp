@@ -4,13 +4,14 @@
 #include"observationdetailspage.h"
 #include"observationmaterialpage.h"
 
-ObservationWizard::ObservationWizard(StoryNode * _root,ObservationPoint * _obs,DocumentResources * _doc_resources,ItfDocument * _doc, QWidget *parent)
+ObservationWizard::ObservationWizard(StoryNode * _current,StoryNode * _root,ObservationPoint * _obs,DocumentResources * _doc_resources,ItfDocument * _doc, QWidget *parent)
 	: QWizard(parent)
 {
 	this->setMinimumHeight(700);
 	this->setMinimumWidth(1100);
 	this->doc_resources = _doc_resources;
 	this->storyRoot=_root;
+	this->current_storynode=_current;
 	this->obspoint = _obs;
 	this->xeml_doc=_doc;
 
@@ -23,6 +24,7 @@ ObservationWizard::ObservationWizard(StoryNode * _root,ObservationPoint * _obs,D
 
 }
 void ObservationWizard::accept(){
+	std::cerr << "entering accept end of sample loader" << std::endl;
 	//int replica=field("Replica").toInt();
 	this->indexlist=new QModelIndexList;
 	(*indexlist)=static_cast<QItemSelectionModel*>(field("genViewSelection").value<QItemSelectionModel*>())->selectedRows();
@@ -37,6 +39,11 @@ void ObservationWizard::accept(){
 				for(int i = 0; i<field("Individuals").toInt();i++){
 
 					Individual * ind = new Individual(1+ rand() % 1000000000);
+
+					Sample * s=new Sample();
+					static_cast<Story*>(this->storyRoot->get_story())->increment_sample_count();
+					s->set_id(static_cast<Story*>(this->storyRoot->get_story())->get_sample_count());
+					this->current_storynode->get_story()->add_sample(s);
 					static_cast<IndividualsPool*>((*it).first)->add_Individual(ind);
 
 					Observation * ob = new Observation();
@@ -64,7 +71,7 @@ void ObservationWizard::accept(){
 
 								devTerm->add_tagged_annotation((*it2).first);
 							}
-							delete test;
+							//delete test;
 						}
 					}
 
@@ -86,7 +93,7 @@ void ObservationWizard::accept(){
 
 								//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
 							}
-							delete test;
+							//delete test;
 
 						}
 					}

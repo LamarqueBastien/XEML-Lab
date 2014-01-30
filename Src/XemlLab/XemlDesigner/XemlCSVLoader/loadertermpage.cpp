@@ -25,7 +25,7 @@ LoaderTermPage::LoaderTermPage(DocumentResources * _xeml_res,QWidget * parent)
 	this->ontoBox->addItem("EnvO");
 	leftlayout->addWidget(this->ontoBox);
 
-	this->onto_trees=new ParameterTreeView(this->xeml_res);
+	this->onto_trees=new ParameterTreeView(false,this->xeml_res);
 	QStringList * dev_onto = new QStringList;
 	dev_onto->append("XEO");
 	this->onto_trees->set_up_Ontologytree(this->xeml_res,dev_onto);

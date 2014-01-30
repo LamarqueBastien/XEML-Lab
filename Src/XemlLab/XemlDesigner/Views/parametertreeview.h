@@ -30,8 +30,8 @@ class ParameterTreeView : public QWidget
 		Q_OBJECT
 
 	private:
-		ParameterView                            * parameterTree;
-		//QTreeView                                * parameterTree;
+		ParameterView                            * draggableParameterTree;
+		QTreeView                                * parameterTree;
 		QPushButton                              * parameterInfo;
 		QPushButton                              * addParameter;
 		QPushButton                              * addOntology;
@@ -40,8 +40,9 @@ class ParameterTreeView : public QWidget
 		QStandardItemModel                       * my_treeparameter;
 		DocumentResources                        * doc_ressources;
 		bool                                       mode;
+		bool                                       drag_and_drop_mode;
 	public:
-		explicit                                   ParameterTreeView(DocumentResources * _doc,QWidget *parent = 0);
+		explicit                                   ParameterTreeView(bool _drag_and_drop_mode,DocumentResources * _doc,QWidget *parent = 0);
 		bool                                       contains(TermNode * _node,std::list<TermNode*> * _processed_nodes,QString _namespace);
 		void                                       buildNodeHierarchy(TermNode * node,std::list<TermNode*> * _processed_nodes, ParameterItem * _tmp_item,QString _namespace);
 		void                                       buildNodeHierarchy(TermNode * node,QString _namespace);

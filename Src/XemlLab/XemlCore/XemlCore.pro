@@ -78,7 +78,12 @@ SOURCES += \
     Ontologies/PlantStructure/plantstructureontologyhandler.cpp \
     Ontologies/Positioning/posterm.cpp \
     Ontologies/Positioning/positioningontologyhandler.cpp \
-    Test/coreobjecttest.cpp
+    Test/coreobjecttest.cpp \
+    ISA-export/investigation.cpp \
+    ISA-export/study.cpp \
+    ISA-export/assay.cpp \
+    CoreObjects/sample.cpp \
+    CoreObjects/sampleidentification.cpp
 
 
 HEADERS += \
@@ -155,7 +160,12 @@ HEADERS += \
     Ontologies/PlantStructure/plantstructureontologyhandler.h \
     Ontologies/Positioning/posterm.h \
     Ontologies/Positioning/positioningontologyhandler.h \
-    Test/coreobjecttest.h
+    Test/coreobjecttest.h \
+    ISA-export/investigation.h \
+    ISA-export/study.h \
+    ISA-export/assay.h \
+    CoreObjects/sample.h \
+    CoreObjects/sampleidentification.h
 
 unix:!symbian {
     maemo5 {

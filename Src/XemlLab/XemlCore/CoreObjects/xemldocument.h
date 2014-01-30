@@ -137,6 +137,7 @@ namespace Xeml {
 				void                write_values(QDomElement * _elem,ValueBase * _dvb);
 				void                write_observationPoint(QDomElement * _elem,StoryNode * _node);
 				void                write_event(QDomElement * _elem,StoryNode * _node);
+				void                write_sample(QDomElement * _elem,StoryNode * _node);
 
 				//endregion
 
@@ -152,6 +153,8 @@ namespace Xeml {
 				void                InitObserverPoint(QDomElement _elem,bool _isStorySplit, StoryBase * storyBase);
 				void				InitPartitions(QDomElement _elem,Observation * _ob);
 				void				InitDevelopmentalStage(QDomElement _elem,Observation * _ob);
+				void                InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase);
+
 				//void                InitData(XPathNavigator xpn);
 				//void                InitSampleMapping(SidMapping sid, int sampleId, XPathNavigator xpn);
 				//void                InitSample(XPathNavigator xPathNavigator, StoryBase storyBase);

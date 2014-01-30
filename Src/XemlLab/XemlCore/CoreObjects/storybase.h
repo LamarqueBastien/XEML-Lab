@@ -14,6 +14,7 @@
 //#include "variablecollection.h"
 //#include"storyboard.h"
 #include "CoreObjects/timespan.h"
+#include"CoreObjects/sample.h"
 #include<QDateTime>
 using std::pair;
 using std::make_pair;
@@ -32,6 +33,7 @@ namespace Xeml {
 				std::map<Event*,QDateTime>::iterator                   iter;
 				bool                                                   IsStorySplit;
 				std::vector<std::pair<BasicTerm*,QString> >          * variablesCollection;
+				std::vector<std::pair<Sample*,int> >                 * samplesCollection;
 				std::vector<std::pair<ObservationPoint*,QDateTime> > * observationPointcollection;
 
 
@@ -64,6 +66,8 @@ namespace Xeml {
 				int                                                    count_event();
 				std::map<Event*,QDateTime>                           * get_eventcollection();
 				std::vector<std::pair<BasicTerm*,QString> >          * get_variablesCollection();
+				std::vector<std::pair<Sample*,int> >                 * get_samplesCollection();
+				void                                                   add_sample(Sample * _s);
 				ObservationPoint                                     * get_obsPoint(int _id);
 				bool                                                   get_IsStorySplit();
 				void                                                   set_IsStorySplit(bool _IsStorySplit);

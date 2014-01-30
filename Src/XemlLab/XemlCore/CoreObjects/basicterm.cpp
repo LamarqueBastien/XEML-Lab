@@ -68,6 +68,7 @@ namespace Xeml {
 			return this->TaggedannotationCollection;
 		}
 		void BasicTerm::add_tagged_annotation(TaggedAnnotation *TA){
+
 			(*this->TaggedannotationCollection)[TA]=TA->getTag();
 		}
 

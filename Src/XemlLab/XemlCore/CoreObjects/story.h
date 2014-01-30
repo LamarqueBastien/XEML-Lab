@@ -15,18 +15,21 @@ namespace Xeml {
 			private:
 				std::map<IndividualsPool*,QString> *         individualspoolcollection;
 				std::map<IndividualsPool*,QString>::iterator iter;
+				int sample_count;
 
 
 			public:
 				Story();
 				Story(QString _label);
 				~Story();
-				QString                                      get_label();
-				void											 set_label(QString _label);
+				QString                                          get_label();
+				void                                             set_label(QString _label);
 				void                                             add_individualspool(IndividualsPool * _individualspool);
 				void                                             display_all_individualspools();
-				std::map<IndividualsPool*,QString> *         get_individualspoolcollection();
-				IndividualsPool *								 find(QString _fullname);
+				std::map<IndividualsPool*,QString>             * get_individualspoolcollection();
+				IndividualsPool *                                find(QString _fullname);
+				void                                             increment_sample_count();
+				int                                              get_sample_count();
 
 		};
 	}

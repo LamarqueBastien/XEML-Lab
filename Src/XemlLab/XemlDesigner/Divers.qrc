@@ -36,6 +36,7 @@
         <file>Images/StoryLogo.png</file>
         <file>StyleSheet/style.qss</file>
         <file>StyleSheet/html.css</file>
+        <file>XEML/po_anatomy.obo</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

@@ -8,6 +8,7 @@ namespace Xeml {
 			this->eventcollection = new std::map<Event*,QDateTime>();
 			this->variablesCollection = new std::vector<std::pair<BasicTerm*,QString> >();
 			this->observationPointcollection = new std::vector<std::pair<ObservationPoint*,QDateTime> >();
+			this->samplesCollection= new std::vector<std::pair<Sample*,int> >();
 		}
 		StoryBase::~StoryBase(void){
 
@@ -34,6 +35,9 @@ namespace Xeml {
 				delete (*it).first;
 			}
 			this->TaggedannotationCollection->clear();
+		}
+		std::vector<std::pair<Sample*,int> >                 * StoryBase::get_samplesCollection(){
+			return this->samplesCollection;
 		}
 
 		std::map<TaggedAnnotation*,QString>                  * StoryBase::get_taggedannotation(){
@@ -131,6 +135,10 @@ namespace Xeml {
 
 			this->variablesCollection->push_back(std::make_pair(t,t->get_termId()));
 		}
+		void                                                   StoryBase::add_sample(Sample * _s){
+			this->samplesCollection->push_back(std::make_pair(_s,_s->get_id()));
+		}
+
 		void                                                   StoryBase::rm_variable(QString _termId){
 			std::vector<std::pair<BasicTerm*,QString> >::iterator it_to_erase;
 			for (std::vector<std::pair<BasicTerm*,QString> >::iterator it= this->variablesCollection->begin();it!=this->variablesCollection->end();++it){

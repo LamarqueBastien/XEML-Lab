@@ -67,9 +67,9 @@ GenotypeView::GenotypeView(QWidget *parent) :
 	connect(this->removeGenotype,SIGNAL(clicked()),this,SLOT(remove_genotype()));
 	connect( this->Edit,SIGNAL(clicked()),this,SLOT(edit_genotype()));
 
-	QVBoxLayout * layout = new QVBoxLayout;
+	QHBoxLayout * layout = new QHBoxLayout;
 	layout->addWidget(this->gpp);
-	QHBoxLayout * bottomLayout=new QHBoxLayout;
+	QVBoxLayout * bottomLayout=new QVBoxLayout;
 	bottomLayout->addStretch();
 	bottomLayout->addWidget(Edit);
 	bottomLayout->addWidget(removeGenotype);
