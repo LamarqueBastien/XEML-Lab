@@ -463,7 +463,7 @@ namespace Xeml {
 				//std::cerr << "ObsPoint Id : " << (*it).first->get_id() << " Msecs : " << milliseconds_ellapsed << std::endl;
 				//test_debug=(*it).first;
 
-				obspoint.setAttribute("TargetTime",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
+				//obspoint.setAttribute("TargetTime",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
 				//obspoint.setAttribute("TargetTime",(*it).second.toString("dd.hh:mm:ss"));
 				write_annotation(&obspoint,(*it).first);
 				for(std::vector<pair<Observation*,QDateTime> >::iterator it2=(*it).first->get_observationscollection()->begin();it2!=(*it).first->get_observationscollection()->end();++it2){
@@ -484,7 +484,7 @@ namespace Xeml {
 					}
 					if(ob->get_pool()!=NULL){
 						obs.setAttribute("poolNS",ob->get_pool()->get_ns());
-						std::cerr << "poolGermPlasm: " << ob->get_pool()->get_germplasm().toStdString() << std::endl;
+						//std::cerr << "poolGermPlasm: " << ob->get_pool()->get_germplasm().toStdString() << std::endl;
 						obs.setAttribute("poolGermPlasm",ob->get_pool()->get_germplasm());
 						//std::cerr << "duration obs :" << ob->get_duration().toString("hh:mm:ss").toStdString() << std::endl;
 						obs.setAttribute("Duration",ob->get_duration().toString("hh:mm:ss"));

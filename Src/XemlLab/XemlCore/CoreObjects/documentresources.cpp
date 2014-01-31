@@ -134,6 +134,7 @@ namespace Xeml{
 					}
 					case Xeml::Document::Contracts::EO:
 					{
+
 						for (std::map<QString,OntologyHandlerResources*>::iterator it=this->EOOntologyHandler->begin();it!=this->EOOntologyHandler->end();it++){
 							if (it->first==ohr->get_namespace()){
 								delete it->second;

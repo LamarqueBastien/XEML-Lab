@@ -192,7 +192,8 @@ void    MainWindow::loadResources(){
 // add to this document resources and load it.
 
 void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envoIsChecked){
-	QFile xml_doc(":/default.xeml");
+	//QFile xml_doc(":/default.xeml");
+	QFile xml_doc(this->curFile);
 	QStringList * onto_to_load=new QStringList;
 	QStringList * onto_to_remove=new QStringList;
 	if(_xeoIsChecked && !(this->fmg->get_current_xeml()->get_doc_resources()->contains("XEO",Xeml::Document::Contracts::Environment))){
