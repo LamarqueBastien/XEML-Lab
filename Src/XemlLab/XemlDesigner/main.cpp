@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 	if(db.open())
 	  {
 	   qDebug() << "Opened";
-	   db.close();
+	   //db.close();
 	  }
 	  else{
 		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 	if(db.open())
 	{
 		QStringList list=db.tables();
-		record=db.record("weather");
+		//record=db.record("weather");
 
 		std::cerr << "number of tables : " << list.size() << std::endl;
 
@@ -193,18 +193,18 @@ int main(int argc, char *argv[])
 		query = QSqlQuery (db);
 
 
-		if(query.exec("select * from weather"))
-		{
-			std::cerr <<  "column number  : " <<query.record().count() << std::endl;
-			for (int i =0;i<query.record().count();i++){
-				std::cerr << "firts column : " << record.fieldName(i).toStdString() << std::endl;
-			}
+		//if(query.exec("select * from weather"))
+		//{
+		//	std::cerr <<  "column number  : " <<query.record().count() << std::endl;
+		//	for (int i =0;i<query.record().count();i++){
+		//		std::cerr << "firts column : " << record.fieldName(i).toStdString() << std::endl;
+		//	}
 			//std::cerr << query.record().value("city").toStringList()[0].toStdString() << std::endl;
-		}
-		else
-		{
-			std::cerr << "Une erreur s'est produite. :(" << std::endl << query.lastError().text().toStdString() << std::endl;
-		}
+		//}
+		//else
+		//{
+		//	std::cerr << "Une erreur s'est produite. :(" << std::endl << query.lastError().text().toStdString() << std::endl;
+		//}
 
 
 		//QSqlQuery query1("select * from weather");
