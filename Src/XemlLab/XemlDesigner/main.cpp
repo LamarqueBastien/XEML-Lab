@@ -187,10 +187,11 @@ int main(int argc, char *argv[])
 
 		std::cerr << "number of tables : " << list.size() << std::endl;
 
-		std::cerr << "Vous êtes maintenant connecté à " << db.hostName().toStdString() << std::endl;
 
-		QSqlQuery query;
-		query = QSqlQuery (db);
+		//std::cerr << "Vous êtes maintenant connecté à " << db.hostName().toStdString() << std::endl;
+
+		//QSqlQuery query;
+		//query = QSqlQuery (db);
 
 
 		//if(query.exec("select * from weather"))
