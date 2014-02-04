@@ -91,25 +91,45 @@ int main(int argc, char *argv[])
 	*************************************************/
 
 
-/*
-	QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
+
+	//QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
 	//147.100.103.188
-	db.setHostName("localhost");
-	db.setUserName("postgres");
-	db.setPassword("bD1#popi");
-	db.setPort(5432);
-	db.setDatabaseName("postgres");
+	//db.setHostName("localhost");
+	//db.setUserName("postgres");
+	//db.setPassword("bD1#popi");
+	//db.setPort(5432);
+	//db.setDatabaseName("postgres");
 
+		//147.100.103.188
+		//127.0.0.1
 
+	//QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
 
-	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-	//147.100.103.188
-	//127.0.0.1
-	db.setHostName("147.100.103.188");
-	db.setUserName("bdartigues");
-	db.setPassword("bD1#popi");
-	db.setPort(1433);
-	db.setDatabaseName("PlatoDB");
+	//db.setHostName("147.100.103.188");
+	//db.setUserName("labdesigner");
+	//db.setPassword("glucose");
+	//db.setPort(1433);
+	//db.setDatabaseName("PlatoDB");
+
+	QString ipserver,LoginName,database,Pass;
+	ipserver="147.100.103.188";
+	LoginName="labdesigner";
+	database="PlatoDB";
+	Pass="glucose";
+	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", "PlatoDB");
+
+	db.setDatabaseName("DRIVER={SQL Server};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+
+	if(db.open())
+	  {
+	   qDebug() << "Opened";
+	   db.close();
+	  }
+	  else{
+		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
+	   //qDebug() << "Error" << *db*.lastError().text();
+	}
+
 
 
 
@@ -117,6 +137,7 @@ int main(int argc, char *argv[])
 	//db.setHostName("147.100.103.188");
 	//db.setDatabaseName("PlatoDB");
 	//147.100.103.188
+	//db.setDatabaseName("DRIVER={OpenLink SQL Server Lite Driver v6.0};UID=labdesigner;PWD=glucose;DATABASE=PlatoDB;TDSHOST=147.100.103.188;TDSPORT=1433");
 
 	//db.setDatabaseName("DRIVER={SQL SERVER}; SERVER=147.100.103.188; DATABASE=PlatoDB");
 
@@ -199,11 +220,11 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		std::cerr << "dbtext " << db.lastError().databaseText().toStdString()  <<  std::endl;
+		std::cerr << "dbtext : " << db.lastError().databaseText().toStdString()  <<  std::endl;
 		std::cerr << "drivertext : " << db.lastError().driverText().toStdString() << std::endl;
 		//std::cerr << db.lastError().text().toStdString() <<"La connexion a échouée, désolé" << std::endl;
 	}
-	*/
+
 
 
 	/************************************************
