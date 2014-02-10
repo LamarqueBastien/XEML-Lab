@@ -12,6 +12,7 @@ namespace Xeml {
 			this->experimentheader=new ExperimentHeader();
 			this->documentResources= new DocumentResources();
 			this->storyBoard = new StoryBoard();
+			this->providerdata=new ProviderDataMappings();
 			this->uri="http://www.mpimp-golm.mpg.de/2009/XEML/XemlDocument";
 			this->xmlNameSpace= "http://www.mpimp-golm.mpg.de/2009/XEML";
 			this->XemlVersion= "1.1.0";
@@ -103,6 +104,20 @@ namespace Xeml {
 					write_stories((*it),(*it)->get_parent());
 
 				}
+			}
+			if (this->providerdata->count()>0){
+
+				QDomElement data= this->doc.createElement("xeml:Data");
+				root.appendChild(data);
+				for (std::vector<std::pair<QString, std::vector<std::pair<SampleIdMapping*,int> > *> >::iterator it=this->providerdata->get_provider()->begin();it!=this->providerdata->get_provider()->end();++it){
+					QString providername=static_cast<QString>((*it).first);
+					std::vector<std::pair<SampleIdMapping*,int> > * sampleIdVector=static_cast<std::vector<std::pair<SampleIdMapping*,int> > *>((*it).second);
+					for (std::vector<std::pair<SampleIdMapping*,int> >::iterator it2 = sampleIdVector->begin();it2!=sampleIdVector->end();++it2){
+						write_sample_mappings(&data,(*it2).second,providername);
+					}
+				}
+
+
 			}
 			QTextStream out(&file);
 			out.setCodec("UTF-8");
@@ -561,6 +576,13 @@ namespace Xeml {
 
 
 		}
+		void                  XemlDocument::write_sample_mappings(QDomElement * _elem,int _sampleId,QString _providerName){
+			QDomElement sampleMapping=this->doc.createElement("xeml:SampleMapping");
+			_elem->appendChild(sampleMapping);
+			sampleMapping.setAttribute("sample",_sampleId);
+
+		}
+
 		void                  XemlDocument::write_sample(QDomElement * _elem,StoryNode * _node){
 			for(std::vector<std::pair<Sample*,int> >::iterator it=_node->get_story()->get_samplesCollection()->begin();it!=_node->get_story()->get_samplesCollection()->end();++it){
 				QDomElement sample=this->doc.createElement("xeml:Sample");
@@ -762,6 +784,10 @@ namespace Xeml {
 						InitRessources(noeud.toElement());
 
 					}
+					if(noeud.toElement().tagName().toStdString()=="xeml:Data"){
+						InitData(noeud.toElement());
+
+					}
 					if(noeud.toElement().tagName().toStdString()=="xeml:Experiment"){
 						this->set_experiment_name(noeud.toElement().attributeNode("Name").value());
 						QString x = noeud.toElement().attributeNode("Id").value();
@@ -838,6 +864,105 @@ namespace Xeml {
 				}
 			}
 		}
+		void                  XemlDocument::InitData(QDomElement  elem){
+			std::cerr << "entering init data () function" << std::endl;
+			this->providerdata->clear();
+			QDomNodeList QNL=elem.childNodes();
+			for (int i = 0; i < QNL.length(); i++) {
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:SampleMapping"){
+					int sampleId=QNL.item(i).toElement().attributeNode("sample").value().toInt();
+					QDomNodeList QNL_sub=QNL.item(i).toElement().childNodes();
+					for (int j = 0; j < QNL_sub.length(); j++) {
+						if(QNL_sub.item(j).toElement().tagName().toStdString()=="xeml:Sid"){
+							QString prov=QNL_sub.item(j).toElement().attributeNode("provider").value();
+							SampleIdMapping * sid=new SampleIdMapping(sampleId);
+							InitSampleMapping(QNL_sub.item(j).toElement(),sid);
+							InitAnnotations(QNL_sub.item(j).toElement(),sid);
+							if(!providerdata->contain_key(prov)){
+								this->providerdata->add(prov,new std::vector<std::pair<SampleIdMapping*,int> >());
+							}
+
+							if(this->providerdata->contain_sid(sid,this->providerdata->get_sample_id_mapping_by_provider(prov),prov)){
+								std::cerr << "error : Double  usage of Sid Mapping" << std::endl;
+
+							}
+							else{
+								this->providerdata->get_sample_id_mapping_by_provider(prov)->push_back(make_pair(sid,sid->get_sampleId()));
+							}
+
+						}
+					}
+				}
+
+			}
+		}
+		void                  XemlDocument::InitSampleMapping(QDomElement  elem,SampleIdMapping * sid){
+			std::cerr << "entering init sample mapping () function" << std::endl;
+			QDomNodeList QNL=elem.childNodes();
+			for (int i = 0; i < QNL.length(); i++) {
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Subkey"){
+					std::cerr << "subkey :" << QNL.item(i).toElement().attributeNode("Name").value().toStdString() << std::endl;
+					QString keyname=QNL.item(i).toElement().attributeNode("Name").value();
+					QString value=QNL.item(i).toElement().text();
+					if(!sid->get_foreignKeyMap()->contains_key(keyname)){
+						sid->get_foreignKeyMap()->add(keyname,value);
+					}
+					else{
+						std::cerr << "problem : double key entry in sample identification" << std::endl;
+					}
+
+
+				}
+			}
+		}
+		void                  XemlDocument::InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase){
+			std::cerr << "entering init sample" << std::endl;
+			QDomNodeList QNL=_elem.childNodes();
+			Sample * s= new Sample();
+			int id =_elem.attributeNode("Id").value().toInt();
+			std::cerr << "initialize new sample with id : " << id << std::endl;
+
+			s->set_id(id);
+
+			for (int i = 0; i < QNL.length(); i++) {
+
+
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:BioSource"){
+					bool found= false;
+					int partId=QNL.item(i).toElement().attributeNode("partition").value().toInt();
+					storyBase->get_obsPointCollection();
+					for (std::vector< std::pair<ObservationPoint*,QDateTime> >::iterator it=storyBase->get_obsPointCollection()->begin();it!=storyBase->get_obsPointCollection()->end();++it){
+						ObservationPoint * op= static_cast<ObservationPoint*>((*it).first);
+						op->get_observationscollection();
+						for (std::vector< std::pair<Observation*,QDateTime> >::iterator it2=op->get_observationscollection()->begin();it2!=op->get_observationscollection()->end();++it2){
+							Observation * o = static_cast<Observation*>((*it2).first);
+							o->get_partitionCollection();
+							for (std::map<Partition*,int>::iterator it3=o->get_partitionCollection()->begin();it3!=o->get_partitionCollection()->end();++it3){
+								Partition * p =static_cast<Partition*>((*it3).first);
+								if (p->get_id()==partId){
+									s->add_partition(p);
+									found =true;
+								}
+							}
+							if (found){
+								break;
+							}
+
+						}
+						if (found){
+							break;
+						}
+
+					}
+
+				}
+
+			}
+			storyBase->add_sample(s);
+
+		}
+
+
 		void                  XemlDocument::InitRessources(QDomElement  elem){
 			QDomNodeList QNL=elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {
@@ -1308,52 +1433,7 @@ namespace Xeml {
 				}
 			}
 		}
-		void                  XemlDocument::InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase){
-			std::cerr << "entering init sample" << std::endl;
-			QDomNodeList QNL=_elem.childNodes();
-			Sample * s= new Sample();
-			int id =_elem.attributeNode("Id").value().toInt();
-			std::cerr << "initialize new sample with id : " << id << std::endl;
 
-			s->set_id(id);
-
-			for (int i = 0; i < QNL.length(); i++) {
-
-
-				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:BioSource"){
-					bool found= false;
-					int partId=QNL.item(i).toElement().attributeNode("partition").value().toInt();
-					storyBase->get_obsPointCollection();
-					for (std::vector< std::pair<ObservationPoint*,QDateTime> >::iterator it=storyBase->get_obsPointCollection()->begin();it!=storyBase->get_obsPointCollection()->end();++it){
-						ObservationPoint * op= static_cast<ObservationPoint*>((*it).first);
-						op->get_observationscollection();
-						for (std::vector< std::pair<Observation*,QDateTime> >::iterator it2=op->get_observationscollection()->begin();it2!=op->get_observationscollection()->end();++it2){
-							Observation * o = static_cast<Observation*>((*it2).first);
-							o->get_partitionCollection();
-							for (std::map<Partition*,int>::iterator it3=o->get_partitionCollection()->begin();it3!=o->get_partitionCollection()->end();++it3){
-								Partition * p =static_cast<Partition*>((*it3).first);
-								if (p->get_id()==partId){
-									s->add_partition(p);
-									found =true;
-								}
-							}
-							if (found){
-								break;
-							}
-
-						}
-						if (found){
-							break;
-						}
-
-					}
-
-				}
-
-			}
-			storyBase->add_sample(s);
-
-		}
 
 
 		QUuid                 XemlDocument::get_id(){

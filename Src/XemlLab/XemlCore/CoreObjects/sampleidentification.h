@@ -17,6 +17,7 @@ namespace Xeml {
 		{
 			public:
 				ForeignKeyValue();
+				ForeignKeyValue(QString _key,QString _val);
 				void set_val(QString _val);
 				void set_key(QString _key);
 				QString get_val();
@@ -36,10 +37,12 @@ namespace Xeml {
 				void remove(QString _key);
 				void clear();
 				bool contains_key(QString _key);
+
+
 				QString convert_to_QString(ForeignKeyMap * _fkm);
 				ForeignKeyMap * convert_from_QString(QString _fkmString);
 			private:
-				std::vector<ForeignKeyValue> * innerList;
+				std::vector<ForeignKeyValue*> * innerList;
 				ForeignKeyValue * findForeignKeyValue(QString _key);
 		};
 		class SampleIdMapping : public XemlAnnotableObject
@@ -51,11 +54,13 @@ namespace Xeml {
 				void set_foreignKeyMap(ForeignKeyMap * _fkm);
 				ForeignKeyMap * get_foreignKeyMap();
 				int get_hash_code();
+				std::map<TaggedAnnotation*,QString> * get_taggedannotation();
+				void add_tagged_annotation(TaggedAnnotation *TA);
 
 
 			private:
 				int sampleId;
-				ForeignKeyMap * keyMap;
+				ForeignKeyMap * FkeyMap;
 				std::vector<std::pair< SampleIdMapping*,int> > * dataMappingCollection;
 
 		};

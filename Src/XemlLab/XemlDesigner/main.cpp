@@ -116,9 +116,13 @@ int main(int argc, char *argv[])
 	LoginName="labdesigner";
 	database="PlatoDB";
 	Pass="glucose";
-	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", "PlatoDB");
+	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC3", "PlatoDB");
+	db.setDatabaseName("myodbc5w");
+	db.setHostName(ipserver);
+	db.setUserName(LoginName);
+	db.setPassword("glucose");
 
-	db.setDatabaseName("DRIVER={SQL Server};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+	//db.setDatabaseName("DRIVER={myodbc5w};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
 
 	if(db.open())
 	  {
@@ -183,7 +187,7 @@ int main(int argc, char *argv[])
 	if(db.open())
 	{
 		QStringList list=db.tables();
-		//record=db.record("weather");
+		//record=db.record("Parameter");
 
 		std::cerr << "number of tables : " << list.size() << std::endl;
 

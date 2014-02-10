@@ -40,6 +40,7 @@
 #include"CoreObjects/variableterm.h"
 #include"CoreObjects/timespanextension.h"
 #include"CoreObjects/ontologyhandlerresources.h"
+#include"CoreObjects/providerdatamappings.h"
 #include"CoreObjects/Utilities.h"
 #include<QDateTime>
 
@@ -67,6 +68,7 @@ namespace Xeml {
 				ExperimentHeader  * experimentheader;
 				StoryBoard        * storyBoard;
 				DocumentResources * documentResources;
+				ProviderDataMappings * providerdata;
 				QString             description;
 
 			public:
@@ -138,6 +140,7 @@ namespace Xeml {
 				void                write_observationPoint(QDomElement * _elem,StoryNode * _node);
 				void                write_event(QDomElement * _elem,StoryNode * _node);
 				void                write_sample(QDomElement * _elem,StoryNode * _node);
+				void                write_sample_mappings(QDomElement * _elem,int _sampleId,QString _providerName);
 
 				//endregion
 
@@ -154,10 +157,8 @@ namespace Xeml {
 				void				InitPartitions(QDomElement _elem,Observation * _ob);
 				void				InitDevelopmentalStage(QDomElement _elem,Observation * _ob);
 				void                InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase);
-
-				//void                InitData(XPathNavigator xpn);
-				//void                InitSampleMapping(SidMapping sid, int sampleId, XPathNavigator xpn);
-				//void                InitSample(XPathNavigator xPathNavigator, StoryBase storyBase);
+				void                InitData(QDomElement  elem);
+				void                InitSampleMapping(QDomElement  elem,SampleIdMapping * sid);
 				//endregion
 
 				//region purge xeml doc

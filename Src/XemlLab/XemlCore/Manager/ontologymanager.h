@@ -34,6 +34,7 @@ namespace Xeml{
 			private:
 				OntologyManager()
 				{
+					this->ontologyHandler=std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>();
 					init();
 				}
 				//OntologyManager(const OntologyManager&);

@@ -36,9 +36,9 @@ namespace Xeml{
 				Xeml::Document::Contracts::ItfOntologyHandler * get_handler();
 				ComponentLoadState                              get_component_state();
 				void                                            set_component_state( ComponentLoadState _value );
-				QString                                     get_namespace();
+				QString                                         get_namespace();
 				void                                            set_namespace( QString _namespace );
-				QString                                     get_location();
+				QString                                         get_location();
 				void                                            set_location( QString _location );
 				//region methods
 				void                                            loadOntology();

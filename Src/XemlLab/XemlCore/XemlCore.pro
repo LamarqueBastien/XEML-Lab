@@ -83,7 +83,11 @@ SOURCES += \
     ISA-export/study.cpp \
     ISA-export/assay.cpp \
     CoreObjects/sample.cpp \
-    CoreObjects/sampleidentification.cpp
+    CoreObjects/sampleidentification.cpp \
+    CoreObjects/providerdatamappings.cpp \
+    Interface/itfdataprovider.cpp \
+    CoreObjects/dataproviderresources.cpp \
+    Manager/samplemanager.cpp
 
 
 HEADERS += \
@@ -165,7 +169,12 @@ HEADERS += \
     ISA-export/study.h \
     ISA-export/assay.h \
     CoreObjects/sample.h \
-    CoreObjects/sampleidentification.h
+    CoreObjects/sampleidentification.h \
+    CoreObjects/providerdatamappings.h \
+    Interface/itfdataprovider.h \
+    Manager/connectresult.h \
+    CoreObjects/dataproviderresources.h \
+    Manager/samplemanager.h
 
 unix:!symbian {
     maemo5 {
