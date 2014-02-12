@@ -1016,6 +1016,20 @@ namespace Xeml {
 					}
 
 				}
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:DataProvider"){
+					DataProviderResources * spr = new DataProviderResources();
+					spr->set_friendly_name(QNL.item(i).toElement().attributeNode("Name").value());
+					spr->load_component(QNL.item(i).toElement().attributeNode("ProviderUri").value());
+					if( this->documentResources->provider_contain(QNL.item(i).toElement().attributeNode("ProviderUri").value())){
+						std::cerr << "Data Provider resources double entry. Resources was rejected!" << std::endl;
+					}
+					else{
+						this->documentResources->get_data_provider()->push_back(make_pair(spr,QNL.item(i).toElement().attributeNode("ProviderUri").value()));
+
+					}
+
+				}
+
 
 			}
 		}

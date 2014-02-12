@@ -31,7 +31,7 @@
 #include"filemanager.h"
 #include<QDir>
 
-
+#define QT_DEBUG_PLUGINS = 1;
 //#define HOME = "/Users/benjamindartigues/Qt5.0.1/Root/";
 
 using namespace std;
@@ -91,14 +91,15 @@ int main(int argc, char *argv[])
 	*************************************************/
 
 
-
-	//QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
+	/*
+	QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
 	//147.100.103.188
-	//db.setHostName("localhost");
-	//db.setUserName("postgres");
-	//db.setPassword("bD1#popi");
-	//db.setPort(5432);
-	//db.setDatabaseName("postgres");
+	db.setHostName("localhost");
+	db.setUserName("postgres");
+	db.setPassword("bD1#popi");
+	db.setPort(5432);
+	db.setDatabaseName("postgres");
+	*/
 
 		//147.100.103.188
 		//127.0.0.1
@@ -111,18 +112,39 @@ int main(int argc, char *argv[])
 	//db.setPort(1433);
 	//db.setDatabaseName("PlatoDB");
 
+	QStringList paths = QCoreApplication::libraryPaths();
+	for (QStringList::iterator it = paths.begin(); it!=paths.end(); it++) {
+		std::cerr << "Looking for plugins at path: " << it->toStdString() << std::endl;
+	}
 	QString ipserver,LoginName,database,Pass;
 	ipserver="147.100.103.188";
 	LoginName="labdesigner";
 	database="PlatoDB";
 	Pass="glucose";
-	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC3", "PlatoDB");
-	db.setDatabaseName("myodbc5w");
+
+
+	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+	QString driver_name="QMYSQL";
+	if(db.isDriverAvailable(driver_name)){
+		std::cerr << "Driver" << driver_name.toStdString() <<  " is available " << std::endl;
+	}
+	else{
+		std::cerr << "Driver "<< driver_name.toStdString() <<  " is not available"<< std::endl;
+	}
 	db.setHostName(ipserver);
 	db.setUserName(LoginName);
-	db.setPassword("glucose");
 
-	//db.setDatabaseName("DRIVER={myodbc5w};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+	db.setPassword("glucose");
+	db.setPort(1433);
+	db.setDatabaseName("myodbc5a");
+	//ODBC 5.2(a) Driver
+	//db.setDatabaseName("DRIVER={SQL Server};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+
+
+	//db.setDatabaseName("smilerMSSQL");
+
+
+
 
 	if(db.open())
 	  {
@@ -225,8 +247,9 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		std::cerr << "dbtext : " << db.lastError().databaseText().toStdString()  <<  std::endl;
-		std::cerr << "drivertext : " << db.lastError().driverText().toStdString() << std::endl;
+		//qDebug() << db.lastError().databaseText();
+		//std::cerr << "dbtext : " << db.lastError().databaseText().toStdString()  <<  std::endl;
+		//std::cerr << "drivertext : " << db.lastError().driverText().toStdString() << std::endl;
 		//std::cerr << db.lastError().text().toStdString() <<"La connexion a échouée, désolé" << std::endl;
 	}
 

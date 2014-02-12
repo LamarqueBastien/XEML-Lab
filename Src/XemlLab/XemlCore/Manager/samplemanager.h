@@ -47,7 +47,7 @@ namespace Xeml{
 
 
 				}
-				std::map<QString,Xeml::Sampling::Contracts::ItfDataProvider *> get_provider(){
+				std::map<QString,ItfDataProvider *> get_provider(){
 					return this->providerComponent;
 				}
 				std::vector<QString> * get_messages(){
@@ -62,6 +62,7 @@ namespace Xeml{
 						return false;
 					}
 				}
+				/*
 				ItfDataProvider * createProvider(QString _uri){
 					if(this->contains(_uri)){
 						ItfDataProvider * ret =NULL;
@@ -77,6 +78,7 @@ namespace Xeml{
 					else
 						throw new XemlComponentLoadFailedException(_uri, "UnknownSample provider.");
 				}
+				*/
 
 
 			private:

@@ -4,7 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT += printsupport
 TARGET = XemlDesigner
 TEMPLATE = app
-QTPLUGIN     += qsqlodbc
+QTPLUGIN     += qsqlodbc qmysql
 
 
 SOURCES += \

@@ -327,7 +327,7 @@ void ParameterTreeView::add_parameter()
 
 		//QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
 		ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(indexelementselected));
-		if(!tmp==NULL){
+		if(tmp!=NULL){
 			if(tmp->isRoot){
 				QMessageBox::information(this,"added element","can't add a root term "+ tmp->get_term()->get_prototype()->get_name()+ " to a story");
 			}

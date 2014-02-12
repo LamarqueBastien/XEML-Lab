@@ -87,7 +87,8 @@ SOURCES += \
     CoreObjects/providerdatamappings.cpp \
     Interface/itfdataprovider.cpp \
     CoreObjects/dataproviderresources.cpp \
-    Manager/samplemanager.cpp
+    Manager/samplemanager.cpp \
+    SQLDataProvider/mysqldataprovider.cpp
 
 
 HEADERS += \
@@ -174,7 +175,8 @@ HEADERS += \
     Interface/itfdataprovider.h \
     Manager/connectresult.h \
     CoreObjects/dataproviderresources.h \
-    Manager/samplemanager.h
+    Manager/samplemanager.h \
+    SQLDataProvider/mysqldataprovider.h
 
 unix:!symbian {
     maemo5 {

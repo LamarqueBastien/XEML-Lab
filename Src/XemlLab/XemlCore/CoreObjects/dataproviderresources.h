@@ -32,7 +32,7 @@ namespace Xeml{
 			private:
 				QString friendlyName;
 				ItfDataProvider * provider;
-				ComponentLoadState compState =Xeml::Document::Untouched;
+				ComponentLoadState compState;
 				QString uri;
 		};
 	}

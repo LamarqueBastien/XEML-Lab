@@ -316,6 +316,19 @@ namespace Xeml{
 				}
 			}
 		}
+		std::vector<std::pair<DataProviderResources*,QString> > * DocumentResources::get_data_provider(){
+			return this->dataProvider;
+		}
+		bool                                                      DocumentResources::provider_contain(QString _uri){
+			for (std::vector<std::pair<DataProviderResources*,QString> >::iterator it=this->dataProvider->begin();it!=this->dataProvider->end();++it){
+				if(static_cast<DataProviderResources*>((*it).first)->get_uri()==_uri){
+					return true;
+				}
+			}
+			return false;
+
+		}
+
 		OntologyHandlerResources* DocumentResources::get_handler_by_alias(QString _alias,OntologyType _ot){
 			//std::cerr << "entering get handler by alias for alias :" << _alias.toStdString() << std::endl;
 			switch (_ot)
