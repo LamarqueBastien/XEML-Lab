@@ -1,6 +1,6 @@
 #ifndef DYNAMICTERM_H
 #define DYNAMICTERM_H
-#include"term.h"
+
 #include"basicterm.h"
 #include"dynamicvaluebase.h"
 #include"timespan.h"

@@ -19,7 +19,7 @@
 #include"Manager/downloadmanager.h"
 #include"Ontologies/Environment/xeoterm.h"
 #include"Ontologies/Environment/typespecificsenum.h"
-#include"CoreObjects/term.h"
+
 #include"Ontologies/OBO/oboreader.h"
 using namespace std;
 using namespace Xeml::Document::Contracts;
@@ -36,7 +36,7 @@ using Xeml::Document::Contracts::ItfDynamicOntologyTerm;
 using Xeml::Document::EnvironmentalOntology::XeoTerm;
 using Xeml::Document::Contracts::TermNode;
 using Xeml::Document::EnvironmentalOntology::Enum;
-using Xeml::Document::Term;
+
 using Xeml::Document::BasicTerm;
 using Mpi::Common::OboReader;
 

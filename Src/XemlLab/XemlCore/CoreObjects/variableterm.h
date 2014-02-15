@@ -1,6 +1,6 @@
 #ifndef VARIABLETERM_H
 #define VARIABLETERM_H
-#include"term.h"
+
 #include"basicterm.h"
 #include"valuebase.h"
 #include"value.h"

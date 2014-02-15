@@ -10,17 +10,14 @@
 #include"CoreObjects/cycle.h"
 #include"CoreObjects/dynamicvalue.h"
 #include"CoreObjects/timespan.h"
-
-//#include"/Users/benjamindartigues/Qt5.0.1/Root/XemlCore/CoreObjects/termattribute.h"
 #include"CoreObjects/termattribute.h"
 #include"CoreObjects/basicterm.h"
-//#include"/Users/benjamindartigues/Qt5.0.1/Root/XemlCore/CoreObjects/term.h"
-//#include"xemlannotableobject.h"
+
 
 using namespace std;
 using  Xeml::Document::TermAttribute;
 using Xeml::Document::BasicTerm;
-//using Xeml::Document::Term;
+
 
 namespace Xeml {
 

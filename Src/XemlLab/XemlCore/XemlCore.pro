@@ -22,7 +22,6 @@ SOURCES += \
     CoreObjects/timespanextension.cpp \
     CoreObjects/timespan.cpp \
     CoreObjects/termattribute.cpp \
-    CoreObjects/term.cpp \
     CoreObjects/taggedannotation.cpp \
     CoreObjects/storysplit.cpp \
     CoreObjects/storynode.cpp \
@@ -88,7 +87,12 @@ SOURCES += \
     Interface/itfdataprovider.cpp \
     CoreObjects/dataproviderresources.cpp \
     Manager/samplemanager.cpp \
-    SQLDataProvider/mysqldataprovider.cpp
+    SQLDataProvider/mysqldataprovider.cpp \
+    ISA-export/isaexporter.cpp \
+    ISA-export/Ontology/ontologybase.cpp \
+    ISA-export/Ontology/term.cpp \
+    ISA-export/Protocol/protocolbase.cpp \
+    DataSet/xemldataset.cpp
 
 
 HEADERS += \
@@ -105,7 +109,6 @@ HEADERS += \
     CoreObjects/timespanextension.h \
     CoreObjects/timespan.h \
     CoreObjects/termattribute.h \
-    CoreObjects/term.h \
     CoreObjects/taggedannotation.h \
     CoreObjects/storysplit.h \
     CoreObjects/storynode.h \
@@ -176,7 +179,12 @@ HEADERS += \
     Manager/connectresult.h \
     CoreObjects/dataproviderresources.h \
     Manager/samplemanager.h \
-    SQLDataProvider/mysqldataprovider.h
+    SQLDataProvider/mysqldataprovider.h \
+    ISA-export/isaexporter.h \
+    ISA-export/Ontology/ontologybase.h \
+    ISA-export/Ontology/term.h \
+    ISA-export/Protocol/protocolbase.h \
+    DataSet/xemldataset.h
 
 unix:!symbian {
     maemo5 {

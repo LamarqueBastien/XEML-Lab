@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
 {
 	// starting point of program
 	QApplication                                             a(argc, argv);
+	MainWindow                                                           w;
 
 
 	/************************************************
@@ -96,7 +97,7 @@ int main(int argc, char *argv[])
 	//147.100.103.188
 	db.setHostName("localhost");
 	db.setUserName("postgres");
-	db.setPassword("bD1#popi");
+	db.setPassword("");
 	db.setPort(5432);
 	db.setDatabaseName("postgres");
 	*/
@@ -112,6 +113,108 @@ int main(int argc, char *argv[])
 	//db.setPort(1433);
 	//db.setDatabaseName("PlatoDB");
 
+	/*
+	 *QString SQLServerProvider::buildDSN(QString server, QString database, QString username, QString password)
+{
+#ifdef Q_WS_MACX
+	QString dsn = QString("DRIVER=/usr/local/lib/libtdsodbc.so;SERVER=%1;TDS_VERSION=8pClient;DATABASE=%2;PORT=1433;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+#endif
+
+#ifdef Q_WS_X11
+	QString dsn = QString("DRIVER={FreeTDS};SERVER=%1;TDS_VERSION=8.0;PORT=1433;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+#endif
+
+#ifdef Q_WS_WIN
+	QString dsn = QString("DRIVER={SQL SERVER};SERVER=%1;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+#endif
+	return dsn;
+}
+QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", databaseName);
+db.setDatabaseName(buildDSN(server, database, username, password));
+*/
+
+/*
+ *#ifdef Q_WS_X11
+	QString dir = QDir::homePath();
+	QDir d;
+	QString libdir = d.absolutePath();
+
+	QFile odbcinst(dir + "/.odbcinst.ini");
+	if(!odbcinst.exists())
+	{
+		odbcinst.open(QIODevice::WriteOnly | QIODevice::Text);
+		QTextStream out(&odbcinst);
+		out << "[FreeTDS]\n";
+		out << "Description = v0.91 with protocol v8.0\n";
+		out << "Driver = " + libdir + "/libtdsodbc.so\n";
+		out << "Setup = " + libdir + "/libtdsodbc.so\n";
+		out << "FileUsage = 1";
+		odbcinst.close();
+	}
+	else
+	{
+		QList<QString> lines;
+
+		odbcinst.open(QIODevice::ReadOnly | QIODevice::Text);
+		QTextStream readfile(&odbcinst);
+
+		int i = 0, lnbr = 0;
+		bool found = false;
+		while(!readfile.atEnd())
+		{
+			QString line = readfile.readLine();
+			if(line.contains("[FreeTDS]"))
+			{
+				lnbr = i;
+				found = true;
+			}
+			lines.append(line);
+			i++;
+		}
+		odbcinst.close();
+
+		// append to end
+		if(!found)
+		{
+			// append to the end
+			odbcinst.open(QIODevice::Append | QIODevice::Text);
+			QTextStream file(&odbcinst);
+
+			file << "\n[FreeTDS]\n";
+			file << "Description = v0.91 with protocol v8.0\n";
+			file << "Driver = " + libdir + "/libtdsodbc.so\n";
+			file << "Setup = " + libdir + "/libtdsodbc.so\n";
+			file << "FileUsage = 1";
+			odbcinst.close();
+		}
+		else // update existing entry
+		{
+			qDebug() << "Found an entry for FreeTDS. Updating driver to " + libdir + "/libtdsodbc.so.";
+			qDebug() << lines[lnbr+2];
+			qDebug() << lines[lnbr+3];
+
+			lines.replace(lnbr + 2, "Driver = " + libdir + "/libtdsodbc.so");
+			lines.replace(lnbr + 3, "Setup = " + libdir + "/libtdsodbc.so");
+
+			QString text;
+			for(int j = 0; j < lines.count(); j++)
+			{
+				text.append(lines[j] + "\n");
+			}
+
+			odbcinst.open(QIODevice::WriteOnly | QIODevice::Text);
+			QTextStream updatefile(&odbcinst);
+			updatefile << text;
+			odbcinst.close();
+		}
+
+	}
+#endif
+*/
+
+
+
+
 	QStringList paths = QCoreApplication::libraryPaths();
 	for (QStringList::iterator it = paths.begin(); it!=paths.end(); it++) {
 		std::cerr << "Looking for plugins at path: " << it->toStdString() << std::endl;
@@ -124,22 +227,34 @@ int main(int argc, char *argv[])
 
 
 	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
-	QString driver_name="QMYSQL";
+	/*QString driver_name="QMYSQL";
 	if(db.isDriverAvailable(driver_name)){
 		std::cerr << "Driver" << driver_name.toStdString() <<  " is available " << std::endl;
 	}
 	else{
 		std::cerr << "Driver "<< driver_name.toStdString() <<  " is not available"<< std::endl;
-	}
-	db.setHostName(ipserver);
+	}*/
+	//db.setDatabaseName("myodbc5a");
+	//db.setDatabaseName("DRIVER={MyODBCa};Server="+ipserver+";Database="+database+";Port=1433;");
+
+
+	//db.setHostName(ipserver);
+
+	//db.setPort(1433);
+	//db.setDatabaseName("myodbc5w");
+
+	//db.setDatabaseName("myodbc5w");
+	db.setDatabaseName("plato");
 	db.setUserName(LoginName);
+	db.setPassword(Pass);
 
-	db.setPassword("glucose");
-	db.setPort(1433);
-	db.setDatabaseName("myodbc5a");
+
 	//ODBC 5.2(a) Driver
-	//db.setDatabaseName("DRIVER={SQL Server};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+	//db.setDatabaseName("DRIVER={FreeTDSDriver};Uid="+LoginName+";Pwd="+Pass+";");
 
+	//db.setDatabaseName("DRIVER={FreeTDSDriver};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+	//db.setUserName(LoginName);
+	//db.setPassword(Pass);
 
 	//db.setDatabaseName("smilerMSSQL");
 
@@ -149,9 +264,43 @@ int main(int argc, char *argv[])
 	if(db.open())
 	  {
 	   qDebug() << "Opened";
-	   //db.close();
-	  }
-	  else{
+	   QStringList list=db.tables();
+
+	   //record=db.record("Parameter");
+
+	   std::cerr << "number of tables : " << list.size() << std::endl;
+	   for (int i=0;i<list.count();i++){
+		   std::cerr << list.at(i).toStdString() << std::endl;
+	   }
+	   QSqlQuery query("",db);
+	   //QSqlQuery query;
+
+
+	   if(query.exec("SELECT Uid FROM PLatoDB.dbo.[Experiments]"))
+	   {
+		   //if (!query.isActive())
+			 //  QMessageBox::warning(w, tr("Database Error"),
+				//					query.lastError().text());
+
+		   std::cout << "Le titre a bien été changé ! :)" << std::endl;
+		   while (query.next())
+		   {
+			   QString country = query.value(0).toString();
+			   qDebug() << country;
+		   }
+	   }
+	   else
+	   {
+		   std::cout << "Une erreur s'est produite. :(" << std::endl << query.lastError().text().toStdString()<< std::endl;
+	   }
+
+
+
+
+	   db.close();
+	   //QSqlDatabase::removeDatabase("PlatoDB");
+	}
+	else{
 		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
 	   //qDebug() << "Error" << *db*.lastError().text();
 	}
@@ -194,6 +343,8 @@ int main(int argc, char *argv[])
 	//QPSQLDriver *drv =  new QPSQLDriver(con);
 	//QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL"); // devient la nouvelle connexion par défaut
 	//QSqlQuery query;
+
+	/*
 	QStringList tmp2 =QSqlDatabase::drivers();
 	foreach (QString str, tmp2){
 		std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -206,12 +357,22 @@ int main(int argc, char *argv[])
 		std::cerr << "invalid connection" << std::endl;
 	}
 	QSqlRecord record;
+	*/
+	/*
 	if(db.open())
 	{
 		QStringList list=db.tables();
 		//record=db.record("Parameter");
 
 		std::cerr << "number of tables : " << list.size() << std::endl;
+		QSqlQuery query("SELECT * FROM PLatoDB.dbo.Unit", db);
+			while (query.next())
+			{
+				QString country = query.value(0).toString();
+				qDebug() << country;
+			}
+
+
 
 
 		//std::cerr << "Vous êtes maintenant connecté à " << db.hostName().toStdString() << std::endl;
@@ -252,6 +413,7 @@ int main(int argc, char *argv[])
 		//std::cerr << "drivertext : " << db.lastError().driverText().toStdString() << std::endl;
 		//std::cerr << db.lastError().text().toStdString() <<"La connexion a échouée, désolé" << std::endl;
 	}
+	*/
 
 
 
@@ -279,7 +441,7 @@ int main(int argc, char *argv[])
 
 	splash->showMessage(QObject::tr("Setting up the main window..."), topRight, Qt::black);
 
-	MainWindow                                                           w;
+
 
 	splash->showMessage(QObject::tr("loading resources..."), topRight, Qt::black);
 

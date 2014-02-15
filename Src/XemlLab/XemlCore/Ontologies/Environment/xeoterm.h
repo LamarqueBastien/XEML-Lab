@@ -21,7 +21,7 @@ using namespace Xeml::Document::Contracts;
 
 using std::make_pair;
 using std::pair;
-using Xeml::Document::Term;
+
 using Xeml::Document::BasicTerm;
 using Xeml::Document::TermAttribute;
 using Xeml::Document::Contracts::ItfOntologyTerm;
