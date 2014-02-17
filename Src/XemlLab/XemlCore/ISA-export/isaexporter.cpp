@@ -1,5 +1,11 @@
 #include "isaexporter.h"
 
+//static variables
+const QString IsaExporter::fieldEncapsulater = "\"";
+const QString IsaExporter::multipleFieldDelimiter="\t";
+const QString IsaExporter::multipleValueDelimiter="; ";
+
+
 IsaExporter::IsaExporter(QUuid _xemlId,QString _connectionString)
 {
 	//QProcess gzip;
@@ -10,11 +16,13 @@ IsaExporter::IsaExporter(QUuid _xemlId,QString _connectionString)
 
 }
 std::vector<QString> * IsaExporter::encapsulate(std::vector<QString> * l){
-
+	return encapsulate(fieldEncapsulater,l);
 }
 
 std::vector<QString> * IsaExporter::encapsulate(QString encap_char,std::vector<QString> * l){
-
+	for (int i=0;i<l->size();i++){
+		l->at(i)=encap_char % l->at(i) % encap_char;
+	}
 }
 
 QString IsaExporter::encapsulate(QString _s){

@@ -39,7 +39,7 @@ namespace Xeml{
 			if(this->compState!=Xeml::Document::Loaded){
 				try{
 					if( SampleManager::Get_sampleManager()->get_provider().find(_uri)==SampleManager::Get_sampleManager()->get_provider().end()){
-						//this->provider = SampleManager::Get_sampleManager()->createProvider(this->uri);
+						this->provider = SampleManager::Get_sampleManager()->createProvider(this->uri);
 						this->compState=Xeml::Document::Loaded;
 					}
 					else{

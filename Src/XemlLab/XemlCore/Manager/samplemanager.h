@@ -62,7 +62,7 @@ namespace Xeml{
 						return false;
 					}
 				}
-				/*
+
 				ItfDataProvider * createProvider(QString _uri){
 					if(this->contains(_uri)){
 						ItfDataProvider * ret =NULL;
@@ -78,7 +78,7 @@ namespace Xeml{
 					else
 						throw new XemlComponentLoadFailedException(_uri, "UnknownSample provider.");
 				}
-				*/
+
 
 
 			private:

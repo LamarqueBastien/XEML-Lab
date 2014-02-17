@@ -1,8 +1,11 @@
 #include "ontologybase.h"
 
+//static variable
 std::vector<std::pair<QString,OntologyBase*> > * OntologyBase::ontologies=new std::vector<std::pair<QString,OntologyBase*> >();
 std::vector<OntologyBase::MetaDataStruct> * OntologyBase::ontologyMetadata=new std::vector<OntologyBase::MetaDataStruct>();
 QString OntologyBase::connection_string=QString();
+
+
 OntologyBase::OntologyBase()
 {
 	this->terms=new std::vector<Term*>();

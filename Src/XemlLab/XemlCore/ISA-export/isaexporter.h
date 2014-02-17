@@ -4,6 +4,7 @@
 #include<vector>
 #include<zlib.h>
 #include<QTextStream>
+#include<QStringBuilder>
 #include"DataSet/xemldataset.h"
 #include"ISA-export/Ontology/ontologybase.h"
 
@@ -32,9 +33,9 @@ class IsaExporter
 
 
 	private:
-		const QString multipleValueDelimiter="; ";
-		const QString multipleFieldDelimiter="\t";
-		const QString fieldEncapsulator="\"";
+		static const QString multipleValueDelimiter;
+		static const QString multipleFieldDelimiter;
+		static const QString fieldEncapsulater;
 		static std::map<QString,QTextStream> * chromatogramFiles;
 		QUuid xemlId;
 		QString connectionString;

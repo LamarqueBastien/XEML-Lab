@@ -20,6 +20,7 @@ namespace Xeml{
 			this->positionOntologyHandler= new std::map<QString,OntologyHandlerResources*>();
 			this->EOOntologyHandler= new std::map<QString,OntologyHandlerResources*>();
 			this->EnvOOntologyHandler= new std::map<QString,OntologyHandlerResources*>();
+			this->dataProvider=new std::vector<std::pair<DataProviderResources*,QString> >();
 		}
 		DocumentResources::~DocumentResources(void){
 
@@ -320,8 +321,16 @@ namespace Xeml{
 			return this->dataProvider;
 		}
 		bool                                                      DocumentResources::provider_contain(QString _uri){
-			for (std::vector<std::pair<DataProviderResources*,QString> >::iterator it=this->dataProvider->begin();it!=this->dataProvider->end();++it){
-				if(static_cast<DataProviderResources*>((*it).first)->get_uri()==_uri){
+			std::cerr << _uri.toStdString() << std::endl;
+			std::cerr << "vector size : " << this->dataProvider->size() << std::endl;
+			std::cerr << "-------" << std::endl;
+			for (vec_pair_iterator =this->dataProvider->begin();vec_pair_iterator!=this->dataProvider->end();++vec_pair_iterator){
+
+			}
+			for (std::vector<std::pair<DataProviderResources*,QString> >::iterator ite=this->dataProvider->begin();ite!=this->dataProvider->end();++ite){
+				std::cerr << "in da loop" << std::endl;
+
+				if(static_cast<DataProviderResources*>((*ite).first)->get_uri()==_uri){
 					return true;
 				}
 			}

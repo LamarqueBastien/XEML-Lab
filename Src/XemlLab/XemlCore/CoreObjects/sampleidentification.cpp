@@ -50,6 +50,10 @@ namespace Xeml {
 			add(_key,_val,false);
 		}
 
+		std::vector<ForeignKeyValue*> * ForeignKeyMap::get_inner_list(){
+			return this->innerList;
+		}
+
 		void ForeignKeyMap::add(QString _key, QString _val,bool _overwriteIfExist){
 			if (_key.isNull() || _key.isEmpty()){
 				std::cerr << " throw exception null argument" << std::endl;
@@ -64,6 +68,7 @@ namespace Xeml {
 				}
 			}
 			else{
+				std::cerr << "new Foreign Key value created" << std::endl;
 				ForeignKeyValue * fkv=new ForeignKeyValue(_key,_val);
 				this->innerList->push_back(fkv);
 
@@ -131,19 +136,19 @@ namespace Xeml {
 		}
 
 		void ForeignKeyValue::set_val(QString _val){
-
+			this->val=_val;
 		}
 
 		void ForeignKeyValue::set_key(QString _key){
-
+			this->key=_key;
 		}
 
 		QString ForeignKeyValue::get_val(){
-
+			return this->val;
 		}
 
 		QString ForeignKeyValue::get_key(){
-
+			return this->key;
 		}
 	}
 }

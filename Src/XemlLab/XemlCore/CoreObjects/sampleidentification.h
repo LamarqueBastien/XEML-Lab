@@ -37,10 +37,10 @@ namespace Xeml {
 				void remove(QString _key);
 				void clear();
 				bool contains_key(QString _key);
-
-
 				QString convert_to_QString(ForeignKeyMap * _fkm);
 				ForeignKeyMap * convert_from_QString(QString _fkmString);
+				std::vector<ForeignKeyValue*> * get_inner_list();
+
 			private:
 				std::vector<ForeignKeyValue*> * innerList;
 				ForeignKeyValue * findForeignKeyValue(QString _key);

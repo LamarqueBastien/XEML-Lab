@@ -21,16 +21,17 @@ namespace Xeml{
 
 			private:
 				//Xeml::Document::Contracts::ItfDocument * xemlDoc;
-				std::map<QString,OntologyHandlerResources*>           * developmentalOntologyHandler;
-				std::map<QString,OntologyHandlerResources*>           * structuralOntologyHandler;
-				std::map<QString,OntologyHandlerResources*>           * xeoOntologyHandler;
-				std::map<QString,OntologyHandlerResources*>           * positionOntologyHandler;
-				std::map<QString,OntologyHandlerResources*>           * genotypeOntologyHandler;
-				std::map<QString,OntologyHandlerResources*>           * EOOntologyHandler;
-				std::map<QString,OntologyHandlerResources*>           * EnvOOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * developmentalOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * structuralOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * xeoOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * positionOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * genotypeOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * EOOntologyHandler;
+				std::map<QString,OntologyHandlerResources*>             * EnvOOntologyHandler;
 				std::vector<std::pair<DataProviderResources*,QString> > * dataProvider;
 
 				std::map<QString,OntologyHandlerResources*>::iterator  it;
+				std::vector<std::pair<DataProviderResources*,QString> >::iterator vec_pair_iterator;
 
 
 

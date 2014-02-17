@@ -63,6 +63,7 @@ namespace Xeml {
 		//region write xeml
 
 		int                   XemlDocument::generate_xml(const QString &fileName){
+			std::cerr << "entering generate xml() in XemlDocument" << std::endl;
 			const int Indent = 4;
 			//string name=":/"+filename;
 			if (QFile::exists(fileName)) {
@@ -106,6 +107,7 @@ namespace Xeml {
 				}
 			}
 			if (this->providerdata->count()>0){
+				std::cerr << "provider count equal to : "  << this->providerdata->count() << std::endl;
 
 				QDomElement data= this->doc.createElement("xeml:Data");
 				root.appendChild(data);
@@ -169,6 +171,21 @@ namespace Xeml {
 					write_stories((*it),(*it)->get_parent());
 
 				}
+			}
+			if (this->providerdata->count()>0){
+				std::cerr << "provider count equal to : "  << this->providerdata->count() << std::endl;
+
+				QDomElement data= this->doc.createElement("xeml:Data");
+				root.appendChild(data);
+				for (std::vector<std::pair<QString, std::vector<std::pair<SampleIdMapping*,int> > *> >::iterator it=this->providerdata->get_provider()->begin();it!=this->providerdata->get_provider()->end();++it){
+					QString providername=static_cast<QString>((*it).first);
+					std::vector<std::pair<SampleIdMapping*,int> > * sampleIdVector=static_cast<std::vector<std::pair<SampleIdMapping*,int> > *>((*it).second);
+					for (std::vector<std::pair<SampleIdMapping*,int> >::iterator it2 = sampleIdVector->begin();it2!=sampleIdVector->end();++it2){
+						write_sample_mappings(&data,(*it2).second,providername);
+					}
+				}
+
+
 			}
 			QString xemlCode;
 			QTextStream out(&xemlCode);
@@ -277,6 +294,23 @@ namespace Xeml {
 
 
 			}
+			for (std::vector<std::pair<DataProviderResources*,QString> >::iterator it=this->documentResources->get_data_provider()->begin();it!=this->documentResources->get_data_provider()->end();++it){
+				QDomElement dataProvider =this->doc.createElement("xeml:DataProvider");
+				resources.appendChild(dataProvider);
+				dataProvider.setAttribute("ProviderUri",static_cast<DataProviderResources*>((*it).first)->get_uri());
+				dataProvider.setAttribute("Name",static_cast<DataProviderResources*>((*it).first)->get_friendly_name());
+
+
+			}
+
+
+
+
+
+
+
+
+
 			this->doc.firstChildElement("xeml:XEMLDocument").appendChild(resources);
 		}
 		void                  XemlDocument::write_stories(StoryNode * _node,StoryNode *_parent){
@@ -577,12 +611,57 @@ namespace Xeml {
 
 		}
 		void                  XemlDocument::write_sample_mappings(QDomElement * _elem,int _sampleId,QString _providerName){
+			std::cerr << "entering write sample mappings" << std::endl;
 			QDomElement sampleMapping=this->doc.createElement("xeml:SampleMapping");
 			_elem->appendChild(sampleMapping);
 			sampleMapping.setAttribute("sample",_sampleId);
+			std::cerr << "sample mapping attribute set" << std::endl;
+			for (std::vector< std::pair<QString,std::vector<std::pair<SampleIdMapping*,int> > *> >::iterator it=this->providerdata->get_provider()->begin();it!=this->providerdata->get_provider()->end();++it){
+				if(_providerName==(*it).first){
+					for (std::vector< std::pair<SampleIdMapping*,int> >::iterator it2=(*it).second->begin();it2!=(*it).second->end();++it2){
+						if((*it2).second==_sampleId){
+							QDomElement sampleID=this->doc.createElement("xeml:Sid");
+							sampleMapping.appendChild(sampleID);
+							sampleID.setAttribute("Provider",_providerName);
+							std::cerr << "sample ID attribute set" << std::endl;
+							SampleIdMapping* tmp_sid=static_cast<SampleIdMapping*>((*it2).first);
+							std::cerr << "tmp sid created" << std::endl;
+
+							//tmp_sid->get_foreignKeyMap()->get_inner_list();
+							for(std::vector<ForeignKeyValue*>::iterator it3=tmp_sid->get_foreignKeyMap()->get_inner_list()->begin();it3!=tmp_sid->get_foreignKeyMap()->get_inner_list()->end();++it3){
+								std::cerr << "in da loop" << std::endl;
+								QDomElement subkey=this->doc.createElement("xeml:SubKey");
+								sampleID.appendChild(subkey);
+								subkey.setAttribute("Name",static_cast<ForeignKeyValue*>((*it3))->get_key());
+								std::cerr << "subkey attribute set" << std::endl;
+								QDomText t = doc.createTextNode(static_cast<ForeignKeyValue*>((*it3))->get_val());
+								subkey.appendChild(t);
+
+
+							}
+
+						}
+
+
+					}
+
+				}
+			}
+
+
+
+
+			/*foreach (SidMapping sid in _provDataMappings[providerName].FindAll(sampleId))
+			{
+				xw.WriteStartElement("xeml", "Sid", xmlNameSpace);
+				xw.WriteAttributeString("Provider", XmlLexicalType.ConvertToToken(providerName));
+				foreach (string key in sid.ForeignKeyMap.Keys)
+				{
+					xw.WriteStartElement("xeml", "Subkey", xmlNameSpace);
+					xw.WriteAttributeString("Name", key);
+					xw.WriteValue(sid.ForeignKeyMap[key]);*/
 
 		}
-
 		void                  XemlDocument::write_sample(QDomElement * _elem,StoryNode * _node){
 			for(std::vector<std::pair<Sample*,int> >::iterator it=_node->get_story()->get_samplesCollection()->begin();it!=_node->get_story()->get_samplesCollection()->end();++it){
 				QDomElement sample=this->doc.createElement("xeml:Sample");
@@ -879,6 +958,7 @@ namespace Xeml {
 							InitSampleMapping(QNL_sub.item(j).toElement(),sid);
 							InitAnnotations(QNL_sub.item(j).toElement(),sid);
 							if(!providerdata->contain_key(prov)){
+								std::cerr << "already contains in this provider data mappings " << std::endl;
 								this->providerdata->add(prov,new std::vector<std::pair<SampleIdMapping*,int> >());
 							}
 

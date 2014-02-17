@@ -275,19 +275,31 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	   QSqlQuery query("",db);
 	   //QSqlQuery query;
 
+//functional request:
 
-	   if(query.exec("SELECT Uid FROM PLatoDB.dbo.[Experiments]"))
+
+	   //"SELECT Experiment_Fk FROM [PlatoDB].[dbo].[FreshWeights]"
+//request to test
+
+	   //SELECT UId FROM [PLatoDB].[dbo].[Experiments]
+
+	   if(query.exec("SELECT Id FROM [PlatoDB].[dbo].[Experiments]"))
 	   {
 		   //if (!query.isActive())
 			 //  QMessageBox::warning(w, tr("Database Error"),
 				//					query.lastError().text());
 
-		   std::cout << "Le titre a bien été changé ! :)" << std::endl;
+		   std::cerr << "La requete a bien été effectué ! :)" << std::endl;
+		   int results_counter=0;
 		   while (query.next())
 		   {
-			   QString country = query.value(0).toString();
-			   qDebug() << country;
+			   results_counter++;
+
+			   QString resultString = query.value(0).toString();
+			   std::cerr << "result: " <<  resultString.toStdString() << std::endl;
+			   ///qDebug() << country;
 		   }
+		   std::cerr << "there is " << results_counter << "element in this table" << std::endl;
 	   }
 	   else
 	   {
