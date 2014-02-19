@@ -1,5 +1,13 @@
 #include "protocolbase.h"
+namespace XemlUtilities{
 
-ProtocolBase::ProtocolBase()
-{
+	namespace ISA{
+
+		namespace Protocol{
+
+			ProtocolBase::ProtocolBase()
+			{
+			}
+		}
+	}
 }

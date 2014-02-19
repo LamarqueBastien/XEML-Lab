@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		my_dir.cdUp();
 	}
 	my_dir.mkdir("Files");
+	my_dir.mkdir("ISA_exported_files");
 	my_dir.cd("Files");
 	curFile=my_dir.path()+"/last.xeml";
 	this->fmg->get_current_xeml()->Save(curFile);
@@ -123,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	//sousFenetre3->setStyleSheet("QWidget#"+fen3ObjectName +"{ background-image: url(://Images/BlueMetal.png);}");
 	//sousFenetre3->setWindowTitle("Germplasm Panel");
 
+
 	rightSplitter = new QSplitter(Qt::Vertical);
 	rightSplitter->addWidget(sousFenetre2);
 	rightSplitter->addWidget(sousFenetre3);
@@ -138,6 +140,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	createMenus();
 	createToolBars();
 	setCurrentFile(curFile);
+	this->data_exporter=new IsaExporter(this->fmg->get_current_xeml()->get_id(),"test");
+	this->data_exporter->write(this->fmg->get_current_xeml(),new QTextStream());
 
 
 

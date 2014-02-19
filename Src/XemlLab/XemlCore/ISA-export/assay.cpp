@@ -1,5 +1,9 @@
 #include "assay.h"
+namespace XemlUtilities{
 
-Assay::Assay()
-{
+	namespace ISA{
+		Assay::Assay()
+		{
+		}
+	}
 }

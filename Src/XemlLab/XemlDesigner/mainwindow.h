@@ -37,9 +37,11 @@
 #include"XMLValidation/validationwindow.h"
 #include"Views/xemlcodeeditor.h"
 #include"Views/HTMLReportView/htmlreportview.h"
+#include"ISA-export/isaexporter.h"
 
 using namespace std;
 using Xeml::Document::DocumentResources;
+using namespace XemlUtilities::ISA;
 
 
 class QAction;
@@ -56,6 +58,7 @@ class MainWindow : public QMainWindow
 
 	private:
 		Ui::MainWindow                           * ui;
+		IsaExporter                              * data_exporter;
 		QTimer                                   * timer;
 		QBasicTimer                                m_timer;
 		QComboBox                                * zoomFactorSelector;

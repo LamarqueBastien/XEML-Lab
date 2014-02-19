@@ -2,6 +2,7 @@
 
 MySqlDataProvider::MySqlDataProvider()
 {
+
 }
 QImage * MySqlDataProvider::get_logo(){
 

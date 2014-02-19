@@ -92,7 +92,8 @@ SOURCES += \
     ISA-export/Ontology/ontologybase.cpp \
     ISA-export/Ontology/term.cpp \
     ISA-export/Protocol/protocolbase.cpp \
-    DataSet/xemldataset.cpp
+    DataSet/xemldataset.cpp \
+    ISA-export/Protocol/parameter.cpp
 
 
 HEADERS += \
@@ -184,7 +185,8 @@ HEADERS += \
     ISA-export/Ontology/ontologybase.h \
     ISA-export/Ontology/term.h \
     ISA-export/Protocol/protocolbase.h \
-    DataSet/xemldataset.h
+    DataSet/xemldataset.h \
+    ISA-export/Protocol/parameter.h
 
 unix:!symbian {
     maemo5 {

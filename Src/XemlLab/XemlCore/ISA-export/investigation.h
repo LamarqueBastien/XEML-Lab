@@ -4,11 +4,22 @@
 #include<QFile>
 #include<QTextStreamManipulator>
 #include"ISA-export/Ontology/ontologybase.h"
-class Investigation
-{
-	public:
-		Investigation();
-		static QString get_stream();
-};
+#include"Interface/itfdocument.h"
+#include"CoreObjects/xemldocument.h"
+
+using namespace Xeml::Document;
+
+namespace XemlUtilities{
+
+	namespace ISA{
+		class Investigation
+		{
+			public:
+				Investigation();
+				static void get_stream(ItfDocument * _xemlDoc,QFile *  _investigationfile);
+				static QString get_fileName(ItfDocument * _xemlDoc);
+		};
+	}
+}
 
 #endif // INVESTIGATION_H
