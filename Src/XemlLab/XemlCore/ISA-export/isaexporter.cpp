@@ -93,6 +93,7 @@ namespace XemlUtilities{
 				Investigation::get_stream(_xds,investigation_file);
 
 			}
+			/*
 			QFile * assay_file=new QFile(Isa_directory.path()+Assay::get_fileName(_xds));
 			if (!assay_file->open(QIODevice::WriteOnly)) {
 
@@ -105,6 +106,7 @@ namespace XemlUtilities{
 				Assay::get_stream(_xds,assay_file);
 
 			}
+			*/
 
 
 

@@ -16,7 +16,7 @@ namespace XemlUtilities{
 				public:
 					//Parameter();
 					QString name;
-					Term * accesion_number;
+					XemlUtilities::ISA::Ontology::Term * accesion_number;
 					QString value;
 			};
 		}

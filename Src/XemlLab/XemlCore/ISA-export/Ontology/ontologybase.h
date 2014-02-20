@@ -2,7 +2,7 @@
 #define ONTOLOGYBASE_H
 #include"ISA-export/Ontology/term.h"
 #include<vector>
-#include<pair.h>
+
 
 using namespace std;
 

@@ -93,7 +93,8 @@ SOURCES += \
     ISA-export/Ontology/term.cpp \
     ISA-export/Protocol/protocolbase.cpp \
     DataSet/xemldataset.cpp \
-    ISA-export/Protocol/parameter.cpp
+    ISA-export/isatable.cpp \
+    SQLDataProvider/platodataprovider.cpp
 
 
 HEADERS += \
@@ -186,7 +187,9 @@ HEADERS += \
     ISA-export/Ontology/term.h \
     ISA-export/Protocol/protocolbase.h \
     DataSet/xemldataset.h \
-    ISA-export/Protocol/parameter.h
+    ISA-export/Protocol/parameter.h \
+    ISA-export/isatable.h \
+    SQLDataProvider/platodataprovider.h
 
 unix:!symbian {
     maemo5 {

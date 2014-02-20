@@ -92,28 +92,36 @@ int main(int argc, char *argv[])
 	*************************************************/
 
 
-	/*
-	QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
-	//147.100.103.188
-	db.setHostName("localhost");
-	db.setUserName("postgres");
-	db.setPassword("");
-	db.setPort(5432);
-	db.setDatabaseName("postgres");
-	*/
 
+
+	/******************************************************
+	 */
+/*
+
+
+		QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL","postgres");
 		//147.100.103.188
-		//127.0.0.1
+		db.setHostName("localhost");
+		db.setUserName("postgres");
+		db.setPassword("");
+		db.setPort(5432);
+		db.setDatabaseName("postgres");
 
-	//QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
 
-	//db.setHostName("147.100.103.188");
-	//db.setUserName("labdesigner");
-	//db.setPassword("glucose");
-	//db.setPort(1433);
-	//db.setDatabaseName("PlatoDB");
+			//147.100.103.188
+			//127.0.0.1
 
-	/*
+		//QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+
+		//db.setHostName("147.100.103.188");
+		//db.setUserName("labdesigner");
+		//db.setPassword("glucose");
+		//db.setPort(1433);
+		//db.setDatabaseName("PlatoDB");*/
+
+
+/*
+
 	 *QString SQLServerProvider::buildDSN(QString server, QString database, QString username, QString password)
 {
 #ifdef Q_WS_MACX
@@ -212,54 +220,82 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 #endif
 */
 
+/*************************************************************************************************/
+
+/*
+	//Look for plugins path
+
+	//QStringList paths = QCoreApplication::libraryPaths();
+	//for (QStringList::iterator it = paths.begin(); it!=paths.end(); it++) {
+	//	std::cerr << "Looking for plugins at path: " << it->toStdString() << std::endl;
+	//
+*/
 
 
 
-	QStringList paths = QCoreApplication::libraryPaths();
-	for (QStringList::iterator it = paths.begin(); it!=paths.end(); it++) {
-		std::cerr << "Looking for plugins at path: " << it->toStdString() << std::endl;
-	}
-	QString ipserver,LoginName,database,Pass;
-	ipserver="147.100.103.188";
-	LoginName="labdesigner";
-	database="PlatoDB";
-	Pass="glucose";
+#if defined(Q_OS_WIN)
+		std::cerr << "Une erreur s'est produite. :(" << std::endl;
+#elif defined(Q_OS_MACX)
+		std::cerr << "MAC OS" << std::endl;
+		QString dir = QDir::homePath();
+		QDir d;
+		QString libdir = d.absolutePath();
+		std::cerr << "homepath : " << dir.toStdString() << "absolutepath : "<< libdir.toStdString() << std::endl;
+#else
+		std::cerr << "Une erreur s'est produite. :(" << std::endl;
+#endif
 
 
+		QString ipserver,LoginName,database,Pass;
+		ipserver="147.100.103.188";
+		LoginName="labdesigner";
+		database="PlatoDB";
+		Pass="glucose";
+
+#ifdef Q_OS_MACX
+	//QString dsn = QString("DRIVER=/usr/local/lib/libtdsodbc.so;SERVER=%1;TDS_VERSION=8pClient;DATABASE=%2;PORT=1433;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+	//QString dsn = QString("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
+	std::cerr << "Mac OS" << std::endl;
+
+	//first way to connect without using dsn but you need to have the libtdsodbc.so installed in the right location
 	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
-	/*QString driver_name="QMYSQL";
-	if(db.isDriverAvailable(driver_name)){
-		std::cerr << "Driver" << driver_name.toStdString() <<  " is available " << std::endl;
-	}
-	else{
-		std::cerr << "Driver "<< driver_name.toStdString() <<  " is not available"<< std::endl;
-	}*/
-	//db.setDatabaseName("myodbc5a");
-	//db.setDatabaseName("DRIVER={MyODBCa};Server="+ipserver+";Database="+database+";Port=1433;");
+
+	db.setDatabaseName("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
+	//second way to connect using dsn  in /home/.odbc.ini files
+	/*
+
+		QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+		db.setDatabaseName("plato");
+		db.setUserName(LoginName);
+		db.setPassword(Pass);
+
+	*/
 
 
-	//db.setHostName(ipserver);
+#endif
 
-	//db.setPort(1433);
-	//db.setDatabaseName("myodbc5w");
+#ifdef Q_OS_X11
+	//QString dsn = QString("DRIVER={FreeTDS};SERVER=%1;TDS_VERSION=8.0;PORT=1433;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+	std::cerr << "X11 OS" << std::endl;
 
-	//db.setDatabaseName("myodbc5w");
-	db.setDatabaseName("plato");
-	db.setUserName(LoginName);
-	db.setPassword(Pass);
+#endif
 
+#ifdef Q_OS_WIN
+	//QString dsn = QString("DRIVER={SQL SERVER};SERVER=%1;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+	std::cerr << "Win OS" << std::endl;
 
-	//ODBC 5.2(a) Driver
-	//db.setDatabaseName("DRIVER={FreeTDSDriver};Uid="+LoginName+";Pwd="+Pass+";");
-
-	//db.setDatabaseName("DRIVER={FreeTDSDriver};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
-	//db.setUserName(LoginName);
-	//db.setPassword(Pass);
-
-	//db.setDatabaseName("smilerMSSQL");
+#endif
 
 
 
+
+	//PLATO DB connection
+
+
+
+	//db.setDatabaseName("DRIVER={FreeTDSDriver};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Pwd="+Pass+";");
+
+	//First requests test (to integrate in Plato_provider class (MSSQLprovider)
 
 	if(db.open())
 	  {
@@ -273,17 +309,12 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 		   std::cerr << list.at(i).toStdString() << std::endl;
 	   }
 	   QSqlQuery query("",db);
-	   //QSqlQuery query;
-
-//functional request:
-
-
-	   //"SELECT Experiment_Fk FROM [PlatoDB].[dbo].[FreshWeights]"
-//request to test
-
-	   //SELECT UId FROM [PLatoDB].[dbo].[Experiments]
-
-	   if(query.exec("SELECT Id FROM [PlatoDB].[dbo].[Experiments]"))
+	   /*
+		*"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='Wheatstem2013'"
+		*"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"
+		*"SELECT Id FROM [PlatoDB].[dbo].[Experiments]"
+		*/
+	   if(query.exec("SELECT Value,Sample FROM [PlatoDB].[dbo].[FreshWeights] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"))
 	   {
 		   //if (!query.isActive())
 			 //  QMessageBox::warning(w, tr("Database Error"),
@@ -296,19 +327,16 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 			   results_counter++;
 
 			   QString resultString = query.value(0).toString();
-			   std::cerr << "result: " <<  resultString.toStdString() << std::endl;
+			   QString resultString2 = query.value(1).toString();
+			   std::cerr << "result: " <<  resultString.toStdString() << " ------ results2: " <<resultString2.toStdString() << std::endl;
 			   ///qDebug() << country;
 		   }
 		   std::cerr << "there is " << results_counter << "element in this table" << std::endl;
 	   }
 	   else
 	   {
-		   std::cout << "Une erreur s'est produite. :(" << std::endl << query.lastError().text().toStdString()<< std::endl;
+		   std::cout << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
 	   }
-
-
-
-
 	   db.close();
 	   //QSqlDatabase::removeDatabase("PlatoDB");
 	}
@@ -316,6 +344,51 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
 	   //qDebug() << "Error" << *db*.lastError().text();
 	}
+
+
+	//Debug part
+
+/*
+	QString driver_name="QMYSQL";
+	if(db.isDriverAvailable(driver_name)){
+		std::cerr << "Driver" << driver_name.toStdString() <<  " is available " << std::endl;
+	}
+	else{
+		std::cerr << "Driver "<< driver_name.toStdString() <<  " is not available"<< std::endl;
+	}
+	//db.setDatabaseName("myodbc5a");
+	//db.setDatabaseName("DRIVER={MyODBCa};Server="+ipserver+";Database="+database+";Port=1433;");
+
+
+	//db.setHostName(ipserver);
+
+	//db.setPort(1433);
+	//db.setDatabaseName("myodbc5w");
+
+	//db.setDatabaseName("myodbc5w");
+
+
+
+	//ODBC 5.2(a) Driver
+	//db.setDatabaseName("DRIVER={FreeTDSDriver};Uid="+LoginName+";Pwd="+Pass+";");
+
+	//db.setDatabaseName("DRIVER={FreeTDSDriver};Server="+ipserver+";Database="+database+";Uid="+LoginName+";Port=1433;Pwd="+Pass+";");
+	//db.setUserName(LoginName);
+	//db.setPassword(Pass);
+
+	//db.setDatabaseName("smilerMSSQL");*/
+/*
+	   //QSqlQuery query;
+
+//functional request:
+
+
+	   //"SELECT Experiment_Fk FROM [PlatoDB].[dbo].[FreshWeights]"
+//request to test
+
+	   //SELECT UId FROM [PLatoDB].[dbo].[Experiments]
+
+
 
 
 
@@ -355,8 +428,8 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	//QPSQLDriver *drv =  new QPSQLDriver(con);
 	//QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL"); // devient la nouvelle connexion par défaut
 	//QSqlQuery query;
-
-	/*
+	*/
+/*
 	QStringList tmp2 =QSqlDatabase::drivers();
 	foreach (QString str, tmp2){
 		std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -370,7 +443,7 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	}
 	QSqlRecord record;
 	*/
-	/*
+/*
 	if(db.open())
 	{
 		QStringList list=db.tables();
@@ -430,8 +503,8 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 
 
 	/************************************************
-	 * display Splashscreen during initialization
-	*************************************************/
+	 *display Splashscreen during initialization
+	************************************************ */
 
 	QSplashScreen *splash = new QSplashScreen;
 

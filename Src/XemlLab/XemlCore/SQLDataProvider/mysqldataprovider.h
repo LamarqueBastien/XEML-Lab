@@ -3,8 +3,12 @@
 #include"Interface/itfdataprovider.h"
 using namespace Xeml::Sampling::Contracts;
 
-class MySqlDataProvider :public ItfDataProvider
+
+
+
+class MySqlDataProvider : public ItfDataProvider
 {
+
 	public:
 		MySqlDataProvider();
 		QImage * get_logo();
@@ -17,5 +21,7 @@ class MySqlDataProvider :public ItfDataProvider
 		ConnectResult testCredentials(QString _user, QString _password);
 
 };
+
+
 
 #endif // MYSQLDATAPROVIDER_H
