@@ -276,7 +276,7 @@ QSqlDatabase db;
 
 #ifdef Q_OS_X11
 	db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
-	db.setDatabaseName("DRIVER={FreeTDS};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
+	db.setDatabaseName("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 
 	//QString dsn = QString("DRIVER={FreeTDS};SERVER=%1;TDS_VERSION=8.0;PORT=1433;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
 	std::cerr << "X11 OS" << std::endl;
