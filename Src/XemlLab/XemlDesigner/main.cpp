@@ -275,6 +275,9 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 #endif
 
 #ifdef Q_OS_X11
+	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+	db.setDatabaseName("DRIVER={FreeTDS};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
+
 	//QString dsn = QString("DRIVER={FreeTDS};SERVER=%1;TDS_VERSION=8.0;PORT=1433;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
 	std::cerr << "X11 OS" << std::endl;
 
@@ -399,7 +402,7 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	//147.100.103.188
 	//db.setDatabaseName("DRIVER={OpenLink SQL Server Lite Driver v6.0};UID=labdesigner;PWD=glucose;DATABASE=PlatoDB;TDSHOST=147.100.103.188;TDSPORT=1433");
 
-	//db.setDatabaseName("DRIVER={SQL SERVER}; SERVER=147.100.103.188; DATABASE=PlatoDB");
+	//it works on windows ://db.setDatabaseName("DRIVER={SQL SERVER}; SERVER=147.100.103.188; DATABASE=PlatoDB");
 
 	//db.setDatabaseName("Driver={MySQL ODBC 5.1 Driver};SERVER=147.100.103.188;DATABASE=PlatoDB;");
 
