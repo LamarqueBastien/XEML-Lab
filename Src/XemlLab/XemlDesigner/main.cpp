@@ -257,13 +257,16 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 		std::cerr << "Une erreur s'est produite. :(" << std::endl;
 #endif
 
-
+//connection parameters
 		QString ipserver,LoginName,database,Pass;
 		ipserver="147.100.103.188";
 		LoginName="labdesigner";
 		database="PlatoDB";
 		Pass="glucose";
 QSqlDatabase db;
+
+
+
 #ifdef Q_OS_MACX
 	//QString dsn = QString("DRIVER=/usr/local/lib/libtdsodbc.so;SERVER=%1;TDS_VERSION=8pClient;DATABASE=%2;PORT=1433;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
 	//QString dsn = QString("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
@@ -285,8 +288,9 @@ QSqlDatabase db;
 
 
 #endif
-
 #ifdef Q_OS_X11
+#endif
+#ifdef Q_OS_LINUX
 	db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	db.setDatabaseName("DRIVER={FreeTDS};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 
