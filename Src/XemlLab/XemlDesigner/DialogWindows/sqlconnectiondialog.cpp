@@ -69,6 +69,10 @@ SQLConnectionDialog::SQLConnectionDialog(QWidget *parent) :
 
 
 }
+SQLConnectionDialog::~SQLConnectionDialog(){
+
+}
+
 void          SQLConnectionDialog::OkClicked(){
 
 }
