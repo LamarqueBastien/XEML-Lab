@@ -18,7 +18,7 @@ class SQLConnectionDialog : public QDialog
 		Q_OBJECT
 	public:
 		explicit SQLConnectionDialog(QWidget *parent = 0);
-		// ~QSqlConnectionDialog();
+		~SQLConnectionDialog();
 	private:
 		QLabel      * database_label;
 		QLineEdit   * databaseEdit;

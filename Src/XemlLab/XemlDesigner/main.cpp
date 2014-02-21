@@ -239,6 +239,7 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 
 		//Comment/Uncomment this part for SQL connection
 		/****************************************
+		 */
 		QStringList tmp2 =QSqlDatabase::drivers();
 		foreach (QString str, tmp2){
 			std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -354,7 +355,7 @@ QSqlDatabase db;
 		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
 	   //qDebug() << "Error" << *db*.lastError().text();
 	}
-	*/
+	/*/
 
 /*********************************************
 	//Debug part
