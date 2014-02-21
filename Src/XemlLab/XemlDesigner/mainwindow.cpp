@@ -441,12 +441,12 @@ void    MainWindow::createActions(){
 	saveAsAction->setShortcut(tr("Ctrl+A"));
 	saveAsAction->setStatusTip(tr("Save this file as "));
 	connect(saveAsAction,SIGNAL(triggered()),this,SLOT(validate_xml_to_save_as()));
-	/*
-	cutAction = new QAction(tr("&Cut"), this);
-	cutAction->setShortcut(tr("Ctrl+C"));
-	cutAction->setStatusTip(tr("Cut this"));
-	connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
-*/
+
+	databaseAction = new QAction(tr("&Database Connection"), this);
+	databaseAction->setShortcut(tr("Ctrl+Alt+C"));
+	databaseAction->setStatusTip(tr("database connection"));
+	connect(databaseAction, SIGNAL(triggered()), this, SLOT(database_connect()));
+
 	editXemlAction = new QAction(tr("&CodeEditor"), this);
 	editXemlAction->setShortcut(tr("Ctrl+C"));
 	editXemlAction->setStatusTip(tr("Display Xeml document"));
@@ -468,6 +468,11 @@ void    MainWindow::createActions(){
 		connect(recentFileActions[i], SIGNAL(triggered()),this, SLOT(openRecentFile()));
 	}
 }
+void    MainWindow::database_connect(){
+	SQLConnectionDialog * sql_connection_dialog=new SQLConnectionDialog;
+	sql_connection_dialog->show();
+}
+
 void    MainWindow::generate_html_report(){
 	std::cerr << "entering html generation (MainWindows)" << std::endl;
 	HtmlReportView * htmlView=new HtmlReportView();
@@ -513,7 +518,7 @@ void    MainWindow::createMenus() {
 	toolsMenu = QMainWindow::menuBar()->addMenu(tr("&Tools"));
 	toolsMenu->addAction(editXemlAction);
 	toolsMenu->addAction(HtmlReportAction);
-	//toolsMenu->addAction(addParameterAction);
+	toolsMenu->addAction(databaseAction);
 	//toolsMenu->addAction(parameterInfoAction);
 
 }

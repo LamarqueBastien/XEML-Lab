@@ -75,7 +75,8 @@ SOURCES += \
     Views/HTMLReportView/htmlreportview.cpp \
     DialogWindows/annotationdialog.cpp \
     Views/xemlobjectinfoview.cpp \
-    Views/Items/infoballoontip.cpp
+    Views/Items/infoballoontip.cpp \
+    DialogWindows/sqlconnectiondialog.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -145,7 +146,8 @@ HEADERS += \
     DialogWindows/annotationdialog.h \
     Views/xemlobjectinfoview.h \
     Views/Items/infotipbutton.h \
-    Views/Items/infoballoontip.h
+    Views/Items/infoballoontip.h \
+    DialogWindows/sqlconnectiondialog.h
 
 RESOURCES += \
     Divers.qrc

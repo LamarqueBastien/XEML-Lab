@@ -231,6 +231,14 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	//
 */
 
+		/*
+		 *"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='Wheatstem2013'"
+		 *"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"
+		 *"SELECT Id FROM [PlatoDB].[dbo].[Experiments]"
+		 */
+
+		//Comment/Uncomment this part for SQL connection
+		/****************************************
 		QStringList tmp2 =QSqlDatabase::drivers();
 		foreach (QString str, tmp2){
 			std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -265,21 +273,21 @@ QSqlDatabase db;
 
 	db.setDatabaseName("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 	//second way to connect using dsn  in /home/.odbc.ini files
-	/*
 
-		QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
-		db.setDatabaseName("plato");
-		db.setUserName(LoginName);
-		db.setPassword(Pass);
 
-	*/
+		//QSqlDatabase db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+		//db.setDatabaseName("plato");
+		//db.setUserName(LoginName);
+		//db.setPassword(Pass);
+
+
 
 
 #endif
 
 #ifdef Q_OS_X11
 	db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
-	db.setDatabaseName("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
+	db.setDatabaseName("DRIVER={FreeTDS};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 
 	//QString dsn = QString("DRIVER={FreeTDS};SERVER=%1;TDS_VERSION=8.0;PORT=1433;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
 	std::cerr << "X11 OS" << std::endl;
@@ -315,11 +323,7 @@ QSqlDatabase db;
 		   std::cerr << list.at(i).toStdString() << std::endl;
 	   }
 	   QSqlQuery query("",db);
-	   /*
-		*"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='Wheatstem2013'"
-		*"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"
-		*"SELECT Id FROM [PlatoDB].[dbo].[Experiments]"
-		*/
+
 	   if(query.exec("SELECT Value,Sample FROM [PlatoDB].[dbo].[FreshWeights] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"))
 	   {
 		   //if (!query.isActive())
@@ -350,9 +354,11 @@ QSqlDatabase db;
 		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
 	   //qDebug() << "Error" << *db*.lastError().text();
 	}
+	*/
 
-
+/*********************************************
 	//Debug part
+*********************************************/
 
 /*
 	QString driver_name="QMYSQL";

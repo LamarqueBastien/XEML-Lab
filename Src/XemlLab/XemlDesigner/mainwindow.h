@@ -38,6 +38,7 @@
 #include"Views/xemlcodeeditor.h"
 #include"Views/HTMLReportView/htmlreportview.h"
 #include"ISA-export/isaexporter.h"
+#include"DialogWindows/sqlconnectiondialog.h"
 
 using namespace std;
 using Xeml::Document::DocumentResources;
@@ -120,6 +121,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * parameterInfoAction;
 		QAction                                  * cutAction;
 		QAction                                  * editXemlAction;
+		QAction                                  * databaseAction;
 		QAction                                  * addParameterAction;
 		QAction                                  * loadAction;
 		QAction                                  * newAction;
@@ -170,6 +172,7 @@ class MainWindow : public QMainWindow
 		bool                                       saveAs(bool _IsValid);
 		void                                       exit();
 		void                                       cut();
+		void                                       database_connect();
 		void                                       edit_xeml();
 		void                                       set_experimenter(QString _firstnametext,QString _lastnametext,QString _organisationtext,QString _emailtext);
 		bool                                       validate_xml_to_save();
