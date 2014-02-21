@@ -265,7 +265,7 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 		Pass="glucose";
 QSqlDatabase db;
 
-
+db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 #ifdef Q_OS_MACX
 	//QString dsn = QString("DRIVER=/usr/local/lib/libtdsodbc.so;SERVER=%1;TDS_VERSION=8pClient;DATABASE=%2;PORT=1433;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
@@ -273,7 +273,7 @@ QSqlDatabase db;
 	std::cerr << "Mac OS" << std::endl;
 
 	//first way to connect without using dsn but you need to have the libtdsodbc.so installed in the right location
-	db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+	//db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 	db.setDatabaseName("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 	//second way to connect using dsn  in /home/.odbc.ini files
@@ -291,7 +291,7 @@ QSqlDatabase db;
 #ifdef Q_OS_X11
 #endif
 #ifdef Q_OS_LINUX
-	db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+	//db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	db.setDatabaseName("DRIVER={FreeTDS};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 
 	//QString dsn = QString("DRIVER={FreeTDS};SERVER=%1;TDS_VERSION=8.0;PORT=1433;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
@@ -300,7 +300,7 @@ QSqlDatabase db;
 #endif
 
 #ifdef Q_OS_WIN
-	//QString dsn = QString("DRIVER={SQL SERVER};SERVER=%1;DATABASE=%2;UID=%3;PWD=%4;").arg(server).arg(database).arg(username).arg(password);
+	db.setDatabaseName("DRIVER={SQL SERVER};Server="+ipserver+";Database="+database+";Port=1433;Uid="+LoginName+";Pwd="+Pass+";");
 	std::cerr << "Win OS" << std::endl;
 
 #endif
