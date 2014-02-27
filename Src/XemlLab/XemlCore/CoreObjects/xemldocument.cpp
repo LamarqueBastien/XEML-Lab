@@ -779,7 +779,6 @@ namespace Xeml {
 			}
 			this->storyBoard->get_storyBoard()->erase(it_to_erase);
 		}
-
 		void                  XemlDocument::purge(){
 			for(std::list<StoryNode*>::iterator it = this->storyBoard->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
 				//if((*it)->get_parent()==NULL){
@@ -958,7 +957,7 @@ namespace Xeml {
 							InitSampleMapping(QNL_sub.item(j).toElement(),sid);
 							InitAnnotations(QNL_sub.item(j).toElement(),sid);
 							if(!providerdata->contain_key(prov)){
-								std::cerr << "already contains in this provider data mappings " << std::endl;
+								std::cerr << "already contains in this provider data " << std::endl;
 								this->providerdata->add(prov,new std::vector<std::pair<SampleIdMapping*,int> >());
 							}
 
@@ -1041,8 +1040,6 @@ namespace Xeml {
 			storyBase->add_sample(s);
 
 		}
-
-
 		void                  XemlDocument::InitRessources(QDomElement  elem){
 			QDomNodeList QNL=elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {
@@ -1097,6 +1094,7 @@ namespace Xeml {
 
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:DataProvider"){
+					std::cerr << "prepare to load provider : " << QNL.item(i).toElement().attributeNode("Name").value().toStdString() << std::endl;
 					DataProviderResources * spr = new DataProviderResources();
 					spr->set_friendly_name(QNL.item(i).toElement().attributeNode("Name").value());
 					spr->load_component(QNL.item(i).toElement().attributeNode("ProviderUri").value());
@@ -1530,6 +1528,18 @@ namespace Xeml {
 
 
 
+		std::vector<Sample*>  *    XemlDocument::extract_samples(ItfDocument * _xemlDoc){
+			std::vector<Sample*> * samples =  new std::vector<Sample*>();
+
+			//for(std::vector<std::pair<Sample*,int> >::iterator it=_node->get_story()->get_samplesCollection()->begin();it!=_node->get_story()->get_samplesCollection()->end();++it){
+				//Sample * s =static_cast<Sample*>((*it).first);
+				//samples->push_back(s);
+				//int id=static_cast<Sample*>((*it).first)->get_id();
+			//}
+			return samples;
+
+		}
+
 		QUuid                 XemlDocument::get_id(){
 			return this->Id;
 		}
@@ -1548,6 +1558,11 @@ namespace Xeml {
 		}
 		QString               XemlDocument::get_obs_time(){
 			return this->observationTime;
+		}
+
+
+		ProviderDataMappings * XemlDocument::get_provider_data_mapping(){
+			return this->providerdata;
 		}
 
 		void                  XemlDocument::set_obs_time(QString _time){

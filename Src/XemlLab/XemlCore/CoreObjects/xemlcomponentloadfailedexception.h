@@ -1,6 +1,8 @@
 #ifndef XEMLCOMPONENTLOADFAILEDEXCEPTION_H
 #define XEMLCOMPONENTLOADFAILEDEXCEPTION_H
+#include<iostream>
 #include<exception>
+
 #include<QUuid>
 #include<string>
 using namespace std;

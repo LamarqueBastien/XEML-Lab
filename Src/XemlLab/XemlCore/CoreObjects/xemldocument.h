@@ -59,17 +59,17 @@ namespace Xeml {
 		{
 			private:
 
-				QDomDocument        doc;
-				QString             experiment_name;
-				QString             xeml;
-				QUuid               Id;
-				QDateTime           startDate;
-				QDateTime           endDate;
-				ExperimentHeader  * experimentheader;
-				StoryBoard        * storyBoard;
-				DocumentResources * documentResources;
+				QDomDocument           doc;
+				QString                experiment_name;
+				QString                xeml;
+				QUuid                  Id;
+				QDateTime              startDate;
+				QDateTime              endDate;
+				ExperimentHeader     * experimentheader;
+				StoryBoard           * storyBoard;
+				DocumentResources    * documentResources;
 				ProviderDataMappings * providerdata;
-				QString             description;
+				QString                description;
 
 			public:
 
@@ -95,7 +95,7 @@ namespace Xeml {
 				QString             get_obs_time();
 				QString             get_description();
 				void                set_description(QString _description);
-
+				ProviderDataMappings * get_provider_data_mapping();
 				void                set_obs_time(QString   _time);
 				QString             get_experiment_name();
 				QString             get_xemlcode();
@@ -107,6 +107,7 @@ namespace Xeml {
 				void                set_startdate(QDateTime _t);
 				void                set_enddate(QDateTime _t);
 				QString             generate_string_xml();
+				std::vector<Sample*>   * extract_samples(ItfDocument * _xemlDoc);
 
 
 

@@ -8,6 +8,7 @@ namespace Xeml {
 		}
 		XemlComponentLoadFailedException::XemlComponentLoadFailedException(QString _message)
 		{
+			std::cerr << "create a new Xemlcomponetnloadfailedexception" << std::endl;
 			this->message=_message;
 		}
 		XemlComponentLoadFailedException::XemlComponentLoadFailedException(QString _uri, QString _message)

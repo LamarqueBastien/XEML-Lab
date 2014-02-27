@@ -11,6 +11,7 @@
 #include<sstream>
 #include<fstream>
 #include<QHBoxLayout>
+#include<assert.h>
 #include<map>
 #include<QUrl>
 #include <QtPlugin>
@@ -50,7 +51,47 @@ class FileManager;
 
 
 //Q_IMPORT_PLUGIN(qsqlodbc)
-
+QString uuidToString(const QVariant &v)
+   {
+	  // get pointer to raw data
+	  QByteArray arr(v.toByteArray());
+	  std::cerr << " arr : " << arr.toInt() << std::endl;
+	  std::string result(arr.constData(),arr.size());
+	  std::cerr << " size : " << result.size() << std::endl;
+	  assert(result.size() == 16);
+	  const char *ptr = result.data();
+	  // extract the GUID-parts from the data
+	  uint   data1 = *reinterpret_cast<const uint*>(ptr);
+	  std::cerr << " data1 : " << data1 << std::endl;
+	  ushort data2 = *reinterpret_cast<const ushort*>(ptr+=sizeof(uint));
+	  ushort data3 = *reinterpret_cast<const ushort*>(ptr+=sizeof(ushort));
+	  uchar  data4[8] =
+	  {
+		 *reinterpret_cast<const uchar*>(ptr+=sizeof(ushort)),
+		 *reinterpret_cast<const uchar*>(++ptr),
+		 *reinterpret_cast<const uchar*>(++ptr),
+		 *reinterpret_cast<const uchar*>(++ptr),
+		 *reinterpret_cast<const uchar*>(++ptr),
+		 *reinterpret_cast<const uchar*>(++ptr),
+		 *reinterpret_cast<const uchar*>(++ptr),
+		 *reinterpret_cast<const uchar*>(++ptr)
+	  };
+	  // create a uuid from the extracted parts
+	  QUuid uuid(
+		 data1,
+		 data2,
+		 data3,
+		 data4[0],
+		 data4[1],
+		 data4[2],
+		 data4[3],
+		 data4[4],
+		 data4[5],
+		 data4[6],
+		 data4[7]);
+	  // finally return the uuid as a QString
+	  return uuid.toString();
+   }
 int main(int argc, char *argv[])
 {
 	// starting point of program
@@ -352,6 +393,91 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	   {
 		   std::cout << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
 	   }
+
+	   //recuperer les batches d'une experience : SELECT BatchName_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"
+	   //recuperer les unique id de la table material SELECT UId FROM [PlatoDB].[dbo].[Material] WHERE Name='TomatoLeavesAdriano' // use QUuid resultString2 = query.value(0).toUuid();
+	   //recuperer les samples id SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'
+
+	   /*
+	   QSqlQuery a(db);
+	   a.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments] WHERE Id='Phenotom'");
+	   a.next();
+	   QSqlQuery b(db);
+	   b.prepare("SELECT UId FROM [PlatoDB].[dbo].[FreshWeights] where [PlatoDB].[dbo].[FreshWeights].UId=:id");
+	   while(a.isValid())
+	   {
+		  b.bindValue(":id",a.value(0));
+		  b.exec();
+		  // ERROR: Operand type clash: image is incompatible with uniqueidentifier
+		  a.next();
+	   }
+	   */
+	   if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]"))
+	   {
+		   //if (!query.isActive())
+			 //  QMessageBox::warning(w, tr("Database Error"),
+				//					query.lastError().text());
+
+		   std::cerr << "La requete a bien été effectué ! :)" << std::endl;
+		   int results_counter=0;
+		   std::cerr << "count : "<< query.record().field(0).name().toStdString() << std::endl;
+		   std::cerr << "count : "<< query.record().value(0).isNull() << std::endl;
+
+
+
+		   while (query.next())
+		   {
+			   results_counter++;
+
+			   //QUuid * test = new QUuid(query.value(0).toUuid());//(QUuid::Microsoft);
+				//test->
+
+
+			   std::cerr << "count : "<< query.record().count() << std::endl;
+
+
+			   //QByteArray arr(query.value(0).toByteArray());
+			   //std::string result(arr.constData(),arr.size());
+			   //assert(result.size() == 16);
+			   //const char *ptr = result.data();
+					 // extract the GUID-parts from the data
+				//std::cerr << "version :" <<  query.value(0).toUuid().version() << std::endl;
+			   //std::cerr << "query value : " << query.value(0).canConvert(QMetaType::QByteArray)<< std::endl;
+			   //std::cerr << query.value(0).toByteArray().size() << std::endl;
+
+			   //QString test = uuidToString(query.value(0));
+
+
+
+				//if (query.value(0).toUuid().isNull()){
+				//	std::cerr << "null uid" << std::endl;
+				//}
+				//else{
+				//	std::cerr << "not null uid" << std::endl;
+				//}
+				std::cerr << "uid : " << query.value(0).toString().toStdString() << std::endl;
+				//QString ID=query.value(1).toString();
+				//std::cerr << "Uid result : " << test.toStdString() << std::endl;
+				//std::cerr << "id result : " << ID.toStdString() << std::endl;
+
+				//QUuid * test =new QUuid();
+			   //std::cerr << "test Uuid: " << test->toString().toStdString() << std::endl;
+
+
+			   //QString Experiment_Fk = query.value(0).toString();
+			   //QString Sample_Fk = query.value(1).toString();
+			   //QString BatchNumber_Fk = query.value(2).toString();
+			   //QString resultString2 = query.value(1).toString();
+			   //std::cerr << "result: " <<  Experiment_Fk.toStdString()<<"-"<<Sample_Fk.toStdString()<<"-"<<BatchNumber_Fk.toStdString()<<std::endl;
+			   //" ------ results2: " <<resultString2.toStdString() << std::endl;
+			   ///qDebug() << country;
+		   }
+		   std::cerr << "there is " << results_counter << "element in this table" << std::endl;
+	   }
+	   else
+	   {
+		   std::cout << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
+	   }
 	   db.close();
 	   //QSqlDatabase::removeDatabase("PlatoDB");
 	}
@@ -566,6 +692,7 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 
 }
+
 /*
 QDir my_dir(a.applicationDirPath());
 

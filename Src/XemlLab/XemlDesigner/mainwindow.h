@@ -122,6 +122,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * cutAction;
 		QAction                                  * editXemlAction;
 		QAction                                  * databaseAction;
+		QAction                                  * autoMappingAction;
 		QAction                                  * addParameterAction;
 		QAction                                  * loadAction;
 		QAction                                  * newAction;
@@ -173,6 +174,7 @@ class MainWindow : public QMainWindow
 		void                                       exit();
 		void                                       cut();
 		void                                       database_connect();
+		void                                       auto_mapping();
 		void                                       edit_xeml();
 		void                                       set_experimenter(QString _firstnametext,QString _lastnametext,QString _organisationtext,QString _emailtext);
 		bool                                       validate_xml_to_save();

@@ -35,12 +35,17 @@ namespace Xeml{
 			this->compState=_compstate;
 		}
 		void DataProviderResources::load_component(QString _uri){
+			std::cerr << "uri = " << _uri.toStdString() << std::endl;
 			this->uri=_uri;
 			if(this->compState!=Xeml::Document::Loaded){
 				try{
-					if( SampleManager::Get_sampleManager()->get_provider().find(_uri)==SampleManager::Get_sampleManager()->get_provider().end()){
+					if( SampleManager::Get_sampleManager()->get_provider()->find(_uri)!=SampleManager::Get_sampleManager()->get_provider()->end()){
+						std::cerr << "prepare to create provider for this uri :" << _uri.toStdString() << std::endl;
 						this->provider = SampleManager::Get_sampleManager()->createProvider(this->uri);
+						std::cerr << "provider created for this uri :" << _uri.toStdString() << std::endl;
+
 						this->compState=Xeml::Document::Loaded;
+						std::cerr << "component loaded" << std::endl;
 					}
 					else{
 						this->compState=Xeml::Document::UnknownComponent;
@@ -48,6 +53,7 @@ namespace Xeml{
 
 				}
 				catch(XemlComponentLoadFailedException){
+					std::cerr << "component load failed" << std::endl;
 					this->compState=Xeml::Document::Failed;
 				}
 			}

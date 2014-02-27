@@ -1,5 +1,6 @@
 #ifndef PLATODATAPROVIDER_H
 #define PLATODATAPROVIDER_H
+#include<QtSql>
 #include"Interface/itfdataprovider.h"
 using namespace Xeml::Sampling::Contracts;
 
@@ -8,11 +9,21 @@ namespace XemlDataProvider{
 
 	class PlatoDataProvider : public ItfDataProvider
 	{
+		struct MyConfig{
+				QString ServerIP;
+				QString Database;
+				QString Password;
+				QString Username;
+
+		};
 
 		public:
 			PlatoDataProvider();
+			//region itfDataprovider
+
 			QImage * get_logo();
-			void set_logo();
+			void set_logo(QImage * _logo);
+
 			bool support_auto_mapping();
 			std::vector<QString> * listForeignKey();
 			std::vector<QString> * filterKeyValues(QString _key,std::vector<std::pair<QString,QString> > * filter);
@@ -20,15 +31,27 @@ namespace XemlDataProvider{
 			SidLookUpResult validate(SampleIdMapping *sim);
 			ConnectResult testCredentials(QString _user, QString _password);
 			QString buildDSN(QString server, QString database, QString username, QString password);
+			//KeyKeyValueCollection<string,int,object> QueryData(List<SidMapping> samples );
+			QSqlDatabase BuildConnection();
+			QStringList get_available_drivers();
+
+			//end region ItfDataProvider
+
+
+			//region XemlComponent
+			QString            get_publisher();
+			QString            get_version();
+			QString            get_componentName();
+			QString            get_author();
+			QString            get_description();
+			QString            get_uri();
+			ItfXemlComponent * copy();
+			//end region XemlComponent
 
 		private:
-			struct MyConfig{
-					QString ServerIP;
-					QString Database;
-					QString Password;
-					QString Username;
 
-			};
+			MyConfig myConfig;
+			QImage * plato_logo;
 
 	};
 }

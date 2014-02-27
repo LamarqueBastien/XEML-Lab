@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core widgets network xml xmlpatterns
+QT       += core widgets network xml xmlpatterns sql
 
 
 TARGET = XemlCore

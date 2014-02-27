@@ -447,6 +447,11 @@ void    MainWindow::createActions(){
 	databaseAction->setStatusTip(tr("database connection"));
 	connect(databaseAction, SIGNAL(triggered()), this, SLOT(database_connect()));
 
+	autoMappingAction = new QAction(tr("&AutoMappings"), this);
+	autoMappingAction->setShortcut(tr("Ctrl+Alt+A"));
+	autoMappingAction->setStatusTip(tr("automaps sample"));
+	connect(autoMappingAction, SIGNAL(triggered()), this, SLOT(auto_mapping()));
+
 	editXemlAction = new QAction(tr("&CodeEditor"), this);
 	editXemlAction->setShortcut(tr("Ctrl+C"));
 	editXemlAction->setStatusTip(tr("Display Xeml document"));
@@ -471,6 +476,17 @@ void    MainWindow::createActions(){
 void    MainWindow::database_connect(){
 	SQLConnectionDialog * sql_connection_dialog=new SQLConnectionDialog;
 	sql_connection_dialog->show();
+}
+void    MainWindow::auto_mapping(){
+	std::vector<std::pair<DataProviderResources*,QString> > *  platoProvidervector = static_cast<XemlDocument*>(this->fmg->get_current_xeml())->get_doc_resources()->get_data_provider();
+	for (std::vector<std::pair<DataProviderResources*,QString> >::iterator it =platoProvidervector->begin();it!=platoProvidervector->end();++it){
+		std::cerr << "provider name: " << (*it).second.toStdString() << std::endl;
+		PlatoDataProvider * plato_provider= static_cast<PlatoDataProvider*>(static_cast<DataProviderResources*>((*it).first)->get_data_provider());
+		std::cerr << "provider author: " <<plato_provider->get_author().toStdString() << std::endl;
+
+		//plato_provider->automap()
+
+	}
 }
 
 void    MainWindow::generate_html_report(){
@@ -519,6 +535,7 @@ void    MainWindow::createMenus() {
 	toolsMenu->addAction(editXemlAction);
 	toolsMenu->addAction(HtmlReportAction);
 	toolsMenu->addAction(databaseAction);
+	toolsMenu->addAction(autoMappingAction);
 	//toolsMenu->addAction(parameterInfoAction);
 
 }

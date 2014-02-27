@@ -122,6 +122,7 @@ namespace Xeml {
 			return NULL;
 
 		}
+		// end region ForeignKeyMap
 
 
 		//region ForeignKeyValue
@@ -150,5 +151,6 @@ namespace Xeml {
 		QString ForeignKeyValue::get_key(){
 			return this->key;
 		}
+		//end region foreignKeyValue
 	}
 }
