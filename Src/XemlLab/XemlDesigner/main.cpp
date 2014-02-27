@@ -317,6 +317,7 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	//db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 	db.setDatabaseName("DRIVER={/usr/local/lib/libtdsodbc.so};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
+
 	//second way to connect using dsn  in /home/.odbc.ini files
 
 
@@ -412,7 +413,14 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		  a.next();
 	   }
 	   */
-	   if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]"))
+	   /*
+	   QSqlQueryModel sqlmodel;
+		sqlmodel.setQuery("SELECT UId FROM [PlatoDB].[dbo].[Experiments]");
+		QTableView tbl;
+		tbl.setModel(&sqlmodel);
+		tbl.show();
+		*/
+	   if(query.exec("SELECT LEFT(CAST(UId as char(64)), 36) AS test FROM [PlatoDB].[dbo].[Experiments]"))
 	   {
 		   //if (!query.isActive())
 			 //  QMessageBox::warning(w, tr("Database Error"),
@@ -420,13 +428,14 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 		   std::cerr << "La requete a bien été effectué ! :)" << std::endl;
 		   int results_counter=0;
-		   std::cerr << "count : "<< query.record().field(0).name().toStdString() << std::endl;
-		   std::cerr << "count : "<< query.record().value(0).isNull() << std::endl;
+
 
 
 
 		   while (query.next())
 		   {
+			   std::cerr << "count : "<< query.record().field(0).name().toStdString() << std::endl;
+			   std::cerr << "count : "<< query.record().value(0).isNull() << std::endl;
 			   results_counter++;
 
 			   //QUuid * test = new QUuid(query.value(0).toUuid());//(QUuid::Microsoft);
