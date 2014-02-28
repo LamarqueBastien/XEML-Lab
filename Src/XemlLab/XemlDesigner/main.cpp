@@ -280,7 +280,7 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 
 		//Comment/Uncomment this part for SQL connection
 		/****************************************
-		 */
+		 *
 		QStringList tmp2 =QSqlDatabase::drivers();
 		foreach (QString str, tmp2){
 			std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -394,10 +394,34 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	   {
 		   std::cout << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
 	   }
+	   if(query.exec("SELECT Name,Description FROM [PlatoDB].[dbo].[Protocol]"))
+	   {
+		   //if (!query.isActive())
+			 //  QMessageBox::warning(w, tr("Database Error"),
+				//					query.lastError().text());
+
+		   std::cerr << "La requete a bien été effectué ! :)" << std::endl;
+		   int results_counter=0;
+		   while (query.next())
+		   {
+			   results_counter++;
+
+			   QString resultString = query.value(0).toString();
+			   QString resultString2 = query.value(1).toString();
+			   std::cerr << "result: " <<  resultString.toStdString() << " ------ results2: " <<resultString2.toStdString() << std::endl;
+			   ///qDebug() << country;
+		   }
+		   std::cerr << "there is " << results_counter << "element in this table" << std::endl;
+	   }
+	   else
+	   {
+		   std::cout << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
+	   }
 
 	   //recuperer les batches d'une experience : SELECT BatchName_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"
-	   //recuperer les unique id de la table material SELECT UId FROM [PlatoDB].[dbo].[Material] WHERE Name='TomatoLeavesAdriano' // use QUuid resultString2 = query.value(0).toUuid();
-	   //recuperer les samples id SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'
+	   //recuperer les unique id de la table material  : SELECT UId FROM [PlatoDB].[dbo].[Material] WHERE Name='TomatoLeavesAdriano' // use QUuid resultString2 = query.value(0).toUuid();
+	   //recuperer les samples id : SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'
+	   //pour récupérer les uid : "SELECT LEFT(CAST(UId as char(64)), 36) AS test FROM [PlatoDB].[dbo].[Experiments]"
 
 	   /*
 	   QSqlQuery a(db);
@@ -420,7 +444,26 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		tbl.setModel(&sqlmodel);
 		tbl.show();
 		*/
-	   if(query.exec("SELECT LEFT(CAST(UId as char(64)), 36) AS test FROM [PlatoDB].[dbo].[Experiments]"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*
+	   #if defined(Q_OS_WIN)
+		if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]"))
+		#else
+		if(query.exec("SELECT LEFT(CAST(UId as char(64)), 36),Id FROM [PlatoDB].[dbo].[Experiments]"))
+		#endif
+	   //if(query.exec("SELECT LEFT(CAST(UId as char(64)), 36) AS test FROM [PlatoDB].[dbo].[Experiments]"))
 	   {
 		   //if (!query.isActive())
 			 //  QMessageBox::warning(w, tr("Database Error"),
@@ -434,15 +477,15 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 		   while (query.next())
 		   {
-			   std::cerr << "count : "<< query.record().field(0).name().toStdString() << std::endl;
-			   std::cerr << "count : "<< query.record().value(0).isNull() << std::endl;
-			   results_counter++;
+			  // std::cerr << "count : "<< query.record().field(0).name().toStdString() << std::endl;
+			  // std::cerr << "count : "<< query.record().value(0).isNull() << std::endl;
+			  // results_counter++;
 
 			   //QUuid * test = new QUuid(query.value(0).toUuid());//(QUuid::Microsoft);
 				//test->
 
 
-			   std::cerr << "count : "<< query.record().count() << std::endl;
+			   //std::cerr << "count : "<< query.record().count() << std::endl;
 
 
 			   //QByteArray arr(query.value(0).toByteArray());
@@ -465,6 +508,7 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 				//	std::cerr << "not null uid" << std::endl;
 				//}
 				std::cerr << "uid : " << query.value(0).toString().toStdString() << std::endl;
+				std::cerr << "id : " << query.value(1).toString().toStdString() << std::endl;
 				//QString ID=query.value(1).toString();
 				//std::cerr << "Uid result : " << test.toStdString() << std::endl;
 				//std::cerr << "id result : " << ID.toStdString() << std::endl;
@@ -488,13 +532,15 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		   std::cout << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
 	   }
 	   db.close();
+	   //db.removeDatabase("PlatoDB");
 	   //QSqlDatabase::removeDatabase("PlatoDB");
 	}
 	else{
 		std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
 	   //qDebug() << "Error" << *db*.lastError().text();
 	}
-	/*/
+
+	*/
 
 /*********************************************
 	//Debug part

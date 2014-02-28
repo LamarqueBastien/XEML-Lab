@@ -484,6 +484,13 @@ void    MainWindow::auto_mapping(){
 		PlatoDataProvider * plato_provider= static_cast<PlatoDataProvider*>(static_cast<DataProviderResources*>((*it).first)->get_data_provider());
 		std::cerr << "provider author: " <<plato_provider->get_author().toStdString() << std::endl;
 
+		//test if the experiment is present in the database
+		QUuid expid("748C92E0-59FF-4358-8702-C7F2104F7E17");
+		if(plato_provider->search_for_experiment(this->fmg->get_current_xeml()->get_id(),"StefanKempa03")){
+			std::cerr << "found" << std::endl;
+
+		}
+
 		//plato_provider->automap()
 
 	}

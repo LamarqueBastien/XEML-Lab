@@ -26,6 +26,8 @@ namespace XemlDataProvider{
 
 			bool support_auto_mapping();
 			std::vector<QString> * listForeignKey();
+			std::vector<QString> * get_sample_foreign_key(QString _experiment_name);
+			bool search_for_experiment(QUuid exp_id, QString exp_name);
 			std::vector<QString> * filterKeyValues(QString _key,std::vector<std::pair<QString,QString> > * filter);
 			std::vector<SampleIdMapping*> * automap(QUuid expID, QString expName,std::vector<int> * samples);
 			SidLookUpResult validate(SampleIdMapping *sim);
