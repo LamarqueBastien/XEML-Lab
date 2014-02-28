@@ -33,7 +33,7 @@ namespace XemlDataProvider{
 			QSqlQuery query("",db);
 
 #if defined(Q_OS_WIN)
-			if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]"))
+			if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]")){
 #else
 			if(query.exec("SELECT LEFT(CAST(UId as char(64)), 36),Id FROM [PlatoDB].[dbo].[Experiments]")){
 #endif
