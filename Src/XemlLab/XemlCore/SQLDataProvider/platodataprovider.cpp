@@ -154,7 +154,7 @@ namespace XemlDataProvider{
 		dsn = QString("DRIVER={FreeTDS};TDS_VERSION=8.0;SERVER="+ipserver+";DATABASE="+database+";PORT=1433;UID="+LoginName+";PWD="+Pass+";");
 	#endif
 
-	#ifdef Q_WS_WIN
+	#ifdef Q_OS_WIN
 		dsn = QString("DRIVER={SQL SERVER};SERVER=%1;DATABASE=%2;UID=%3;PWD=%4;").arg(ipserver).arg(database).arg(LoginName).arg(Pass);
 	#endif
 		return dsn;
