@@ -90,6 +90,7 @@ namespace Xeml {
 
 				//region ItfDocument
 				QUuid               get_id();
+				void                set_id(QUuid _id);
 				QDateTime           get_startdate();
 				QDateTime           get_enddate();
 				QString             get_obs_time();

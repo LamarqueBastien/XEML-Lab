@@ -452,6 +452,11 @@ void    MainWindow::createActions(){
 	autoMappingAction->setStatusTip(tr("automaps sample"));
 	connect(autoMappingAction, SIGNAL(triggered()), this, SLOT(auto_mapping()));
 
+	UuidAction = new QAction(tr("&Create a new Id"), this);
+	UuidAction->setShortcut(tr("Ctrl+Alt+A"));
+	UuidAction->setStatusTip(tr("create his own unique identifier"));
+	connect(UuidAction, SIGNAL(triggered()), this, SLOT(uuid_dialog()));
+
 	editXemlAction = new QAction(tr("&CodeEditor"), this);
 	editXemlAction->setShortcut(tr("Ctrl+C"));
 	editXemlAction->setStatusTip(tr("Display Xeml document"));
@@ -473,28 +478,78 @@ void    MainWindow::createActions(){
 		connect(recentFileActions[i], SIGNAL(triggered()),this, SLOT(openRecentFile()));
 	}
 }
+//create his own Unique identifier (mostly to map with PLato Id)
+
+void    MainWindow::uuid_dialog(){
+	UuidDialog * uuiddialog=new UuidDialog();
+	connect(uuiddialog,SIGNAL(new_uuid(QString)),this,SLOT(create_new_Uuid(QString)));
+	uuiddialog->show();
+
+}
+
+void    MainWindow::create_new_Uuid(QString _uuid){
+	QUuid uuid(_uuid);
+	this->fmg->get_current_xeml()->set_id(uuid);
+}
+
+
+//Database connection and mapping part
+
 void    MainWindow::database_connect(){
 	SQLConnectionDialog * sql_connection_dialog=new SQLConnectionDialog;
 	sql_connection_dialog->show();
 }
 void    MainWindow::auto_mapping(){
+	std::vector<QString> * vec;
 	std::vector<std::pair<DataProviderResources*,QString> > *  platoProvidervector = static_cast<XemlDocument*>(this->fmg->get_current_xeml())->get_doc_resources()->get_data_provider();
 	for (std::vector<std::pair<DataProviderResources*,QString> >::iterator it =platoProvidervector->begin();it!=platoProvidervector->end();++it){
 		std::cerr << "provider name: " << (*it).second.toStdString() << std::endl;
-		PlatoDataProvider * plato_provider= static_cast<PlatoDataProvider*>(static_cast<DataProviderResources*>((*it).first)->get_data_provider());
-		std::cerr << "provider author: " <<plato_provider->get_author().toStdString() << std::endl;
+		if ((*it).second.toStdString()=="http://plato.codeplex.com/"){
+			PlatoDataProvider * plato_provider= static_cast<PlatoDataProvider*>(static_cast<DataProviderResources*>((*it).first)->get_data_provider());
+			std::cerr << "provider author: " <<plato_provider->get_author().toStdString() << std::endl;
 
-		//test if the experiment is present in the database
-		QUuid expid("748C92E0-59FF-4358-8702-C7F2104F7E17");
-		if(plato_provider->search_for_experiment(this->fmg->get_current_xeml()->get_id(),"StefanKempa03")){
-			std::cerr << "found" << std::endl;
+			plato_provider->BuildConnection();
+			//test if the experiment is present in the database
+			QUuid expid("05ADF638-EAE3-41A3-AEC0-7961C21B14FC");
+			//plato_provider->convert_uid_to_platoUID(this->fmg->get_current_xeml()->get_id());
+			if(plato_provider->search_for_experiment(this->fmg->get_current_xeml()->get_id())){
+			//if(plato_provider->search_for_experiment(expid)){
+
+				std::cerr << "found an experiment called :" << plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id()).toStdString() << std::endl;
+				int r = QMessageBox::warning(this, tr("XemlDocument"),
+				tr("An experiment has been found called %1.\n"
+				   "Do you want to link it with this xeml experiment?").arg(plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id())),
+				QMessageBox::Yes | QMessageBox::Default,
+				QMessageBox::No,
+				QMessageBox::Cancel | QMessageBox::Escape);
+				if (r == QMessageBox::Yes) {
+					this->fmg->get_current_xeml()->set_experiment_name(plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id()));
+					vec=plato_provider->get_sample_foreign_key(plato_provider->get_experiment_name_by_uid(expid));
+					std::cerr << "sample number :" << vec->size() << std::endl;
+				}
+				//QString name=plato_provider->get_experiment_name_by_uid(expid);
+				//std::cerr << "experiment name : "  << name.toStdString() << std::endl;
+
+
+			}
+			else{
+				QMessageBox::information(this,"Dataset search","no experiment was found on "+plato_provider->get_componentName()+" with ID :"+this->fmg->get_current_xeml()->get_id().toString());
+
+			}
 
 		}
+
+
 
 		//plato_provider->automap()
 
 	}
 }
+//end region database connection and sample mappings
+
+
+
+
 
 void    MainWindow::generate_html_report(){
 	std::cerr << "entering html generation (MainWindows)" << std::endl;
@@ -542,6 +597,7 @@ void    MainWindow::createMenus() {
 	toolsMenu->addAction(editXemlAction);
 	toolsMenu->addAction(HtmlReportAction);
 	toolsMenu->addAction(databaseAction);
+	toolsMenu->addAction(UuidAction);
 	toolsMenu->addAction(autoMappingAction);
 	//toolsMenu->addAction(parameterInfoAction);
 

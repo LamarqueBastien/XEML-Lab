@@ -71,8 +71,7 @@ ObservationMaterialPage::ObservationMaterialPage(DocumentResources * _doc_resour
 
 
 
-	mainlayout->addLayout(structlayout);
-	mainlayout->addLayout(structnamelayout);
+
 
 	mainlayout->addWidget(this->posView);
 
@@ -80,6 +79,8 @@ ObservationMaterialPage::ObservationMaterialPage(DocumentResources * _doc_resour
 
 	QVBoxLayout * poslayout=new QVBoxLayout;
 
+	poslayout->addLayout(structlayout);
+	poslayout->addLayout(structnamelayout);
 	poslayout->addLayout(idlayout);
 	poslayout->addLayout(namelayout);
 	poslayout->addLayout(valuelayout);

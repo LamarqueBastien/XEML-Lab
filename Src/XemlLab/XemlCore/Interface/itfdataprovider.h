@@ -40,7 +40,7 @@ namespace Xeml {
 					virtual std::vector<SampleIdMapping*> * automap(QUuid expID, QString expName,std::vector<int> * samples)=0;
 					virtual SidLookUpResult validate(SampleIdMapping *sim)=0;
 					virtual ConnectResult testCredentials(QString _user, QString _password)=0;
-					virtual QSqlDatabase BuildConnection()=0;
+					virtual void BuildConnection()=0;
 			};
 
 		}

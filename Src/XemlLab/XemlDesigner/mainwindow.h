@@ -39,6 +39,7 @@
 #include"Views/HTMLReportView/htmlreportview.h"
 #include"ISA-export/isaexporter.h"
 #include"DialogWindows/sqlconnectiondialog.h"
+#include"DialogWindows/uuiddialog.h"
 
 using namespace std;
 using Xeml::Document::DocumentResources;
@@ -129,6 +130,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * viewModeAction;
 		QAction                                  * newStoryAction;
 		QAction                                  * saveAction;
+		QAction                                  * UuidAction;
 		QAction                                  * saveAsAction;
 		QAction                                  * openAction;
 		QAction                                  * aboutQtAction;
@@ -173,6 +175,8 @@ class MainWindow : public QMainWindow
 		bool                                       saveAs(bool _IsValid);
 		void                                       exit();
 		void                                       cut();
+		void                                       create_new_Uuid(QString _uuid);
+		void                                       uuid_dialog();
 		void                                       database_connect();
 		void                                       auto_mapping();
 		void                                       edit_xeml();

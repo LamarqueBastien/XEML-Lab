@@ -22,10 +22,98 @@ namespace XemlDataProvider{
 		this->plato_logo=_logo;
 	}
 
+	QString PlatoDataProvider::convert_uid_to_platoUID(QUuid xeml_id){
+		QString UID=xeml_id.toString();
+		UID.remove("{");
+		UID.remove("}");
+		//std::cerr << UID.toStdString() << std::endl;
+		return UID.toUpper();
+	}
 
-	bool PlatoDataProvider::search_for_experiment(QUuid _exp_id, QString _exp_name){
+	QString PlatoDataProvider::get_experiment_name_by_uid(QUuid _exp_id){
+
+		QString name="";
+		//std::cerr << "entering search for experiment" << std::endl;
+		QString mtp=convert_uid_to_platoUID(_exp_id);
+		//std::cerr << "new uid :" << mtp.toUpper().toStdString() << std::endl;
+
+
+		//db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
+		//QString dsn=buildDSN(this->myConfig.ServerIP,this->myConfig.Database,this->myConfig.Username,this->myConfig.Password);
+		//db.setDatabaseName(dsn);
+		if (db.open()){
+			QSqlQuery query("",db);
+
+#if defined(Q_OS_WIN)
+			if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]")){
+#else
+			if(query.exec("SELECT LEFT(CAST(UId as char(64)), 36),Id FROM [PlatoDB].[dbo].[Experiments]")){
+#endif
+			//if(query.exec("SELECT Id FROM [PlatoDB].[dbo].[Experiments] ")){
+				int results_counter=0;
+				while (query.next())
+				{
+					results_counter++;
+
+					QString Uid=query.value(0).toString();
+					name=query.value(1).toString();
+					QUuid tmp(Uid);
+					//QString expName = query.value(0).toString();
+
+					//std::cerr << "expid to string: " << _exp_id.toString().toStdString() << std::endl;
+					if(tmp.toString()==_exp_id.toString()){
+						//std::cerr << "an experiment with the same identifier has been found" << std::endl;
+						return name;
+					}
+					//QString resultString2 = query.value(1).toString();
+					//std::cerr << "Uid: " <<  Uid.toStdString() << std::endl;
+					///qDebug() << country;
+				}
+				return name;
+			}
+			else{
+				std::cerr << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
+				return name;
+
+			}
+
+
+		}
+		else{
+			std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
+			return name;
+		}
+
+	}
+
+	bool PlatoDataProvider::search_for_experiment(QString _exp_name){
+		if (db.open()){
+			QSqlQuery query("",db);
+			if(query.exec("SELECT Id FROM [PlatoDB].[dbo].[Experiments]")){
+				int results_counter=0;
+				while (query.next())
+				{
+					QString name=query.value(0).toString();
+					if(name==_exp_name){
+						std::cerr << "an experiment with the same identifier has been found" << std::endl;
+						return true;
+					}
+
+
+				}
+				return false;
+			}
+			return false;
+
+
+		}
+		return false;
+	}
+
+	bool PlatoDataProvider::search_for_experiment(QUuid _exp_id){
 		std::cerr << "entering search for experiment" << std::endl;
-		QSqlDatabase db;
+		QString mtp=convert_uid_to_platoUID(_exp_id);
+		//std::cerr << "new uid :" << mtp.toUpper().toStdString() << std::endl;
 		db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		QString dsn=buildDSN(this->myConfig.ServerIP,this->myConfig.Database,this->myConfig.Username,this->myConfig.Password);
 		db.setDatabaseName(dsn);
@@ -47,13 +135,13 @@ namespace XemlDataProvider{
 					QUuid tmp(Uid);
 					//QString expName = query.value(0).toString();
 
-					std::cerr << "expid to string: " << _exp_id.toString().toStdString() << std::endl;
+					//std::cerr << "expid to string: " << _exp_id.toString().toStdString() << std::endl;
 					if(tmp.toString()==_exp_id.toString()){
 						std::cerr << "an experiment with the same identifier has been found" << std::endl;
 						return true;
 					}
 					//QString resultString2 = query.value(1).toString();
-					std::cerr << "Uid: " <<  Uid.toStdString() << std::endl;
+					//std::cerr << "Uid: " <<  Uid.toStdString() << std::endl;
 					///qDebug() << country;
 				}
 				return false;
@@ -72,12 +160,41 @@ namespace XemlDataProvider{
 		}
 	}
 
+
 	bool PlatoDataProvider::support_auto_mapping(){
 		return true;
 	}
 
-	std::vector<QString> * PlatoDataProvider::get_sample_foreign_key(QString _experiment_name){
+	std::vector<QString> * PlatoDataProvider::get_sample_foreign_key(QString  _experiment_name){
+		std::cerr << "entering getsample foreign key" << std::endl;
+		std::vector<QString> * samples=new std::vector<QString>();
+		//QString uid=convert_uid_to_platoUID(_experiment_id);
+		if (db.open()){
+			QSqlQuery query("",db);
+			if(query.prepare("SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk=:experiment_name")){
+				query.bindValue(":experiment_name", _experiment_name);
+				query.exec();
+				while (query.next())
+				{
+					QString Experiment_Fk = query.value(0).toString();
+					QString Sample_Fk = query.value(1).toString();
+					QString BatchNumber_Fk = query.value(2).toString();
+					QString clustered_key=Experiment_Fk+"-"+Sample_Fk+"-"+BatchNumber_Fk;
+					samples->push_back(clustered_key);
+					std::cerr << "clustered key : " << clustered_key.toStdString() << std::endl;
+				}
+			}
+			else{
 
+			}
+
+
+		}
+		else{
+			std::cerr << "Error" << db.lastError().text().toStdString() << std::endl;
+
+		}
+		return samples;
 	}
 
 	std::vector<QString> * PlatoDataProvider::listForeignKey(){
@@ -159,20 +276,20 @@ namespace XemlDataProvider{
 	#endif
 		return dsn;
 	}
-	QSqlDatabase PlatoDataProvider::BuildConnection(){
+	void PlatoDataProvider::BuildConnection(){
 		if (testCredentials("labdesigner","glucose")==Xeml::Sampling::Success){
-			QSqlDatabase db;
+
 			db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 			QString dsn=buildDSN(this->myConfig.ServerIP,this->myConfig.Database,this->myConfig.Username,this->myConfig.Password);
 			db.setDatabaseName(dsn);
-			return db;
+
 
 		}
 
 
 
 	}
-
+//region Itfxemlcomponent
 	QString                                 PlatoDataProvider::get_publisher(){
 		return "INRA Bordeaux, France";
 

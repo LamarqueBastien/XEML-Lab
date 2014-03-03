@@ -48,6 +48,7 @@ namespace Xeml {
 					virtual DocumentResources * get_doc_resources()=0;
 					virtual ExperimentHeader  * get_experimentheader()=0;
 					virtual StoryBoard        * get_storyboard()=0;
+					virtual void                set_id(QUuid _id)=0;
 					virtual void                set_startdate(QDateTime _t)=0;
 					virtual void                set_enddate(QDateTime _t)=0;
 					virtual void                set_experiment_name(QString _name)=0;

@@ -9,10 +9,14 @@ namespace Xeml {
 		{
 			private:
 				int                                       id;
+				bool                                      IsDestroyed;
 			public:
 				Individual();
 				~Individual();
 				Individual(int id);
+				bool                                      is_destroyed();
+				void                                      set_is_destroyed(bool _IsDestroyed);
+
 				int                                       get_id();
 				void                                      set_id(int _id);
 				std::map<TaggedAnnotation*,QString> * get_taggedannotation();

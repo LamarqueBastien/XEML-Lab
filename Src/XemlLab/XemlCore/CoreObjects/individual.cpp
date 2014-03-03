@@ -20,6 +20,14 @@ namespace Xeml {
 			std::cerr << "Individual destroyed" << std::endl;
 		}
 
+		bool Individual::is_destroyed(){
+			return this->IsDestroyed;
+		}
+
+		void Individual::set_is_destroyed(bool _IsDestroyed){
+			this->IsDestroyed=_IsDestroyed;
+		}
+
 		int Individual::get_id(){
 			return this->id;
 		}
