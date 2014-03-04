@@ -28,6 +28,7 @@
 #include"Views/storyview.h"
 //#include"graphicstoryview.h"
 #include"Views/genotypeview.h"
+#include"Views/experimenttableview.h"
 #include"filemanager.h"
 #include"Interface/itfdocument.h"
 #include"Views/Items/parameteritem.h"
@@ -91,6 +92,7 @@ class MainWindow : public QMainWindow
 		//GraphicStoryView                         * graphicStoryView;
 		GenotypeView                             * genotypeView;
 		ParameterTreeView                        * ontologyView;
+		ExperimentTableView                      * tableView;
 
 
 		QLabel                                   * locationLabel;
@@ -127,6 +129,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * addParameterAction;
 		QAction                                  * loadAction;
 		QAction                                  * newAction;
+		QAction                                  * tableAction;
 		QAction                                  * viewModeAction;
 		QAction                                  * newStoryAction;
 		QAction                                  * saveAction;
@@ -180,6 +183,7 @@ class MainWindow : public QMainWindow
 		void                                       database_connect();
 		void                                       auto_mapping();
 		void                                       edit_xeml();
+		void                                       show_experiment_table();
 		void                                       set_experimenter(QString _firstnametext,QString _lastnametext,QString _organisationtext,QString _emailtext);
 		bool                                       validate_xml_to_save();
 		bool                                       validate_xml_to_save_as();

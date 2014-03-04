@@ -77,7 +77,10 @@ SOURCES += \
     Views/xemlobjectinfoview.cpp \
     Views/Items/infoballoontip.cpp \
     DialogWindows/sqlconnectiondialog.cpp \
-    DialogWindows/uuiddialog.cpp
+    DialogWindows/uuiddialog.cpp \
+    Views/experimenttableview.cpp \
+    Views/Items/abstracttableitem.cpp \
+    Views/tableview.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -149,7 +152,10 @@ HEADERS += \
     Views/Items/infotipbutton.h \
     Views/Items/infoballoontip.h \
     DialogWindows/sqlconnectiondialog.h \
-    DialogWindows/uuiddialog.h
+    DialogWindows/uuiddialog.h \
+    Views/experimenttableview.h \
+    Views/Items/abstracttableitem.h \
+    Views/tableview.h
 
 RESOURCES += \
     Divers.qrc

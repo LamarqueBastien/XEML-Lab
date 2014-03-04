@@ -461,6 +461,12 @@ void    MainWindow::createActions(){
 	editXemlAction->setShortcut(tr("Ctrl+C"));
 	editXemlAction->setStatusTip(tr("Display Xeml document"));
 	connect(editXemlAction, SIGNAL(triggered()), this, SLOT(edit_xeml()));
+
+
+	tableAction = new QAction(tr("&Experiment Table"), this);
+	tableAction->setShortcut(tr("Ctrl+C"));
+	tableAction->setStatusTip(tr("Display Xeml table"));
+	connect(tableAction, SIGNAL(triggered()), this, SLOT(show_experiment_table()));
 /*
 	undoAction = undoStack->createUndoAction(this, tr("&Undo"));
 	undoAction->setShortcuts(QKeySequence::Undo);
@@ -478,7 +484,12 @@ void    MainWindow::createActions(){
 		connect(recentFileActions[i], SIGNAL(triggered()),this, SLOT(openRecentFile()));
 	}
 }
+void  MainWindow::show_experiment_table(){
+	this->tableView =new ExperimentTableView(this->fmg->get_current_xeml());
+	this->tableView->show();
+}
 //create his own Unique identifier (mostly to map with PLato Id)
+
 
 void    MainWindow::uuid_dialog(){
 	UuidDialog * uuiddialog=new UuidDialog();
@@ -525,6 +536,7 @@ void    MainWindow::auto_mapping(){
 				if (r == QMessageBox::Yes) {
 					this->fmg->get_current_xeml()->set_experiment_name(plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id()));
 					vec=plato_provider->get_sample_foreign_key(plato_provider->get_experiment_name_by_uid(expid));
+
 					std::cerr << "sample number :" << vec->size() << std::endl;
 				}
 				//QString name=plato_provider->get_experiment_name_by_uid(expid);
@@ -599,6 +611,7 @@ void    MainWindow::createMenus() {
 	toolsMenu->addAction(databaseAction);
 	toolsMenu->addAction(UuidAction);
 	toolsMenu->addAction(autoMappingAction);
+	toolsMenu->addAction(tableAction);
 	//toolsMenu->addAction(parameterInfoAction);
 
 }
