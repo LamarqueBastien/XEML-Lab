@@ -80,7 +80,12 @@ SOURCES += \
     DialogWindows/uuiddialog.cpp \
     Views/experimenttableview.cpp \
     Views/Items/abstracttableitem.cpp \
-    Views/tableview.cpp
+    Views/tableview.cpp \
+    PopulationLoader/individualwizard.cpp \
+    PopulationLoader/individualintropage.cpp \
+    PopulationLoader/individualimportfilepage.cpp \
+    PopulationLoader/individualconclusionpage.cpp \
+    PopulationLoader/individualcreationpage.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -155,7 +160,12 @@ HEADERS += \
     DialogWindows/uuiddialog.h \
     Views/experimenttableview.h \
     Views/Items/abstracttableitem.h \
-    Views/tableview.h
+    Views/tableview.h \
+    PopulationLoader/individualwizard.h \
+    PopulationLoader/individualintropage.h \
+    PopulationLoader/individualimportfilepage.h \
+    PopulationLoader/individualconclusionpage.h \
+    PopulationLoader/individualcreationpage.h
 
 RESOURCES += \
     Divers.qrc

@@ -20,7 +20,7 @@ TableView::TableView(ItfDocument * _xemlDoc,QTableView *parent)
 	modelTable->setHorizontalHeaderItem(9, new QStandardItem(QString("Individual Id")));
 
 	//model->horizontalHeaderItem(4)
-	this->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
+	//this->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
 	//this->resizeColumnT-oContents(4);
 	//this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->horizontalHeader()->setStyleSheet("QHeaderView::section {"
@@ -49,6 +49,7 @@ void TableView::init(){
 
 void  TableView::sample_item_checked(QStandardItem * _selected_item){
 	std::cerr << "item :" <<_selected_item->text().toStdString() <<  "state change" << std::endl;
+
 }
 void  TableView::variable_item_checked(QStandardItem * _selected_item){
 	std::cerr << "item :" <<_selected_item->text().toStdString() <<  "state change" << std::endl;
@@ -61,14 +62,44 @@ void  TableView::populate_table(){
 	int cpt =0;
 	for (std::list<StoryNode*>::iterator it =this->xemlDoc->get_storyboard()->get_storyBoard()->begin();it!=this->xemlDoc->get_storyboard()->get_storyBoard()->end();++it){
 		StoryNode *node=static_cast<StoryNode*>((*it));
+
+
+		for(std::vector<std::pair<Sample*,int> >::iterator it2=node->get_story()->get_samplesCollection()->begin();it2!=node->get_story()->get_samplesCollection()->end();++it2){
+			Sample * s=static_cast<Sample*>((*it2).first);
+
+			//s->get_partitions()
+			modelTable->setItem(cpt,1,new QStandardItem(QString::number(s->get_id())));
+			modelTable->setItem(cpt,0,new QStandardItem(xemlDoc->get_experiment_name()));
+			modelTable->setItem(cpt,4,new QStandardItem(node->get_story()->get_label()));
+			for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it2=node->get_story()->get_obsPointCollection()->begin();it2!=node->get_story()->get_obsPointCollection()->end();++it2){
+				ObservationPoint * op=static_cast<ObservationPoint*>((*it2).first);
+
+				for(std::vector<pair<Observation*,QDateTime> >::iterator it3=op->get_observationscollection()->begin();it3!=op->get_observationscollection()->end();++it3){
+					Observation *  o=static_cast<Observation*>((*it3).first);
+
+					//if (o->get_partitionCollection()){
+
+					//}
+				}
+
+			}
+
+			cpt++;
+
+		}
+
+		/*
 		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it2=node->get_story()->get_obsPointCollection()->begin();it2!=node->get_story()->get_obsPointCollection()->end();++it2){
 			ObservationPoint * op=static_cast<ObservationPoint*>((*it2).first);
 
 			for(std::vector<pair<Observation*,QDateTime> >::iterator it3=op->get_observationscollection()->begin();it3!=op->get_observationscollection()->end();++it3){
 
 				modelTable->setItem(cpt,0,new QStandardItem(xemlDoc->get_experiment_name()));
+				modelTable->setItem(cpt,4,new QStandardItem(node->get_story()->get_label()));
+
 				Observation *  o=static_cast<Observation*>((*it3).first);
-				modelTable->setItem(cpt,1,new QStandardItem(QString::number(o->get_id())));
+
+				//modelTable->setItem(cpt,1,new QStandardItem(QString::number(o->get_id())));
 
 				for(std::map<Partition*,int>::iterator it4=o->get_partitionCollection()->begin();it4!=o->get_partitionCollection()->end();++it4){
 					Partition * p=static_cast<Partition*>((*it4).first);
@@ -106,6 +137,7 @@ void  TableView::populate_table(){
 
 
 		}
+		*/
 
 
 	}

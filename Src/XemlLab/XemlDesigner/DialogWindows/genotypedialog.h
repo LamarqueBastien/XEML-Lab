@@ -6,11 +6,14 @@
 #include<QBoxLayout>
 #include<QLineEdit>
 #include<QTextEdit>
+#include<QCheckBox>
+#include<QSpinBox>
 #include<iostream>
 #include<QStringList>
 #include"Interface/itfdocument.h"
 #include"CoreObjects/individualspool.h"
 #include"DialogWindows/annotationdialog.h"
+#include"PopulationLoader/individualwizard.h"
 
 using namespace Xeml::Document;
 class GenotypeDialog : public QDialog
@@ -31,6 +34,8 @@ class GenotypeDialog : public QDialog
 		QLineEdit   * transgenicEdit;
 		QLabel      * free_annot_label;
 		QTextEdit   * free_annotEdit;
+		QLabel      * individuals_count_label;
+		QLineEdit   * individuals_countEdit;
 		QPushButton * annotation_id;
 		QPushButton * annotation_species;
 		QPushButton * annotation_accession;
@@ -43,6 +48,9 @@ class GenotypeDialog : public QDialog
 		IndividualsPool * pool;
 		QPushButton * cancelButton;
 		QPushButton * okButton;
+		QPushButton * addIndividuals;
+
+
 		QStringList * list_id_label;
 		QString table[4];
 		bool EditMode;
@@ -59,6 +67,7 @@ class GenotypeDialog : public QDialog
 	private slots:
 
 		void          OkClicked();
+		void          on_add_individuals_clicked();
 		void          add_species_label(const QString &text);
 		void          add_accession_label(const QString &text);
 		void          add_mutant_label(const QString &text);

@@ -8,6 +8,9 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 
 	this->EditMode=false;
 
+
+
+
 	this->list_id_label=new QStringList;
 	this->id_label=new QLabel("Id");
 	this->idEdit= new QLineEdit;
@@ -42,12 +45,29 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 	this->free_annot_label=new QLabel("Free Annotation");
 	this->free_annotEdit= new QTextEdit;
 	this->free_annot_label->setBuddy(free_annotEdit);
+
+
+
+
 	this->okButton =new QPushButton(tr("OK"));
 	this->okButton->setCursor(Qt::PointingHandCursor);
 	this->okButton->setDefault(true);
 	this->okButton->setEnabled(false);
 	this->cancelButton = new QPushButton(tr("Cancel"));
 	this->cancelButton->setCursor(Qt::PointingHandCursor);
+
+	//individuals handlers region
+	this->addIndividuals=new QPushButton("Add individuals");
+
+
+	//connect(this->import_from_files,SIGNAL())
+	this->individuals_count_label=new QLabel("population :");
+	this->individuals_countEdit= new QLineEdit;
+	this->individuals_countEdit->setEnabled(false);
+	this->individuals_count_label->setBuddy(individuals_countEdit);
+
+
+
 
 	connect(annotation_id,SIGNAL(clicked()),this,SLOT(add_tag_id()));
 	connect(annotation_species,SIGNAL(clicked()),this,SLOT(add_tag_species()));
@@ -56,11 +76,15 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 	connect(annotation_transgenic,SIGNAL(clicked()),this,SLOT(add_tag_transgenic()));
 
 
+	//connect(individuals_countEdit,SIGNAL(textChanged(QString)),this,SLOT(enabledOkButton(QString)));
+	connect(addIndividuals,SIGNAL(clicked()),this,SLOT(on_add_individuals_clicked()));
 	connect(speciesEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	connect(speciesEdit,SIGNAL(textChanged(const QString &)),this,SLOT(add_species_label(const QString &)));
 	connect(mutantEdit,SIGNAL(textChanged(QString)),this,SLOT(add_mutant_label(QString)));
 	connect(accessionEdit,SIGNAL(textChanged(QString)),this,SLOT(add_accession_label(QString)));
 	connect(transgenicEdit,SIGNAL(textChanged(QString)),this,SLOT(add_transgenic_label(QString)));
+
+	//connecter
 	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
 	QHBoxLayout * topleftLayout = new QHBoxLayout;
 	topleftLayout->addWidget(id_label);
@@ -88,6 +112,16 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 	QHBoxLayout * topleftLayout7 = new QHBoxLayout;
 	topleftLayout7->addWidget(free_annot_label);
 	topleftLayout7->addWidget(free_annotEdit);
+
+	/*QGridLayout * individualsGrid=new QGridLayout;
+	individualsGrid->addWidget(this->addIndividuals,0,0);
+	individualsGrid->addWidget(this->import_from_files,0,1);
+	individualsGrid->addWidget(this->individuals_count_label,2,0);
+	individualsGrid->addWidget(this->individuals_countEdit,2,1);
+	individualsGrid->addWidget(this->browseButton,1,1);
+	individualsGrid->addWidget(this->number_individuals,1,0);
+	*/
+
 	table[0]="";
 	table[1]="";
 	table[2]="";
@@ -105,6 +139,8 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 	QVBoxLayout * rightLayout = new QVBoxLayout;
 	rightLayout->addWidget(this->cancelButton);
 	rightLayout->addWidget(this->okButton);
+
+	rightLayout->addWidget(addIndividuals);
 	rightLayout->addStretch();
 
 	QHBoxLayout * mainLayout = new QHBoxLayout;
@@ -113,8 +149,27 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 	setLayout(mainLayout);
 	setWindowTitle(tr("Germplasm EditForm"));
 	setFixedHeight((sizeHint().height()));
+	setFixedWidth((sizeHint().width()));
 
 }
+
+void  GenotypeDialog::on_add_individuals_clicked(){
+
+
+		IndividualWizard * iw=new IndividualWizard(pool);
+		iw->show();
+
+}
+
+
+
+
+
+
+
+
+
+
 GenotypeDialog::GenotypeDialog(ItfDocument * _xemldoc,IndividualsPool * _pool,QWidget * parent)
 : QDialog(parent)
 {
@@ -126,6 +181,8 @@ GenotypeDialog::GenotypeDialog(ItfDocument * _xemldoc,IndividualsPool * _pool,QW
 
 	QStringList tmplist=pool->get_germplasm().split(".");
 	poolId=	_pool->get_germplasm();
+
+	//problem si l'utilisateur n'a pas rentré 4 nom séparé par un point
 	species=tmplist.at(0);
 	accession=tmplist.at(1);
 	mutant=tmplist.at(2);
@@ -204,7 +261,6 @@ GenotypeDialog::GenotypeDialog(ItfDocument * _xemldoc,IndividualsPool * _pool,QW
 	connect(annotation_accession,SIGNAL(clicked()),this,SLOT(add_tag_accession()));
 	connect(annotation_mutant,SIGNAL(clicked()),this,SLOT(add_tag_mutant()));
 	connect(annotation_transgenic,SIGNAL(clicked()),this,SLOT(add_tag_transgenic()));
-
 
 	connect(speciesEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	connect(speciesEdit,SIGNAL(textChanged(const QString &)),this,SLOT(add_species_label(const QString &)));
@@ -412,6 +468,7 @@ void GenotypeDialog::OkClicked(){
 	QString freetext = this->free_annotEdit->toPlainText();
 	QString taxontext = this->taxonEdit->text();
 	pool->set_germplasm(idtext);
+	//pool->add_Individual();
 	if((!freetext.isEmpty())&&(!freetext.isNull())){
 		pool->add_tagged_annotation(new TaggedAnnotation("FreeText",freetext));
 	}
