@@ -11,13 +11,15 @@
 #include"Views/Items/parameteritem.h"
 #include"CoreObjects/documentresources.h"
 #include"Views/parametertreeview.h"
+#include"observationdetails.h"
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Document;
+
 class ObservationDetailsPage : public QWizardPage
 {
 		Q_OBJECT
 	public:
-		ObservationDetailsPage(DocumentResources * _doc_resources, QWidget *parent = 0);
+		ObservationDetailsPage(DocumentResources * _doc_resources, StoryNode * _root, QWidget *parent = 0);
 		//void build_dev_tree(std::list<TermNode*> * _my_tree,QString _namespace);
 		//void buildNodeHierarchy(TermNode * node,std::list<TermNode*> * _processed_nodes, ParameterItem * _tmp_item,QString _namespace);
 		//bool contains(TermNode * _node,std::list<TermNode*> * _processed_nodes,QString _namespace);
@@ -27,7 +29,11 @@ class ObservationDetailsPage : public QWizardPage
 		//QTreeView        * parameterTree;
 		ParameterTreeView * my_treeView;
 		//QStandardItemModel  * my_treeparameter;
-		QString            germplasm;
+		QTabWidget       * tabs;
+		QCheckBox        * new_individuals_box;
+		QCheckBox        * existing_individuals;
+		QCheckBox        * pool;
+		QLabel           * germplasm;
 		QLineEdit        * germplasmEdit;
 		QLabel           * germLabel;
 		QLabel           * destructiveInfo;
@@ -42,11 +48,17 @@ class ObservationDetailsPage : public QWizardPage
 		QLabel           * Individuals;
 		QSpinBox         * IndBox;
 		QPushButton      * showTree;
+		QPushButton      * add_observation;
 		QTreeView        * DevStageView;
+		int                obs_counter;
+		StoryNode        * root_node;
+		std::vector<IndividualsPool*> * pools;
+		std::vector<ObservationDetails*> * observations;
 	protected:
 		void initializePage();
 	private slots:
 		void get_term(ItfOntologyTerm * _term);
+		void add_obs();
 };
 
 #endif // OBSERVATIONDETAILSPAGE_H

@@ -24,6 +24,7 @@ namespace Xeml {
 				void                                              display_specific_tag(TaggedAnnotation* TA);
 				bool                                              contains(TaggedAnnotation* TA);
 				bool											  contain(QString _tag);
+				QString                                           get_annotation_by_tag(QString _tag);
 		};
 	}
 }

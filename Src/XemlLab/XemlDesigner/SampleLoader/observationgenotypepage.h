@@ -31,6 +31,7 @@ class ObservationGenotypePage : public QWizardPage
 		QStringListModel * genModel;
 	private slots:
 		void validate(QModelIndex _QMI);
+		void validate_list(QModelIndexList _QMIL);
 };
 
 #endif // OBSERVATIONGENOTYPEPAGE_H

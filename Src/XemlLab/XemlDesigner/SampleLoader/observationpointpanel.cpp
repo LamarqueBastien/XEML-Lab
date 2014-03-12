@@ -79,6 +79,7 @@ StoryNode * ObservationPointPanel::get_root_story_node(StoryNode * _current){
 	}
 }
 void ObservationPointPanel::remove_obsPoint(){
+
 	QItemSelectionModel  * selection = this->view->selectionModel();
 	QModelIndex indexelementselected= selection->currentIndex();
 	std::list<int> * tmplist =new std::list<int>();
@@ -133,6 +134,7 @@ ObservationPoint * ObservationPointPanel::get_obsPoint_byId(int _id){
 }
 
 void ObservationPointPanel::display_selected_item(QModelIndex _QMI){
+	//this->close();
 	int row_num=this->model->itemFromIndex(_QMI)->row();
 	this->model->index(row_num,2).data();
 	StoryNode * rootStory=get_root_story_node(this->storyNode);

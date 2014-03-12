@@ -1355,12 +1355,13 @@ void StoryView::newObsPoint(){
 
 }
 void StoryView::choose_obsPoint(){
+	ObservationPointPanel * opp;
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			if (!this->GraphicScene->get_selected_story()->get_story()->get_obsPointCollection()->empty()){
 				StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 				//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
-				ObservationPointPanel * opp =new ObservationPointPanel(false);
+				opp =new ObservationPointPanel(false);
 				//connect(opp,SIGNAL())
 				opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
 				opp->setVisible(true);
@@ -1400,6 +1401,7 @@ void StoryView::choose_obsPoint(){
 				QMessageBox::information(this,"no selection","no story selected");
 			}
 	}
+
 }
 void StoryView::add_observationPoint(){
 	if(GraphicMode){

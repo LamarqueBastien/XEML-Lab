@@ -18,7 +18,7 @@ ObservationWizard::ObservationWizard(StoryNode * _current,StoryNode * _root,Obse
 
 	addPage(new ObservationIntroPage);
 	addPage(new ObservationGenotypePage(this->storyRoot));
-	addPage(new ObservationDetailsPage(this->doc_resources));
+	addPage(new ObservationDetailsPage(this->doc_resources,this->storyRoot));
 	addPage(new ObservationMaterialPage(this->doc_resources));
 	setWindowTitle("defines sampling strategy for genotype ");
 

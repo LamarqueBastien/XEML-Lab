@@ -423,20 +423,20 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	   //recuperer les samples id : SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'
 	   //pour récupérer les uid : "SELECT LEFT(CAST(UId as char(64)), 36) AS test FROM [PlatoDB].[dbo].[Experiments]"
 
-	   /*
-	   QSqlQuery a(db);
-	   a.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments] WHERE Id='Phenotom'");
-	   a.next();
-	   QSqlQuery b(db);
-	   b.prepare("SELECT UId FROM [PlatoDB].[dbo].[FreshWeights] where [PlatoDB].[dbo].[FreshWeights].UId=:id");
-	   while(a.isValid())
-	   {
-		  b.bindValue(":id",a.value(0));
-		  b.exec();
+
+	   //QSqlQuery a(db);
+	   //a.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments] WHERE Id='Phenotom'");
+	   //a.next();
+	   //QSqlQuery b(db);
+	   //b.prepare("SELECT UId FROM [PlatoDB].[dbo].[FreshWeights] where [PlatoDB].[dbo].[FreshWeights].UId=:id");
+	   //while(a.isValid())
+	   //{
+		 // b.bindValue(":id",a.value(0));
+		  //b.exec();
 		  // ERROR: Operand type clash: image is incompatible with uniqueidentifier
-		  a.next();
-	   }
-	   */
+		  //a.next();
+	   //}
+
 	   /*
 	   QSqlQueryModel sqlmodel;
 		sqlmodel.setQuery("SELECT UId FROM [PlatoDB].[dbo].[Experiments]");

@@ -25,12 +25,16 @@ class IndividualWizard : public QWizard
 			Page_Creation,
 			Page_Conclusion
 		};
+		static std::vector<std::vector<QString>* > * get_CSV_data();
+
 	private:
 		IndividualsPool * pool;
 		QWizardPage * individualIntroPage;
 		QWizardPage * individualImportFilePage;
 		QWizardPage * individualCreationPage;
 		QWizardPage * individualConclusionPage;
+		static std::vector<std::vector<QString>* > * csvdata;
+
 
 };
 

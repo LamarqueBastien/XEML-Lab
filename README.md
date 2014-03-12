@@ -31,9 +31,11 @@ Please address any problems or comments to:
  1. Clone from github (you have to be granted access to this git repository):
     hg clone https://github.com/cbib/XEML-Lab.git
 
- 2. Open XemlLab.pro files with QtCreator 2.6 or higher.
+ 2. Install Qt Library 4.8 or higher coupled qith QtCreator 2.6 or higher.
  
- 3. Use qmake to build the makefile and then run the application.
+ 3. Open XemlLab.pro files with QtCreator 2.6 or higher.
+  
+ 4. Use qmake to build the makefile and then run the application.
  
 ## Licence
 ==========

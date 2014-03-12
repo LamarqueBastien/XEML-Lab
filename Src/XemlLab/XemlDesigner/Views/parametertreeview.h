@@ -56,6 +56,7 @@ class ParameterTreeView : public QWidget
 
 	signals:
 		void                                       onParameterselected(ItfOntologyTerm* _term);
+
 		void                                       ontology_to_load(bool,bool,bool);
 	public slots:
 	private slots:

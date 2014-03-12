@@ -10,6 +10,7 @@
 #include"CoreObjects/storysplit.h"
 #include"CoreObjects/observationpoint.h"
 #include"CoreObjects/observation.h"
+#include"Interface/itfdocument.h"
 using namespace Xeml::Document;
 
 class ObservationPanel : public QWidget
@@ -19,9 +20,11 @@ class ObservationPanel : public QWidget
 		ObservationPanel(QWidget * parent=0);
 		QTableView         * view;
 		QStandardItemModel * model;
-		void                 initialize(StoryBase * _story,bool _isStorySplit);
+		void                 initialize(ItfDocument * _xemldoc, StoryBase * _story,bool _isStorySplit);
 	private slots:
 		void display_selected_item(QModelIndex _QMI);
+	private:
+		ItfDocument * xemlDoc;
 };
 
 #endif // OBSERVATIONPANEL_H

@@ -20,6 +20,18 @@ namespace Xeml {
 				std::cerr <<this->it->first->getAnnotation().toStdString()<<std::endl;
 			}
 		}
+		QString XemlAnnotableObject::get_annotation_by_tag(QString _tag){
+			QString annot="";
+			for( this->it = this->TaggedannotationCollection->begin(); this->it != this->TaggedannotationCollection->end(); ++(this->it)){
+				if(this->it->first->getTag() == _tag){
+					annot=this->it->first->getAnnotation();
+
+				}
+			}
+			return annot;
+
+		}
+
 		void XemlAnnotableObject::display_specific_tag(TaggedAnnotation* TA){
 			for( this->it = this->TaggedannotationCollection->begin(); this->it != this->TaggedannotationCollection->end(); this->it++ ) {
 				if(TA->getTag()==this->it->first->getTag()){

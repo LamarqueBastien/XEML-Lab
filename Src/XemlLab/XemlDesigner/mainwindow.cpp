@@ -523,8 +523,8 @@ void    MainWindow::auto_mapping(){
 			//test if the experiment is present in the database
 			QUuid expid("05ADF638-EAE3-41A3-AEC0-7961C21B14FC");
 			//plato_provider->convert_uid_to_platoUID(this->fmg->get_current_xeml()->get_id());
-			if(plato_provider->search_for_experiment(this->fmg->get_current_xeml()->get_id())){
-			//if(plato_provider->search_for_experiment(expid)){
+			//if(plato_provider->search_for_experiment(this->fmg->get_current_xeml()->get_id())){
+			if(plato_provider->search_for_experiment(expid)){
 
 				std::cerr << "found an experiment called :" << plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id()).toStdString() << std::endl;
 				int r = QMessageBox::warning(this, tr("XemlDocument"),

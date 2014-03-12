@@ -18,6 +18,7 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	else{
 		this->parameterTree=new QTreeView;
 		this->parameterTree->setAnimated(true);
+		//this->parameterTree->setSelectionMode(QAbstractItemView::MultiSelection);
 		this->parameterTree->setObjectName("VariableTree");
 		this->parameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
@@ -317,6 +318,9 @@ void ParameterTreeView::add_parameter()
 			selection = this->draggableParameterTree->selectionModel();
 	}
 	else{
+		///here add multiple selection for new Observation Wizard
+			//QModelIndexList  listeSelections = selection->selectedIndexes();
+
 			selection = this->parameterTree->selectionModel();
 	}
 
@@ -333,6 +337,7 @@ void ParameterTreeView::add_parameter()
 			}
 			else{
 				std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
+				//modifer le signal pour qu'il envoie une liste de terms.
 				emit onParameterselected(tmp->get_term());
 			}
 		}

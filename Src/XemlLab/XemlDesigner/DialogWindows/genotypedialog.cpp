@@ -196,7 +196,8 @@ GenotypeDialog::GenotypeDialog(ItfDocument * _xemldoc,IndividualsPool * _pool,QW
 		}
 	}
 
-
+	this->addIndividuals=new QPushButton("Add individuals");
+	connect(addIndividuals,SIGNAL(clicked()),this,SLOT(on_add_individuals_clicked()));
 
 
 
@@ -313,6 +314,7 @@ GenotypeDialog::GenotypeDialog(ItfDocument * _xemldoc,IndividualsPool * _pool,QW
 	QVBoxLayout * rightLayout = new QVBoxLayout;
 	rightLayout->addWidget(this->cancelButton);
 	rightLayout->addWidget(this->okButton);
+	rightLayout->addWidget(this->addIndividuals);
 	rightLayout->addStretch();
 
 	QHBoxLayout * mainLayout = new QHBoxLayout;
@@ -374,7 +376,10 @@ void GenotypeDialog::add_species_label(const QString &text){
 				table[i]="_";
 			}
 			if(table[i]=="_" && i==3){
-				textId+="";
+				textId+="_";
+			}
+			if(table[i]=="" && i==3){
+				textId+="_";
 			}
 			else{
 				textId+="."+table[i];
@@ -398,6 +403,9 @@ void GenotypeDialog::add_mutant_label(const QString &text){
 			}
 			if(table[i]=="_" && i==3){
 				textId+="";
+			}
+			if(table[i]=="" && i==3){
+				textId+="_";
 			}
 			else{
 				textId+="."+table[i];
@@ -423,6 +431,9 @@ void GenotypeDialog::add_accession_label(const QString &text){
 			if(table[i]=="_" && i==3){
 				textId+="";
 			}
+			if(table[i]=="" && i==3){
+				textId+="_";
+			}
 			else{
 				textId+="."+table[i];
 			}
@@ -444,6 +455,9 @@ void GenotypeDialog::add_transgenic_label(const QString &text){
 			}
 			if(table[i]=="_" && i==3){
 				textId+="";
+			}
+			if(table[i]=="" && i==3){
+				textId+="_";
 			}
 			else{
 				textId+="."+table[i];
@@ -470,10 +484,26 @@ void GenotypeDialog::OkClicked(){
 	pool->set_germplasm(idtext);
 	//pool->add_Individual();
 	if((!freetext.isEmpty())&&(!freetext.isNull())){
-		pool->add_tagged_annotation(new TaggedAnnotation("FreeText",freetext));
+		if(pool->contain("FreeText")){
+			if(pool->get_annotation_by_tag("FreeText")!=taxontext){
+				pool->add_tagged_annotation(new TaggedAnnotation("FreeText",freetext));
+			}
+		}
+		else{
+			pool->add_tagged_annotation(new TaggedAnnotation("FreeText",freetext));
+
+		}
 	}
 	if((!taxontext.isEmpty())&&(!taxontext.isNull())){
-		pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",taxontext));
+		if(pool->contain("NcbiTaxonomyId")){
+			if(pool->get_annotation_by_tag("NcbiTaxonomyId")!=taxontext){
+				pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",taxontext));
+			}
+		}
+		else{
+			pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",taxontext));
+
+		}
 	}
 	if (EditMode){
 		emit this->genotype_edited(current_doc);

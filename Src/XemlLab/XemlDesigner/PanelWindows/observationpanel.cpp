@@ -19,7 +19,8 @@ ObservationPanel::ObservationPanel(QWidget * parent)
 
 	connect(this->view,SIGNAL(clicked(QModelIndex)),this,SLOT(display_selected_item(QModelIndex)));
 }
-void ObservationPanel::initialize(StoryBase * _story,bool _isStorySplit){
+void ObservationPanel::initialize(ItfDocument * _xemlDoc,StoryBase * _story,bool _isStorySplit){
+	this->xemlDoc=_xemlDoc;
 	if(_isStorySplit){
 
 		StorySplit * current=static_cast<StorySplit*>(_story);
@@ -40,7 +41,9 @@ void ObservationPanel::initialize(StoryBase * _story,bool _isStorySplit){
 				model->setItem(j,0,new QStandardItem(QString::number(listobs->at(j)->get_id())));
 				model->setItem(j,1,new QStandardItem(listobs->at(j)->get_duration().toString("hh:mm:ss")));
 				model->setItem(j,2,new QStandardItem(QString::number(listObspoint->at(i)->get_id())));
-				model->setItem(j,3,new QStandardItem(listObspoint->at(i)->get_timepoint().toString("dd.hh:mm:ss")));
+				//model->setItem(j,3,new QStandardItem(listObspoint->at(i)->get_timepoint().toString("dd.hh:mm:ss")));
+				model->setItem(j,3,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->xemlDoc->get_startdate(),listObspoint->at(i)->get_timepoint()))));
+
 				cpt++;
 			}
 		}
@@ -64,7 +67,9 @@ void ObservationPanel::initialize(StoryBase * _story,bool _isStorySplit){
 				model->setItem(j,0,new QStandardItem(QString::number(listobs->at(j)->get_id())));
 				model->setItem(j,1,new QStandardItem(listobs->at(j)->get_duration().toString("hh:mm:ss")));
 				model->setItem(j,2,new QStandardItem(QString::number(listObspoint->at(i)->get_id())));
-				model->setItem(j,3,new QStandardItem(listObspoint->at(i)->get_timepoint().toString("dd.hh:mm:ss")));
+				//model->setItem(j,3,new QStandardItem(listObspoint->at(i)->get_timepoint().toString("dd.hh:mm:ss")));
+				model->setItem(j,3,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->xemlDoc->get_startdate(),listObspoint->at(i)->get_timepoint()))));
+
 				cpt++;
 			}
 		}

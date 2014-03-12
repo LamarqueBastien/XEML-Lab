@@ -9,7 +9,8 @@ namespace XemlDataProvider{
 
 		myConfig.Database="PlatoDB";
 		myConfig.Password="glucose";
-		myConfig.ServerIP="147.100.103.188";
+		//myConfig.ServerIP="147.100.103.188";
+		myConfig.ServerIP="127.0.0.1";
 		myConfig.Username="labdesigner";
 
 

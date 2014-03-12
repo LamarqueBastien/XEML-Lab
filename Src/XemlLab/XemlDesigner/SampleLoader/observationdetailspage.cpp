@@ -1,70 +1,174 @@
 #include "observationdetailspage.h"
 
-ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resources,QWidget *parent)
+ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resources,StoryNode * _root,QWidget *parent)
 
 	: QWizardPage(parent)
 {
+	this->root_node=_root;
+	observations= new std::vector<ObservationDetails *>();
+	pools=new std::vector<IndividualsPool*>();
+
+
 	this->doc_resources =_doc_resources;
 	setTitle(tr("Observation"));
 	setSubTitle(tr("Specify developmental stage conditions about your samples"));
 
 
 
-	my_treeView= new ParameterTreeView(false,this->doc_resources);
-	connect(this->my_treeView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this,SLOT(get_term(ItfOntologyTerm*)));
-	germplasmEdit = new QLineEdit;
-	germLabel = new QLabel("GermPlasm");
+	//QString numbers_of_partitions_question("How many Part of the plant do you want to observe ?");
+	//QString numbers_of_individuals_question("How many individuals are concerned by these observation ?");
+	//my_treeView= new ParameterTreeView(false,this->doc_resources);
+	//connect(this->my_treeView,SIGNAL(onParameterselected(ItfOntologyTerm*)),this,SLOT(get_term(ItfOntologyTerm*)));
 
-	germLabel->setBuddy(germplasmEdit);
-	termEdit = new QLineEdit;
-	termLabel = new QLabel("term id");
-	nameEdit = new QLineEdit;
-	nameLabel = new QLabel("term name");
-	termLabel->setBuddy(termEdit);
-	destructCheckBox= new QCheckBox("Destructive observation");
-	this->durationEdit= new QLineEdit;
-	this->timeDurationEdit=new QTimeEdit;
-	this->timeDurationEdit->setDisplayFormat("hh:mm:ss");
-	durationInd= new QLabel("Duration per individuals");
-	durationInd->setBuddy(timeDurationEdit);
-	Individuals = new QLabel("Individual pooling") ;
-	this->IndBox=new QSpinBox;
-	Individuals->setBuddy(this->IndBox);
+
+
+
+	this->add_observation=new QPushButton("add observation");
+	connect(this->add_observation,SIGNAL(clicked()),this,SLOT(add_obs()));
+
+
+	//germplasm = new QLabel;
+	//germLabel = new QLabel("GermPlasm");
+	//germLabel->setBuddy(germplasm);
+
+	//termEdit = new QLineEdit;
+	//termLabel = new QLabel("term id");
+	//termLabel->setBuddy(termEdit);
+
+	//nameEdit = new QLineEdit;
+	//nameLabel = new QLabel("term name");
+
+
+	//destructCheckBox= new QCheckBox("Destructive observation");
+	//new_individuals_box=new QCheckBox("new individuals");
+	//existing_individuals=new QCheckBox("existing individuals");
+	//this->pool=new QCheckBox("pooling");
+
+
+
+	//Individuals = new QLabel("Individual") ;
+	//this->IndBox=new QSpinBox;
+	//Individuals->setBuddy(this->IndBox);
+
+
 	QHBoxLayout * mainlayout=new QHBoxLayout;
-	mainlayout->addWidget(this->my_treeView);
+	//mainlayout->addWidget(this->my_treeView);
 	QVBoxLayout *layout = new QVBoxLayout;
-	QHBoxLayout * bottomLayout = new QHBoxLayout;
-	bottomLayout->addWidget(this->germLabel);
-	bottomLayout->addWidget(this->germplasmEdit);
-	layout->addLayout(bottomLayout);
-	layout->addWidget(destructCheckBox);
-	layout->addWidget(durationInd);
-	layout->addWidget(timeDurationEdit);
-	layout->addWidget(Individuals);
-	layout->addWidget(this->IndBox);
-	layout->addWidget(termLabel);
-	layout->addWidget(termEdit);
-	layout->addWidget(nameLabel);
-	layout->addWidget(nameEdit);
+
+	//QHBoxLayout * GPLayout = new QHBoxLayout;
+	//GPLayout->addWidget(this->germLabel);
+	//GPLayout->addStretch(1);
+	//GPLayout->addWidget(this->germplasm);
+	//layout->addLayout(GPLayout);
+
+	//layout->addWidget(destructCheckBox);
+	//layout->addWidget(pool);
+
+	tabs=new QTabWidget();
+	obs_counter=1;
+	QString testr="obs_"+QString::number(obs_counter);
+	//QTreeView * tree=new QTreeView;
+	//QStandardItemModel * model = new QStandardItemModel;
+	//my_treeparameter->appendColumn();
+	//model->appendRow(new QStandardItem("Individuals"));
+	//tree->setModel(model);
+
+	std::cerr << "pool size before :" << this->pools->size() << std::endl;
+	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,this->root_node,this->pools);
+	this->observations->push_back(obspage);
+	tabs->addTab(obspage,testr);
+	layout->addWidget(tabs);
+	layout->addWidget(add_observation);
+
+
+/*
+	QHBoxLayout * individualLayout = new QHBoxLayout;
+	individualLayout->addWidget(Individuals);
+	individualLayout->addStretch(1);
+	individualLayout->addWidget(this->IndBox);
+	layout->addLayout(individualLayout);
+
+	QHBoxLayout * poolLayout = new QHBoxLayout;
+	poolLayout->addWidget(new_individuals_box);
+	poolLayout->addStretch(1);
+	poolLayout->addWidget(existing_individuals);
+	layout->addLayout(poolLayout);
+
+
+	QHBoxLayout * termLayout = new QHBoxLayout;
+	termLayout->addWidget(termLabel);
+	termLayout->addStretch(1);
+	termLayout->addWidget(termEdit);
+	layout->addLayout(termLayout);
+
+	QHBoxLayout * nameLayout = new QHBoxLayout;
+	nameLayout->addWidget(nameLabel);
+	nameLayout->addStretch(1);
+	nameLayout->addWidget(nameEdit);
+	layout->addLayout(nameLayout);
+	*/
+
 	mainlayout->addLayout(layout);
 	setLayout(mainlayout);
-	registerField("DevTermId*",this->termEdit);
-	registerField("Individuals*",this->IndBox);
-	registerField("Duration*",timeDurationEdit);
-	registerField("DevName*",nameEdit);
+
+
+	//registerField("Destructive*",this->destructCheckBox);
+	//registerField("Pooling*",this->pool);
+	//registerField("DevTermId*",this->termEdit);
+	//registerField("Individuals*",this->IndBox);
+	//registerField("Duration*",timeDurationEdit);
+	//registerField("DevName*",nameEdit);
 
 }
 void ObservationDetailsPage::initializePage(){
-	this->germplasm =field("GermPlasm").toString();
-	this->germplasmEdit->setText(this->germplasm);
-	QStringList * dev_onto = new QStringList;
-	dev_onto->append("PO_Development");
-	this->my_treeView->set_up_Ontologytree(this->doc_resources,dev_onto);
+	//this->germplasm =field("GermPlasm").toString();
+	//this->germplasmEdit->setText(this->germplasm);
+
+
+	QModelIndexList list=static_cast<QItemSelectionModel*>(field("genViewSelection").value<QItemSelectionModel*>())->selectedRows();
+	//QVariant selectedElement = this->genModel->data(_QMI, Qt::DisplayRole);
+	//this->germPlasmEdit->setText(selectedElement.toString());
+	QString germ="";
+	for(int i=0;i<list.size();i++){
+
+		germ+="("%list.at(i).data().toString()%")";
+		for (std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(this->root_node->get_story())->get_individualspoolcollection()->begin();it!=static_cast<Story*>(this->root_node->get_story())->get_individualspoolcollection()->end();++it){
+			if (static_cast<IndividualsPool*>((*it).first)->get_germplasm()==list.at(i).data().toString()){
+				this->pools->push_back((*it).first);
+			}
+		}
+		for (int j=0;j<this->observations->size();j++){
+			static_cast<ObservationDetails*>(this->observations->at(j))->initialize_table(this->pools);
+		}
+		std::cerr << "initialization :" << this->pools->size() << std::endl;
+
+		//pools->push_back(list.at(i).data().toString());
+	}
+
+
+
+	//this->germplasmEdit->setText(germ);
+	//QStringList * dev_onto = new QStringList;
+	//dev_onto->append("PO_Development");
+	//this->my_treeView->set_up_Ontologytree(this->doc_resources,dev_onto);
+}
+void ObservationDetailsPage::add_obs(){
+	obs_counter++;
+	//ParameterTreeView * tmp = new ParameterTreeView(false,this->doc_resources);
+	//QStringList * dev_onto = new QStringList;
+	//dev_onto->append("PO_Development");
+	//tmp->set_up_Ontologytree(this->doc_resources,dev_onto);
+	QString tmp_string="obs_"+QString::number(obs_counter);
+	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,root_node,this->pools);
+	obspage->initialize_table(pools);
+	this->observations->push_back(obspage);
+	this->tabs->addTab(obspage,tmp_string);
+
 }
 
 void ObservationDetailsPage::get_term(ItfOntologyTerm * _term){
-	this->termEdit->setText(_term->get_termId());
-	this->nameEdit->setText(_term->get_prototype()->get_name());
+	//this->termEdit->setText(_term->get_termId());
+	//this->nameEdit->setText(_term->get_prototype()->get_name());
 }
 
 /*
