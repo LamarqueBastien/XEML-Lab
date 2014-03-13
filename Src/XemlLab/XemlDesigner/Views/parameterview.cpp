@@ -93,6 +93,9 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 	tmp =static_cast<ParameterItem*>(static_cast<QStandardItemModel*>(this->model())->itemFromIndex(indexelementselected));
 	if(tmp->isRoot){
 		std::cerr << "root"  << std::endl;
+#if defined(Q_OS_WIN)
+		this->expand(indexelementselected );
+#endif
 
 	}
 	else{
