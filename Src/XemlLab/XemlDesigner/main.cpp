@@ -94,6 +94,7 @@ QString uuidToString(const QVariant &v)
    }
 int main(int argc, char *argv[])
 {
+	Q_INIT_RESOURCE(Divers);
 	// starting point of program
 	QApplication                                             a(argc, argv);
 	MainWindow                                                           w;

@@ -299,6 +299,10 @@ void   StoryView::add_dropped_variable(QString _termId){
 	//retrieve the NamespaceAlias (i.e. XEO,EO,EnvO...)
 	QStringList term_complete_id=_termId.split(":");
 	QString ns=term_complete_id.at(0);
+	if(ns=="ENVO"){
+		ns="EnvO";
+	}
+	std::cerr << "namespace : " << ns.toStdString() << std::endl;
 	ItfOntologyTerm * term;
 	if(doc_ressources->contains(ns,Xeml::Document::Contracts::Environment)){
 		std::list<TermNode*> my_xeotree=(*static_cast<XeoHandler*>((*doc_ressources->get_xeoHandler())[ns]->get_handler())->get_listNodes());
@@ -337,6 +341,7 @@ void   StoryView::add_dropped_variable(QString _termId){
 
 	}
 	//search in the doc_resources trees
+	std::cerr << "term type: " << term->get_prototype()->get_namespacealias().toStdString() << std::endl;
 	emit drop_variable_added(term);
 	//emit signal with the selected ontology term
 }
@@ -1159,6 +1164,7 @@ void StoryView::new_parameter(ItfOntologyTerm * _term){
 		if(this->GraphicScene->get_selected_story()!=NULL){
 			StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 			//QString mainname=parent->get_mainStoryName();
+			std::cerr << "term prototype : " << _term->get_prototype()->get_namespacealias().toStdString() << std::endl;
 			if (_term->get_prototype()->get_namespacealias()=="XEO" || _term->get_prototype()->get_namespacealias()=="XEO_Positioning" ||_term->get_prototype()->get_namespacealias()=="EO" || _term->get_prototype()->get_namespacealias()=="EnvO"){
 
 				this->aboutParameter=new AboutParameter(this->currentDoc,parent);
