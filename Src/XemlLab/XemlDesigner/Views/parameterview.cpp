@@ -94,7 +94,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 	if(tmp->isRoot){
 		std::cerr << "root"  << std::endl;
 #if defined(Q_OS_WIN)
-		if this->isExpanded(indexelementselected){
+		if(this->isExpanded(indexelementselected)){
 			this->collapse(indexelementselected);
 		}
 		else{
