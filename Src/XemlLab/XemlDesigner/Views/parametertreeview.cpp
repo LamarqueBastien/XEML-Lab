@@ -9,11 +9,12 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	this->drag_and_drop_mode=_drag_and_drop_mode;
 	if (drag_and_drop_mode){
 		this->draggableParameterTree=new ParameterView;
-		this->draggableParameterTree->setAnimated(true);
+		//this->draggableParameterTree->setAnimated(true);
 		this->draggableParameterTree->setObjectName("VariableTree");
 		this->draggableParameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 		this->draggableParameterTree->setAcceptDrops(true);
 		this->draggableParameterTree->setDragEnabled(true);
+		this->draggableParameterTree->setItemsExpandable(true);
 	}
 	else{
 		this->parameterTree=new QTreeView;
