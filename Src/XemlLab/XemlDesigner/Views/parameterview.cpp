@@ -92,8 +92,11 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 	//std::cerr << elementSelected.toString().toStdString() << std::endl;
 	tmp =static_cast<ParameterItem*>(static_cast<QStandardItemModel*>(this->model())->itemFromIndex(indexelementselected));
 	if(tmp->isRoot){
-		std::cerr << "root"  << std::endl;
-#if defined(Q_OS_WIN)
+
+#if defined(Q_OS_MACX)
+		//std::cerr << "root"  << std::endl;
+
+#else
 		if(this->isExpanded(indexelementselected)){
 			this->collapse(indexelementselected);
 		}
@@ -101,6 +104,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 
 			this->expand(indexelementselected );
 		}
+
 #endif
 
 	}
