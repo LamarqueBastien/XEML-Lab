@@ -758,8 +758,8 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		   QTextStream out(&odbcinst);
 		   out << "[FreeTDS]\n";
 		   out << "Description = v0.91 with protocol v8.0\n";
-		   out << "Driver = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
-		   out << "Setup = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
+		   out << "Driver = " + libdir + "/lib/libtdsodbc.so\n";
+		   out << "Setup = " + libdir + "/lib/libtdsodbc.so\n";
 		   out << "FileUsage = 1";
 		   odbcinst.close();
 	   }
@@ -794,8 +794,8 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 
 			   file << "\n[FreeTDS]\n";
 			   file << "Description = v0.91 with protocol v8.0\n";
-			   file << "Driver = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
-			   file << "Setup = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
+			   file << "Driver = " + libdir + "/lib/libtdsodbc.so\n";
+			   file << "Setup = " + libdir + "/lib/libtdsodbc.so\n";
 			   file << "FileUsage = 1";
 			   odbcinst.close();
 		   }
@@ -805,8 +805,8 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 			   qDebug() << lines[lnbr+2];
 			   qDebug() << lines[lnbr+3];
 
-			   lines.replace(lnbr + 2, "Driver = " + libdir + "/plugins/sqldrivers/libtdsodbc.so");
-			   lines.replace(lnbr + 3, "Setup = " + libdir + "/plugins/sqldrivers/libtdsodbc.so");
+			   lines.replace(lnbr + 2, "Driver = " + libdir + "/lib/libtdsodbc.so");
+			   lines.replace(lnbr + 3, "Setup = " + libdir + "/lib/libtdsodbc.so");
 
 			   QString text;
 			   for(int j = 0; j < lines.count(); j++)
