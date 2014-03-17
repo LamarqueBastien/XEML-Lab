@@ -182,12 +182,13 @@ int main(int argc, char *argv[])
 QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", databaseName);
 db.setDatabaseName(buildDSN(server, database, username, password));
 */
-
+/*
 		QString dir = QDir::homePath();
 		std::cerr << "dir home path : " << dir.toStdString() <<  std::endl;
 		QDir d;
 		QString libdir = d.absolutePath();
 		std::cerr << "lib path = "<< libdir.toStdString() << std::endl;
+*/
 /*
  *#ifdef Q_WS_X11
 	QString dir = QDir::homePath();
