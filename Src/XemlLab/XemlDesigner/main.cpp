@@ -743,6 +743,85 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	w.set_up_storytree();
 	w.set_up_germplasm();
 
+	splash->showMessage(QObject::tr("building SQL drivers configuration files..."), topRight, Qt::black);
+
+	#ifdef Q_OS_LINUX
+	   QString dir = QDir::homePath();
+	   QDir d;
+	   QString libdir = d.absolutePath();
+
+	   QFile odbcinst(dir + "/.odbcinst.ini");
+	   if(!odbcinst.exists())
+	   {
+		   odbcinst.open(QIODevice::WriteOnly | QIODevice::Text);
+		   QTextStream out(&odbcinst);
+		   out << "[FreeTDS]\n";
+		   out << "Description = v0.91 with protocol v8.0\n";
+		   out << "Driver = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
+		   out << "Setup = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
+		   out << "FileUsage = 1";
+		   odbcinst.close();
+	   }
+	   else
+	   {
+		   QList<QString> lines;
+
+		   odbcinst.open(QIODevice::ReadOnly | QIODevice::Text);
+		   QTextStream readfile(&odbcinst);
+
+		   int i = 0, lnbr = 0;
+		   bool found = false;
+		   while(!readfile.atEnd())
+		   {
+			   QString line = readfile.readLine();
+			   if(line.contains("[FreeTDS]"))
+			   {
+				   lnbr = i;
+				   found = true;
+			   }
+			   lines.append(line);
+			   i++;
+		   }
+		   odbcinst.close();
+
+		   // append to end
+		   if(!found)
+		   {
+			   // append to the end
+			   odbcinst.open(QIODevice::Append | QIODevice::Text);
+			   QTextStream file(&odbcinst);
+
+			   file << "\n[FreeTDS]\n";
+			   file << "Description = v0.91 with protocol v8.0\n";
+			   file << "Driver = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
+			   file << "Setup = " + libdir + "/plugins/sqldrivers/libtdsodbc.so\n";
+			   file << "FileUsage = 1";
+			   odbcinst.close();
+		   }
+		   else // update existing entry
+		   {
+			   qDebug() << "Found an entry for FreeTDS. Updating driver to " + libdir + "/libtdsodbc.so.";
+			   qDebug() << lines[lnbr+2];
+			   qDebug() << lines[lnbr+3];
+
+			   lines.replace(lnbr + 2, "Driver = " + libdir + "/plugins/sqldrivers/libtdsodbc.so");
+			   lines.replace(lnbr + 3, "Setup = " + libdir + "/plugins/sqldrivers/libtdsodbc.so");
+
+			   QString text;
+			   for(int j = 0; j < lines.count(); j++)
+			   {
+				   text.append(lines[j] + "\n");
+			   }
+
+			   odbcinst.open(QIODevice::WriteOnly | QIODevice::Text);
+			   QTextStream updatefile(&odbcinst);
+			   updatefile << text;
+			   odbcinst.close();
+		   }
+
+	   }
+#endif
+
 	splash->finish(&w);
 
 	delete splash;
