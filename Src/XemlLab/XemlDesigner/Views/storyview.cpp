@@ -23,7 +23,6 @@ StoryView::StoryView(QWidget *parent) :
 	this->zoomFactorSelector->addItem(" hour slot");
 	*/
 
-
 	this->GraphicScene=new GraphicStoryScene(posY_item);
 
 	this->graphicStory=new GraphicStoryView(this->GraphicScene);

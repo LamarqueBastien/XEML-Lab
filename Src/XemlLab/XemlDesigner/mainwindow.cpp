@@ -145,6 +145,35 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+
+		  QAction * minimizeAction = new QAction(tr("Mi&nimize"), this);
+		 //connect(minimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
+
+		 QAction * maximizeAction = new QAction(tr("Ma&ximize"), this);
+		 //connect(maximizeAction, SIGNAL(triggered()), this, SLOT(showMaximized()));
+
+			  QAction *  restoreAction = new QAction(tr("&Restore"), this);
+			  //connect(restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
+
+			 QAction *  quitAction = new QAction(tr("&Quit"), this);
+			  //connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+		QMenu *  trayIconMenu = new QMenu(this);
+			  trayIconMenu->addAction(minimizeAction);
+			  trayIconMenu->addAction(maximizeAction);
+			  trayIconMenu->addAction(restoreAction);
+			  trayIconMenu->addSeparator();
+			  trayIconMenu->addAction(quitAction);
+
+			  trayIcon = new QSystemTrayIcon(this);
+			  trayIcon->setIcon(QIcon("://Images/XemlLogo.png"));
+			  trayIcon->setContextMenu(trayIconMenu);
+			  //connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::DoubleClick)),)
+			  trayIcon->showMessage("Bonjour","Hello, world!");
+			  trayIcon->setToolTip("blablahzebrqscs");
+
+
+			  trayIcon->show();
+
 }
 
 
@@ -401,6 +430,8 @@ void    MainWindow::createActions(){
 	loadCSVAction = new QAction(QIcon(":/Images/csv_text.png"),tr("&Load a csv file"), this);
 	loadCSVAction->setShortcut(tr("Ctrl+L"));
 	loadCSVAction->setStatusTip(tr("Load a csv file"));
+	loadCSVAction->setWhatsThis("this view representing all stories defined by the experimenter");
+
 	connect(loadCSVAction, SIGNAL(triggered()), this, SLOT(loadCSV()));
 
 	newStoryAction = new QAction(tr("&NewStory"), this);

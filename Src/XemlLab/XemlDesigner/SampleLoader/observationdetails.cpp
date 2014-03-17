@@ -14,6 +14,11 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 
 	destructCheckBox= new QCheckBox("Destructive observation");
 	this->pooling=new QCheckBox("pooling");
+	this->pooling->setToolTip("pool individuals samples. Need to tick \"use model for all\".");
+	this->use_template_for_all=new QCheckBox("use model for all");
+	this->use_template_for_all->setToolTip("Describe only one individual as model for others");
+	this->use_template_for_all->setCheckState(Qt::Unchecked);
+	connect(this->use_template_for_all,SIGNAL(clicked()),this,SLOT(on_modelCB_clicked()));
 
 	//this->durationEdit= new QLineEdit;
 	this->timeDurationEdit=new QTimeEdit;
@@ -39,6 +44,7 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	this->germPlasmModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Germplasm")));
 	this->germPlasmModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Individuals #")));
 	this->germPlasmTable->setModel(this->germPlasmModel);
+
 
 
 	//add individuals pools
@@ -74,12 +80,15 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	QVBoxLayout * boxLayout = new QVBoxLayout;
 	boxLayout->addWidget(destructCheckBox);
 	boxLayout->addWidget(pooling);
+	boxLayout->addWidget(use_template_for_all);
 	boxLayout->addStretch(1);
 	groupBox->setLayout(boxLayout);
 
 	layout->addWidget(groupBox);
 	layout->addWidget(this->germplasm);
 	layout->addWidget(this->germPlasmTable);
+
+	//layout->addWidget(trayIcon);
 	layout->addStretch(1);
 
 
@@ -103,18 +112,43 @@ void ObservationDetails::add_individuals_pool(QStandardItem * _root,StoryNode * 
 void ObservationDetails::initialize_table(std::vector<IndividualsPool*> * _pools){
 	this->pools=_pools;
 	for (int i=0;i < this->pools->size();i++){
+		individuals=static_cast<IndividualsPool*>(this->pools->at(i))->count_individuals();
 		this->germPlasmModel->setItem(i,0,new QStandardItem(static_cast<IndividualsPool*>(this->pools->at(i))->get_germplasm()));
 		this->germPlasmModel->setItem(i,1,new QStandardItem(QString::number(static_cast<IndividualsPool*>(this->pools->at(i))->count_individuals())));
+		//add_ind();
+
+		for(std::map<Individual*,int>::iterator it=static_cast<IndividualsPool*>(this->pools->at(i))->get_individualscollection()->begin();it!=static_cast<IndividualsPool*>(this->pools->at(i))->get_individualscollection()->end();++it){
+
+			static_cast<Individual*>((*it).first)->set_is_destroyed(true);
+			if(!static_cast<Individual*>((*it).first)->is_destroyed()){
+				add_ind(static_cast<Individual*>((*it).first)->get_id(),false);
+			}
+			else{
+				add_ind(static_cast<Individual*>((*it).first)->get_id(),true);
+
+			}
+		}
+
 
 	}
 	//add individuals in the tree
+
 }
 
 void ObservationDetails::add_ind(){
+	individuals++;
+
+	for (int i=0;i < this->pools->size();i++){
+		Individual * ind = new Individual(1+ rand() % 1000000000);
+
+		static_cast<IndividualsPool*>(this->pools->at(i))->add_Individual(ind);
+		this->germPlasmModel->setItem(i,1,new QStandardItem(QString::number(individuals)));
 
 
+	}
 	if(this->model->findItems("individuals",Qt::MatchFixedString | Qt::MatchRecursive,0).size()!=0)
 	{
+
 		QStandardItem * ind=new QStandardItem(QString::number(1+ rand() % 1000000000));
 		ind->setCheckable(true);
 		ind->setCheckState(Qt::Checked);
@@ -136,6 +170,50 @@ void ObservationDetails::add_ind(){
 
 		partition->appendRow(position);
 		ind->appendRow(partition);
+
+
+		this->model->findItems("individuals",Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(ind);
+		this->tree->expandAll();
+
+
+	}
+
+
+
+}
+void ObservationDetails::add_ind(int _id,bool _isDestroyed){
+
+
+	if(this->model->findItems("individuals",Qt::MatchFixedString | Qt::MatchRecursive,0).size()!=0)
+	{
+		QStandardItem * ind=new QStandardItem(QString::number(_id));
+		ind->setCheckable(true);
+		ind->setCheckState(Qt::Checked);
+		//ind->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		QStandardItem * dev_stage=new QStandardItem("developmental-stage");
+		dev_stage->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		dev_stage->setToolTip("double clicked to add developmental stage term");
+
+		ind->appendRow(dev_stage);
+		QStandardItem * partition=new QStandardItem("partitions");
+		partition->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		QStandardItem * structure=new QStandardItem("structure");
+		structure->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		structure->setToolTip("double clicked to add material structure term");
+		partition->appendRow(structure);
+		QStandardItem * position=new QStandardItem("position");
+		position->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		position->setToolTip("double clicked to add positionning term");
+
+		partition->appendRow(position);
+		ind->appendRow(partition);
+		if(_isDestroyed){
+			ind->setEnabled(false);
+			dev_stage->setEnabled(false);
+			structure->setEnabled(false);
+			position->setEnabled(false);
+			position->setSelectable(false);
+		}
 		this->model->findItems("individuals",Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(ind);
 		this->tree->expandAll();
 		individuals++;
@@ -145,6 +223,16 @@ void ObservationDetails::add_ind(){
 
 
 }
+void ObservationDetails::on_modelCB_clicked(){
+	if(this->use_template_for_all->checkState()==Qt::Unchecked){
+		std::cerr << "define for each individuals" << std::endl;
+
+	}
+	else{
+		std::cerr << "define for all" << std::endl;
+	}
+}
+
 void ObservationDetails::on_item_checked(QStandardItem* _item){
 	if (_item->isCheckable()){
 		if(_item->text()=="Individuals"){

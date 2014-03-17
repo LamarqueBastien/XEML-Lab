@@ -1,6 +1,6 @@
 #ifndef OBSERVATIONDETAILS_H
 #define OBSERVATIONDETAILS_H
-
+#include <QSystemTrayIcon>
 #include <QtWidgets>
 #include<iostream>
 #include"Views/parametertreeview.h"
@@ -19,6 +19,7 @@ class ObservationDetails : public QWidget
 	private:
 		QCheckBox          * pooling;
 		QCheckBox          * destructCheckBox;
+		QCheckBox          * use_template_for_all;
 		QLabel             * durationInd;
 		QLineEdit          * durationEdit;
 		QTimeEdit          * timeDurationEdit;
@@ -37,16 +38,19 @@ class ObservationDetails : public QWidget
 
 
 
+
 	signals:
 
 	public slots:
 	private slots:
+		void on_modelCB_clicked();
 		void add_details_about_pos_term(ItfOntologyTerm * _term);
 		void on_item_double_clicked(QModelIndex index);
 		void on_item_checked(QStandardItem* _item);
 
 		void add_parameter_item(ItfOntologyTerm * _term);
 		void add_ind();
+		void add_ind(int _id,bool _isDestroyed);
 
 };
 

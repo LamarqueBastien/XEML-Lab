@@ -66,7 +66,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 	tabs=new QTabWidget();
 	obs_counter=1;
-	QString testr="obs_"+QString::number(obs_counter);
+	QString testr="observation "+QString::number(obs_counter);
 	//QTreeView * tree=new QTreeView;
 	//QStandardItemModel * model = new QStandardItemModel;
 	//my_treeparameter->appendColumn();
@@ -158,7 +158,7 @@ void ObservationDetailsPage::add_obs(){
 	//QStringList * dev_onto = new QStringList;
 	//dev_onto->append("PO_Development");
 	//tmp->set_up_Ontologytree(this->doc_resources,dev_onto);
-	QString tmp_string="obs_"+QString::number(obs_counter);
+	QString tmp_string="observation "+QString::number(obs_counter);
 	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,root_node,this->pools);
 	obspage->initialize_table(pools);
 	this->observations->push_back(obspage);

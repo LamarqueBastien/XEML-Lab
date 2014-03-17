@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include<map>
+#include<QSystemTrayIcon>
 #include<string>
 #include<iostream>
 #include<QMainWindow>
@@ -71,6 +72,7 @@ class MainWindow : public QMainWindow
 		void                                       createMenus();
 		void                                       createToolBars();
 		void                                       createUndoView();
+		QSystemTrayIcon *trayIcon;
 
 		bool                                       okToContinue();
 		void                                       updateRecentFileActions();

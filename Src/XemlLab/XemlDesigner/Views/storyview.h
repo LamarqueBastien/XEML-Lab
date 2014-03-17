@@ -13,6 +13,7 @@
 #include<QVBoxLayout>
 #include<QMessageBox>
 #include<QHeaderView>
+#include<QWhatsThis>
 
 #include"Interface/itfdocument.h"
 #include"CoreObjects/xemldocument.h"
