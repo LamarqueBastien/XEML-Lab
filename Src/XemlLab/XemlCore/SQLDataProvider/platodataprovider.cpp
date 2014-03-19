@@ -97,6 +97,11 @@ namespace XemlDataProvider{
 		return false;
 	}
 
+
+	QString PlatoDataProvider::get_error_message(){
+		return this->error_message;
+	}
+
 	bool PlatoDataProvider::search_for_experiment(QUuid _exp_id){
 		std::cerr << "entering search for experiment" << std::endl;
 		QString mtp=convert_uid_to_platoUID(_exp_id);
@@ -129,6 +134,7 @@ namespace XemlDataProvider{
 			}
 			else{
 				std::cerr << "Une erreur s'est produite. :(" << query.lastError().text().toStdString()<< std::endl;
+				error_message=query.lastError().text();
 				return false;
 
 			}
@@ -137,6 +143,7 @@ namespace XemlDataProvider{
 		}
 		else{
 			std::cerr << "Error :" << db.lastError().text().toStdString() << std::endl;
+			error_message=db.lastError().text();
 			return false;
 		}
 	}

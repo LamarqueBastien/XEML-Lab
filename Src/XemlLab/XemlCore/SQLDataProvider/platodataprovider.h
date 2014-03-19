@@ -19,6 +19,9 @@ namespace XemlDataProvider{
 
 		public:
 			PlatoDataProvider();
+			QString get_error_message();
+
+
 			//region itfDataprovider
 
 			QImage * get_logo();
@@ -53,6 +56,7 @@ namespace XemlDataProvider{
 			QString            get_description();
 			QString            get_uri();
 			ItfXemlComponent * copy();
+
 			//end region XemlComponent
 
 		private:
@@ -60,6 +64,7 @@ namespace XemlDataProvider{
 			MyConfig myConfig;
 			QImage * plato_logo;
 			QSqlDatabase db;
+			QString error_message;
 
 	};
 }

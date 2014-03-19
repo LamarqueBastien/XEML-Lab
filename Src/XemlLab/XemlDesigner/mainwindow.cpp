@@ -576,7 +576,7 @@ void    MainWindow::auto_mapping(){
 
 			}
 			else{
-				QMessageBox::information(this,"Dataset search","no experiment was found on "+plato_provider->get_componentName()+" with ID :"+this->fmg->get_current_xeml()->get_id().toString());
+				QMessageBox::information(this,"Dataset search","no experiment was found on "+plato_provider->get_componentName()+" with ID :"+this->fmg->get_current_xeml()->get_id().toString()+ "db error: " +plato_provider->get_error_message());
 
 			}
 

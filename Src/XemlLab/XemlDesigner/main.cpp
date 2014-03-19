@@ -744,9 +744,9 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	w.set_up_storytree();
 	w.set_up_germplasm();
 
-	splash->showMessage(QObject::tr("building SQL drivers configuration files..."), topRight, Qt::black);
 
 	#ifdef Q_OS_LINUX
+	   splash->showMessage(QObject::tr("building SQL drivers configuration files..."), topRight, Qt::black);
 	   QString dir = QDir::homePath();
 	   QDir d;
 	   QString libdir = d.absolutePath();
@@ -801,7 +801,7 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		   }
 		   else // update existing entry
 		   {
-			   qDebug() << "Found an entry for FreeTDS. Updating driver to " + libdir + "/libtdsodbc.so.";
+			   qDebug() << "Found an entry for FreeTDS. Updating driver to " + libdir + "/lib/libtdsodbc.so.";
 			   qDebug() << lines[lnbr+2];
 			   qDebug() << lines[lnbr+3];
 
