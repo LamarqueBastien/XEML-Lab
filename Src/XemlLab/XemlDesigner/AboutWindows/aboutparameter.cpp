@@ -200,7 +200,7 @@ void AboutParameter::initialize(){
 				//this->stackLayout->addWidget(freeText);
 			}
 			else if((*it).first=="Quantity"){
-				std::cerr << "problem before" << std::endl;
+				//std::cerr << "problem before" << std::endl;
 				std::vector<std::pair<QString,QString> > * tmp;
 				tmp=static_cast<PosTerm*>(this->term)->listUnits((*it).first);
 				if(static_cast<PosTerm*>(this->term)->hasDefaultUnit((*it).first)){

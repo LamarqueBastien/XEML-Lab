@@ -4,6 +4,9 @@
 GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_doc,qreal _width,StoryBase * _story,bool _IsStorySplit,qreal _posx,qreal _posy,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
+	//this->setGraphicsEffect(new QGraphicsDropShadowEffect);
+	//this->setGraphicsEffect(new QGraphicsOpacityEffect);
+
 	this->current_doc=_current_doc;
 	this->story=_story;
 	this->posx=_posx;
@@ -20,7 +23,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 
 
 
-		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
+	this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->current_doc->get_startdate(),static_cast<StorySplit*>(this->story)->get_timepoint())));
 	}
 	//this->setToolTip("test");
 	this->storyLabel="root";
@@ -55,6 +58,9 @@ GraphicStoryItem * GraphicStoryItem::get_parent(){
 GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_doc,qreal _width,StoryBase * _story,QString _label,bool _IsStorySplit,qreal _posx,qreal _posy,QGraphicsItem * _parent)
 	:QGraphicsItem(_parent)
 {
+	//this->setGraphicsEffect(new QGraphicsDropShadowEffect);
+	//this->setGraphicsEffect(new QGraphicsOpacityEffect);
+
 	this->current_doc=_current_doc;
 	this->story=_story;
 	this->posx=_posx;
@@ -199,11 +205,23 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	//_painter->setCompositionMode(QPainter::CompositionMode_Multiply);
 	QLinearGradient gradient(boundingRect().topLeft(),boundingRect().topRight());
 
+	/*
 	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.4, 0.2, 0.5));
 	gradient.setColorAt(0.25, QColor::fromRgbF(0.1, 0.2, 0.9, 0.5));
 	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.4, 0.2, 0.5));
 	gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.9, 0.5));
 	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.1, 0.6, 0.5));
+	*/
+	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	gradient.setColorAt(0.5, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	gradient.setColorAt(1, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	/*
+	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	gradient.setColorAt(0.25, QColor::fromRgbF(0.5, 0.3, 0.9, 0.2));
+	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.2, 0.2, 0.2));
+	gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.7, 0.2));
+	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.2, 0.9, 0.2));
+	*/
 
 	QBrush brush(gradient);
 	brush.setStyle(Qt::LinearGradientPattern);

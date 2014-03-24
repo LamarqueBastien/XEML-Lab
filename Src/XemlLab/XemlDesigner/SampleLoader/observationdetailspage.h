@@ -12,6 +12,7 @@
 #include"CoreObjects/documentresources.h"
 #include"Views/parametertreeview.h"
 #include"observationdetails.h"
+#include"observationwizard.h"
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Document;
 
@@ -53,7 +54,7 @@ class ObservationDetailsPage : public QWizardPage
 		int                obs_counter;
 		StoryNode        * root_node;
 		std::vector<IndividualsPool*> * pools;
-		std::vector<ObservationDetails*> * observations;
+		std::vector<ObservationDetails*> * observations_tmp;
 	protected:
 		void initializePage();
 	private slots:

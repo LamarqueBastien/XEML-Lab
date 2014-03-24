@@ -10,13 +10,33 @@ using namespace std;
 class ObservationDetails : public QWidget
 {
 		Q_OBJECT
+	typedef enum
+	{
+	OneForAll,
+	All
+	}ModelOrNotModel;
+
+
 	public:
 		explicit ObservationDetails(DocumentResources * _doc_resources,StoryNode * _root,std::vector<IndividualsPool*> * _pools, QWidget *parent = 0);
 		void add_individuals_pool(QStandardItem * _root,StoryNode * _rootNode);
 
 		void initialize_table(std::vector<IndividualsPool*> * _pools);
+		QCheckBox * get_pooling_check_box();
+		QCheckBox * get_destruct_check_box();
+		QCheckBox * get_template_check_box();
+		QTimeEdit * get_time();
+
+		QTreeView * get_tree();
+		QStandardItemModel * get_model();
+
+
 
 	private:
+
+		void set_model_tree(ModelOrNotModel displayMode);
+
+
 		QCheckBox          * pooling;
 		QCheckBox          * destructCheckBox;
 		QCheckBox          * use_template_for_all;
@@ -50,7 +70,7 @@ class ObservationDetails : public QWidget
 
 		void add_parameter_item(ItfOntologyTerm * _term);
 		void add_ind();
-		void add_ind(int _id,bool _isDestroyed);
+		void add_ind(int _id,bool _isDestroyed,int _count,int _row,QString _germplasm);
 
 };
 

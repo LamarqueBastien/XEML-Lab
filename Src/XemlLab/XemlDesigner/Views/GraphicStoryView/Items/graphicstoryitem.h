@@ -4,6 +4,8 @@
 #include<QLinearGradient>
 #include<QGraphicsScene>
 #include<QGraphicsSceneDragDropEvent>
+#include<QGraphicsDropShadowEffect>
+#include<QGraphicsOpacityEffect>
 #include<QMimeData>
 #include<QColor>
 #include<QPen>

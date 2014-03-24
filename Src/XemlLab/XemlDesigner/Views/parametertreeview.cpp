@@ -339,6 +339,14 @@ void ParameterTreeView::add_parameter()
 			else{
 				std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
 				//modifer le signal pour qu'il envoie une liste de terms.
+				/*
+				for(std::map<ValueBase*,QString>::iterator it=static_cast<VariableTerm*>(tmp->get_term()->get_prototype())->get_valuecollection()->begin();it!=static_cast<VariableTerm*>(tmp->get_term()->get_prototype())->get_valuecollection()->end();++it){
+					//values->append(static_cast<Value*>((*it).first)->get_val());
+					if(static_cast<Value*>((*it).first)->get_context()=="Quantity"){
+						std::cerr << "Qvalue : " << static_cast<Value*>((*it).first)->get_val().toStdString() << std::endl;
+					}
+				}
+				*/
 				emit onParameterselected(tmp->get_term());
 			}
 		}

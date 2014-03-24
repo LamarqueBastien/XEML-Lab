@@ -8,6 +8,7 @@ StoryItem::StoryItem(const QString & _text,StoryBase * st,bool _isStorySplit,boo
 	this->isStorySplit=_isStorySplit;
 	this->isroot=_isRoot;
 	this->story=st;
+
 }
 
 StoryItem::StoryItem(const QString & _text,bool _isRoot)

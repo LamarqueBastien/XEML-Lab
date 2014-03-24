@@ -5,7 +5,8 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	: QWizardPage(parent)
 {
 	this->root_node=_root;
-	observations= new std::vector<ObservationDetails *>();
+	observations_tmp= ObservationWizard::get_observations();
+	std::cerr << "obs_tmp size : " << this->observations_tmp->size() << std::endl;
 	pools=new std::vector<IndividualsPool*>();
 
 
@@ -66,7 +67,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 	tabs=new QTabWidget();
 	obs_counter=1;
-	QString testr="observation "+QString::number(obs_counter);
+	QString testr="observations set"+QString::number(obs_counter);
 	//QTreeView * tree=new QTreeView;
 	//QStandardItemModel * model = new QStandardItemModel;
 	//my_treeparameter->appendColumn();
@@ -75,7 +76,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 	std::cerr << "pool size before :" << this->pools->size() << std::endl;
 	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,this->root_node,this->pools);
-	this->observations->push_back(obspage);
+	this->observations_tmp->push_back(obspage);
 	tabs->addTab(obspage,testr);
 	layout->addWidget(tabs);
 	layout->addWidget(add_observation);
@@ -137,12 +138,15 @@ void ObservationDetailsPage::initializePage(){
 				this->pools->push_back((*it).first);
 			}
 		}
-		for (int j=0;j<this->observations->size();j++){
-			static_cast<ObservationDetails*>(this->observations->at(j))->initialize_table(this->pools);
-		}
-		std::cerr << "initialization :" << this->pools->size() << std::endl;
+
+		//std::cerr << "initialization :" << this->pools->size() << std::endl;
 
 		//pools->push_back(list.at(i).data().toString());
+	}
+
+	for (int j=0;j<this->observations_tmp->size();j++){
+		//std::cerr << "in da loop j = " << j << std::endl;
+		static_cast<ObservationDetails*>(this->observations_tmp->at(j))->initialize_table(this->pools);
 	}
 
 
@@ -158,10 +162,10 @@ void ObservationDetailsPage::add_obs(){
 	//QStringList * dev_onto = new QStringList;
 	//dev_onto->append("PO_Development");
 	//tmp->set_up_Ontologytree(this->doc_resources,dev_onto);
-	QString tmp_string="observation "+QString::number(obs_counter);
+	QString tmp_string="observations set"+QString::number(obs_counter);
 	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,root_node,this->pools);
 	obspage->initialize_table(pools);
-	this->observations->push_back(obspage);
+	this->observations_tmp->push_back(obspage);
 	this->tabs->addTab(obspage,tmp_string);
 
 }

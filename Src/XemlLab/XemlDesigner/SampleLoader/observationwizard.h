@@ -10,6 +10,7 @@
 #include"Interface/itfdocument.h"
 #include"CoreObjects/documentresources.h"
 #include"CoreObjects/timespanextension.h"
+#include"observationdetails.h"
 
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Document;
@@ -26,6 +27,8 @@ class ObservationWizard : public QWizard
 		ObservationPoint * obspoint;
 		ItfDocument      * xeml_doc;
 		StoryNode        * current_storynode;
+		static std::vector<ObservationDetails *> * observations;
+
 		//QWizardPage      * IntroPage;
 		//QWizardPage      * GenotypePage;
 		//QWizardPage      * ObservationPage;
@@ -43,6 +46,7 @@ class ObservationWizard : public QWizard
 		//this function retrieve all informations collected
 		//during the wizard and fill the Xeml document accordingly.
 		void accept();
+		static std::vector<ObservationDetails *> * get_observations();
 
 
 
