@@ -158,7 +158,7 @@ namespace Xeml {
 				void                InitObserverPoint(QDomElement _elem,bool _isStorySplit, StoryBase * storyBase);
 				void				InitPartitions(QDomElement _elem,Observation * _ob);
 				void				InitDevelopmentalStage(QDomElement _elem,Observation * _ob);
-				void                InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase);
+				void                InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase,StoryNode * _sns);
 				void                InitData(QDomElement  elem);
 				void                InitSampleMapping(QDomElement  elem,SampleIdMapping * sid);
 				//endregion

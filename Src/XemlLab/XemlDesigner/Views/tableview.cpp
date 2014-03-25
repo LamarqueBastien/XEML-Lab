@@ -238,13 +238,21 @@ void  TableView::populate_table(){
 						for (int i =0;i<id_parts.count();i++){
 							if (static_cast<Partition*>((*it8).first)->get_id()==id_parts.at(i)){
 								tmp_pool=o->get_pool()->get_germplasm();
-								//ind_ids+=QString::number(o->get_ind()->get_id());
+								//std::cerr << "ind id  : " << o->get_ind()->get_id() << std::endl;
+								if(i==(id_parts.count()-1)){
+									ind_ids+=QString::number(o->get_ind()->get_id());
+
+								}
+								else{
+									ind_ids+=QString::number(o->get_ind()->get_id())+"-";
+
+								}
 
 							}
 						}
 					}
 					modelTable->setItem(cpt,5,new QStandardItem(tmp_pool));
-					//modelTable->setItem(cpt,9,new QStandardItem(ind_ids));
+					modelTable->setItem(cpt,9,new QStandardItem(ind_ids));
 
 
 

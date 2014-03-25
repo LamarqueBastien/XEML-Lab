@@ -125,9 +125,11 @@ void ObservationDetails::initialize_table(std::vector<IndividualsPool*> * _pools
 			//std::cerr << "full name before : " << QString::number(static_cast<Individual*>((*it).first)->get_id()).toStdString() << "-" << gp.toStdString() << std::endl;
 			//static_cast<Individual*>((*it).first)->set_is_destroyed(true);
 			if(!static_cast<Individual*>((*it).first)->is_destroyed()){
+
 				add_ind(static_cast<Individual*>((*it).first)->get_id(),false,i,j,gp);
 			}
 			else{
+				std::cerr << "individuls is already destroyed" << std::endl;
 				add_ind(static_cast<Individual*>((*it).first)->get_id(),true,i,j,gp);
 
 			}

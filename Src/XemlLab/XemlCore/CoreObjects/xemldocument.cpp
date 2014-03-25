@@ -994,7 +994,7 @@ namespace Xeml {
 				}
 			}
 		}
-		void                  XemlDocument::InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase){
+		void                  XemlDocument::InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase,StoryNode * _sns){
 			std::cerr << "entering init sample" << std::endl;
 			QDomNodeList QNL=_elem.childNodes();
 			Sample * s= new Sample();
@@ -1002,6 +1002,7 @@ namespace Xeml {
 			std::cerr << "initialize new sample with id : " << id << std::endl;
 
 			s->set_id(id);
+
 
 			for (int i = 0; i < QNL.length(); i++) {
 
@@ -1038,6 +1039,19 @@ namespace Xeml {
 
 			}
 			storyBase->add_sample(s);
+			if(_isStorysplit){
+
+				for(std::list<StoryNode*>::iterator it =this->get_storyboard()->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
+					StoryNode * tmp_node=static_cast<StoryNode*>((*it));
+					if (_sns->get_mainStoryName()==tmp_node->get_story()->get_label()){
+						static_cast<Story*>(tmp_node->get_story())->increment_sample_count();
+					}
+				}
+			}
+			else{
+				static_cast<Story*>(_sns->get_story())->increment_sample_count();
+
+			}
 
 		}
 		void                  XemlDocument::InitRessources(QDomElement  elem){
@@ -1171,7 +1185,7 @@ namespace Xeml {
 					InitObserverPoint(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Sample"){
-					InitSample(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
+					InitSample(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story(),sns);
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Event"){
 					InitEvent(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
@@ -1353,7 +1367,7 @@ namespace Xeml {
 					ob->set_destructiveinfo(false);
 					ob->set_duration(QDateTime::fromString(QNL.item(i).toElement().attributeNode("Duration").value(),"hh:mm:ss"));//TimeSpanExtension::tryTimeSpanSet(QNL.item(i).toElement().attributeNode("Duration").value()));
 					int indId =-1;
-					QString indIDstr=QNL.item(i).toElement().attributeNode("Individual").value();
+					QString indIDstr=QNL.item(i).toElement().attributeNode("individual").value();
 					if ((!indIDstr.isEmpty()) && (!indIDstr.isNull())){
 						indId=indIDstr.toInt();
 					}

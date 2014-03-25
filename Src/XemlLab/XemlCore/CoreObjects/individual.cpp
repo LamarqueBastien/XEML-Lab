@@ -7,9 +7,11 @@ namespace Xeml {
 
 		Individual::Individual()
 		{
+			this->IsDestroyed=false;
 		}
 		Individual::Individual(int _id){
 			this->id=_id;
+			this->IsDestroyed=false;
 		}
 		Individual::~Individual(void)
 		{

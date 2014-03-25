@@ -52,6 +52,8 @@ namespace Xeml{
 
 			if ( this->compstate==Xeml::Document::Loaded ){
 				std::cerr << "début du chargement de l'ontologie : " << this->nameSpace.toStdString() << std::endl;
+				//add try and catch here
+
 				this->handler->load(this->nameSpace);
 				std::cerr << "fin du chargement de l'ontologie" << std::endl;
 			}

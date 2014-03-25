@@ -40,6 +40,7 @@ void ExperimentTableView::init(){
 	//put experiment view declaration at the end of the init function and pass treeviews as arguments
 	this->experiment_view=new TableView(this->xemlDoc);
 	this->sampleView=new QTreeView;
+	sampleView->header()->hide();
 
 
 	sampleModel = new QStandardItemModel;
@@ -119,6 +120,8 @@ void ExperimentTableView::init(){
 
 void ExperimentTableView::init_variable_table(){
 	this->variableView=new QTreeView;
+	variableView->header()->hide();
+
 	this->variableModel = new QStandardItemModel;
 	QStandardItem * variable_item=new QStandardItem("Variable");
 	variable_item->setCheckable(true);
@@ -146,6 +149,8 @@ void ExperimentTableView::init_variable_table(){
 
 void ExperimentTableView::init_event_table(){
 	this->eventView=new QTreeView;
+	this->eventView->header()->hide();
+
 	this->eventModel = new QStandardItemModel;
 	QStandardItem * event_item=new QStandardItem("Event");
 	event_item->setCheckable(true);
