@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	storyView= new StoryView;
 	ontologyView= new ParameterTreeView(true,this->fmg->get_current_xeml()->get_doc_resources());
 	genotypeView= new GenotypeView;
+
 	XemlCode=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
 	//std::cerr << this->fmg->get_current_xeml()->get_doc_resources()->get_xeoHandler()->size() << std::endl;
 
@@ -99,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QMdiSubWindow *sousFenetre1 = zoneCentrale->addSubWindow(this->ontologyView);
 	sousFenetre1->setWindowFlags(Qt::FramelessWindowHint);
+	//sousFenetre1->setWindowOpacity(0.5);
 	//connect(sousFenetre1,SIGNAL(destroyed()),this,SLOT()
 	//sousFenetre1->
 	sousFenetre1->setObjectName(fen1ObjectName);

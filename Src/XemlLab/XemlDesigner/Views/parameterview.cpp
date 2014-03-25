@@ -3,6 +3,7 @@
 ParameterView::ParameterView(QTreeView *parent)
 	:QTreeView(parent)
 {
+	this->setWindowOpacity(0.0);
 }
 void ParameterView::dragEnterEvent(QDragEnterEvent *event)
  {

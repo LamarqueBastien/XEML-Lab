@@ -16,7 +16,7 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	this->pooling=new QCheckBox("pooling");
 	this->pooling->setToolTip("pool individuals samples. Need to tick \"use model for all\".");
 	this->use_template_for_all=new QCheckBox("use model for all");
-	this->use_template_for_all->setToolTip("Describe only one individual as model for others");
+	this->use_template_for_all->setToolTip("Describe only one individual as model for others (highly recommended)");
 	this->use_template_for_all->setCheckState(Qt::Unchecked);
 	connect(this->use_template_for_all,SIGNAL(clicked()),this,SLOT(on_modelCB_clicked()));
 
@@ -348,6 +348,12 @@ void ObservationDetails::on_item_checked(QStandardItem* _item){
 					//for (_item->child())
 					for (int i =0;i<_item->rowCount();i++){
 						_item->child(i)->setCheckState(Qt::Unchecked);
+						if(_item->child(i)->hasChildren()){
+							for (int j =0;j<_item->child(i)->rowCount();j++){
+								_item->child(i)->child(j)->setCheckState(Qt::Unchecked);
+
+							}
+						}
 					}
 				}
 
@@ -364,7 +370,7 @@ void ObservationDetails::on_item_checked(QStandardItem* _item){
 void ObservationDetails::on_item_double_clicked(QModelIndex index){
 	current_index=index;
 	QStandardItem * tmp =static_cast<QStandardItem*>(this->model->itemFromIndex(index));
-	if(tmp->text()=="structure"){
+	if(tmp->text()=="structure" && tmp->isEnabled()){
 		parameter_tree = new ParameterTreeView(false,this->doc_resources);
 		QStringList * struct_onto = new QStringList;
 		struct_onto->append("PO_Structure");
@@ -373,7 +379,7 @@ void ObservationDetails::on_item_double_clicked(QModelIndex index){
 		parameter_tree->show();
 		//std::cerr << "open devtree and show it" << std::endl;
 	}
-	else if(tmp->text()=="developmental-stage"){
+	else if(tmp->text()=="developmental-stage" && tmp->isEnabled()){
 		parameter_tree = new ParameterTreeView(false,this->doc_resources);
 		QStringList * dev_onto = new QStringList;
 		dev_onto->append("PO_Development");
@@ -381,7 +387,7 @@ void ObservationDetails::on_item_double_clicked(QModelIndex index){
 		connect(parameter_tree,SIGNAL(onParameterselected(ItfOntologyTerm*)),SLOT(add_parameter_item(ItfOntologyTerm*)));
 		parameter_tree->show();
 	}
-	else if(tmp->text()=="position"){
+	else if(tmp->text()=="position" && tmp->isEnabled()){
 		parameter_tree = new ParameterTreeView(false,this->doc_resources);
 		QStringList * dev_onto = new QStringList;
 		dev_onto->append("XEO_Positioning");

@@ -43,8 +43,9 @@ void ObservationWizard::accept(){
 		ObservationDetails * tmp=static_cast<ObservationDetails*>((*it));
 		QList<BasicTerm *> dev_list;
 		QList<BasicTerm *> struct_list;
-		//first way : using a model to define all individuals
+		QList<Sample*> sample_list;
 
+		//first way : using a model to define all individuals
 		if (tmp->get_template_check_box()->isChecked()){
 			std::cerr << "use model" << std::endl;
 
@@ -59,7 +60,7 @@ void ObservationWizard::accept(){
 							//premier passage pour récupérer les stades de devellopement et les partitions du modèle
 							for (int i =0;i<root_item->rowCount();i++){
 
-								if(root_item->child(i)->checkState()==Qt::Checked){
+								if(root_item->child(i)->checkState()==Qt::Checked && root_item->child(i)->isEnabled()){
 									QStandardItem * model_item=root_item->child(i);
 									if(model_item->hasChildren()){
 										for (int j =0;j<model_item->rowCount();j++){
@@ -139,7 +140,8 @@ void ObservationWizard::accept(){
 															}
 
 														}
-														else{
+														if (partition_item->child(k)->text()=="position"){
+
 
 														}
 													}
@@ -154,40 +156,121 @@ void ObservationWizard::accept(){
 								}
 							}
 							//second passage pour ajouter les observations correspondantes
-							for(std::map<Individual*,int>::iterator it= tmp_pool->get_individualscollection()->begin();it!= tmp_pool->get_individualscollection()->end();++it){
-								Observation * ob = new Observation();
-								QString test=tmp->get_time()->dateTime().toString("hh:mm:ss");
-								ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
+
+							//if pooling box is checked, join together all partition with same material term
+							if(tmp->get_pooling_check_box()->checkState()==Qt::Checked){
+
+								for (int i=0;i<struct_list.size();i++){
+									Sample * s=new Sample();
+									static_cast<Story*>(this->storyRoot->get_story())->increment_sample_count();
+									s->set_id(static_cast<Story*>(this->storyRoot->get_story())->get_sample_count());
+									this->current_storynode->get_story()->add_sample(s);
+									sample_list.append(s);
+								}
+								for(std::map<Individual*,int>::iterator it= tmp_pool->get_individualscollection()->begin();it!= tmp_pool->get_individualscollection()->end();++it){
+									Individual *tmp_individual=static_cast<Individual*>((*it).first);
+									if (!tmp_individual->is_destroyed()){
+										Observation * ob = new Observation();
+										QString test=tmp->get_time()->dateTime().toString("hh:mm:ss");
+										ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
 
 
-								//check here to change from destructive to non destructive
-								ob->set_destructiveinfo(true);
-								ob->set_ind((*it).first);
-								ob->set_pool(tmp_pool);
-								Partition * p = new Partition();
-								static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-								p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
-								for (int i=0;i<dev_list.size();i++){
-									if(!(ob->contain_stages(dev_list.at(i)->get_termId()))){
-										ob->add_stage(dev_list.at(i));
+										//check here to change from destructive to non destructive
+										if (tmp->get_destruct_check_box()->checkState()==Qt::Checked){
+											ob->set_destructiveinfo(true);
+											tmp_individual->set_is_destroyed(true);
+										}
+										else{
+											ob->set_destructiveinfo(false);
+										}
+
+										ob->set_ind((*it).first);
+										ob->set_pool(tmp_pool);
+										for (int i=0;i<dev_list.size();i++){
+											if(!(ob->contain_stages(dev_list.at(i)->get_termId()))){
+												ob->add_stage(dev_list.at(i));
+											}
+										}
+										for (int i=0;i<struct_list.size();i++){
+											Partition * p = new Partition();
+											static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+											p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+											p->addMaterialTerm(struct_list.at(i));
+											if(!(ob->contain_partition(p))){
+												ob->add_partition(p);
+											}
+											sample_list.at(i)->add_partition(p);
+
+										}
+										ob->set_individualInfluence(false);
+
+										this->obspoint->add_observation(ob);
 									}
 								}
-								for (int i=0;i<struct_list.size();i++){
-									p->addMaterialTerm(struct_list.at(i));
+
+
+
+							}
+							//if pooling box isn't checked
+							else{
+								for(std::map<Individual*,int>::iterator it= tmp_pool->get_individualscollection()->begin();it!= tmp_pool->get_individualscollection()->end();++it){
+									Individual *tmp_individual=static_cast<Individual*>((*it).first);
+									if (!tmp_individual->is_destroyed()){
+
+										Observation * ob = new Observation();
+										QString test=tmp->get_time()->dateTime().toString("hh:mm:ss");
+										ob->set_duration(QDateTime::fromString(test,"hh:mm:ss"));
+
+
+										//check here to change from destructive to non destructive
+										if (tmp->get_destruct_check_box()->checkState()==Qt::Checked){
+
+											ob->set_destructiveinfo(true);
+											tmp_individual->set_is_destroyed(true);
+
+										}
+										else{
+											ob->set_destructiveinfo(false);
+
+										}
+										ob->set_ind(tmp_individual);
+										ob->set_pool(tmp_pool);
+
+										for (int i=0;i<dev_list.size();i++){
+											if(!(ob->contain_stages(dev_list.at(i)->get_termId()))){
+												ob->add_stage(dev_list.at(i));
+											}
+										}
+										for (int i=0;i<struct_list.size();i++){
+											Partition * p = new Partition();
+											static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+											p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+											p->addMaterialTerm(struct_list.at(i));
+											if(!(ob->contain_partition(p))){
+												ob->add_partition(p);
+											}
+											Sample * s=new Sample();
+											s->add_partition(p);
+											static_cast<Story*>(this->storyRoot->get_story())->increment_sample_count();
+											s->set_id(static_cast<Story*>(this->storyRoot->get_story())->get_sample_count());
+											this->current_storynode->get_story()->add_sample(s);
+
+										}
+										//p->addPositionTerm(posTerm);
+
+
+
+										ob->set_individualInfluence(false);
+
+										this->obspoint->add_observation(ob);
+									}
+
 								}
-								//p->addPositionTerm(posTerm);
-
-
-								if(!(ob->contain_partition(p))){
-									ob->add_partition(p);
-								}
-								ob->set_individualInfluence(false);
-
-								this->obspoint->add_observation(ob);
-
 							}
 							dev_list.clear();
 							struct_list.clear();
+							sample_list.clear();
+
 
 							//for (int i =0;i<root_item->rowCount();i++){
 								//if(root_item->child(i)->checkState()==Qt::Checked){
@@ -214,11 +297,18 @@ void ObservationWizard::accept(){
 			IndividualsPool * tmp_pool;
 			if(root_item->hasChildren()){
 				for (int i =0;i<root_item->rowCount();i++){
+
+
+					//individuals items
 					QStandardItem * child_item=root_item->child(i);
+
+
 					if (child_item->checkState()==Qt::Checked){
 
 						//item is selected so retrieve information for each child (variables or other individuals)
 						if(child_item->hasChildren()){
+
+
 							//start for each child loop
 							for (int j =0;j<child_item->rowCount();j++){
 								if(child_item->child(j)->text()=="developmental-stage"){
@@ -351,23 +441,25 @@ void ObservationWizard::accept(){
 									ob->set_destructiveinfo(true);
 									ob->set_ind(tmp_ind);
 									ob->set_pool(tmp_pool);
-									Partition * p = new Partition();
-									static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-									p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+
 									for (int i=0;i<dev_list.size();i++){
 										if(!(ob->contain_stages(dev_list.at(i)->get_termId()))){
 											ob->add_stage(dev_list.at(i));
 										}
 									}
 									for (int i=0;i<struct_list.size();i++){
+										Partition * p = new Partition();
+										static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+										p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 										p->addMaterialTerm(struct_list.at(i));
+										if(!(ob->contain_partition(p))){
+											ob->add_partition(p);
+										}
 									}
 									//p->addPositionTerm(posTerm);
 
 
-									if(!(ob->contain_partition(p))){
-										ob->add_partition(p);
-									}
+
 									ob->set_individualInfluence(false);
 
 									this->obspoint->add_observation(ob);
@@ -403,23 +495,26 @@ void ObservationWizard::accept(){
 						ob->set_destructiveinfo(true);
 						ob->set_ind(tmp_ind);
 						ob->set_pool(tmp_pool);
-						Partition * p = new Partition();
-						static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-						p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+
 						for (int i=0;i<dev_list.size();i++){
 							if(!(ob->contain_stages(dev_list.at(i)->get_termId()))){
 								ob->add_stage(dev_list.at(i));
 							}
 						}
 						for (int i=0;i<struct_list.size();i++){
+							Partition * p = new Partition();
+							static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+							p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 							p->addMaterialTerm(struct_list.at(i));
+							if(!(ob->contain_partition(p))){
+								ob->add_partition(p);
+							}
+
 						}
 						//p->addPositionTerm(posTerm);
 
 
-						if(!(ob->contain_partition(p))){
-							ob->add_partition(p);
-						}
+
 						ob->set_individualInfluence(false);
 
 						this->obspoint->add_observation(ob);
@@ -449,6 +544,7 @@ void ObservationWizard::accept(){
 
 
 	/*
+	 *older version
 	for (int j=0;j<indexlist->size();j++){
 		for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->begin();it!=static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->end();++it){
 			if((*it).second==indexlist->at(j).data().toString()){

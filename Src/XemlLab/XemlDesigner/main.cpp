@@ -718,14 +718,21 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
 #elif defined(Q_OS_MACX)
 	a.setStyle(QStyleFactory::create("Macintosh"));
-	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
+	//QPixmap(":/Images/XemlLogo.png")
+	//splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
+
+	QPixmap image(":/Images/XemlLogo.png");
+	splash->setMask(QRegion(image.mask()));
+	splash->setPixmap(image);
 #else
 
 	splash->setPixmap(QPixmap("/home/bdartigues/XEML-Lab/Src/XemlLab/XemlDesigner/Images/XemlLogo.png"));
 #endif
 	//splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));///Users/benjamindartigues/XemlLab/XemlDesigner
 
+
 	splash->show();
+
 
 	Qt::Alignment topRight = Qt::AlignRight | Qt::AlignTop;
 

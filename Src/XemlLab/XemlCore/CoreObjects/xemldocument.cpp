@@ -666,8 +666,8 @@ namespace Xeml {
 			for(std::vector<std::pair<Sample*,int> >::iterator it=_node->get_story()->get_samplesCollection()->begin();it!=_node->get_story()->get_samplesCollection()->end();++it){
 				QDomElement sample=this->doc.createElement("xeml:Sample");
 				Sample * s =static_cast<Sample*>((*it).first);
-				int id=static_cast<Sample*>((*it).first)->get_id();
-				std::cerr << "writing new sample with id :" << static_cast<Sample*>((*it).first)->get_id() << std::endl;
+				int id=s->get_id();
+				std::cerr << "writing new sample with id :" << s->get_id() << std::endl;
 				sample.setAttribute("Id",QString::number(id));
 				sample.setAttribute("TimeIntermix","Min");
 				_elem->appendChild(sample);

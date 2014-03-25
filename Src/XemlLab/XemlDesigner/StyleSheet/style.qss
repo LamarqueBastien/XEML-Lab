@@ -56,7 +56,10 @@ GraphicStoryView#GraphicView {
 }	
 
 QMdiSubWindow#Ontology, QMdiSubWindow#Story , QMdiSubWindow#Genotype {
-	background-image: url(://Images/BlueMetal.png);
+	/*background-image: url(://Images/BlueMetal.png);
+	background-image: url(://Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg);*/
+	background-image: url(://Images/fond_triangle.jpg);
+
 
 
 }
