@@ -1,5 +1,5 @@
-QMaFenetre {
-   background-color: beige;
+QMainWindow {
+   background-color: black;
 }
  
 QLabel {
@@ -38,6 +38,7 @@ QTreeView#VariableTree {
 /*rgb(225,206,154);*/
 StoryView#StoryView {
 	 background-color: lightgray;
+
 	 
 }
 StoryView QToolTip { 
@@ -49,9 +50,16 @@ GenoTypeView#GenotypeView {
 	background-color: white;
 	border-radius: 10px;
 }
+QGraphicsItem{
+	background-image: url(://Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg);
+}
 GraphicStoryView#GraphicView {
 
 	border-radius: 10px;
+	/*border-image: url(://Images/leaves.jpg);*/
+	background-color: white;
+	/*background-image: url(://Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg);*/
+
 
 }	
 
@@ -122,3 +130,5 @@ QLineEdit:focus {
 QComboBox::item:hover {
     background-color: wheat;
 }
+
+

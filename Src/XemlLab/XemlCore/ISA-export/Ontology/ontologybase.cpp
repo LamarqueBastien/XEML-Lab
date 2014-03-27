@@ -72,9 +72,12 @@ namespace XemlUtilities{
 				this->terms=_terms;
 			}
 			bool OntologyBase::ontologies_contains_key(QString _key){
-				//for (std::vector<std::pair<QString,OntologyBase*> >::iterator it=this->ontologies->begin();it!=this->ontologies->end();++it){
-				//	if ((*it).first==)
-				//}
+				for (std::vector<std::pair<QString,OntologyBase*> >::iterator it=this->ontologies->begin();it!=this->ontologies->end();++it){
+					if (static_cast<OntologyBase*>((*it).second)->get_acronym()==_key){
+						return true;
+					}
+				}
+				return false;
 			}
 
 			std::vector<std::pair<QString,OntologyBase*> >* OntologyBase::get_ontologies(){
@@ -113,7 +116,7 @@ namespace XemlUtilities{
 			}
 
 			OntologyBase *  OntologyBase::get_or_create_ontology(QString _acronym){
-
+				//if(this->ontologies-)
 			}
 
 			OntologyBase *  OntologyBase::get_or_create_ontology(QString _acronym, QString _termName){

@@ -17,7 +17,7 @@ class ObservationGenotypePage : public QWizardPage
 		Q_PROPERTY(QItemSelectionModel* selectionModel READ selectionModel)
 
 	public:
-		ObservationGenotypePage(StoryNode * _root,QWidget *parent = 0);
+		ObservationGenotypePage(QStringList * _genList,QWidget *parent = 0);
 		QItemSelectionModel * selectionModel(void)
 		{
 			return genView->selectionModel();

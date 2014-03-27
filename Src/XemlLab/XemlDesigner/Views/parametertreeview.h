@@ -60,6 +60,7 @@ class ParameterTreeView : public QWidget
 		void                                       ontology_to_load(bool,bool,bool);
 	public slots:
 	private slots:
+		void                                       show_help();
 		void                                       search_term(QString _term);
 		//void                                       display(QModelIndex elementselected);
 		void                                       add_parameter();

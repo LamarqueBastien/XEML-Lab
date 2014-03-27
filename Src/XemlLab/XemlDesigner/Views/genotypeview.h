@@ -37,6 +37,8 @@ class GenotypeView : public QWidget
 	signals:
 		void on_new_genotype(IndividualsPool * _pool);
 	private slots:
+		void show_help();
+
 		void refresh_view(ItfDocument * _xemldoc);
 		void genotype_to_add(IndividualsPool * _pool);
 		void add_genotype();

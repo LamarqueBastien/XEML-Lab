@@ -15,7 +15,10 @@ class GraphicStoryView : public QGraphicsView
 	public:
 		GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsView * parent=0);
 	protected:
-		void drawBackground(QPainter *p, const QRectF &rect);
+		//void drawBackground(QPainter *p, const QRectF &rect);
+
+
+
 		//void add_root_story(QString label,StoryBase * _story);
 		//void mousePressEvent(QMouseEvent *event);
 

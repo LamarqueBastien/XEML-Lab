@@ -6,6 +6,8 @@
 #include<QBoxLayout>
 #include<QLineEdit>
 #include<iostream>
+#include<QDialogButtonBox>
+#include<QMessageBox>
 #include"Interface/itfdocument.h"
 using namespace Xeml::Document;
 using namespace std;
@@ -24,6 +26,7 @@ class ExperimenterDialog : public QDialog
 			QPushButton * cancelButton;
 			QPushButton * okButton;
 			ItfDocument * current_doc;
+			QDialogButtonBox * buttonBox;
 		public:
 			ExperimenterDialog(ItfDocument * _xemlDoc,QWidget *parent = 0);
 			void          initialize();
@@ -34,7 +37,8 @@ class ExperimenterDialog : public QDialog
 									 QString _emailtext);
 
 		private slots:
-
+			void          ResetClicked();
+			void          show_help();
 			void          OkClicked();
 			void          enabledOkButton(const QString &text);
 

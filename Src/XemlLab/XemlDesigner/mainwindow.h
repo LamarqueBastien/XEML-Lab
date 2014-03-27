@@ -141,6 +141,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * aboutQtAction;
 		QAction                                  * exitAction;
 		QAction                                  * loadCSVAction;
+		QAction                                  * ISAExportAction;
 		QAction                                  * ValidationAction;
 		QAction                                  * HtmlReportAction;
 		QAction                                  * undoAction;
@@ -184,6 +185,7 @@ class MainWindow : public QMainWindow
 		void                                       uuid_dialog();
 		void                                       database_connect();
 		void                                       auto_mapping();
+		void                                       generate_isa_files();
 		void                                       edit_xeml();
 		void                                       show_experiment_table();
 		void                                       set_experimenter(QString _firstnametext,QString _lastnametext,QString _organisationtext,QString _emailtext);

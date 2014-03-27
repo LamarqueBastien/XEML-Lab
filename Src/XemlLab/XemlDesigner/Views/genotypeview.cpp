@@ -60,6 +60,15 @@ GenotypeView::GenotypeView(QWidget *parent) :
 			);
 			*/
 	this->Edit->setCursor(Qt::PointingHandCursor);
+
+	QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Help,Qt::Vertical);
+	buttonBox->addButton(this->addGenotype,QDialogButtonBox::ActionRole);
+	buttonBox->addButton(this->removeGenotype,QDialogButtonBox::ActionRole);
+
+	buttonBox->addButton(this->Edit,QDialogButtonBox::ActionRole);
+
+
+	connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(show_help()));
 	
 	
 	this->gpp= new GermPlasmPanel;
@@ -67,14 +76,17 @@ GenotypeView::GenotypeView(QWidget *parent) :
 	connect(this->removeGenotype,SIGNAL(clicked()),this,SLOT(remove_genotype()));
 	connect( this->Edit,SIGNAL(clicked()),this,SLOT(edit_genotype()));
 
+
 	QHBoxLayout * layout = new QHBoxLayout;
 	layout->addWidget(this->gpp);
 	QVBoxLayout * bottomLayout=new QVBoxLayout;
-	bottomLayout->addStretch();
-	bottomLayout->addWidget(Edit);
-	bottomLayout->addWidget(removeGenotype);
-	bottomLayout->addWidget(addGenotype);
-	layout->addLayout(bottomLayout);
+	//bottomLayout->addStretch();
+	//bottomLayout->addWidget(Edit);
+	//bottomLayout->addWidget(removeGenotype);
+	//bottomLayout->addWidget(addGenotype);
+	//layout->addLayout(bottomLayout);
+
+	layout->addWidget(buttonBox);
 	this->setObjectName("GenotypeView");
 	setLayout(layout);
 	/*
@@ -86,6 +98,12 @@ GenotypeView::GenotypeView(QWidget *parent) :
 
 
 
+}
+void GenotypeView::show_help(){
+	QMessageBox::about(this,"Genotype helper","click add to add a new germplasm for your experiment.\n"
+					   "You need to have selected one story in the story View.\n"
+					   "Click on remove to remove a genotype, you need to click on the corresponding row number.\n"
+					   "Click on edit to modify a genotype, you need to click on the corresponding row number.\n");
 }
 void GenotypeView::clean_view(){
 	this->gpp->clean_model();

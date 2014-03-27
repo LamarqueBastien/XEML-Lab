@@ -116,10 +116,11 @@ int main(int argc, char *argv[])
 
 		}
 
-	/************************************************
+/************************************************
 	 * retrieve all style available on this OS
 	*************************************************/
 
+/*
 	//QStringList tmp_list=QStyleFactory::keys();
 	//foreach (QString str, tmp_list){
 	//	std::cerr << "tmp_list : " << str.toStdString() << std::endl;
@@ -128,16 +129,16 @@ int main(int argc, char *argv[])
 	//for (int i =0;i<tmp_list.size();i++){
 	//	std::cerr << "tmp_list : " << tmp_list.at(i).toStdString() << std::endl;
 	//}
+	*/
 
-	/************************************************
+/************************************************
 	 * test SQL database connection
 	*************************************************/
 
 
 
-
-	/******************************************************
-	 */
+/******************************************************
+*/
 /*
 
 
@@ -160,8 +161,6 @@ int main(int argc, char *argv[])
 		//db.setPassword("glucose");
 		//db.setPort(1433);
 		//db.setDatabaseName("PlatoDB");*/
-
-
 /*
 
 	 *QString SQLServerProvider::buildDSN(QString server, QString database, QString username, QString password)
@@ -267,9 +266,7 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	}
 #endif
 */
-
 /*************************************************************************************************/
-
 /*
 	//Look for plugins path
 
@@ -278,15 +275,14 @@ db.setDatabaseName(buildDSN(server, database, username, password));
 	//	std::cerr << "Looking for plugins at path: " << it->toStdString() << std::endl;
 	//
 */
-
-		/*
+/*
 		 *"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='Wheatstem2013'"
 		 *"SELECT Id FROM [PlatoDB].[dbo].[Experiments] WHERE Experiment_Fk='FRIM01_Avignon_Temperature1'"
 		 *"SELECT Id FROM [PlatoDB].[dbo].[Experiments]"
 		 */
-
-		//Comment/Uncomment this part for SQL connection
-		/****************************************
+//Comment/Uncomment this part for SQL connection
+/***************************************
+*
 		 *
 		QStringList tmp2 =QSqlDatabase::drivers();
 		foreach (QString str, tmp2){
@@ -451,20 +447,7 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 		tbl.setModel(&sqlmodel);
 		tbl.show();
 		*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-		/*
+/*
 	   #if defined(Q_OS_WIN)
 		if(query.exec("SELECT UId FROM [PlatoDB].[dbo].[Experiments]"))
 		#else
@@ -548,7 +531,6 @@ db = QSqlDatabase::addDatabase("QODBC","PlatoDB");
 	}
 
 	*/
-
 /*********************************************
 	//Debug part
 *********************************************/

@@ -39,6 +39,8 @@
         <file>XEML/po_anatomy.obo</file>
         <file>Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg</file>
         <file>Images/fond_triangle.jpg</file>
+        <file>Images/fougeres.jpg</file>
+        <file>Images/leaves.jpg</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

@@ -30,7 +30,8 @@ namespace XemlUtilities{
 		}
 
 		QString IsaExporter::encapsulate(QString _s){
-
+			QString ret=fieldEncapsulater%_s%fieldEncapsulater;
+			return ret;
 		}
 
 		QStringList * IsaExporter::encapsulate(QStringList * _s){

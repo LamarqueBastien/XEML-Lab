@@ -29,6 +29,8 @@ class ObservationPointPanel : public QWidget
 		DocumentResources * doc_resources;
 		QPushButton * removeButton;
 		QPushButton * cancelButton;
+		QDialogButtonBox * buttonBox;
+		bool Remove_mode;
 	public:
 		ObservationPointPanel(bool _RemoveMode,QWidget * parent=0);
 		QTableView         * view;
@@ -39,8 +41,10 @@ class ObservationPointPanel : public QWidget
 	private slots:
 		void display_selected_item(QModelIndex _QMI);
 		void remove_obsPoint();
+		void show_help();
 	signals:
 		void on_close_window();
+
 };
 
 #endif // OBSERVATIONPOINTPANEL_H

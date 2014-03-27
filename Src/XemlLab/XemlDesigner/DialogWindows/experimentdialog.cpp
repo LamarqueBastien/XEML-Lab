@@ -4,7 +4,7 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	: QDialog(parent)
 {
 	this->current_doc=_xeml_doc;
-	this->experimentlabel = new QLabel(tr("Experiment Label :"));
+	this->experimentlabel = new QLabel(tr("Label :"));
 	this->descriptionLabel =new QLabel(tr("Description :"));
 	this->descriptionEdit=new QTextEdit();
 	this->descriptionLabel->setBuddy(descriptionEdit);
@@ -24,15 +24,29 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	this->enddateEdit->setMinimumDate(QDate::currentDate().addDays(-15365));
 	this->enddateEdit->setMaximumDate(QDate::currentDate().addDays(15365));
 	this->enddateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
+
+
+
+
+	buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help | QDialogButtonBox::Reset ,Qt::Vertical);
+	buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Ok)->setCursor(Qt::PointingHandCursor);
+	buttonBox->button(QDialogButtonBox::Help)->setCursor(Qt::PointingHandCursor);
+	buttonBox->button(QDialogButtonBox::Reset)->setCursor(Qt::PointingHandCursor);
+	connect(buttonBox,SIGNAL(accepted()),this, SLOT(OkClicked()));
+	//connect(buttonBox,SIGNAL(rejected()),this,SLOT(close()));
+	connect(buttonBox->button(QDialogButtonBox::Reset),SIGNAL(clicked()),this,SLOT(ResetClicked()));
+	/*
 	this->okButton =new QPushButton(tr("OK"));
 	this->okButton->setDefault(true);
 	this->okButton->setEnabled(false);
 	this->okButton->setCursor(Qt::PointingHandCursor);
 	this->cancelButton = new QPushButton(tr("Cancel"));
 	this->cancelButton->setCursor(Qt::PointingHandCursor);
-
+	*/
 	connect(experimentlabelEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
-	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
+	//connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
 	connect(this->startdateEdit,SIGNAL(dateTimeChanged(QDateTime)),this,SLOT(avoid_endTime_reachout(QDateTime)));
 
 	connect(this->enddateEdit,SIGNAL(dateTimeChanged(QDateTime)),this,SLOT(avoid_equal_time(QDateTime)));
@@ -56,14 +70,17 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 
 	leftLayout->addLayout(topleftLayout3);
 
+	/*
 	QVBoxLayout * rightLayout = new QVBoxLayout;
 	rightLayout->addWidget(this->cancelButton);
 	rightLayout->addWidget(this->okButton);
 	rightLayout->addStretch();
+	*/
 
 	QHBoxLayout * mainLayout = new QHBoxLayout;
 	mainLayout->addLayout(leftLayout);
-	mainLayout->addLayout(rightLayout);
+	//mainLayout->addLayout(rightLayout);
+	mainLayout->addWidget(buttonBox);
 	setLayout(mainLayout);
 	setWindowTitle(tr("experiment informations"));
 	setFixedHeight((sizeHint().height()));
@@ -73,7 +90,8 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 }
 void ExperimentDialog::enabledOkButton(const QString &text){
 	Q_UNUSED(text)
-	this->okButton->setEnabled(true);
+	buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+	//this->okButton->setEnabled(true);
 }
 
 //when Enddate is equal to Startdate, always add a second to enddate.
@@ -99,6 +117,9 @@ void ExperimentDialog::initialize(){
 	this->enddateEdit->setMinimumDateTime(this->current_doc->get_startdate());
 	//this->startdateEdit->setMaximumDateTime(this->current_doc->get_enddate());
 }
+void ExperimentDialog::ResetClicked(){
+	this->initialize();
+}
 
 void ExperimentDialog::OkClicked(){
 
@@ -112,6 +133,8 @@ void ExperimentDialog::OkClicked(){
 	//this->current_doc->set_description(description);
 	this->current_doc->set_experiment_name(experimentlabelEdit->text());
 	this->setEnabled(false);
+	//this->buttonBox->button(QDialogButtonBox::Reset)->setEnabled(true);
+
 
 	emit this->mon_signal(text);
 }

@@ -38,19 +38,52 @@ namespace Xeml {
 		}
 
 		void                  XemlDocument::Load(QString xemlCode,bool _asTemplate){
+
+
+
 			QFile Xeml_doc(xemlCode.toStdString().c_str());
+
+
 			std::cerr << "file loaded" << std::endl;
 			this->asTemplate=_asTemplate;
 			QDomDocument * Xeml_dom = new QDomDocument("template_xeml");
 
-			if(!Xeml_doc.open(QIODevice::ReadOnly))
+			if(!Xeml_doc.open(QIODevice::ReadOnly | QIODevice::Text))
 			{
 				std::cerr << "Erreur à l'ouverture du document XML" << std::endl;
 			}
-			if (!Xeml_dom->setContent(&Xeml_doc)) // Si l'on n'arrive pas à associer le fichier XML à l'objet DOM.
+
+
+			//QTextCodec::codecForUtfText()
+			//QTextStream test(&Xeml_doc);
+			//test.setCodec("utf-8");
+
+			/*
+			QXmlStreamReader xml(&Xeml_doc);
+
+			while(!xml.atEnd() && !xml.hasError()) {
+				// Read next element.
+				QXmlStreamReader::TokenType token = xml.readNext();
+				// If token is just StartDocument, we'll go to next.
+				if(token == QXmlStreamReader::StartDocument) {
+
+					std::cerr << "encoding = " << xml.documentEncoding().toString().toStdString() << std::endl;
+
+					continue;
+				}
+			}
+		*/
+
+			QString err;
+				int errL, errC;
+
+			if (!Xeml_dom->setContent(&Xeml_doc,&err,&errL,&errC)) // Si l'on n'arrive pas à associer le fichier XML à l'objet DOM.
 			{
 				Xeml_doc.close();
-				std::cerr << "Erreur à l'association du document DOM au fichier XML" << std::endl;
+				std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
+				std::cerr << "Erreur :" << err.toStdString() <<"\n" << std::endl;
+				//std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
+				//std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
 			}
 			Init(Xeml_dom);
 			std::cerr << "end Init" << std::endl;

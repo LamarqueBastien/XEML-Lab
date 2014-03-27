@@ -154,6 +154,7 @@ class StoryView : public QWidget
 		void                 newObsPoint();
 		void                 newStorySplit();
 		void                 newStory();
+		void                 show_help();
 		void                 removeStory();
 		void                 addStorySplit(QString _element_selected,QString _storysplitLabel,QDateTime _datetime);
 		void                 add_graphic_split_story(QString _label);

@@ -39,13 +39,14 @@ namespace XemlUtilities{
 				virtual void dispose(){
 
 				}
+				static const QString multipleValueDelimiter;
+				static const QString multipleFieldDelimiter;
+				static const QString fieldEncapsulater;
 
 
 
 			private:
-				static const QString multipleValueDelimiter;
-				static const QString multipleFieldDelimiter;
-				static const QString fieldEncapsulater;
+
 				static std::map<QString,QTextStream> * chromatogramFiles;
 				QUuid xemlId;
 				QString connectionString;

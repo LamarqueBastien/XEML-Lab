@@ -16,10 +16,26 @@ ObservationWizard::ObservationWizard(StoryNode * _current,StoryNode * _root,Obse
 	this->current_storynode=_current;
 	this->obspoint = _obs;
 	this->xeml_doc=_doc;
+	QStringList * genList=new QStringList;
+	for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(_root->get_story())->get_individualspoolcollection()->begin();it!= static_cast<Story*>(_root->get_story())->get_individualspoolcollection()->end();++it){
+		genList->append((*it).second);
+	}
+	/*
+	if (genList->empty()){
+		int r = QMessageBox::warning(this, tr("XemlDocument"),
+		tr("No pool germplasm for this story.\n"
+		   "You need to add a genotype to the root Story"),
+		QMessageBox::Ok | QMessageBox::Default);
+		if (r == QMessageBox::Ok) {
+			std::cerr << "OK clicked" << std::endl;
+			return -1;
+		}
+	}
+	*/
 
 
 	addPage(new ObservationIntroPage);
-	addPage(new ObservationGenotypePage(this->storyRoot));
+	addPage(new ObservationGenotypePage(genList));
 	addPage(new ObservationDetailsPage(this->doc_resources,this->storyRoot));
 	//addPage(new ObservationMaterialPage(this->doc_resources));
 	setWindowTitle("defines sampling strategy for genotype ");

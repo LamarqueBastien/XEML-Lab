@@ -4,6 +4,7 @@
 
 #include<CoreObjects/xemldocument.h>
 #include<ISA-export/isatable.h>
+#include"ISA-export/isaexporter.h"
 
 using namespace Xeml::Document;
 

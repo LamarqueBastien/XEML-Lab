@@ -20,9 +20,11 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 	this->init=true;
 
 }
-
+/*
 void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
-	QPixmap pix("://Images/GreenMetal.png");
+	//QPixmap pix("://Images/GreenMetal.png");
+	QPixmap pix("://Images/leaves.jpg");
+
 	//std::cerr << "draw background " << " w : " << this->sceneRect().width()<< " h : "<< this->sceneRect().height()<<std::endl;
 
 	QRectF sceneRect = this->sceneRect();
@@ -36,32 +38,45 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 	//gradient.setColorAt(0.85, Qt::gray);
 	gradient.setColorAt(0.5, Qt::lightGray);
 	gradient.setColorAt(1, Qt::lightGray);
+
 	p->fillRect(rect.intersected(sceneRect), gradient);
 	p->setBrush(Qt::NoBrush);
 	p->drawRect(sceneRect);
-	/*
-	if(this->init){
+	//p->drawPixmap(QRect(0, 0, width(), height()), Background);
+
+
+
+	//p->drawPixmap(this->sceneRect().toRect(), pix);
+
+
+
+
+	//QRect(-150, -150, this->sceneRect().width()+1000, 600)
+
+
+	//if(this->init){
 		//std::cerr << "first draw background " << " w : " << this->sceneRect().width()<< " h : "<< this->sceneRect().height()<<std::endl;
 		//this->matrix().mapRect(this->sceneRect()).width();
-		p->drawPixmap(QRect(-150, -150, this->sceneRect().width(), 600), pix);
-		this->init=false;
-	}
-	else{
+		//p->drawPixmap(QRect(-150, -150, this->sceneRect().width(), 600), pix);
+		//this->init=false;
+	//}
+	//else{
 		//p->drawPixmap(this->sceneRect(),pix,this->current_scene->sceneRect());
 
 		//p->drawPixmap(QRect(-150, -150, this->matrix().mapRect(this->sceneRect()).width(), this->sceneRect().height()), pix);
 
-		p->drawPixmap(QRect(-150, -150, this->current_scene->sceneRect().width(), this->sceneRect().height()), pix);
+		//p->drawPixmap(QRect(-150, -150, this->current_scene->sceneRect().width(), this->sceneRect().height()), pix);
 		//this->setSceneRect(-150, -150, this->current_scene->sceneRect().width(), this->sceneRect().height());
 
 
-	}
-	*/
+	//}
+
 
 	resetCachedContent();
 
 
 }
+*/
 
 void GraphicStoryView::add_split_story(QString _label,StoryBase *_story){
 	std::cerr << "entering add story in View" << std::endl;

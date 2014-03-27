@@ -92,60 +92,62 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 	//QString tmp_label=elementSelected.toString();
 	//std::cerr << elementSelected.toString().toStdString() << std::endl;
 	tmp =static_cast<ParameterItem*>(static_cast<QStandardItemModel*>(this->model())->itemFromIndex(indexelementselected));
-	if(tmp->isRoot){
+	if(tmp!=NULL){
+		if(tmp->isRoot){
 
-#if defined(Q_OS_MACX)
-		//std::cerr << "root"  << std::endl;
+	#if defined(Q_OS_MACX)
+			//std::cerr << "root"  << std::endl;
 
-#else
-		if(this->isExpanded(indexelementselected)){
-			this->collapse(indexelementselected);
+	#else
+			if(this->isExpanded(indexelementselected)){
+				this->collapse(indexelementselected);
+			}
+			else{
+
+				this->expand(indexelementselected );
+			}
+
+	#endif
+
 		}
 		else{
+			std::cerr << "test" << tmp->get_term()->get_termId().toStdString() << std::endl;
+			QLabel  * child=new QLabel(tmp->get_term()->get_termId());
+			child->move(event->pos().x(),event->pos().y());
+			child->setAutoFillBackground(true);
+			child->adjustSize();
+			child->setFrameShape(QFrame::Panel);
+			child->setFrameShadow(QFrame::Raised);
+			//child->setAttribute(Qt::WA_TranslucentBackground,true);
+			//QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
+			if (!child)
+				return;
 
-			this->expand(indexelementselected );
+			//child->setScaledContents(true);
+			std::cerr << "eventpos : " << event->pos().x() << "----" << event->pos().y() << std::endl;
+			QPoint hotSpot = event->pos()- child->pos();
+
+			QMimeData *mimeData = new QMimeData;
+			mimeData->setText(child->text());
+			mimeData->setData("application/x-hotspot",
+							  QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
+
+			//QPixmap pixmap(child->size());
+			QPixmap pixmap(child->size());
+			std::cerr <<"child width :" << child->width() << "child height : " << child->height() << std::endl;
+			pixmap.scaledToWidth(child->width());
+			child->render(&pixmap);
+
+			QDrag *drag = new QDrag(this);
+			drag->setMimeData(mimeData);
+			drag->setPixmap(pixmap);
+			drag->setHotSpot(hotSpot);
+
+			Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+
+			if (dropAction == Qt::MoveAction)
+				child->close();
 		}
-
-#endif
-
-	}
-	else{
-		std::cerr << "test" << tmp->get_term()->get_termId().toStdString() << std::endl;
-		QLabel  * child=new QLabel(tmp->get_term()->get_termId());
-		child->move(event->pos().x(),event->pos().y());
-		child->setAutoFillBackground(true);
-		child->adjustSize();
-		child->setFrameShape(QFrame::Panel);
-		child->setFrameShadow(QFrame::Raised);
-		//child->setAttribute(Qt::WA_TranslucentBackground,true);
-		//QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
-		if (!child)
-			return;
-
-		//child->setScaledContents(true);
-		std::cerr << "eventpos : " << event->pos().x() << "----" << event->pos().y() << std::endl;
-		QPoint hotSpot = event->pos()- child->pos();
-
-		QMimeData *mimeData = new QMimeData;
-		mimeData->setText(child->text());
-		mimeData->setData("application/x-hotspot",
-						  QByteArray::number(hotSpot.x()) + " " + QByteArray::number(hotSpot.y()));
-
-		//QPixmap pixmap(child->size());
-		QPixmap pixmap(child->size());
-		std::cerr <<"child width :" << child->width() << "child height : " << child->height() << std::endl;
-		pixmap.scaledToWidth(child->width());
-		child->render(&pixmap);
-
-		QDrag *drag = new QDrag(this);
-		drag->setMimeData(mimeData);
-		drag->setPixmap(pixmap);
-		drag->setHotSpot(hotSpot);
-
-		Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
-
-		if (dropAction == Qt::MoveAction)
-			child->close();
 	}
 
 	//}

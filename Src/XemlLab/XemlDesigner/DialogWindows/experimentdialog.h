@@ -6,9 +6,10 @@
 #include<QBoxLayout>
 #include<QLineEdit>
 #include<iostream>
-#include <QDateTimeEdit>
+#include<QDateTimeEdit>
 #include<QTextEdit>
 #include<ctime>
+#include<QDialogButtonBox>
 #include"Interface/itfdocument.h"
 using namespace std;
 using namespace Xeml::Document;
@@ -28,6 +29,7 @@ class ExperimentDialog : public QDialog
 			QDateTimeEdit * startdateEdit;
 			QDateTimeEdit * enddateEdit;
 			QTextEdit     * descriptionEdit;
+			QDialogButtonBox * buttonBox;
 
 			ItfDocument   * current_doc;
 
@@ -42,6 +44,7 @@ class ExperimentDialog : public QDialog
 		private slots:
 
 			void            OkClicked();
+			void            ResetClicked();
 			void            avoid_endTime_reachout(QDateTime _newTime);
 			void            avoid_equal_time(QDateTime _newTime);
 			void            enabledOkButton(const QString &text);

@@ -4,7 +4,7 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	QWidget(parent)
 {
 	this->doc_ressources=_doc;
-	QVBoxLayout * layout = new QVBoxLayout;
+
 	this->mode=false;
 	this->drag_and_drop_mode=_drag_and_drop_mode;
 	if (drag_and_drop_mode){
@@ -51,9 +51,24 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	this->parameterInfo->setCursor(Qt::PointingHandCursor);
 	this->addParameter->setCursor(Qt::PointingHandCursor);
 	this->addOntology->setCursor(Qt::PointingHandCursor);
+
+
+
+
+
 	QHBoxLayout * searchLayout=new QHBoxLayout;
 	searchLayout->addWidget(searchLabel);
 	searchLayout->addWidget(search);
+
+	QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Help);
+	buttonBox->addButton(this->addOntology,QDialogButtonBox::ActionRole);
+
+	connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(show_help()));
+	//buttonBox->addButton(this->addParameter,QDialogButtonBox::ActionRole);
+	//buttonBox->addButton(this->parameterInfo,QDialogButtonBox::ActionRole);
+
+
+	QVBoxLayout * layout = new QVBoxLayout;
 	layout->addLayout(searchLayout);
 	if (drag_and_drop_mode){
 		layout->addWidget(this->draggableParameterTree);
@@ -61,11 +76,12 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	else{
 		layout->addWidget(this->parameterTree);
 	}
-
+	layout->addWidget(buttonBox);
+	/*
 	layout->addWidget(this->addOntology);
-	layout->addWidget(addParameter);
-	layout->addWidget(parameterInfo);
-
+	layout->addWidget(this->addParameter);
+	layout->addWidget(this->parameterInfo);
+*/
 	QString WindowObjectName("OntologyTree");
 	this->setObjectName(WindowObjectName);
 	this->setAcceptDrops(true);
@@ -75,6 +91,11 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	connect(addOntology,SIGNAL(clicked()),this,SLOT(add_ontology()));
 	connect(parameterInfo,SIGNAL(clicked()),this,SLOT(showSelection()));
 
+}
+void ParameterTreeView::show_help(){
+	QMessageBox::about(this,"Ontology helper","select variable you want to add to your experiment by dragging and dropping to the story view.\n"
+					   "You need to select a story first.\n"
+					   "Variables with one or more child cannot be dragged");
 }
 
 bool                                       ParameterTreeView::contains(TermNode * _node,std::list<TermNode*> * _processed_nodes,QString _namespace){

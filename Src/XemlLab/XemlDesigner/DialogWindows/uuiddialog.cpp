@@ -3,6 +3,7 @@
 UuidDialog::UuidDialog(QWidget * parent)
 	: QDialog(parent)
 {
+	//add model of guid
 	this->label = new QLabel(tr("Unique identifier :"));
 	labelEdit = new QLineEdit;
 	this->label->setBuddy(labelEdit);
@@ -15,6 +16,8 @@ UuidDialog::UuidDialog(QWidget * parent)
 
 	connect(labelEdit,SIGNAL(textChanged(const QString &)),this,SLOT(enabledOkButton(const QString &)));
 	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
+	connect(this->cancelButton,SIGNAL(clicked()),this, SLOT(close()));
+
 
 
 

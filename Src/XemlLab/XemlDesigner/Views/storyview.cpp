@@ -188,7 +188,30 @@ StoryView::StoryView(QWidget *parent) :
 	//infoLayout->addWidget(zoomFactorSelector);
 	infoLayout->addStretch(4);
 */
+	QDialogButtonBox * buttonBox1 = new QDialogButtonBox(QDialogButtonBox::Help,Qt::Horizontal);
+	buttonBox1->addButton(editExperiment,QDialogButtonBox::ActionRole);
+	buttonBox1->addButton(addstory,QDialogButtonBox::ActionRole);
+	buttonBox1->addButton(addobsPoint,QDialogButtonBox::ActionRole);
+	buttonBox1->addButton(addSamples,QDialogButtonBox::ActionRole);
+	buttonBox1->addButton(addEvent,QDialogButtonBox::ActionRole);
+
+	QDialogButtonBox * buttonBox2 = new QDialogButtonBox(QDialogButtonBox::Reset,Qt::Horizontal);
+	buttonBox2->addButton(remove_variable,QDialogButtonBox::ActionRole);
+	buttonBox2->addButton(removestory,QDialogButtonBox::ActionRole);
+	buttonBox2->addButton(removeObsPoint,QDialogButtonBox::ActionRole);
+	buttonBox2->addButton(removeSample,QDialogButtonBox::ActionRole);
+	buttonBox2->addButton(rmEvent,QDialogButtonBox::ActionRole);
+
+
+	connect(buttonBox1, SIGNAL(helpRequested()), this, SLOT(show_help()));
+	//connect(buttonBox2->button(QDialogButtonBox::Reset),SIGNAL(clicked()),this,SLOT()
+	//connect(buttonBox1, SIGNAL(helpRequested()), this, SLOT(show_help()));
+
+
+
+
 	infoLayout->addWidget(info_view);
+	/*
 	//first button line
 	buttonlayout1->addWidget(editExperiment);
 	buttonlayout1->addWidget(addstory);
@@ -204,9 +227,14 @@ StoryView::StoryView(QWidget *parent) :
 	buttonlayout2->addWidget(removeObsPoint);
 	buttonlayout2->addWidget(removeSample);
 	buttonlayout2->addWidget(rmEvent);
+	*/
+
 	layout->addLayout(infoLayout);
-	layout->addLayout(buttonlayout1);
-	layout->addLayout(buttonlayout2);
+	layout->addWidget(buttonBox1);
+
+	//layout->addLayout(buttonlayout1);
+	//layout->addLayout(buttonlayout2);
+	layout->addWidget(buttonBox2);
 
 	setLayout(layout);
 
@@ -277,6 +305,12 @@ StoryView::StoryView(QWidget *parent) :
 				*/
 
 
+}
+void StoryView::show_help(){
+	QMessageBox::about(this,"Genotype helper","click add to add a new germplasm for your experiment.\n"
+					   "You need to have selected one story in the story View.\n"
+					   "Click on remove to remove a genotype, you need to click on the corresponding row number.\n"
+					   "Click on edit to modify a genotype, you need to click on the corresponding row number.\n");
 }
 void StoryView::refresh(){
 	std::cerr << "entering in refresh (storyView)" << std::endl;
@@ -974,8 +1008,10 @@ void StoryView::addStory(QString _text){
 
 }
 void StoryView::newStorySplit(){
+	std::cerr << "entering add new story split" << std::endl;
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
+			std::cerr << "stroy not NULL" << std::endl;
 			this->storydialog = new StoryDialog;
 			this->storydialog->setVisible(true);
 			connect(storydialog,SIGNAL(mon_signal(QString)),this,SLOT(add_graphic_split_story(QString)));
@@ -1008,9 +1044,9 @@ void StoryView::newStorySplit(){
 	}
 }
 void StoryView::add_graphic_split_story(QString _label){
-	std::cerr << " entering slot" << std::endl;
-	std::cerr << "selected items" << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
-	std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
+	//std::cerr << " entering slot" << std::endl;
+	//std::cerr << "selected items" << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
+	//std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
 
 	if(this->GraphicScene->get_selected_story()!=NULL){
 		std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
@@ -1423,6 +1459,7 @@ void StoryView::add_observationPoint(){
 			static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter++,
 			//_story->add_obsPoint(obs);
 			obs->set_id(obs_count+1);
+			std::cerr << "storynode label: "<< node->get_story()->get_label().toStdString() << std::endl;
 			node->get_story()->add_obsPoint(obs);
 
 			emit add_observationPoint(obs);

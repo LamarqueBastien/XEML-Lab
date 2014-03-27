@@ -29,6 +29,7 @@ SQLConnectionDialog::SQLConnectionDialog(QWidget *parent) :
 	this->cancelButton->setCursor(Qt::PointingHandCursor);
 
 	connect(this->okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
+	connect(this->cancelButton,SIGNAL(clicked()),this, SLOT(close()));
 	connect(this->databaseEdit,SIGNAL(textEdited(QString)),this,SLOT(enabledOkButton(QString)));
 
 	QHBoxLayout * databaseLayout = new QHBoxLayout;
@@ -75,9 +76,9 @@ SQLConnectionDialog::~SQLConnectionDialog(){
 }
 
 void          SQLConnectionDialog::OkClicked(){
-
+	this->close();
 }
 
 void          SQLConnectionDialog::enabledOkButton(const QString &text){
-
+this->okButton->setEnabled(true);
 }

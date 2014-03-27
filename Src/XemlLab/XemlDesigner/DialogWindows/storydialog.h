@@ -7,6 +7,8 @@
 #include<QBoxLayout>
 #include<QLineEdit>
 #include<QCheckBox>
+#include<QDialogButtonBox>
+#include<QMessageBox>
 #include<iostream>
 using namespace std;
 
@@ -24,6 +26,7 @@ class StoryDialog : public QDialog
 		QPushButton * cancelButton;
 		QPushButton * okButton;
 		QCheckBox   * is_split;
+		QDialogButtonBox * buttonBox;
 	public:
 		StoryDialog(QWidget *parent = 0);
 	signals:
@@ -33,7 +36,9 @@ class StoryDialog : public QDialog
 	private slots:
 
 		void          OkClicked();
+		void          show_help();
 		void          enabledOkButton(const QString &text);
+		void          ResetClicked();
 
 
 };

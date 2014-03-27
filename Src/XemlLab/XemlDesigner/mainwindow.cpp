@@ -142,8 +142,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	createMenus();
 	createToolBars();
 	setCurrentFile(curFile);
-	this->data_exporter=new IsaExporter(this->fmg->get_current_xeml()->get_id(),"test");
-	this->data_exporter->write(this->fmg->get_current_xeml(),new QTextStream());
+
 
 
 
@@ -159,7 +158,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 			 QAction *  quitAction = new QAction(tr("&Quit"), this);
 			  //connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-		QMenu *  trayIconMenu = new QMenu(this);
+				QMenu *  trayIconMenu = new QMenu(this);
 			  trayIconMenu->addAction(minimizeAction);
 			  trayIconMenu->addAction(maximizeAction);
 			  trayIconMenu->addAction(restoreAction);
@@ -409,6 +408,12 @@ void MainWindow::set_up_germplasm(){
 }
 
 //creation of menu, toolbar, etc...
+void    MainWindow::generate_isa_files(){
+	this->data_exporter=new IsaExporter(this->fmg->get_current_xeml()->get_id(),"test");
+	this->data_exporter->write(this->fmg->get_current_xeml(),new QTextStream());
+
+}
+
 void    MainWindow::createActions(){
 
 	newAction = new QAction(QIcon(":/Images/new.png"),tr("&New"), this);
@@ -420,6 +425,11 @@ void    MainWindow::createActions(){
 	HtmlReportAction->setShortcut(tr("Ctrl+H"));
 	HtmlReportAction->setStatusTip(tr("generate Html Report"));
 	connect(HtmlReportAction, SIGNAL(triggered()), this, SLOT(generate_html_report()));
+
+	ISAExportAction=new QAction(QIcon(":/Images/html2.jpg"),tr("&Export to ISA files"), this);
+	ISAExportAction->setShortcut(tr("Ctrl+E"));
+	ISAExportAction->setStatusTip(tr("generate ISA files"));
+	connect(ISAExportAction, SIGNAL(triggered()), this, SLOT(generate_isa_files()));
 
 	/*
 	viewModeAction=new QAction(QIcon(":/Images/new.png"),tr("&View Mode"), this);
@@ -542,6 +552,7 @@ void    MainWindow::create_new_Uuid(QString _uuid){
 void    MainWindow::database_connect(){
 	SQLConnectionDialog * sql_connection_dialog=new SQLConnectionDialog;
 	sql_connection_dialog->show();
+
 }
 void    MainWindow::auto_mapping(){
 	std::vector<QString> * vec;
@@ -621,6 +632,7 @@ void    MainWindow::createMenus() {
 	fileMenu->addAction(saveAction);
 	fileMenu->addAction(saveAsAction);
 	fileMenu->addAction(loadCSVAction);
+	fileMenu->addAction(ISAExportAction);
 
 	separatorAction = fileMenu->addSeparator();
 	for (int i = 0; i < MaxRecentFiles; ++i){
@@ -814,6 +826,7 @@ void    MainWindow::loadCSV(){
 void    MainWindow::newFile(){
 
 	QString fileName;
+	/*
 #if defined(Q_OS_WIN)
 								   fileName= "C:/Documents and Settings/Bryan/Mes documents/Cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
 #elif defined(Q_OS_MACX)
@@ -821,6 +834,8 @@ void    MainWindow::newFile(){
 #else
 								   fileName="/home/bdartigues/cosmos/XemlLab/XemlDesigner/XEMLStore/Templates/Standard.xeml";
 #endif
+*/
+	fileName="://XEMLStore/Templates/Standard.xeml";
 	//QFile standard_xeml(fileName.toStdString().c_str());
 	if(okToContinue()){
 		//xeml_doc.clear();
@@ -828,6 +843,7 @@ void    MainWindow::newFile(){
 
 		//QString fileName = QFileDialog::getOpenFileName(this,tr("open xeml files"),"\\/",tr("xeml files (*.xml *.xeml)\n"));
 		if (!fileName.isEmpty()) {
+			std::cerr << "filename in new file : "<< fileName.toStdString() << std::endl;
 			this->fmg->purgedetailsFromdocument();
 			this->fmg->LoadFile(fileName,true);
 			this->loadResources();

@@ -1,29 +1,18 @@
 #include "observationgenotypepage.h"
 
-ObservationGenotypePage::ObservationGenotypePage(StoryNode * _root,QWidget *parent)
+ObservationGenotypePage::ObservationGenotypePage(QStringList * _genList,QWidget *parent)
 	: QWizardPage(parent)
 {
-	genList=new QStringList;
+
 	//std::cerr << "entering new genotype page" << std::endl;
-	for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(_root->get_story())->get_individualspoolcollection()->begin();it!= static_cast<Story*>(_root->get_story())->get_individualspoolcollection()->end();++it){
-		genList->append((*it).second);
-	}
-	if (genList->empty()){
-		int r = QMessageBox::warning(this, tr("XemlDocument"),
-		tr("No pool germplasm for this story.\n"
-		   "You need to add a genotype to the root Story"),
-		QMessageBox::Ok | QMessageBox::Default);
-		if (r == QMessageBox::Ok) {
-			this->close();
-		}
-	}
+
 	setTitle(tr("Class Information"));
 	setSubTitle(tr("Select by clicking on genotypes you want to associate with your samples "));
 
 	//this->germPlasm =new QLabel("Germplasm");
 	//this->germPlasmEdit =new QLineEdit();
 	//this->germPlasm->setBuddy(this->germPlasmEdit);
-	this->genModel = new QStringListModel((*genList));
+	this->genModel = new QStringListModel((*_genList));
 
 	this->genView= new QListView;
 	genView->setModel(this->genModel);
