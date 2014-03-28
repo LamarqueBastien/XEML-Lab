@@ -26,7 +26,7 @@ namespace Xeml{
 
 									QString contextName = currentXeoTerm->get_name();
 
-									VariableContextSpec * context = createQuantityContext(contextName);
+									VariableContextSpec * context = createQualityContext(contextName);
 									(*currentXeoTerm->get_contextCollection())[context->get_name()]=context;
 									currentXeoTermWithContext->contextCollection->push_back(context);
 
@@ -43,11 +43,11 @@ namespace Xeml{
 					}
 
 				}
-				VariableContextSpec * ContextLessHandler::createQuantityContext(QString _contextName){
+				VariableContextSpec * ContextLessHandler::createQualityContext(QString _contextName){
 					VariableContextSpec * context =new VariableContextSpec();
 					context->set_unitSet(new UnitSet());
 					context->set_typeDefine(new TypeSpecification());
-					context->set_name("Quantity");
+					context->set_name("Quality");
 					context->get_typeDefine()->set_baseType(Xeml::Document::Text);
 
 					TypeSpecifics * ts= new Xeml::Document::EnvironmentalOntology::Enum();

@@ -184,7 +184,7 @@ namespace XemlDataProvider{
 		}
 		return samples;
 	}
-
+	
 	std::vector<QString> * PlatoDataProvider::listForeignKey(){
 
 	}

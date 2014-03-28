@@ -25,10 +25,12 @@ class ExperimentTableView : public QWidget
 	public:
 		ExperimentTableView(ItfDocument * _xemlDoc, QWidget * parent = 0);
 
+
 	private:
 		void init();
-		void init_variable_table();
-		void init_event_table();
+		void init_variable_tree();
+		void init_event_tree();
+		void write_variable_context(QStandardItem * term_item,ValueBase* _vb,qint64 _milliseconds_ellapsed);
 		TableView * experiment_view;
 		QTreeView * sampleView;
 		QTreeView * variableView;

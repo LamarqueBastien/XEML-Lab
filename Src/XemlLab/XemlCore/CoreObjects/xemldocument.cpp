@@ -1575,14 +1575,21 @@ namespace Xeml {
 
 
 
-		std::vector<Sample*>  *    XemlDocument::extract_samples(ItfDocument * _xemlDoc){
+		std::vector<Sample*>  *    XemlDocument::extract_samples(){
 			std::vector<Sample*> * samples =  new std::vector<Sample*>();
+			for (std::list<StoryNode*>::iterator it =this->get_storyboard()->get_storyBoard()->begin();it!=this->get_storyboard()->get_storyBoard()->end();++it){
+				StoryNode *node=static_cast<StoryNode*>((*it));
+
+				for(std::vector<std::pair<Sample*,int> >::iterator it2=node->get_story()->get_samplesCollection()->begin();it2!=node->get_story()->get_samplesCollection()->end();++it2){
+					Sample * s=static_cast<Sample*>((*it2).first);
+					samples->push_back(s);
+				}
 
 			//for(std::vector<std::pair<Sample*,int> >::iterator it=_node->get_story()->get_samplesCollection()->begin();it!=_node->get_story()->get_samplesCollection()->end();++it){
 				//Sample * s =static_cast<Sample*>((*it).first);
 				//samples->push_back(s);
 				//int id=static_cast<Sample*>((*it).first)->get_id();
-			//}
+			}
 			return samples;
 
 		}

@@ -299,7 +299,29 @@ QString HtmlReportView::generate_observation_schedule_table()
 				   "<th  height = \"100\">Duration</th>"
 				   "<th  height = \"100\">Individuals #</th>"
 				   "</tr>";
+	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
+			StoryNode * tmpnode=static_cast<StoryNode*>((*it));
+			StoryBase * tmpstory = static_cast<StoryBase*>(tmpnode->get_story());
+			for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it2=tmpstory->get_obsPointCollection()->begin();it2!=tmpstory->get_obsPointCollection()->end();++it2){
+				ObservationPoint * tmpobspoint=static_cast<ObservationPoint*>((*it2).first);
+				//for (std::vector<std::pair<Observation*,QDateTime> >::iterator it3=tmpobspoint->get_observationscollection()->begin();it3!=tmpobspoint->get_observationscollection()->end();++it3){
+					//Observation * tmpobs=static_cast<Observation*>((*it3).first);
+					ontologyTable+="<tr bgcolor = \"LightCyan\">";
+					QString msg = QString ("<td height = \"100\">%1</td>").arg(tmpobspoint->get_timepoint().toString("dddd, MMMM dd, yyyy"));
+					ontologyTable+=msg;
+					msg=QString ("<td height = \"100\">%1</td>").arg(tmpobspoint->get_timepoint().toString("hh:mm:ss"));
+					ontologyTable+=msg;
+					qint64 duration_in_seconds= translate_DD_HH_MM_SS_in_Msecs(static_cast<Observation*>(static_cast<std::pair<Observation*,QDateTime> >(tmpobspoint->get_observationscollection()->at(0)).first)->get_duration().toString("hh:mm:ss"));
+					msg=QString ("<td height = \"100\">%1</td>").arg(translate_second_in_DD_HH_MM_SS(duration_in_seconds*tmpobspoint->count_observations()));
+					ontologyTable+=msg;
+					msg=QString ("<td height = \"100\">%1</td>").arg(tmpobspoint->count_observations());
+					ontologyTable+=msg;
+					ontologyTable+="</tr>";
+
+			}
+	}
 	ontologyTable+="</table>";
+
 	return ontologyTable;
 
 }
@@ -315,6 +337,8 @@ QString HtmlReportView::generate_material_table()
 				   "<th  height = \"100\">Material</th>"
 				   "<th  height = \"100\">TermId</th>"
 				   "</tr>";
+
+	QStringList * tmp_list=new QStringList();
 
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
 			StoryNode * tmpnode=static_cast<StoryNode*>((*it));
@@ -334,14 +358,17 @@ QString HtmlReportView::generate_material_table()
 						for (std::map<BasicTerm*,QString>::iterator it5=tmp_part->get_materialCollection()->begin();it5!=tmp_part->get_materialCollection()->end();++it5){
 							BasicTerm * tmp_term= static_cast<BasicTerm*>((*it5).first);
 							//VariableTerm * tmp_variable_term=static_cast<VariableTerm*>(tmp_term);
-							ontologyTable+="<tr bgcolor = \"LightCyan\">";
-							QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
-							ontologyTable+=msg;
-							msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
-							ontologyTable+=msg;
-							msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_termId());
-							ontologyTable+=msg;
-							ontologyTable+="</tr>";
+							if(!tmp_list->contains(tmp_term->get_termId())){
+								tmp_list->append(tmp_term->get_termId());
+								ontologyTable+="<tr bgcolor = \"LightCyan\">";
+								QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
+								ontologyTable+=msg;
+								msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
+								ontologyTable+=msg;
+								msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_termId());
+								ontologyTable+=msg;
+								ontologyTable+="</tr>";
+							}
 						}
 
 						//for ()
@@ -489,21 +516,25 @@ QString HtmlReportView::generate_variable_table()
 				   "<th  height = \"200\">TermId</th>"
 
 				   "</tr>";
+	QStringList * tmp_list=new QStringList();
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
 		StoryNode * tmpnode=static_cast<StoryNode*>((*it));
 
 		StoryBase * tmpstory = static_cast<StoryBase*>(tmpnode->get_story());
 		for(std::vector<std::pair<BasicTerm*,QString> >::iterator it2=tmpstory->get_variablesCollection()->begin();it2!=tmpstory->get_variablesCollection()->end();++it2){
 			DynamicTerm * tmp_term=static_cast<DynamicTerm*>((*it2).first);
-			ontologyTable+="<tr bgcolor = \"LightCyan\">";
-			QString msg = QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_namespacealias());
-			ontologyTable+=msg;
-			msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_name());
-			ontologyTable+=msg;
-			msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_termId());
-			ontologyTable+=msg;
+			if(!tmp_list->contains(tmp_term->get_termId())){
+				tmp_list->append(tmp_term->get_termId());
+				ontologyTable+="<tr bgcolor = \"LightCyan\">";
+				QString msg = QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_namespacealias());
+				ontologyTable+=msg;
+				msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_name());
+				ontologyTable+=msg;
+				msg=QString ("<td height = \"200\">%1</td>").arg(tmp_term->get_termId());
+				ontologyTable+=msg;
 
-			ontologyTable+="</tr>";
+				ontologyTable+="</tr>";
+			}
 		}
 
 

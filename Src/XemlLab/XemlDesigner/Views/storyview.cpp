@@ -164,8 +164,8 @@ StoryView::StoryView(QWidget *parent) :
 	QVBoxLayout  * layout = new QVBoxLayout;
 	QHBoxLayout  * newLayout = new QHBoxLayout;
 	QHBoxLayout  * infoLayout = new QHBoxLayout;
-	QHBoxLayout  * buttonlayout1 = new QHBoxLayout;
-	QHBoxLayout  * buttonlayout2 =new QHBoxLayout;
+
+
 	//QHBoxLayout  buttonlayout3 =new QHBoxLayout;
 
 	if(GraphicMode){
@@ -188,6 +188,7 @@ StoryView::StoryView(QWidget *parent) :
 	//infoLayout->addWidget(zoomFactorSelector);
 	infoLayout->addStretch(4);
 */
+	/*
 	QDialogButtonBox * buttonBox1 = new QDialogButtonBox(QDialogButtonBox::Help,Qt::Horizontal);
 	buttonBox1->addButton(editExperiment,QDialogButtonBox::ActionRole);
 	buttonBox1->addButton(addstory,QDialogButtonBox::ActionRole);
@@ -201,7 +202,58 @@ StoryView::StoryView(QWidget *parent) :
 	buttonBox2->addButton(removeObsPoint,QDialogButtonBox::ActionRole);
 	buttonBox2->addButton(removeSample,QDialogButtonBox::ActionRole);
 	buttonBox2->addButton(rmEvent,QDialogButtonBox::ActionRole);
+	*/
 
+	QHBoxLayout  * buttonlayout = new QHBoxLayout;
+
+	QDialogButtonBox * exp_var_Box = new QDialogButtonBox(Qt::Vertical);
+	//QVBoxLayout  * exp_var_layout =new QVBoxLayout;
+	exp_var_Box->addButton(editExperiment,QDialogButtonBox::ActionRole);
+	exp_var_Box->addButton(remove_variable,QDialogButtonBox::ActionRole);
+	//exp_var_layout->addWidget(remove_variable);
+	//exp_var_layout->addWidget(remove_variable);
+
+	QDialogButtonBox * story_Box = new QDialogButtonBox(Qt::Vertical);
+	story_Box->addButton(addstory,QDialogButtonBox::ActionRole);
+	story_Box->addButton(removestory,QDialogButtonBox::ActionRole);
+
+
+	//QVBoxLayout  * storylayout =new QVBoxLayout;
+	//storylayout->addWidget(addstory);
+	//storylayout->addWidget(removestory);
+	QDialogButtonBox * obspoint_Box = new QDialogButtonBox(Qt::Vertical);
+	obspoint_Box->addButton(addobsPoint,QDialogButtonBox::ActionRole);
+	obspoint_Box->addButton(removeObsPoint,QDialogButtonBox::ActionRole);
+
+
+	//QVBoxLayout  * obspoint_Box =new QVBoxLayout;
+	//obspointlayout->addWidget(addobsPoint);
+	//obspointlayout->addWidget(removeObsPoint);
+
+	QDialogButtonBox * samples_Box = new QDialogButtonBox(Qt::Vertical);
+	samples_Box->addButton(addSamples,QDialogButtonBox::ActionRole);
+	samples_Box->addButton(removeSample,QDialogButtonBox::ActionRole);
+
+	//QVBoxLayout  * sampleslayout =new QVBoxLayout;
+	//sampleslayout->addWidget(addSamples);
+	//sampleslayout->addWidget(removeSample);
+	QDialogButtonBox * event_Box = new QDialogButtonBox(Qt::Vertical);
+	event_Box->addButton(addEvent,QDialogButtonBox::ActionRole);
+	event_Box->addButton(rmEvent,QDialogButtonBox::ActionRole);
+
+	//QVBoxLayout  * eventlayout =new QVBoxLayout;
+	//eventlayout->addWidget(addEvent);
+	//eventlayout->addWidget(rmEvent);
+
+	buttonlayout->addWidget(exp_var_Box);
+	buttonlayout->addWidget(story_Box);
+	buttonlayout->addWidget(obspoint_Box);
+	buttonlayout->addWidget(samples_Box);
+	buttonlayout->addWidget(event_Box);
+	buttonlayout->addStretch(1);
+
+	QDialogButtonBox * buttonBox1 = new QDialogButtonBox(QDialogButtonBox::Help | QDialogButtonBox::Reset,Qt::Vertical);
+	buttonlayout->addWidget(buttonBox1);
 
 	connect(buttonBox1, SIGNAL(helpRequested()), this, SLOT(show_help()));
 	//connect(buttonBox2->button(QDialogButtonBox::Reset),SIGNAL(clicked()),this,SLOT()
@@ -230,11 +282,12 @@ StoryView::StoryView(QWidget *parent) :
 	*/
 
 	layout->addLayout(infoLayout);
-	layout->addWidget(buttonBox1);
+	//layout->addWidget(buttonBox1);
+	layout->addLayout(buttonlayout);
 
 	//layout->addLayout(buttonlayout1);
 	//layout->addLayout(buttonlayout2);
-	layout->addWidget(buttonBox2);
+	//layout->addWidget(buttonBox2);
 
 	setLayout(layout);
 

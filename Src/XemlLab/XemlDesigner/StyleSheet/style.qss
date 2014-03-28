@@ -1,6 +1,6 @@
-QMainWindow {
+/*QMainWindow {
    background-color: black;
-}
+}*/
  
 QLabel {
     border: none;

@@ -72,9 +72,13 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	layout->addLayout(searchLayout);
 	if (drag_and_drop_mode){
 		layout->addWidget(this->draggableParameterTree);
+		layout->addWidget(buttonBox);
 	}
 	else{
 		layout->addWidget(this->parameterTree);
+		layout->addWidget(this->addParameter);
+
+
 	}
 	layout->addWidget(buttonBox);
 	/*

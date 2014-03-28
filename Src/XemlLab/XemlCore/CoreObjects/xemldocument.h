@@ -108,7 +108,7 @@ namespace Xeml {
 				void                set_startdate(QDateTime _t);
 				void                set_enddate(QDateTime _t);
 				QString             generate_string_xml();
-				std::vector<Sample*>   * extract_samples(ItfDocument * _xemlDoc);
+				std::vector<Sample*>   * extract_samples();
 
 
 

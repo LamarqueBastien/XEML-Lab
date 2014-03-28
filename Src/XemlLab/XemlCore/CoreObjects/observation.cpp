@@ -59,7 +59,7 @@ namespace Xeml {
 		}
 
 		void Observation::set_duration(QDateTime _duration){
-			std::cerr << "duration obs in set duration:" << _duration.toString("hh:mm:ss").toStdString() << std::endl;
+			//std::cerr << "duration obs in set duration:" << _duration.toString("hh:mm:ss").toStdString() << std::endl;
 
 			this->duration=_duration;
 		}

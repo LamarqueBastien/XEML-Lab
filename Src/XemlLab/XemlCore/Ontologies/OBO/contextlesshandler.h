@@ -23,7 +23,7 @@ namespace Xeml{
 						ContextLessHandler();
 						~ContextLessHandler();
 						void buildContexts(std::list<AttributeStore*> *_collection);
-						VariableContextSpec * createQuantityContext(QString _contextName);
+						VariableContextSpec * createQualityContext(QString _contextName);
 						VariableContextSpec * createResponseRangeContext(QString _contextName);
 						VariableContextSpec * createFreeTextContext();
 
