@@ -17,7 +17,7 @@ ExperimentTableView::ExperimentTableView(ItfDocument * _xemlDoc,QWidget *parent)
 	splash->setPixmap(image);
 #else
 
-	splash->setPixmap(QPixmap(":/Images/XemlLogo.png");
+	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
 	//splash->setPixmap(QPixmap("/home/bdartigues/XEML-Lab/Src/XemlLab/XemlDesigner/Images/XemlLogo.png"));
 #endif
 	splash->show();
