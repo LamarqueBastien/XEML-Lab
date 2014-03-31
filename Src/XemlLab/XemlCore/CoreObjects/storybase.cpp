@@ -9,6 +9,7 @@ namespace Xeml {
 			this->variablesCollection = new std::vector<std::pair<BasicTerm*,QString> >();
 			this->observationPointcollection = new std::vector<std::pair<ObservationPoint*,QDateTime> >();
 			this->samplesCollection= new std::vector<std::pair<Sample*,int> >();
+			story_partition_counter=0;
 		}
 		StoryBase::~StoryBase(void){
 

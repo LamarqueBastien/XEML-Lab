@@ -41,7 +41,32 @@ namespace Xeml {
 
 
 
+
 			QFile Xeml_doc(xemlCode.toStdString().c_str());
+
+			/*
+			if(!Xeml_doc.open(QIODevice::ReadOnly | QIODevice::Text))
+			{
+				std::cerr << "Erreur à l'ouverture du document XML" << std::endl;
+			}
+			QXmlStreamReader xml(&Xeml_doc);
+
+			while(!xml.atEnd() && !xml.hasError()) {
+				// Read next element.
+				QXmlStreamReader::TokenType token = xml.readNext();
+				// If token is just StartDocument, we'll go to next.
+				if(token == QXmlStreamReader::StartDocument) {
+
+					std::cerr << "encoding = " << xml.documentEncoding().toString().toStdString() << std::endl;
+
+					continue;
+				}
+			}
+			//delete xml;
+
+			Xeml_doc.close();
+			*/
+
 
 
 			std::cerr << "file loaded" << std::endl;
@@ -77,11 +102,16 @@ namespace Xeml {
 			QString err;
 				int errL, errC;
 
+
 			if (!Xeml_dom->setContent(&Xeml_doc,&err,&errL,&errC)) // Si l'on n'arrive pas à associer le fichier XML à l'objet DOM.
 			{
 				Xeml_doc.close();
-				std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
-				std::cerr << "Erreur :" << err.toStdString() <<"\n" << std::endl;
+				QMessageBox::information(NULL,"Xml error 600","Erreur à l'association du document DOM au fichier XML\n You may have to checked that the Xml file encoding coreespond to the one in xml header\n");
+				//std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
+				//std::cerr << "Erreur :" << err.toStdString() <<"\n" << std::endl;
+				//std::cerr << "Erreur line:" << errL<<"\n" << std::endl;
+				//std::cerr << "Erreur column:" << errC <<"\n" << std::endl;
+
 				//std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
 				//std::cerr << "Erreur à l'association du document DOM au fichier XML\n" << std::endl;
 			}
@@ -1432,7 +1462,7 @@ namespace Xeml {
 					else{
 						std::cerr << "Individuals pool not found" << std::endl;
 					}
-					InitPartitions(QNL.item(i).toElement(),ob);
+					InitPartitions(QNL.item(i).toElement(),ob,_storyBase);
 					InitDevelopmentalStage(QNL.item(i).toElement(),ob);
 					op->add_observation(ob);
 				}
@@ -1467,6 +1497,7 @@ namespace Xeml {
 						fqName =germplasmStr;
 					}
 					StoryNode * node=this->storyBoard->findNode(_storyBase);// = _storyBase.
+					//StoryNode * current_node=node;
 					while(node->get_isStorySplit()){
 						node=node->get_parent();
 					}
@@ -1487,7 +1518,7 @@ namespace Xeml {
 						std::cerr << "Individuals pool not found" << std::endl;
 					}
 
-					InitPartitions(QNL.item(i).toElement(),ob);
+					InitPartitions(QNL.item(i).toElement(),ob,_storyBase);
 					InitDevelopmentalStage(QNL.item(i).toElement(),ob);
 					op->add_observation(ob);
 				}
@@ -1500,7 +1531,7 @@ namespace Xeml {
 			}
 
 		}
-		void                  XemlDocument::InitPartitions(QDomElement _elem,Observation * _ob){
+		void                  XemlDocument::InitPartitions(QDomElement _elem,Observation * _ob,StoryBase * _current_story){
 			QDomNodeList QNL=_elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Partition"){
@@ -1508,6 +1539,7 @@ namespace Xeml {
 					InitAnnotations(QNL.item(i).toElement(),part);
 					part->set_id(QNL.item(i).toElement().attributeNode("Id").value().toInt());
 					this->partition_counter++;
+					_current_story->story_partition_counter++;
 					QDomNodeList QNL2=QNL.item(i).toElement().childNodes();
 					for (int j = 0; j < QNL2.length(); j++) {
 						if(QNL2.item(j).toElement().tagName().toStdString()=="xeml:Material"){

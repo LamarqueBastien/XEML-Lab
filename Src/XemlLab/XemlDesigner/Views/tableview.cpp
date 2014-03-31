@@ -36,8 +36,20 @@ TableView::TableView(ItfDocument * _xemlDoc,QTableView *parent)
 
 
 	//connect(view,SIGNAL(objectNameChanged(QString)),this,SLOT(germplasm_set_label(QString)));
+
 	this->setModel(modelTable);
+
+	/*
+	QSortFilterProxyModel proxyModel;
+	proxyModel.setSourceModel( modelTable );
+	this->setModel( &proxyModel );
+	*/
+
 	populate_table();
+	modelTable->sort(1,Qt::AscendingOrder);
+
+
+	//this->sortByColumn(1,Qt::AscendingOrder);
 	std::cerr << "end of populate table" << std::endl;
 
 
@@ -256,6 +268,7 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 					//val.setAttribute("Label",v->get_label());
 				}
 				if(v->get_is_cyclevalue()){
+
 				}
 
 
@@ -281,17 +294,57 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 				Cycle * c = static_cast<Cycle*>(value);
 
 				if(c->get_context()!=""){
+					context=c->get_context();
 				}
 				if(c->get_unit()!=""){
+					unit=c->get_unit();
 					//val.setAttribute("Unit",c->get_unit());
 				}
 				if(c->get_label()!=""){
+					label=c->get_label();
 					//val.setAttribute("Label",c->get_label());
 				}
-				for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
-					//write_values(&val,static_cast<ValueBase*>((*it).first));
+				QString header;
+				if (unit!=""){
+					header="Name:-"+term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
 				}
-				//_elem->appendChild(val);
+				else{
+					header="Name:-"+term->get_name()+"-\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+				}
+				//if(_counter_term==0){
+				std::cerr << " header in this story : "<< header.toStdString() << std::endl;
+
+				if(header==_header){
+					QString value_text;
+					for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
+						//write_values(&val,static_cast<ValueBase*>((*it).first));
+						ValueBase* valuecycle=static_cast<ValueBase*>((*it).first);
+						std::cerr << "new cycle value" << std::endl;
+						if(!valuecycle->get_is_cycle()){
+							std::cerr << " cycle value is not a cycle" << std::endl;
+
+							DynamicValue * v = static_cast<DynamicValue*>(valuecycle);
+							if(v->get_is_cyclevalue()){
+								std::cerr << " cycle value is a cycle value" << std::endl;
+
+								//val.setAttribute("Duration",v->get_timepoint().toString("hh:mm:ss"));
+								std::cerr << "cycle value :" << v->get_value().toStdString() <<  std::endl;
+								value_text.append(v->get_value());
+								value_text.append("/");
+							}
+
+
+						}
+
+					}
+					std::cerr << "header for cycle found :" << header.toStdString() << std::endl;
+					QStandardItem * value_term_context_item=new QStandardItem(value_text);
+					modelTable->setItem(_sample_counter,_column,value_term_context_item);
+					found=true;
+				}
+
+
+
 
 			}
 		}
@@ -383,12 +436,55 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 						Cycle * c = static_cast<Cycle*>(value);
 
 						if(c->get_context()!=""){
+							context=c->get_context();
 						}
 						if(c->get_unit()!=""){
+							unit=c->get_unit();
 							//val.setAttribute("Unit",c->get_unit());
 						}
 						if(c->get_label()!=""){
+							label=c->get_label();
 							//val.setAttribute("Label",c->get_label());
+						}
+						QString header;
+						if (unit!=""){
+							header="Name:-"+term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+						}
+						else{
+							header="Name:-"+term->get_name()+"-\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+						}
+						//if(_counter_term==0){
+						std::cerr << " header in this story : "<< header.toStdString() << std::endl;
+
+						if(termname==term->get_name() && contextname==context){
+
+							QString value_text;
+
+							for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
+								//write_values(&val,static_cast<ValueBase*>((*it).first));
+								ValueBase* valuecycle=static_cast<ValueBase*>((*it).first);
+								std::cerr << "new cycle value" << std::endl;
+								if(!valuecycle->get_is_cycle()){
+									std::cerr << " cycle value is not a cycle" << std::endl;
+
+									DynamicValue * v = static_cast<DynamicValue*>(valuecycle);
+									if(v->get_is_cyclevalue()){
+										std::cerr << " cycle value is a cycle value" << std::endl;
+
+										//val.setAttribute("Duration",v->get_timepoint().toString("hh:mm:ss"));
+										std::cerr << "cycle value :" << v->get_value().toStdString() <<  std::endl;
+										value_text.append(v->get_value());
+										value_text.append("/");
+									}
+
+
+								}
+
+							}
+							std::cerr << "header for cycle found :" << header.toStdString() << std::endl;
+							QStandardItem * value_term_context_item=new QStandardItem(value_text);
+							modelTable->setItem(_sample_counter,_column,value_term_context_item);
+							found=true;
 						}
 						for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
 							//write_values(&val,static_cast<ValueBase*>((*it).first));

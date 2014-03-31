@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	QString toto = QApplication::applicationDirPath();
-	std::cerr << "dir path = " << toto.toStdString() << std::endl;
+	//std::cerr << "dir path = " << toto.toStdString() << std::endl;
 
 	fmg->New();
 	//std::cerr << QApplication::applicationFilePath().toStdString() << std::endl;
@@ -227,33 +227,44 @@ void    MainWindow::loadResources(){
 
 void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envoIsChecked){
 	//QFile xml_doc(":/default.xeml");
+	std::cerr << "add_ontologies" << std::endl;
+
 	QFile xml_doc(this->curFile);
 	QStringList * onto_to_load=new QStringList;
 	QStringList * onto_to_remove=new QStringList;
 	if(_xeoIsChecked && !(this->fmg->get_current_xeml()->get_doc_resources()->contains("XEO",Xeml::Document::Contracts::Environment))){
-		//std::cerr << "Xeo is Checked" << std::endl;
+		std::cerr << "Xeo is Checked" << std::endl;
 		onto_to_load->push_back("XEO");
 	}
 	if(!(_xeoIsChecked) && (this->fmg->get_current_xeml()->get_doc_resources()->contains("XEO",Xeml::Document::Contracts::Environment))){
-		//std::cerr << "Xeo is Checked" << std::endl;
+		std::cerr << "Xeo is not Checked" << std::endl;
 		onto_to_remove->push_back("XEO");
 	}
 	if(_eoIsChecked && !(this->fmg->get_current_xeml()->get_doc_resources()->contains("EO",Xeml::Document::Contracts::EO))){
+		std::cerr << "eo is Checked" << std::endl;
+
 		onto_to_load->push_back("EO");
 
 	}
 	if(!(_eoIsChecked) && (this->fmg->get_current_xeml()->get_doc_resources()->contains("EO",Xeml::Document::Contracts::EO))){
+		std::cerr << "eo is not Checked" << std::endl;
+
 		onto_to_remove->push_back("EO");
 
 	}
 	if(_envoIsChecked && !(this->fmg->get_current_xeml()->get_doc_resources()->contains("EnvO",Xeml::Document::Contracts::EnvO))){
+		std::cerr << "envo is Checked" << std::endl;
+
 		onto_to_load->push_back("EnvO");
 
 	}
 	if(!(_envoIsChecked) && (this->fmg->get_current_xeml()->get_doc_resources()->contains("EnvO",Xeml::Document::Contracts::EnvO))){
+		std::cerr << "envo is not Checked" << std::endl;
+
 		onto_to_remove->push_back("EnvO");
 
 	}
+	std::cerr << this->curFile.toStdString() << std::endl;
 	QString uri;
 	QString location;
 	QDomDocument *dom = new QDomDocument("mon_xml");
@@ -272,6 +283,8 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 	QDomElement dom_element = dom->documentElement();
 	QDomNode noeud = dom_element.firstChild();
 
+	std::cerr << "checkpoint " << std::endl;
+
 	while(!noeud.isNull())// Tant que le nœud n'est pas vide.
 	{
 		if(!dom_element.isNull())
@@ -281,9 +294,12 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 				QDomNodeList QNL=element.childNodes();
 				for(int j =0; j < onto_to_load->length();j++){
 					for (int i = 0; i < QNL.length(); i++) {
+						std::cerr << "ns :" << QNL.item(i).toElement().attributeNode("NS").value().toStdString() << std::endl;
 						if(QNL.item(i).toElement().attributeNode("NS").value()==onto_to_load->at(j)){
 							uri=QNL.item(i).toElement().attributeNode("HandlerUri").value();
 							location=QNL.item(i).toElement().attributeNode("InstanceLocation").value();
+							std::cerr << "add :" << location.toStdString()<< std::endl;
+							std::cerr << "add :" << uri.toStdString() << std::endl;
 
 
 							//QString ns=QNL.item(i).toElement().attributeNode("NS").value();
@@ -306,6 +322,10 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 						std::cerr << "developmental ontology double entry. Resource was rejected!" << std::endl;
 					}
 					else{
+
+						std::cerr << "add :" << onto_to_load->at(j).toStdString() <<"ontology" << std::endl;
+						std::cerr << "add :" << location.toStdString() <<"ontology" << std::endl;
+						std::cerr << "add :" << uri.toStdString() <<"ontology" << std::endl;
 
 						this->fmg->get_current_xeml()->get_doc_resources()->Add(uri,onto_to_load->at(j),location,false);
 						std::cerr << "add " << onto_to_load->at(j).toStdString() <<"ontology" << std::endl;

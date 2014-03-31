@@ -147,6 +147,7 @@ void ParameterTreeView::add_ontology(){
 	connect(onto,SIGNAL(ontologies_to_load(bool,bool,bool)),this,SLOT(send_ontologies(bool,bool,bool)));
 }
 void ParameterTreeView::send_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envoIsChecked){
+	std::cerr << "emit ontology_to_load" << std::endl;
 	emit ontology_to_load(_xeoIsChecked,_eoIsChecked,_envoIsChecked);
 }
 void ParameterTreeView::buildNodeHierarchy(TermNode * node,QString _namespace){

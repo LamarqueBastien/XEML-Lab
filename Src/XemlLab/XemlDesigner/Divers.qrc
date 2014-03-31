@@ -41,6 +41,7 @@
         <file>Images/fond_triangle.jpg</file>
         <file>Images/fougeres.jpg</file>
         <file>Images/leaves.jpg</file>
+        <file>Images/shl.png</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

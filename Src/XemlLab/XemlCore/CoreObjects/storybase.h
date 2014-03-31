@@ -71,6 +71,7 @@ namespace Xeml {
 				ObservationPoint                                     * get_obsPoint(int _id);
 				bool                                                   get_IsStorySplit();
 				void                                                   set_IsStorySplit(bool _IsStorySplit);
+				int                                                    story_partition_counter;
 
 
 		};

@@ -98,7 +98,7 @@ StoryView::StoryView(QWidget *parent) :
 	//addstorysplit->setStyleSheet(stylesheet);
 
 
-	addobsPoint= new QPushButton("add observationPoint");
+	addobsPoint= new QPushButton("add observation point");
 	addobsPoint->setToolTip("1.Add a new observation point after drag the item to the right timepoint \n"
 							"2.populate this observation point by adding samples");
 	//addobsPoint->setStyleSheet(stylesheet);
@@ -112,9 +112,9 @@ StoryView::StoryView(QWidget *parent) :
 	//addSamples->setStyleSheet(stylesheet);
 	removestory=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove story");
 	//removestory->setStyleSheet(stylesheet);
-	removeObsPoint=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove observation");
+	removeObsPoint=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove observation point");
 	//removeObsPoint->setStyleSheet(stylesheet);
-	removeSample=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove sample");
+	removeSample=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove samples");
 	//removeSample->setStyleSheet(stylesheet);
 	removeStorySplit=new QPushButton(QIcon(":/Images/DeleteHS.png"),"remove split");
 	//removeStorySplit->setStyleSheet(stylesheet);
@@ -360,10 +360,34 @@ StoryView::StoryView(QWidget *parent) :
 
 }
 void StoryView::show_help(){
-	QMessageBox::about(this,"Genotype helper","click add to add a new germplasm for your experiment.\n"
-					   "You need to have selected one story in the story View.\n"
-					   "Click on remove to remove a genotype, you need to click on the corresponding row number.\n"
-					   "Click on edit to modify a genotype, you need to click on the corresponding row number.\n");
+	QString HtmlString("<h2>Story helper</h2>"
+					   "<h3>add or remove story</h3>"
+					   "<ul>"
+					   "<li> click on \"add story\" to add a new story for your experiment (check the split box for a storysplit). </li>"
+					   "<li> click on \"remove story\" to remove a story or a split in your experiment (all substories of the removed story are removed). </li>"
+					   "</ul>"
+					   "<h3>add or remove observation point</h3>"
+					   "<ul>"
+					   "<li> click on \"add observation point\"to add a new story for your experiment (check the split box for a storysplit). </li>"
+					   "<li> click on \"remove observation point\" to remove a observation point. </li>"
+					   "</ul>"
+					   "<h3>add or remove events</h3>"
+					   "<ul>"
+					   "<li> click on add event to add a new event in a story (storm yellow item). </li>"
+					   "<li> click on remove event to remove a event in a story . </li>"
+					   "</ul>"
+					   "<h3>add or remove samples</h3>"
+					   "<ul>"
+					   "<li> click on \"add samples\" to add a new set of sample in your experiment (you need to have defined at least one observation point and one germplasm pool). </li>"
+					   "<li> click on \"remove samples\” to remove a set of samples. </li>"
+					   "</ul>");
+	QMessageBox::about(this,"Story helper",HtmlString);
+
+
+	//QMessageBox::about(this,"Story helper","click add to add a new story for your experiment (check the split box for a storysplit).\n"
+					   //"You need to have selected one story in the story View before add experiment elements like event or observation point.\n"
+					   //"Click on remove to remove a genotype, you need to click on the corresponding row number.\n"
+					   //"Click on edit to modify a genotype, you need to click on the corresponding row number.\n");
 }
 void StoryView::refresh(){
 	std::cerr << "entering in refresh (storyView)" << std::endl;

@@ -407,8 +407,6 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 				   "<th  height = \"100\">Changed at:</th>"
 				   "<th  height = \"100\">Value:</th>"
 				   "<th  height = \"100\">Unit:</th>"
-
-
 				   "</tr>";
 	for(std::list<StoryNode*>::iterator it =this->current_doc->get_storyboard()->get_storyBoard()->begin();it!=this->current_doc->get_storyboard()->get_storyBoard()->end();++it){
 		StoryNode * tmpnode=static_cast<StoryNode*>((*it));
@@ -421,9 +419,12 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 
 			if (!tmp_term->get_dynamicvaluecollection()->empty()){
 
+				std::cerr << "dynamic_collection is not empty size :" << tmp_term->get_dynamicvaluecollection()->size() << std::endl;
 				for (int i=0;i<tmp_term->get_dynamicvaluecollection()->size();i++){
 
 					DynamicValue * tmp_dvalue=static_cast<DynamicValue*>(tmp_term->get_dynamicvaluecollection()->at(i).first);
+					std::cerr << "dynamic_value :" << tmp_dvalue->get_context().toStdString()<< std::endl;
+
 					if (tmp_dvalue->get_context()=="Quantity"){
 
 						if (tmp_dvalue->get_unit()!=""){
@@ -431,6 +432,7 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 							int cycle_size=0;
 							int cycle_division=0;
 							if (tmp_dvalue->get_is_cycle()){
+
 								Cycle * c =static_cast<Cycle*>(tmp_term->get_dynamicvaluecollection()->at(i).first);
 								cycle_size=c->get_cycleValues()->size();
 								cycle_division=24/cycle_size;
@@ -455,10 +457,15 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 									tmp.append(static_cast<DynamicValue*>((*it3).first)->get_value());
 									tmp.append("/");
 								}
-
-
 								tmp.append(" - ");
-								tmp.append(QString::number(cycle_division));
+								for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it3=c->get_cycleValues()->begin();it3!=c->get_cycleValues()->end();++it3){
+									tmp.append(static_cast<DynamicValue*>((*it3).first)->get_timepoint().toString("hh:mm:ss").split(":").at(0));
+									tmp.append("/");
+								}
+
+
+								//tmp.append(" - ");
+								//tmp.append(QString::number(cycle_division));
 								tmp.append(" H cycle");
 
 								msg=QString ("<td height = \"100\">%1</td>").arg(tmp);
@@ -494,6 +501,53 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 						}
 
 					}
+					if (tmp_dvalue->get_context()=="Context"){
+						if (tmp_dvalue->get_is_cycle()){
+
+							Cycle * c =static_cast<Cycle*>(tmp_term->get_dynamicvaluecollection()->at(i).first);
+							//cycle_size=c->get_cycleValues()->size();
+							//cycle_division=24/cycle_size;
+
+							ontologyTable+="<tr bgcolor = \"LightCyan\">";
+							QString msg = QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_namespacealias());
+							ontologyTable+=msg;
+							msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_name());
+							ontologyTable+=msg;
+							msg=QString ("<td height = \"100\">%1</td>").arg(tmp_term->get_termId());
+							ontologyTable+=msg;
+							if (tmp_dvalue->get_timepoint()==current_doc->get_startdate()){
+								msg=QString ("<td height = \"100\">%1</td>").arg("experiment startpoint");
+								ontologyTable+=msg;
+							}
+							else{
+								msg=QString ("<td height = \"100\">%1</td>").arg(tmp_dvalue->get_timepoint().toString("dd/MM/yyyy hh:mm:ss"));
+								ontologyTable+=msg;
+							}
+							QString tmp="";
+							for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it3=c->get_cycleValues()->begin();it3!=c->get_cycleValues()->end();++it3){
+								tmp.append(static_cast<DynamicValue*>((*it3).first)->get_value());
+								tmp.append("/");
+							}
+							tmp.append(" - ");
+							for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it3=c->get_cycleValues()->begin();it3!=c->get_cycleValues()->end();++it3){
+								tmp.append(static_cast<DynamicValue*>((*it3).first)->get_timepoint().toString("hh:mm:ss").split(":").at(0));
+								tmp.append("/");
+							}
+
+
+							//tmp.append(" - ");
+							//tmp.append(QString::number(cycle_division));
+							tmp.append(" H cycle");
+
+							msg=QString ("<td height = \"100\">%1</td>").arg(tmp);
+							ontologyTable+=msg;
+							msg=QString ("<td height = \"100\">%1</td>").arg(tmp_dvalue->get_unit());
+							ontologyTable+=msg;
+
+							ontologyTable+="</tr>";
+						}
+					}
+
 				}
 			}
 

@@ -70,7 +70,7 @@ namespace Xeml{
 
 				ItfDataProvider * createProvider(QString _uri){
 					if(this->contains(_uri)){
-						std::cerr << "uri is contained is this dataproviderresources " << std::endl;
+						//std::cerr << "uri is contained is this dataproviderresources " << std::endl;
 						ItfDataProvider * ret =NULL;
 						try{
 							ret=dynamic_cast<ItfDataProvider*>((*this->providerComponent)[_uri]->copy());

@@ -156,7 +156,7 @@ namespace Xeml {
 				void				InitValues(QDomElement _elem,bool _isStorysplit,DynamicTerm * _term,QDateTime _timepoint,StoryBase * _storyBase);
 				void				InitEvent(QDomElement _elem,bool _isStorySplit,StoryBase * _storyBase);
 				void                InitObserverPoint(QDomElement _elem,bool _isStorySplit, StoryBase * storyBase);
-				void				InitPartitions(QDomElement _elem,Observation * _ob);
+				void				InitPartitions(QDomElement _elem,Observation * _ob,StoryBase *_current_node);
 				void				InitDevelopmentalStage(QDomElement _elem,Observation * _ob);
 				void                InitSample(QDomElement _elem, bool _isStorysplit,StoryBase * storyBase,StoryNode * _sns);
 				void                InitData(QDomElement  elem);

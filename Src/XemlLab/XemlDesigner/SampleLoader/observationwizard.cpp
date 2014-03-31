@@ -209,8 +209,10 @@ void ObservationWizard::accept(){
 										}
 										for (int i=0;i<struct_list.size();i++){
 											Partition * p = new Partition();
-											static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-											p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+											this->current_storynode->get_story()->story_partition_counter++;
+											p->set_id(this->current_storynode->get_story()->story_partition_counter);
+											//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+											//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 											p->addMaterialTerm(struct_list.at(i));
 											if(!(ob->contain_partition(p))){
 												ob->add_partition(p);
@@ -259,8 +261,10 @@ void ObservationWizard::accept(){
 										}
 										for (int i=0;i<struct_list.size();i++){
 											Partition * p = new Partition();
-											static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-											p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+											this->current_storynode->get_story()->story_partition_counter++;
+											p->set_id(this->current_storynode->get_story()->story_partition_counter);
+											//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+											//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 											p->addMaterialTerm(struct_list.at(i));
 											if(!(ob->contain_partition(p))){
 												ob->add_partition(p);
@@ -465,8 +469,10 @@ void ObservationWizard::accept(){
 									}
 									for (int i=0;i<struct_list.size();i++){
 										Partition * p = new Partition();
-										static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-										p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+										this->current_storynode->get_story()->story_partition_counter++;
+										p->set_id(this->current_storynode->get_story()->story_partition_counter);
+										//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+										//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 										p->addMaterialTerm(struct_list.at(i));
 										if(!(ob->contain_partition(p))){
 											ob->add_partition(p);
@@ -519,8 +525,10 @@ void ObservationWizard::accept(){
 						}
 						for (int i=0;i<struct_list.size();i++){
 							Partition * p = new Partition();
-							static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
-							p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
+							this->current_storynode->get_story()->story_partition_counter++;
+							p->set_id(this->current_storynode->get_story()->story_partition_counter);
+							//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
+							//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
 							p->addMaterialTerm(struct_list.at(i));
 							if(!(ob->contain_partition(p))){
 								ob->add_partition(p);

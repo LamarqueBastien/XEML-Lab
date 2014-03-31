@@ -35,6 +35,7 @@ ExperimentTableView::ExperimentTableView(ItfDocument * _xemlDoc,QWidget *parent)
 
 
 
+
 	QHBoxLayout * tablelayout = new QHBoxLayout;
 	tablelayout->addWidget(this->experiment_view);
 

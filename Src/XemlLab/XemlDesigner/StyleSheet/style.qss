@@ -1,134 +1,213 @@
-/*QMainWindow {
-   background-color: black;
-}*/
- 
-QLabel {
-    border: none;
-    padding: 0;
-    background: none;
-    font: normal;
+
+QMainWindow {
+   background-color: lightgrey;
 }
- 
+
+
+
+QLabel {
+	border: none;
+	padding: 0;
+	background: none;
+	font: normal;
+}
+
  /*
 QPushButton {
-    background-color: palegoldenrod;
-    border-width: 1px;
-    border-color: darkkhaki;
-    border-style: solid;
-    border-radius: 5;
-    padding: 3px;
-    min-width: 9ex;
-    min-height: 2.5ex;
+	background-color: palegoldenrod;
+	border-width: 1px;
+	border-color: darkkhaki;
+	border-style: solid;
+	border-radius: 5;
+	padding: 3px;
+	min-width: 9ex;
+	min-height: 2.5ex;
 }
 */
 /*rgb(104,157,113);*/
-ParameterTreeView#OntologyTree {
-	background-color: rgb(225,206,154);
-	
-}
-ParameterTreeView QToolTip { 
-	color: #fff; 
-	background-color: #000; 
-	border: none; 
-	
+
+
+ParameterTreeView QToolTip {
+	color: #fff;
+	background-color: #000;
+	border: none;
+
 }
 QTreeView#VariableTree {
-	background-color: white; 
+	background-color: white;
 }
 /*rgb(225,206,154);*/
 StoryView#StoryView {
 	 background-color: lightgray;
 
-	 
 }
-StoryView QToolTip { 
-	color: #fff; 
-	background-color: #000; 
-	border: none; 
+StoryView QToolTip {
+	color: #fff;
+		background-color: #444444;
+	border: none;
 }
 GenoTypeView#GenotypeView {
 	background-color: white;
 	border-radius: 10px;
 }
-QGraphicsItem{
-	background-image: url(://Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg);
-}
 GraphicStoryView#GraphicView {
 
-	border-radius: 10px;
-	/*border-image: url(://Images/leaves.jpg);*/
-	background-color: white;
-	/*background-image: url(://Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg);*/
-
-
-}	
-
-QMdiSubWindow#Ontology, QMdiSubWindow#Story , QMdiSubWindow#Genotype {
-	/*background-image: url(://Images/BlueMetal.png);
-	background-image: url(://Images/The_brilliant_colorful_lines_background_HD_wallpaper_4_1280x800.jpg);*/
-	background-image: url(://Images/fond_triangle.jpg);
-
-
+		border-width: 1px;
+		border-color: #BBBBBB;
+		border-style: solid;
 
 }
+
+QMdiSubWindow#Ontology, QMdiSubWindow#Story , QMdiSubWindow#Genotype, QDialog {
+		background-color: white;
+		background-image: url(://Images/shl.png);
+}
+
 QPushButton {
 	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
-	border-style: outset;
-	border-width: 1px;
-	border-radius: 10px;
-	border-color: beige;
-	font: bold 10px;
+		border-style: outset;
+		border-width: 1px;
+		border-radius: 5px;
+		border-color: #AAAAAA;
+		font-size:12px;
+		font-family:sans;
+		font-weight: normal;
 	color:black;
 	min-width: 8em;
 	min-height: 0.95em;
 	margin: 0 1px 0 1px;
 	color:rgb(0,0,0);
 	padding: 6px;
+		padding-top: 4px;
+		padding-bottom: 4px;
 }
 QPushButton:hover {
-   background-color: khaki;
+	border-style: outset;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #F2F2F2, stop: 0.4 #D9D9D9,stop: 0.5 #D7D7D7, stop: 1.0 #C8C8C8);
 }
- 
- 
+
+
 QPushButton:pressed {
-    padding-left: 5px;
-    padding-top: 5px;
-    background-color: #d0d67c;
+	border-style: inset;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #BBBBBB, stop: 0.4 #C8C8C8,stop: 0.5 #CCCCCC, stop: 1.0 #E1E1E1);
 }
- 
+
+QPushButton:disabled {
+	color: gray;
+}
+
 QLabel, QAbstractButton {
-    font: bold;
+	font-weight: normal;
 }
-/* 
+/*
 QComboBox, QLineEdit {
-    background-color: cornsilk;
-    selection-color: #0a214c;
-    selection-background-color: #C19A6B;
-    border-width: 1px;
-    padding: 1px;
-    border-style: solid;
-    border-color: darkkhaki;
-    border-radius: 5px;
+	background-color: white;
+	selection-color: #0a214c;
+	selection-background-color: #C19A6B;
+	border-width: 1px;
+	padding: 1px;
+	border-style: solid;
+	border-color: darkkhaki;
+	border-radius: 5px;
 }
 
 QComboBox, QLineEdit {
-    background-color: white;
-    selection-color: #0a214c;
-    selection-background-color: #C19A6B;
-    border-width: 1px;
-    padding: 1px;
-    border-style: solid;
-    border-color: black;
-    border-radius: 5px;
+	background-color: red;
+	selection-color: #0a214c;
+	selection-background-color: #C19A6B;
+	border-width: 1px;
+	padding: 1px;
+	border-style: solid;
+	border-color: black;
+	border-radius: 5px;
 }
  */
 QLineEdit:focus {
-    border-width: 2px;
-    padding: 0px;
+	border-width: 2px;
+	padding: 0px;
 }
- 
+
 QComboBox::item:hover {
-    background-color: wheat;
+	background-color: wheat;
 }
 
 
+QTableView QTableCornerButton::section {
+	border-width: 2px;
+	border-style: outset;
+	border-color: #AAAAAA;
+	background-color: #EEEEEE;
+}
+
+
+QTableView QHeaderView::section:checked {
+	background-color: #888888;
+	color: white;
+	font-weight: normal;
+}
+
+QTableView {
+	 selection-background-color: #D8EFAF;
+	 selection-color:black;
+}
+
+QComboBox, QLineEdit, QMenu::item:selected, QMenuBar::item:selected   {
+selection-background-color: #C0D797;
+selection-color:black;
+}
+
+QSlider::sub-page:vertical {
+background: #89B044;
+}
+
+QTabWidget::pane {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #D4D4D4;
+	background: white;
+	background-image: url(://Images/SilverMetal.png);
+}
+
+QTabBar::tab {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #D4D4D4;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E5E5E5, stop: 0.4 #F0F0F0,stop: 0.5 #E2E2E2, stop: 1.0 #D4D4D4);
+	padding: 6px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+QTabBar::tab:selected {
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #FFFFFF, stop: 0.4 #F7F7F7,stop: 0.5 #EEEEEE, stop: 1.0 #DDDDDD);
+}
+
+QMenuBar {
+	background-color: #EEEEEE;
+}
+
+QToolBar {
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #EEEEEE, stop: 1.0 lightgrey);
+	background-color: #EEEEEE;
+}
+
+QStatusBar {
+border-style: solid;
+border-width: 2px;
+border-top-width: 4px;
+border-color: lightgrey;
+background-color: #EEEEEE;
+}
+
+GenoTypeView#GenotypeView DAFUQ IS THIS {
+padding: 30px;
+margin: 30px;
+border-style: solid;
+border-width: 2px;
+border-top-width: 4px;
+border-color: green;
+background-color: red;
+color: blue;
+}
