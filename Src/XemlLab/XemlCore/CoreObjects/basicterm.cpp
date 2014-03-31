@@ -10,12 +10,12 @@ namespace Xeml {
 		BasicTerm::BasicTerm(QString _termId){
 			this->termId=_termId;
 		}
-		BasicTerm::~BasicTerm(void){
+		BasicTerm::~BasicTerm(){
 			//this->TaggedannotationCollection->clear();
 			std::cerr << "deleting Basic term" << std::endl;
-			for (std::map<TaggedAnnotation*,QString>::iterator it=this->TaggedannotationCollection->begin();it!=this->TaggedannotationCollection->end();++it){
-				delete (*it).first;
-			}
+			//for (std::map<TaggedAnnotation*,QString>::iterator it=this->TaggedannotationCollection->begin();it!=this->TaggedannotationCollection->end();++it){
+			//	delete (*it).first;
+			//}
 			this->TaggedannotationCollection->clear();
 			std::cerr << " Basic term deleted" << std::endl;
 		}
@@ -31,6 +31,7 @@ namespace Xeml {
 			this->nameSpacealias=term.nameSpacealias;
 			this->nameSpace=term.nameSpace;
 			this->name=term.name;
+			this->TaggedannotationCollection=term.TaggedannotationCollection;
 		}
 
 		QString BasicTerm::get_namespacealias(){

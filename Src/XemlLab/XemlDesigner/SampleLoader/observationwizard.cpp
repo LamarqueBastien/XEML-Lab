@@ -57,8 +57,8 @@ void ObservationWizard::accept(){
 	}
 	for (std::vector<ObservationDetails*>::iterator it=ObservationWizard::get_observations()->begin();it!=ObservationWizard::get_observations()->end();++it){
 		ObservationDetails * tmp=static_cast<ObservationDetails*>((*it));
-		QList<BasicTerm *> dev_list;
-		QList<BasicTerm *> struct_list;
+		QList<BasicTerm*> dev_list;
+		QList<BasicTerm*> struct_list;
 		QList<Sample*> sample_list;
 
 		//first way : using a model to define all individuals
@@ -139,9 +139,9 @@ void ObservationWizard::accept(){
 																	for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
 																		if (static_cast<TermNode*>((*it))->get_term()->get_termId()==structTerm->get_termId()){
 																			BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
-																			std::cerr << "displaying tag annotation" << std::endl;
-																			test->display_all_tags();
-																			std::cerr << "end displaying tag annotation" << std::endl;
+																			//std::cerr << "displaying tag annotation" << std::endl;
+																			//test->display_all_tags();
+																			//std::cerr << "end displaying tag annotation" << std::endl;
 																			for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
 																				structTerm->add_tagged_annotation((*it2).first);
 
@@ -213,7 +213,32 @@ void ObservationWizard::accept(){
 											p->set_id(this->current_storynode->get_story()->story_partition_counter);
 											//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
 											//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
-											p->addMaterialTerm(struct_list.at(i));
+											BasicTerm * newterm=new BasicTerm((*static_cast<BasicTerm*>(struct_list.at(i))));
+											/*
+											BasicTerm * newterm=new BasicTerm(static_cast<BasicTerm*>(struct_list.at(i))->get_termId());
+
+											newterm->set_name(static_cast<BasicTerm*>(struct_list.at(i))->get_name());
+											newterm->set_namespacealias("PO_Structure");
+											std::list<TermNode*>  * my_structree=static_cast<PlantStructureOntologyHandler*>((*doc_resources->get_structHandler())["PO_Structure"]->get_handler())->get_listNodes();
+
+											for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
+												if (static_cast<TermNode*>((*it))->get_term()->get_termId()==newterm->get_termId()){
+													BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
+													//std::cerr << "displaying tag annotation" << std::endl;
+													//test->display_all_tags();
+													//std::cerr << "end displaying tag annotation" << std::endl;
+													for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
+														newterm->add_tagged_annotation((*it2).first);
+
+														//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
+													}
+													//delete test;
+
+												}
+											}
+											*/
+
+											p->addMaterialTerm(newterm);
 											if(!(ob->contain_partition(p))){
 												ob->add_partition(p);
 											}
@@ -265,7 +290,31 @@ void ObservationWizard::accept(){
 											p->set_id(this->current_storynode->get_story()->story_partition_counter);
 											//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
 											//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
-											p->addMaterialTerm(struct_list.at(i));
+
+											BasicTerm * newterm=new BasicTerm((*static_cast<BasicTerm*>(struct_list.at(i))));
+											/*
+											BasicTerm * newterm= new BasicTerm(static_cast<BasicTerm*>(struct_list.at(i))->get_termId());
+											newterm->set_name(static_cast<BasicTerm*>(struct_list.at(i))->get_name());
+											newterm->set_namespacealias("PO_Structure");
+											std::list<TermNode*>  * my_structree=static_cast<PlantStructureOntologyHandler*>((*doc_resources->get_structHandler())["PO_Structure"]->get_handler())->get_listNodes();
+
+											for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
+												if (static_cast<TermNode*>((*it))->get_term()->get_termId()==newterm->get_termId()){
+													BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
+													//std::cerr << "displaying tag annotation" << std::endl;
+													//test->display_all_tags();
+													//std::cerr << "end displaying tag annotation" << std::endl;
+													for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
+														newterm->add_tagged_annotation((*it2).first);
+
+														//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
+													}
+													//delete test;
+
+												}
+											}
+											*/
+											p->addMaterialTerm(newterm);
 											if(!(ob->contain_partition(p))){
 												ob->add_partition(p);
 											}
@@ -473,7 +522,30 @@ void ObservationWizard::accept(){
 										p->set_id(this->current_storynode->get_story()->story_partition_counter);
 										//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
 										//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
-										p->addMaterialTerm(struct_list.at(i));
+										BasicTerm * newterm=new BasicTerm((*static_cast<BasicTerm*>(struct_list.at(i))));
+										/*
+										BasicTerm * newterm=new BasicTerm(static_cast<BasicTerm*>(struct_list.at(i))->get_termId());
+										newterm->set_name(static_cast<BasicTerm*>(struct_list.at(i))->get_name());
+										newterm->set_namespacealias("PO_Structure");
+										std::list<TermNode*>  * my_structree=static_cast<PlantStructureOntologyHandler*>((*doc_resources->get_structHandler())["PO_Structure"]->get_handler())->get_listNodes();
+
+										for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
+											if (static_cast<TermNode*>((*it))->get_term()->get_termId()==newterm->get_termId()){
+												BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
+												//std::cerr << "displaying tag annotation" << std::endl;
+												//test->display_all_tags();
+												//std::cerr << "end displaying tag annotation" << std::endl;
+												for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
+													newterm->add_tagged_annotation((*it2).first);
+
+													//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
+												}
+												//delete test;
+
+											}
+										}
+										*/
+										p->addMaterialTerm(newterm);
 										if(!(ob->contain_partition(p))){
 											ob->add_partition(p);
 										}
@@ -529,7 +601,30 @@ void ObservationWizard::accept(){
 							p->set_id(this->current_storynode->get_story()->story_partition_counter);
 							//static_cast<XemlDocument*>(this->xeml_doc)->partition_counter+=1;
 							//p->set_id(static_cast<XemlDocument*>(this->xeml_doc)->partition_counter);
-							p->addMaterialTerm(struct_list.at(i));
+							BasicTerm * newterm=new BasicTerm((*static_cast<BasicTerm*>(struct_list.at(i))));
+							/*
+							BasicTerm * newterm=new BasicTerm(static_cast<BasicTerm*>(struct_list.at(i))->get_termId());
+							newterm->set_name(static_cast<BasicTerm*>(struct_list.at(i))->get_name());
+							newterm->set_namespacealias("PO_Structure");
+							std::list<TermNode*>  * my_structree=static_cast<PlantStructureOntologyHandler*>((*doc_resources->get_structHandler())["PO_Structure"]->get_handler())->get_listNodes();
+
+							for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
+								if (static_cast<TermNode*>((*it))->get_term()->get_termId()==newterm->get_termId()){
+									BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
+									//std::cerr << "displaying tag annotation" << std::endl;
+									//test->display_all_tags();
+									//std::cerr << "end displaying tag annotation" << std::endl;
+									for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
+										newterm->add_tagged_annotation((*it2).first);
+
+										//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
+									}
+									//delete test;
+
+								}
+							}
+							*/
+							p->addMaterialTerm(newterm);
 							if(!(ob->contain_partition(p))){
 								ob->add_partition(p);
 							}

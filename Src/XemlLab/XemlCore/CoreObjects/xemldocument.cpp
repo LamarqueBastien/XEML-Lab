@@ -897,11 +897,13 @@ namespace Xeml {
 				for(std::vector<pair<Observation*,QDateTime> >::iterator it2 = (*it).first->get_observationscollection()->begin();it2!=(*it).first->get_observationscollection()->end();++it2){
 					(*it2).first->get_pool()->get_individualscollection()->clear();
 					for(std::map<Partition*,int>::iterator it3=(*it2).first->get_partitionCollection()->begin();it3!=(*it2).first->get_partitionCollection()->end();++it3){
-						(*it3).first->get_materialCollection()->clear();
 						for(std::map<BasicTerm*,QString>::iterator it4 = (*it3).first->get_positionCollection()->begin();it4!=(*it3).first->get_positionCollection()->end();++it4){
 							static_cast<VariableTerm*>((*it4).first)->get_valuecollection()->clear();
 						}
+						//(*it3).first->get_materialCollection()->clear();
+
 					}
+					std::cerr << "prepare to clean partition collection" << std::endl;
 					(*it2).first->get_partitionCollection()->clear();
 					(*it2).first->get_stageCollection()->clear();
 				}

@@ -79,7 +79,7 @@ namespace Xeml {
 		}
 		bool									Observation::contain_partition(Partition * _p){
 			for(std::map<Partition*,int>::iterator it = this->partitions->begin();it!=this->partitions->end();++it){
-				if((*it).second==_p->get_id()){
+				if(static_cast<Partition*>((*it).first)->get_id()==_p->get_id()){
 					return true;
 				}
 			}

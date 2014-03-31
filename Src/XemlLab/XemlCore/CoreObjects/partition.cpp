@@ -21,8 +21,10 @@ namespace Xeml{
 		}
 		Partition::~Partition(){
 			std::cerr << "delete partition" << std::endl;
+			std::cerr <<"material collection size :" << this->materialCollection->size() << std::endl;
 			for (std::map<BasicTerm*,QString>::iterator it=this->materialCollection->begin();it!=this->materialCollection->end();++it){
-				delete static_cast<VariableTerm*>((*it).first);
+				std::cerr << "variable term id : " << static_cast<VariableTerm*>((*it).first)->get_name().toStdString() << std::endl;
+				delete (*it).first;
 			}
 			std::cerr << "delete material collection" << std::endl;
 			this->materialCollection->clear();
