@@ -11,17 +11,8 @@ StoryView::StoryView(QWidget *parent) :
 	this->posY_item=0;
 
 	this->zoomFactor=1;
-	/*
-	this->zoomFactorSelector=new QComboBox;
-	this->zoomFactorSelector->addItem("day slot");
-	this->zoomFactorSelector->addItem("12 hours slot");
-	this->zoomFactorSelector->addItem("8 hours slot");
-	this->zoomFactorSelector->addItem("6 hours slot");
-	this->zoomFactorSelector->addItem("4 hours slot");
-	this->zoomFactorSelector->addItem("3 hours slot");
-	this->zoomFactorSelector->addItem("2 hours slot");
-	this->zoomFactorSelector->addItem(" hour slot");
-	*/
+
+
 
 	this->GraphicScene=new GraphicStoryScene(posY_item);
 
@@ -55,6 +46,18 @@ StoryView::StoryView(QWidget *parent) :
 	StoryStartTimeLabel=new QLabel("Start time :");
 	StoryStartTimeLabel->setBuddy(StoryStartTime);
 
+	this->zoomFactorSelector=new QComboBox;
+	ZoomFactorLabel=new QLabel("Time Step :");
+	ZoomFactorLabel->setBuddy(zoomFactorSelector);
+	this->zoomFactorSelector->addItem("day slot");
+	this->zoomFactorSelector->addItem("12 hours slot");
+	this->zoomFactorSelector->addItem("8 hours slot");
+	this->zoomFactorSelector->addItem("6 hours slot");
+	this->zoomFactorSelector->addItem("4 hours slot");
+	this->zoomFactorSelector->addItem("3 hours slot");
+	this->zoomFactorSelector->addItem("2 hours slot");
+	this->zoomFactorSelector->addItem(" hour slot");
+	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this,SLOT(set_up_zoom_factor(QString)));
 /*
 	QString stylesheet("background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"
 			"border-style: outset;"
@@ -264,6 +267,8 @@ StoryView::StoryView(QWidget *parent) :
 
 
 	infoLayout->addWidget(info_view);
+	infoLayout->addWidget(ZoomFactorLabel);
+	infoLayout->addWidget(zoomFactorSelector);
 	/*
 	//first button line
 	buttonlayout1->addWidget(editExperiment);

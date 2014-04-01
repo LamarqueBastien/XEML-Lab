@@ -65,8 +65,8 @@ class MainWindow : public QMainWindow
 		IsaExporter                              * data_exporter;
 		QTimer                                   * timer;
 		QBasicTimer                                m_timer;
-		QComboBox                                * zoomFactorSelector;
-		QLabel                                   * ZoomFactorLabel;
+		//QComboBox                                * zoomFactorSelector;
+		//QLabel                                   * ZoomFactorLabel;
 		QTime                                      m_firstChange;
 		void                                       createActions();
 		void                                       createMenus();

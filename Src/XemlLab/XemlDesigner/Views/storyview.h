@@ -71,6 +71,8 @@ class StoryView : public QWidget
 		QPushButton        * removeObsPoint;
 		QPushButton        * removeSample;
 		QPushButton        * removeStorySplit;
+		QComboBox          * zoomFactorSelector;
+		QLabel             * ZoomFactorLabel;
 		QStandardItemModel * my_treestory;
 		StorySplitDialog   * splitstorydialog;
 		StoryDialog        * storydialog;
@@ -87,13 +89,13 @@ class StoryView : public QWidget
 		qreal                width;
 		QSlider            * zoomSlider;
 		int                  zoomFactor;
-		QComboBox          * zoomFactorSelector;
+		//QComboBox          * zoomFactorSelector;
 		bool                 Is_timeline_visible;
 		QLineEdit          * StoryLabelEdit;
 		QLabel             * StoryLabel;
 		QDateTimeEdit      * StoryStartTime;
 		QLabel             * StoryStartTimeLabel;
-		QLabel             * ZoomFactorLabel;
+		//QLabel             * ZoomFactorLabel;
 		StoryBase          * my_selected_story;
 
 

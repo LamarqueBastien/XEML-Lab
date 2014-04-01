@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	this->setMinimumWidth(1200);
 	//this->setStyleSheet("QWidget { background-color: rgb(1,121,111); }");
 
-
+/*
 	this->zoomFactorSelector=new QComboBox;
 	ZoomFactorLabel=new QLabel("Time Step :");
 	ZoomFactorLabel->setBuddy(zoomFactorSelector);
@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	this->zoomFactorSelector->addItem("2 hours slot");
 	this->zoomFactorSelector->addItem(" hour slot");
 
+	*/
 	QMdiArea *zoneCentrale = new QMdiArea;
 	//zoneCentrale->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	//zoneCentrale->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -73,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->genotypeView,SIGNAL(on_new_genotype(IndividualsPool*)),this->storyView,SLOT(add_genotype(IndividualsPool*)));
 	connect(this->storyView,SIGNAL(refresh_genotype_view(ItfDocument *)),this->genotypeView,SLOT(refresh_view(ItfDocument *)));
 	connect(this->storyView,SIGNAL(refresh_story_view(StoryView*)),this,SLOT(refresh_story_tree(StoryView*)));
-	connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this->storyView,SLOT(set_up_zoom_factor(QString)));
+	//connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this->storyView,SLOT(set_up_zoom_factor(QString)));
 
 	timer = new QTimer(this);
 	QDir dir(QCoreApplication::applicationFilePath());
@@ -697,9 +698,9 @@ void    MainWindow::createToolBars() {
 	fileToolBar->addAction(loadCSVAction);
 	fileToolBar->addAction(HtmlReportAction);
 	fileToolBar->addSeparator();
-	fileToolBar->addWidget(ZoomFactorLabel);
+	//fileToolBar->addWidget(ZoomFactorLabel);
 
-	fileToolBar->addWidget(zoomFactorSelector);
+	//fileToolBar->addWidget(zoomFactorSelector);
 
 
 	//editToolBar = addToolBar(tr("&Edit"));
