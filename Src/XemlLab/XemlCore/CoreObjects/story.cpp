@@ -48,7 +48,7 @@ namespace Xeml {
 		}
 		IndividualsPool * Story::find(QString _fullname){
 			for( this->iter = this->individualspoolcollection->begin(); this->iter != this->individualspoolcollection->end(); this->iter++ ) {
-				if(this->iter->second==_fullname){
+				if(static_cast<IndividualsPool*>(this->iter->first)->getFqName()==_fullname){
 					return this->iter->first;
 				}
 			}

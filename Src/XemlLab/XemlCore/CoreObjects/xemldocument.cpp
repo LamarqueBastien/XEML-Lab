@@ -1228,6 +1228,7 @@ namespace Xeml {
 				}
 			}
 			else if(_elem.tagName()=="xeml:StorySplit"){
+				//std::cerr << "new flag StorySplit" << std::endl;
 				StorySplit * s = new StorySplit();
 				InitAnnotations(_elem,s);
 				s->set_label(_elem.attributeNode("Label").value());//+" ("+storyname+")");
@@ -1244,6 +1245,8 @@ namespace Xeml {
 			QDomNodeList QNL=_elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Variable"){
+					//std::cerr << "new flag Variable" << std::endl;
+
 					InitVariable(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:ObservationPoint"){
@@ -1297,15 +1300,14 @@ namespace Xeml {
 			static_cast<Story*>(_xo)->add_individualspool(ip);
 		}
 		void                  XemlDocument::InitVariable(QDomElement _elem,bool _isStorysplit,StoryBase * _storyBase){
-			std::cerr << "entering  variable " << std::endl;
 			QString termId =_elem.attributeNode("TermId").value();
-			std::cerr << "term ID " << termId.toStdString() << std::endl;
+			//std::cerr << "term ID " << termId.toStdString() << std::endl;
 
 			DynamicTerm * p = new DynamicTerm(termId);
 			InitAnnotations(_elem,p);
 			p->set_name(_elem.attributeNode("Name").value());
 			p->set_namespacealias(_elem.attributeNode("NS").value());
-			std::cerr << "namespaceALias : " << p->get_namespacealias().toStdString() << std::endl;
+			//std::cerr << "namespaceALias : " << p->get_namespacealias().toStdString() << std::endl;
 
 			if(p->get_namespacealias()=="none" ){//&& this->documentResources->contains(p->get_namespacealias(),Xeml::Document::Contracts::Environment)==false
 				std::cerr << "namespace resource not found" << std::endl;
@@ -1439,18 +1441,20 @@ namespace Xeml {
 					QString nsStr = QNL.item(i).toElement().attributeNode("poolNS").value();
 					QString germplasmStr =QNL.item(i).toElement().attributeNode("poolGermPlasm").value();
 					QString fqName;
-					if (((!nsStr.isEmpty()) && (!nsStr.isNull()))&& !(nsStr=="none")){
-						fqName = nsStr+":"+germplasmStr;
-					}
-					else{
+					if (((nsStr.isEmpty()) || (nsStr.isNull())) || (nsStr=="none")){
 						fqName =germplasmStr;
 					}
+					else{
+
+						fqName = nsStr+":"+germplasmStr;
+					}
 					StoryNode * node=this->storyBoard->findNode(_storyBase);// = _storyBase.
+					//Search the story root
 					while(node->get_isStorySplit()){
 						node=node->get_parent();
 					}
 					Individual * ind;
-					IndividualsPool * ip = static_cast<Story*>(_storyBase)->find(fqName);
+					IndividualsPool * ip = static_cast<Story*>(node->get_story())->find(fqName);
 					if(ip!=NULL){
 						ob->set_pool(ip);
 						ind=ip->find(indId);

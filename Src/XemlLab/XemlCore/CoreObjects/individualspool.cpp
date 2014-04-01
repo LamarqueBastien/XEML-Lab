@@ -99,7 +99,7 @@ namespace Xeml{
 		}
 
 		QString									IndividualsPool::buildFqName(QString _namespace,QString _name){
-			if((!(_namespace.isEmpty())&& !(_namespace.isNull())) || _namespace.toLower() == "none"){
+			if(((_namespace.isEmpty()) || (_namespace.isNull())) || _namespace.toLower() == "none"){
 				return _name;
 			}
 			else{

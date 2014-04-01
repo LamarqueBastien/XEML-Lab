@@ -173,7 +173,10 @@ void ObservationDetails::add_ind(){
 		QList<QStandardItem*> test;
 		for (int i=0;i < this->pools->size();i++){
 
-			Individual * ind = new Individual(1+ rand() % 1000000000);
+			//srand(time(NULL)+1);
+			QTime time = QTime::currentTime();
+			qsrand((uint)time.msec());
+			Individual * ind = new Individual(qrand()%1000000000 +1);
 
 			static_cast<IndividualsPool*>(this->pools->at(i))->add_Individual(ind);
 			//individuals_id.push_back(QString::number(1+ rand() % 1000000000));
@@ -286,7 +289,7 @@ void ObservationDetails::add_ind(int _id,bool _isDestroyed,int _count, int _row,
 			}
 			this->model->findItems("Observations",Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(ind);
 			this->tree->expandAll();
-			individuals++;
+			//individuals++;
 
 		}
 		else{

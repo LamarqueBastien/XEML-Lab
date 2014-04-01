@@ -82,6 +82,7 @@ class StoryView : public QWidget
 		int                  obsPointCount;
 		bool                 GraphicMode;
 
+		int zoomSize;
 		int                  posY_item;
 		qreal                width;
 		QSlider            * zoomSlider;
@@ -134,7 +135,8 @@ class StoryView : public QWidget
 	//protected:
 		//void mouseMoveEvent(QMouseEvent *_event);
 		//void mouseDoubleClickEvent(QMouseEvent * _event);
-
+	protected:
+		void                 wheelEvent(QWheelEvent * event);
 	private slots:
 
 

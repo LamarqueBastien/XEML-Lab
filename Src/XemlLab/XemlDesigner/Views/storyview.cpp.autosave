@@ -571,7 +571,7 @@ void  StoryView::wheelEvent(QWheelEvent * event){
 	if (event->modifiers() == Qt::AltModifier ){
 
 		if(event->orientation()==Qt::Vertical){
-			 this->graphicStory->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+			this->graphicStory->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 			if(event->angleDelta().y()> 0){
 				zoomSize++;
 				std::cerr << "zoom size :" << zoomSize << std::endl;
