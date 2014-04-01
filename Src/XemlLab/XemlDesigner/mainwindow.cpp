@@ -450,6 +450,7 @@ void    MainWindow::createActions(){
 	ISAExportAction->setShortcut(tr("Ctrl+E"));
 	ISAExportAction->setStatusTip(tr("generate ISA files"));
 	connect(ISAExportAction, SIGNAL(triggered()), this, SLOT(generate_isa_files()));
+	ISAExportAction->setEnabled(false);
 
 	/*
 	viewModeAction=new QAction(QIcon(":/Images/new.png"),tr("&View Mode"), this);
@@ -509,11 +510,14 @@ void    MainWindow::createActions(){
 	databaseAction->setShortcut(tr("Ctrl+Alt+C"));
 	databaseAction->setStatusTip(tr("database connection"));
 	connect(databaseAction, SIGNAL(triggered()), this, SLOT(database_connect()));
+	databaseAction->setEnabled(false);
 
 	autoMappingAction = new QAction(tr("&AutoMappings"), this);
 	autoMappingAction->setShortcut(tr("Ctrl+Alt+A"));
 	autoMappingAction->setStatusTip(tr("automaps sample"));
 	connect(autoMappingAction, SIGNAL(triggered()), this, SLOT(auto_mapping()));
+	autoMappingAction->setEnabled(false);
+
 
 	UuidAction = new QAction(tr("&Create a new Id"), this);
 	UuidAction->setShortcut(tr("Ctrl+Alt+A"));
@@ -653,6 +657,7 @@ void    MainWindow::createMenus() {
 	fileMenu->addAction(saveAsAction);
 	fileMenu->addAction(loadCSVAction);
 	fileMenu->addAction(ISAExportAction);
+	ISAExportAction->setEnabled(false);
 
 	separatorAction = fileMenu->addSeparator();
 	for (int i = 0; i < MaxRecentFiles; ++i){
