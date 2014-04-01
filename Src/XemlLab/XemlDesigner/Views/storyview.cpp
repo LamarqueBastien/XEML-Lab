@@ -316,6 +316,9 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this,SIGNAL(add_graphic_story_split(QString,StoryBase*)),this->graphicStory,SLOT(add_split_story(QString,StoryBase*)));
 	connect(this,SIGNAL(add_observationPoint(ObservationPoint*)),this->graphicStory,SLOT(add_obsPoint(ObservationPoint *)));
 
+	connect(this->graphicStory,SIGNAL(emit_zoom_in(int)),this,SLOT(zoomIn(int)));
+	connect(this->graphicStory,SIGNAL(emit_zoom_out(int)),this,SLOT(zoomOut(int)));
+
 	//connect the graphic scene menu to this story view
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
@@ -571,42 +574,16 @@ void StoryView::setupMatrix()
 	this->graphicStory->setMatrix(matrix);
 	//setResetButtonEnabled();
 }
-void  StoryView::wheelEvent(QWheelEvent * event){
-	QMatrix matrix;
-	if (event->modifiers() == Qt::AltModifier ){
-
-		if(event->orientation()==Qt::Vertical){
-			this->graphicStory->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-			if(event->angleDelta().y()> 0){
-				zoomSize++;
-				std::cerr << "zoom size :" << zoomSize << std::endl;
-				std::cerr << "event delta :" << event->delta() << std::endl;
-				qreal scale = qPow(qreal(2), (zoomSize - 250) / qreal(50));
-
-				//QMatrix matrix;
-				matrix.scale(scale, scale);
-				//matrix.rotate(rotateSlider->value());
-
-				this->graphicStory->setMatrix(matrix);
-			}
-			else{
-				zoomSize--;
-				std::cerr << "zoom negative size :" << zoomSize << std::endl;
-				std::cerr << "event delta :" << event->delta() << std::endl;
-				qreal scale = qPow(qreal(2), (zoomSize - 250) / qreal(50));
-
-				//QMatrix matrix;
-				matrix.scale(scale, scale);
-				//matrix.rotate(rotateSlider->value());
-				this->graphicStory->setMatrix(matrix);
-
-
-			}
-		}
-	}
-	else{
-		//QWheelEvent::ignore()
-
+/*
+void  StoryView::wheelEvent(QWheelEvent * e){
+	if (e->modifiers() & Qt::ControlModifier) {
+		if (e->delta() > 0)
+			this->zoomIn(6);
+		else
+			this->zoomOut(6);
+		e->accept();
+	} else {
+		//QGraphicsView::wheelEvent(e);
 	}
 
 
@@ -619,6 +596,7 @@ void  StoryView::wheelEvent(QWheelEvent * event){
 	//this->graphicStory->setMatrix(matrix);
 	//setResetButtonEnabled();
 }
+*/
 
 
 

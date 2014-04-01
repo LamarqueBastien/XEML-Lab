@@ -4,7 +4,7 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 	:QGraphicsView(parent)
 {
 	this->setMouseTracking(true);
-
+	this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	this->setAcceptDrops(true);
 	this->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 	this->current_scene=_currentScene;
@@ -20,6 +20,31 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 	this->init=true;
 
 }
+void  GraphicStoryView::wheelEvent(QWheelEvent * e){
+	if (e->modifiers() & Qt::ControlModifier) {
+		if (e->delta() > 0)
+			emit emit_zoom_in(6);
+			//this->zoomIn(6);
+		else
+			emit emit_zoom_out(6);
+
+			//this->zoomOut(6);
+		e->accept();
+	} else {
+		QGraphicsView::wheelEvent(e);
+	}
+
+
+	//qreal scale = qPow(qreal(2), (event->delta() - 250) / qreal(50));
+
+	//QMatrix matrix;
+	//matrix.scale(scale, scale);
+	//matrix.rotate(rotateSlider->value());
+
+	//this->graphicStory->setMatrix(matrix);
+	//setResetButtonEnabled();
+}
+
 /*
 void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 	//QPixmap pix("://Images/GreenMetal.png");
@@ -81,6 +106,7 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 void GraphicStoryView::add_split_story(QString _label,StoryBase *_story){
 	std::cerr << "entering add story in View" << std::endl;
 	emit story_split_added(_label,_story);
+
 
 }
 

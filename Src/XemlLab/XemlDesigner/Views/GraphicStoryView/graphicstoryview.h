@@ -15,6 +15,7 @@ class GraphicStoryView : public QGraphicsView
 	public:
 		GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsView * parent=0);
 	protected:
+		void wheelEvent(QWheelEvent *event);
 		//void drawBackground(QPainter *p, const QRectF &rect);
 
 
@@ -34,6 +35,8 @@ class GraphicStoryView : public QGraphicsView
 		void story_root_added(QString _label,StoryBase *_story);
 		void event_added(Event* e);
 		void obsPoint_added(ObservationPoint * _op);
+		void emit_zoom_in(int _zoomFactor);
+		void emit_zoom_out(int _zoomFactor);
 	private slots:
 		void add_split_story(QString _label,StoryBase *_story);
 		void add_root_story(QString _label,StoryBase *_story);

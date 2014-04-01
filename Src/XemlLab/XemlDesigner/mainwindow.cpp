@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	my_dir.mkdir("Files");
 	my_dir.mkdir("ISA_exported_files");
 	my_dir.cd("Files");
-	curFile=my_dir.path()+"/last.xeml";
+	curFile=my_dir.path()+"/"+this->fmg->get_current_xeml()->get_experiment_name()+".xeml";
 	this->fmg->get_current_xeml()->Save(curFile);
 
 
@@ -1042,7 +1042,7 @@ void    MainWindow::closeEvent(QCloseEvent *event){
 		std::cerr << "event ignore" << std::endl;
 		event->ignore();
 		QTimer::singleShot(0,this,SLOT(hide()));
-		QTimer::singleShot(5,this,SLOT(show()));
+		QTimer::singleShot(2,this,SLOT(show()));
 
 //#if defined(Q_OS_MACX)
 //		this->show();
