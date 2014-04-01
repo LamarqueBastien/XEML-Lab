@@ -30,6 +30,8 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicStoryItem * get_item_by_label(QString _label);
 		void set_max_item_width(qreal _max_width);
 		GraphicStoryItem     * get_selected_story();
+		void set_selected_story(GraphicStoryItem * _selected_story);
+
 		GraphicEventItem     * get_selected_event();
 		GraphicObservationPointItem * get_selected_obsPoint();
 		void set_right_for_childs(QGraphicsItem * _story_moving,qreal _movement);

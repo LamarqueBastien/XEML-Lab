@@ -9,5 +9,3 @@ SUBDIRS+= \
 CONFIG+= gui debug
 CONFIG+=static
 
-RESOURCES+= \
-	Divers.qrc

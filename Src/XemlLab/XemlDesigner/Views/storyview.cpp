@@ -406,6 +406,7 @@ void StoryView::refresh(){
 
 	this->GraphicScene->update();
 	//this->graphicStory->update();
+
 	this->graphicStory->setScene(this->GraphicScene);
 	//emit refresh_story_view(this);
 	//this->graphicStory->repaint();
@@ -1111,6 +1112,8 @@ void StoryView::addStory(QString _text){
 		tmp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		this->my_treestory->findItems(this->experimentName,Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(tmp);
 	}
+	//this->info_view->set_object_info();
+
 
 
 	//this->graphicStory->add_root_story(_text,s);
@@ -1226,8 +1229,10 @@ void StoryView::addStorySplit(QString _element_selected,QString _text,QDateTime 
 
 }
 void StoryView::removeStory(){
+	std::cerr << "entering remove story" << std::endl;
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
+
 			std::cerr << "name : "<< this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
 			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
 
@@ -1243,6 +1248,8 @@ void StoryView::removeStory(){
 			}
 			*/
 			std::cerr << "before refresh storyview " << std::endl;
+			this->GraphicScene->set_selected_story(NULL);
+			this->info_view->set_object_info(NULL);
 
 			emit refresh_story_view(this);
 		}

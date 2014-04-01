@@ -123,6 +123,11 @@ void  XemlObjectInfoView::on_annotation_added(QString _annot,QString _tag){
 		}
 	}
 }
+/*
+void  XemlObjectInfoView::reset_all(){
+	this
+}
+*/
 
 void  XemlObjectInfoView::set_doc( ItfDocument * _xemldoc){
 

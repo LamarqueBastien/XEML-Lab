@@ -73,18 +73,18 @@ void GraphicStoryScene::changedSelection(){
 	std::cerr << "selection changed" << std::endl;
 }
 */
-void GraphicStoryScene::set_doc(ItfDocument  * _currentDoc){
+void                              GraphicStoryScene::set_doc(ItfDocument  * _currentDoc){
 	this->currentDoc=_currentDoc;
 }
 
-void GraphicStoryScene::set_max_item_width(qreal _max_width){
+void                              GraphicStoryScene::set_max_item_width(qreal _max_width){
 	this->max_width=_max_width;
 }
-qreal GraphicStoryScene::get_max_width(){
+qreal                             GraphicStoryScene::get_max_width(){
 	return this->max_width;
 }
 
-GraphicStoryItem * GraphicStoryScene::get_item_by_label(QString _label){
+GraphicStoryItem *                GraphicStoryScene::get_item_by_label(QString _label){
 	std::cerr << "entering get_item_by_label" << std::endl;
 
 	std::cerr << "label of parent : " << _label.toStdString() << std::endl;
@@ -103,7 +103,7 @@ GraphicStoryItem * GraphicStoryScene::get_item_by_label(QString _label){
 	}
 	return NULL;
 }
-void GraphicStoryScene::createActions(){
+void                              GraphicStoryScene::createActions(){
 	show_details = new QAction(QIcon(":/Images/new.png"),tr("&Story_details"), this);
 	show_details->setShortcut(tr("Ctrl+S"));
 	show_details->setStatusTip(tr("Show details about story"));
@@ -130,33 +130,33 @@ void GraphicStoryScene::createActions(){
 	connect(addSamples,SIGNAL(triggered()),this,SLOT(add_sample()));
 }
 
-void  GraphicStoryScene::edit_event(){
+void                              GraphicStoryScene::edit_event(){
 	emit event2edit();
 }
-void GraphicStoryScene::add_sample(){
+void                              GraphicStoryScene::add_sample(){
 	emit sample_to_add();
 }
 
-void GraphicStoryScene::createMenus(){
+void                              GraphicStoryScene::createMenus(){
 	contextMenu =new QMenu("Details");
 	contextMenu->addAction(show_details);
 	contextMenu->addAction(display_plot);
 }
-void GraphicStoryScene::details_story(){
+void                              GraphicStoryScene::details_story(){
 	emit show_details_story(this->my_selected_story);
 }
-void GraphicStoryScene::remove_obsPoint(){
+void                              GraphicStoryScene::remove_obsPoint(){
 	emit obsPoint2removed();
 }
-void GraphicStoryScene::remove_event(){
+void                              GraphicStoryScene::remove_event(){
 	emit event2removed();
 
 }
 
-void GraphicStoryScene::display_plot_parameters(){
+void                              GraphicStoryScene::display_plot_parameters(){
 	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
-void GraphicStoryScene::dropEvent(QGraphicsSceneDragDropEvent * event){
+void                              GraphicStoryScene::dropEvent(QGraphicsSceneDragDropEvent * event){
 		std::cerr << "event_drop" << std::endl;
 
 		if (my_selected_story!=NULL){
@@ -187,15 +187,15 @@ void GraphicStoryScene::dropEvent(QGraphicsSceneDragDropEvent * event){
 
 		}
 }
-void GraphicStoryScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
+void                              GraphicStoryScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
 	std::cerr << "drag_enter_event" << std::endl;
 }
 
-void GraphicStoryScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
+void                              GraphicStoryScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
 	std::cerr << "drag_move_event" << std::endl;
 }
 
-void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
+void                              GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 
 
 
@@ -253,7 +253,7 @@ void GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEve
 
 }
 
-void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void                              GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 
 	//std::cerr << "entering mouse press event" << std::endl;
@@ -340,7 +340,7 @@ void GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 
 }
-void GraphicStoryScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void                              GraphicStoryScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
 	// event->scenePos() is available
 	//QMenu menu(this);
@@ -352,16 +352,20 @@ void GraphicStoryScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 	//contextMenu->addAction(show_details);
 	//contextMenu->exec(event->screenPos());
 }
-GraphicStoryItem     * GraphicStoryScene::get_selected_story(){
+void                              GraphicStoryScene::set_selected_story(GraphicStoryItem * _selected_story){
+	this->my_selected_story=_selected_story;
+}
+
+GraphicStoryItem     *            GraphicStoryScene::get_selected_story(){
 	return this->my_selected_story;
 }
-GraphicEventItem     * GraphicStoryScene::get_selected_event(){
+GraphicEventItem                * GraphicStoryScene::get_selected_event(){
 	return this->my_selected_event;
 }
 GraphicObservationPointItem     * GraphicStoryScene::get_selected_obsPoint(){
 	return this->my_selected_obsPoint;
 }
-void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movement){
+void                              GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movement){
 
 	//std::cerr << "entering set right for child" << std::endl;
 
@@ -607,14 +611,14 @@ void GraphicStoryScene::set_right_for_childs(QGraphicsItem * item,qreal _movemen
 
 }
 
-void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
+void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
 	//std::cerr << "entering mousemove event in scene" << std::endl;
 
-	QGraphicsItem        * selected_item;
-	GraphicStoryItem        * selected_parent_item;
-	GraphicStoryItem     * selected_story;
-	GraphicEventItem     * selected_event;
+	QGraphicsItem                   * selected_item;
+	GraphicStoryItem                * selected_parent_item;
+	GraphicStoryItem                * selected_story;
+	GraphicEventItem                * selected_event;
 	GraphicObservationPointItem     * selected_obsPoint;
 
 	if ((e->buttons() & Qt::LeftButton)) {
@@ -806,7 +810,7 @@ void GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 
 
 }
-void GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
+void                              GraphicStoryScene::initialize_x_Axis(qreal width, int _zoomFactor){
 	QGraphicsLineItem * tmp_timeline=new QGraphicsLineItem(0,-10,width,-10);
 	tmp_timeline->setFlag(QGraphicsItem::ItemIsSelectable,false);
 	tmp_timeline->setFlag(QGraphicsItem::ItemIsMovable,false);
@@ -896,7 +900,7 @@ void GraphicStoryScene::add_story(QString _label,StoryBase * _story){
 
 }
 */
-void GraphicStoryScene::add_split_story(QString _label,StoryBase * _story){
+void                              GraphicStoryScene::add_split_story(QString _label,StoryBase * _story){
 	std::cerr << "story added" << std::endl;
 	//QGraphicsItem * selected_item;
 	//GraphicStoryItem     * selected_story;
@@ -906,10 +910,11 @@ void GraphicStoryScene::add_split_story(QString _label,StoryBase * _story){
 	if(my_selected_story!=NULL){
 		bool isSplit=my_selected_story->get_isStorySplit();
 		//if(!isSplit){
-		new GraphicStoryItem(my_selected_story->get_rect().width(),this->currentDoc,my_selected_story->get_rect().width(),_story,_label,true,0,positionY,my_selected_story);
+		GraphicStoryItem * splititem=new GraphicStoryItem(my_selected_story->get_rect().width(),this->currentDoc,my_selected_story->get_rect().width(),_story,_label,true,0,positionY,my_selected_story);
 		positionY+=61;
 		setSceneRect(QRectF(-150, -150, this->sceneRect().width(), this->sceneRect().height()+60));
-
+		emit set_details_in_view(splititem);
+		this->my_selected_story=splititem;
 
 		//}
 	}
@@ -936,16 +941,20 @@ void GraphicStoryScene::add_split_story(QString _label,StoryBase * _story){
 	//update();
 
 }
-void GraphicStoryScene::add_root_story(QString _label,StoryBase* _story){
+void                              GraphicStoryScene::add_root_story(QString _label,StoryBase* _story){
 
 	std::cerr << "entering add root story in scene" << std::endl;
 	GraphicStoryItem * new_item=new GraphicStoryItem(0,this->currentDoc,this->max_width,_story,_label,false,0,positionY, NULL);
 	this->addItem(new_item);
 	positionY+=61;
 	setSceneRect(QRectF(-150, -150, this->sceneRect().width(), this->sceneRect().height()+60));
+	this->my_selected_story=new_item;
+	this->my_selected_event=NULL;
+	this->my_selected_obsPoint=NULL;
+	emit set_details_in_view(new_item);
 
 }
-void GraphicStoryScene::add_event(Event *e){
+void                              GraphicStoryScene::add_event(Event *e){
 	//std::cerr << "adding event" << std::endl;
 	qreal y=my_selected_story->get_posy();
 	//std::cerr << "position Y : " << y <<  std::endl;
@@ -968,9 +977,12 @@ void GraphicStoryScene::add_event(Event *e){
 	}
 
 	this->my_selected_event=tmp_event;
+	this->my_selected_story=NULL;
+	this->my_selected_obsPoint=NULL;
+	emit set_details_in_view(tmp_event);
 	//tmp_item->setZValue(100000);
 }
-void GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
+void                              GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
 
 
 	qreal y=my_selected_story->get_posy();
