@@ -442,12 +442,12 @@ void    MainWindow::createActions(){
 	connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
 	HtmlReportAction=new QAction(QIcon(":/Images/html2.jpg"),tr("&HtmlReport"), this);
-	HtmlReportAction->setShortcut(tr("Ctrl+H"));
+	HtmlReportAction->setShortcut(tr("Ctrl+R"));
 	HtmlReportAction->setStatusTip(tr("generate Html Report"));
 	connect(HtmlReportAction, SIGNAL(triggered()), this, SLOT(generate_html_report()));
 
-	ISAExportAction=new QAction(QIcon(":/Images/html2.jpg"),tr("&Export to ISA files"), this);
-	ISAExportAction->setShortcut(tr("Ctrl+E"));
+	ISAExportAction=new QAction(tr("&Export to ISA files"), this);
+	ISAExportAction->setShortcut(tr("Ctrl+Alt+I"));
 	ISAExportAction->setStatusTip(tr("generate ISA files"));
 	connect(ISAExportAction, SIGNAL(triggered()), this, SLOT(generate_isa_files()));
 	ISAExportAction->setEnabled(false);
@@ -475,7 +475,7 @@ void    MainWindow::createActions(){
 
 
 	addParameterAction = new QAction(tr("&AddParameter"), this);
-	addParameterAction->setShortcut(tr("Ctrl+A"));
+	addParameterAction->setShortcut(tr("Ctrl+Alt+P"));
 	addParameterAction->setStatusTip(tr("Add parameter to a story"));
 	connect(addParameterAction, SIGNAL(triggered()), this->ontologyView, SLOT(add_parameter()));
 
@@ -520,7 +520,7 @@ void    MainWindow::createActions(){
 
 
 	UuidAction = new QAction(tr("&Create a new Id"), this);
-	UuidAction->setShortcut(tr("Ctrl+Alt+A"));
+	UuidAction->setShortcut(tr("Ctrl+I"));
 	UuidAction->setStatusTip(tr("create his own unique identifier"));
 	connect(UuidAction, SIGNAL(triggered()), this, SLOT(uuid_dialog()));
 
@@ -531,7 +531,7 @@ void    MainWindow::createActions(){
 
 
 	tableAction = new QAction(tr("&Experiment Table"), this);
-	tableAction->setShortcut(tr("Ctrl+C"));
+	tableAction->setShortcut(tr("Ctrl+Alt+E"));
 	tableAction->setStatusTip(tr("Display Xeml table"));
 	connect(tableAction, SIGNAL(triggered()), this, SLOT(show_experiment_table()));
 /*
