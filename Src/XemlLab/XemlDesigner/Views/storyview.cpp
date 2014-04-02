@@ -715,10 +715,14 @@ void  StoryView::add_genotype(IndividualsPool * _pool){
 //Display details about the current experiment and experimenter
 void StoryView::edit_Experiment(){
 
-	this->aboutexp =new AboutExperiment(this->currentDoc);
-	connect(this->aboutexp,SIGNAL(experimenter_set_up_finished(QString,QString,QString,QString)),this,SLOT(set_up_experimenter(QString,QString,QString,QString)));
+	ExperimentDialog * expdialog = new ExperimentDialog(this->currentDoc);
+	expdialog->initialize();
+	//this->aboutexp =new AboutExperiment(this->currentDoc);
+	//connect(this->aboutexp,SIGNAL(experimenter_set_up_finished(QString,QString,QString,QString)),this,SLOT(set_up_experimenter(QString,QString,QString,QString)));
+	connect(expdialog,SIGNAL(set_up_finished()),this,SLOT(set_up_experiment()));
 
-	aboutexp->show();
+	expdialog->show();
+	//aboutexp->show();
 	/*
 	QItemSelectionModel  * selection = this->storytree->selectionModel();
 	QModelIndex indexelementselected= selection->currentIndex();
@@ -738,13 +742,13 @@ void StoryView::edit_Experiment(){
 	}
 	*/
 }
-void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext,QString _organisationtext,QString _emailtext){
+void StoryView::set_up_experiment(){
 
 
 
 	//static_cast<ExperimentItem*>(this->my_treestory->findItems(this->experimentName,Qt::MatchFixedString | Qt::MatchRecursive)[0])->set_experimenter_details(_firstnametext,_lastnametext,_organisationtext,_emailtext);
 	//a modifier pour conserver la trace des infos rentrées
-	emit experimenter_settings(_firstnametext,_lastnametext,_organisationtext,_emailtext);
+	//emit experimenter_settings(_firstnametext,_lastnametext,_organisationtext,_emailtext);
 	std::cerr << "before clear" << std::endl;
 
 	this->width=translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),currentDoc->get_enddate()));
@@ -756,7 +760,7 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 
 	this->GraphicScene->clear();
 	this->GraphicScene->positionY=0;
-	this->GraphicScene->setSceneRect(-150.0,-150.0,width*zoomFactor+300,600);
+	this->GraphicScene->setSceneRect(-150.0,-150.0,width+300,600);//width*zoomFactor+300
 	//this->graphicStory->setSceneRect(-150.0,-150.0,width*zoomFactor+300,600);
 
 	for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
@@ -770,7 +774,7 @@ void StoryView::set_up_experimenter(QString _firstnametext,QString _lastnametext
 	this->graphicStory->update();
 
 
-	this->aboutexp->close();
+	//this->aboutexp->close();
 }
 
 //displays details about the selected story
@@ -1089,10 +1093,24 @@ void StoryView::clean_tree(){
 
 //Story and StorySplit slots
 void StoryView::newStory(){
-	this->storydialog = new StoryDialog;
-	this->storydialog->setVisible(true);
-	connect(storydialog,SIGNAL(new_story(QString)),this,SLOT(addStory(QString)));
-	connect(storydialog,SIGNAL(new_story_split(QString)),this,SLOT(add_graphic_split_story(QString)));
+	if(this->GraphicScene->get_selected_story()!=NULL){
+
+		this->storydialog = new StoryDialog(false);
+		this->storydialog->setVisible(true);
+		connect(storydialog,SIGNAL(new_story(QString)),this,SLOT(addStory(QString)));
+		connect(storydialog,SIGNAL(new_story_split(QString)),this,SLOT(add_graphic_split_story(QString)));
+	}
+	else if(this->currentDoc->get_storyboard()->get_storyBoard()->empty()){
+		///
+		this->storydialog = new StoryDialog(true);
+		this->storydialog->setVisible(true);
+		connect(storydialog,SIGNAL(new_story(QString)),this,SLOT(addStory(QString)));
+		//connect(storydialog,SIGNAL(new_story_split(QString)),this,SLOT(add_graphic_split_story(QString)));
+	}
+	else{
+		QMessageBox::information(this,"no selection","no story selected");
+
+	}
 
 }
 void StoryView::addStory(QString _text){
@@ -1105,7 +1123,17 @@ void StoryView::addStory(QString _text){
 
 	}
 	if (GraphicMode){
-		emit add_graphic_story(_text,s);
+		if(this->GraphicScene->get_selected_story()!=NULL){
+
+			emit add_graphic_story(_text,s);
+		}
+		else if(this->currentDoc->get_storyboard()->get_storyBoard()->size()==1){
+			emit add_graphic_story(_text,s);
+		}
+		else{
+			QMessageBox::information(this,"no selection","there is no story selected");
+
+		}
 	}
 	else{
 		StoryItem * tmp =new StoryItem(_text,s,false,false);
@@ -1126,8 +1154,8 @@ void StoryView::newStorySplit(){
 	std::cerr << "entering add new story split" << std::endl;
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_story()!=NULL){
-			std::cerr << "stroy not NULL" << std::endl;
-			this->storydialog = new StoryDialog;
+			std::cerr << "story not NULL" << std::endl;
+			this->storydialog = new StoryDialog(false);
 			this->storydialog->setVisible(true);
 			connect(storydialog,SIGNAL(mon_signal(QString)),this,SLOT(add_graphic_split_story(QString)));
 		}

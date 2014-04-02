@@ -229,10 +229,10 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	brush.setStyle(Qt::LinearGradientPattern);
 	_painter->setBrush(brush);
 	_painter->drawRoundedRect(this->rect,5,5);
-	//QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
-	//QPen selPen=QPen(Qt::red);
-	//_painter->setBrush(selBrush);
 
+	//QBrush selBrush1=QBrush(Qt::red,Qt::SolidPattern);
+	//QPen selPen1=QPen(Qt::red);
+	//_painter->setBrush(selBrush1);
 	//_painter->drawRect(boundingRect());
 
 	//_painter->setBrush(brush);
@@ -426,7 +426,7 @@ QRectF GraphicStoryItem::boundingRect() const{
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-550,miny,maxx-minx+550,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-150,miny,maxx-minx+250,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

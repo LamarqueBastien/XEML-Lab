@@ -18,12 +18,24 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	this->enddateEdit = new QDateTimeEdit(QDate::currentDate());
 	this->experimentEndDate->setBuddy(this->enddateEdit);
 	this->enddateEdit->setCalendarPopup(true);
-	this->startdateEdit->setMinimumDate(QDate::currentDate().addDays(-15365));
-	this->startdateEdit->setMaximumDate(QDate::currentDate().addDays(15365));
+	this->startdateEdit->setMinimumDate(QDate::currentDate().addDays(-3650));
+	this->startdateEdit->setMaximumDate(QDate::currentDate().addDays(3650));
 	this->startdateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
-	this->enddateEdit->setMinimumDate(QDate::currentDate().addDays(-15365));
-	this->enddateEdit->setMaximumDate(QDate::currentDate().addDays(15365));
+	this->enddateEdit->setMinimumDate(QDate::currentDate().addDays(-3650));
+	this->enddateEdit->setMaximumDate(QDate::currentDate().addDays(3650));
 	this->enddateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
+	this->firstnamelabel = new QLabel(tr("firstName :"));
+	this->firstnamelabelEdit = new QLineEdit;
+	this->firstnamelabel->setBuddy(firstnamelabelEdit);
+	this->lastnamelabel =new QLabel(tr("LastName : "));
+	this->lastnamelabelEdit =new QLineEdit;
+	this->lastnamelabel->setBuddy(lastnamelabelEdit);
+	this->organisationlabel=new QLabel(tr("Organisation : "));
+	this->organisationlabelEdit =new QLineEdit;
+	this->organisationlabel->setBuddy(this->organisationlabelEdit);
+	this->emaillabel=new QLabel(tr("Email : "));
+	this->emaillabelEdit =new QLineEdit;
+	this->emaillabel->setBuddy(this->emaillabelEdit);
 
 
 
@@ -63,12 +75,26 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	topleftLayout3->addWidget(descriptionLabel);
 	topleftLayout3->addWidget(descriptionEdit);
 
+	QHBoxLayout * topleftLayout4 = new QHBoxLayout;
+	topleftLayout4->addWidget(this->firstnamelabel);
+	topleftLayout4->addWidget(firstnamelabelEdit);
+	topleftLayout4->addWidget(lastnamelabel);
+	topleftLayout4->addWidget(lastnamelabelEdit);
+	QHBoxLayout * topleftLayout5 = new QHBoxLayout;
+	topleftLayout5->addWidget(organisationlabel);
+	topleftLayout5->addWidget(organisationlabelEdit);
+	topleftLayout5->addWidget(emaillabel);
+	topleftLayout5->addWidget(emaillabelEdit);
+
 
 	QVBoxLayout * leftLayout = new QVBoxLayout;
 	leftLayout->addLayout(topleftLayout2);
 	leftLayout->addLayout(topleftLayout);
 
 	leftLayout->addLayout(topleftLayout3);
+	leftLayout->addLayout(topleftLayout4);
+	leftLayout->addLayout(topleftLayout5);
+
 
 	/*
 	QVBoxLayout * rightLayout = new QVBoxLayout;
@@ -115,6 +141,10 @@ void ExperimentDialog::initialize(){
 	this->startdateEdit->setDateTime(this->current_doc->get_startdate());
 	this->enddateEdit->setDateTime(this->current_doc->get_enddate());
 	this->enddateEdit->setMinimumDateTime(this->current_doc->get_startdate());
+	this->firstnamelabelEdit->setText(this->current_doc->get_experimentheader()->get_experimenter()->get_firstname());
+	this->lastnamelabelEdit->setText(this->current_doc->get_experimentheader()->get_experimenter()->get_lastname());
+	this->organisationlabelEdit->setText(this->current_doc->get_experimentheader()->get_experimenter()->get_organization());
+	this->emaillabelEdit->setText(this->current_doc->get_experimentheader()->get_experimenter()->get_email());
 	//this->startdateEdit->setMaximumDateTime(this->current_doc->get_enddate());
 }
 void ExperimentDialog::ResetClicked(){
@@ -132,9 +162,14 @@ void ExperimentDialog::OkClicked(){
 	this->current_doc->get_experimentheader()->set_summary(description);
 	//this->current_doc->set_description(description);
 	this->current_doc->set_experiment_name(experimentlabelEdit->text());
+	this->current_doc->get_experimentheader()->get_experimenter()->set_email(emaillabelEdit->text());
+	this->current_doc->get_experimentheader()->get_experimenter()->set_firstname(firstnamelabelEdit->text());
+	this->current_doc->get_experimentheader()->get_experimenter()->set_lastname(lastnamelabelEdit->text());
+	this->current_doc->get_experimentheader()->get_experimenter()->set_organization(organisationlabelEdit->text());
 	this->setEnabled(false);
 	//this->buttonBox->button(QDialogButtonBox::Reset)->setEnabled(true);
 
 
-	emit this->mon_signal(text);
+	emit this->set_up_finished();
+	this->close();
 }

@@ -15,14 +15,14 @@ AboutExperiment::AboutExperiment(ItfDocument * _xeml_doc, QWidget * parent)
 	expdialog = new ExperimentDialog(_xeml_doc);
 	expdialog->initialize();
 
-	experdialog = new ExperimenterDialog(_xeml_doc);
-	experdialog->initialize();
+	//experdialog = new ExperimenterDialog(_xeml_doc);
+	//experdialog->initialize();
 
 	this->tabWidget->addTab(expdialog,"Experiment details");
-	this->tabWidget->addTab(experdialog,"Experimenter details");
+	//this->tabWidget->addTab(experdialog,"Experimenter details");
 
 
-	connect(this->experdialog,SIGNAL(mon_signal(QString,QString,QString,QString)),this,SLOT(experimenter_set_up(QString,QString,QString,QString)));
+	//connect(this->experdialog,SIGNAL(mon_signal(QString,QString,QString,QString)),this,SLOT(experimenter_set_up(QString,QString,QString,QString)));
 	connect(this->cancelButton,SIGNAL(clicked()),this,SLOT(close()));
 
 

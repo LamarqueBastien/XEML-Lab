@@ -6,7 +6,7 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 {
 	view = new QTableView();
 	//this->view->setStyleSheet("QTableView QTableCornerButton::section {background: black;border: 2px outset black;}");
-	model = new QStandardItemModel(1,7,this); //1 Rows and 7 Columns
+	model = new QStandardItemModel(0,7,this); //1 Rows and 7 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("pool Id")));
 	model->setHorizontalHeaderItem(1, new QStandardItem(QString("Species")));
 	model->setHorizontalHeaderItem(2, new QStandardItem(QString("Accession")));
@@ -17,6 +17,7 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 	//model->horizontalHeaderItem(4)
 	this->view->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch);
 	this->view->resizeColumnToContents(4);
+
 	//this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	/*this->view->horizontalHeader()->setStyleSheet("QHeaderView::section {"
 												  "background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 #616161, stop: 0.5 #505050,stop: 0.6 #434343, stop:1 #656565);"
@@ -124,19 +125,26 @@ void GermPlasmPanel::initialize(ItfDocument * _xemlDoc){
 				QStringList tmplist=(*it).first->get_germplasm().split(".");
 
 				if (tmplist.empty()){
-
+					GenotypeItem * tmp_item=new GenotypeItem((*it).first->get_germplasm());
+					tmp_item->setEditable(false);
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));
 
 				}
 				else if(tmplist.size()==1){
+					GenotypeItem * tmp_item=new GenotypeItem((*it).first->get_germplasm());
+					tmp_item->setEditable(false);
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));
 
 				}
 				else{
 
 
+					GenotypeItem * tmp_item=new GenotypeItem((*it).first->get_germplasm());
+					tmp_item->setEditable(false);
 					model->setItem(cpt,0,new GenotypeItem((*it).first->get_germplasm()));
 					for (int i=1;i<=tmplist.size();i++){
+						GenotypeItem * tmp_item=new GenotypeItem(tmplist.at(i-1));
+						tmp_item->setEditable(false);
 						model->setItem(cpt,i,new GenotypeItem(tmplist.at(i-1)));
 
 					}

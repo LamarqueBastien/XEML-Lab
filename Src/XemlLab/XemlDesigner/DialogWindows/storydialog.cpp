@@ -1,7 +1,7 @@
 #include <QtGui>
 #include "storydialog.h"
 
-StoryDialog::StoryDialog(QWidget * parent)
+StoryDialog::StoryDialog(bool nostory,QWidget * parent)
 	: QDialog(parent)
 {
 
@@ -9,7 +9,14 @@ StoryDialog::StoryDialog(QWidget * parent)
 	labelEdit = new QLineEdit;
 	this->label->setBuddy(labelEdit);
 	this->is_split=new QCheckBox("Split");
-	this->is_split->setChecked(false);
+	if(nostory){
+		this->is_split->setChecked(false);
+		this->is_split->setEnabled(false);
+
+	}
+	else{
+		this->is_split->setChecked(true);
+	}
 
 
 	buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Help | QDialogButtonBox::Reset ,Qt::Vertical);
@@ -74,11 +81,18 @@ void StoryDialog::ResetClicked(){
 }
 void StoryDialog::OkClicked(){
 	QString text= labelEdit->text();
-	if (is_split->isChecked()){
-		emit this->new_story_split(text);
+	if(text!=""){
+		if (is_split->isChecked()){
+			emit this->new_story_split(text);
+		}
+		else{
+			emit this->new_story(text);
+
+		}
 	}
 	else{
-		emit this->new_story(text);
+		QMessageBox::information(this,"empty string","you can't create a story without a label");
+		//this->close();
 
 	}
 

@@ -17,7 +17,7 @@ XemlObjectInfoView::XemlObjectInfoView(QWidget *parent) :
 	ObjectStartTimeLabel=new QLabel("Start time :");
 	ObjectStartTimeLabel->setBuddy(ObjectStartTime);
 
-	annotation= new QPushButton(QIcon(":/Images/annotation.png"),"Annotation");
+	annotation= new QPushButton(QIcon(":/Images/annotation.png"),"");
 	this->annotation->setEnabled(false);
 	QHBoxLayout * hLayout=new QHBoxLayout;
 	hLayout->addWidget(ObjectLabel);

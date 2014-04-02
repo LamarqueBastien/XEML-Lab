@@ -203,7 +203,7 @@ QRectF GraphicEventItem::boundingRect() const{
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-50,parent_y,maxx-minx+50,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-150,parent_y,maxx-minx+250,60);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

@@ -7,6 +7,8 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 {
 
 	//this->currentDoc=_currentDoc;
+	//this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+
 	setItemIndexMethod(NoIndex);
 	this->positionY=_positionY;
 	this->my_selected_story=NULL;
@@ -146,10 +148,49 @@ void                              GraphicStoryScene::details_story(){
 	emit show_details_story(this->my_selected_story);
 }
 void                              GraphicStoryScene::remove_obsPoint(){
-	emit obsPoint2removed();
+
+	//emit obsPoint2removed();
+	ObservationPoint * tmp_op;
+	std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it_to_erase;
+	for (std::list<StoryNode*>::iterator it =this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
+		StoryNode * _node=static_cast<StoryNode*>((*it));
+		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it2=_node->get_story()->get_obsPointCollection()->begin();it2!=_node->get_story()->get_obsPointCollection()->end();++it2){
+			if (static_cast<ObservationPoint*>((*it2).first)->get_id()==this->my_selected_obsPoint->get_obspoint()->get_id() && static_cast<ObservationPoint*>((*it2).first)->get_timepoint()==this->my_selected_obsPoint->get_obspoint()->get_timepoint()){
+				it_to_erase=it2;
+				tmp_op=static_cast<ObservationPoint*>((*it2).first);
+
+			}
+		}
+		_node->get_story()->get_obsPointCollection()->erase(it_to_erase);
+		delete tmp_op;
+
+	}
+	this->removeItem(this->my_selected_obsPoint);
+	this->my_selected_obsPoint=NULL;
+	emit set_details_in_view(this->my_selected_obsPoint);
 }
 void                              GraphicStoryScene::remove_event(){
-	emit event2removed();
+	//emit event2removed();
+	Event * tmp_event;
+	std::map<Event*,QDateTime>::iterator it_to_erase;
+	for (std::list<StoryNode*>::iterator it =this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
+		StoryNode * tmp_node=static_cast<StoryNode*>((*it));
+		//tmp_node->get_story()->get_eventcollection();
+		for(std::map<Event*,QDateTime>::iterator it2=tmp_node->get_story()->get_eventcollection()->begin();it2!=tmp_node->get_story()->get_eventcollection()->end();++it2){
+			if (static_cast<Event*>((*it2).first)->get_label()==this->my_selected_event->get_event()->get_label() && static_cast<Event*>((*it2).first)->get_timepoint()==this->my_selected_event->get_event()->get_timepoint()){
+				it_to_erase=it2;
+				tmp_event=static_cast<Event*>((*it2).first);
+
+			}
+		}
+		tmp_node->get_story()->get_eventcollection()->erase(it_to_erase);
+		delete tmp_event;
+
+	}
+
+	this->removeItem(this->my_selected_event);
+	this->my_selected_event=NULL;
+	emit set_details_in_view(this->my_selected_event);
 
 }
 

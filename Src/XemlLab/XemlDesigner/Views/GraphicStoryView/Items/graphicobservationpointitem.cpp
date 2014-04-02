@@ -75,7 +75,7 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	if (this->parent!=NULL){
 		parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 	}
-	QRectF newRect = QRectF(minx-150,parent_y,maxx-minx+150,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-150,parent_y,maxx-minx+250,60);//.adjusted(-extra, -extra, extra, extra);
 
 
 	//QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50);//.adjusted(-extra, -extra, extra, extra);

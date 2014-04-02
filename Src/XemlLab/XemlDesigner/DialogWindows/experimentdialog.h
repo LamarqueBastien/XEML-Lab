@@ -23,6 +23,14 @@ class ExperimentDialog : public QDialog
 			QLabel        * experimentstartDate;
 			QLabel        * experimentEndDate;
 			QLabel        * descriptionLabel;
+			QLabel        * firstnamelabel;
+			QLineEdit     * firstnamelabelEdit;
+			QLabel        * lastnamelabel;
+			QLineEdit     * lastnamelabelEdit;
+			QLabel        * organisationlabel;
+			QLineEdit     * organisationlabelEdit;
+			QLabel        * emaillabel;
+			QLineEdit     * emaillabelEdit;
 			//QLineEdit     * startdateEdit;
 			QPushButton   * cancelButton;
 			QPushButton   * okButton;
@@ -39,7 +47,7 @@ class ExperimentDialog : public QDialog
 
 		signals:
 
-			void            mon_signal(QString _text);
+			void            set_up_finished();
 
 		private slots:
 

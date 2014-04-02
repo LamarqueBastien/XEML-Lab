@@ -28,7 +28,7 @@ class StoryDialog : public QDialog
 		QCheckBox   * is_split;
 		QDialogButtonBox * buttonBox;
 	public:
-		StoryDialog(QWidget *parent = 0);
+		StoryDialog(bool nostory,QWidget *parent = 0);
 	signals:
 		void          new_story(QString _text);
 		void          new_story_split(QString _text);

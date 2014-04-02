@@ -147,10 +147,7 @@ class StoryView : public QWidget
 		void                 display_plot(StoryBase * _story);
 		void                 setupMatrix();
 		void                 set_up_zoom_factor(QString _zoomfactor);
-		void                 set_up_experimenter(QString _firstnametext,
-												 QString _lastnametext,
-												 QString _organisationtext,
-												 QString _emailtext);
+		void                 set_up_experiment();
 		void                 refresh_genotypeView(QModelIndex _elementSelected);
 		void                 edit_Experiment();
 		void                 clicSelection(QModelIndex _elementSelected);
