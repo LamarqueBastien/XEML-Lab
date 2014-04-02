@@ -483,29 +483,31 @@ void StoryView::display_plot(StoryBase * _story){
 }
 
 void StoryView::reset_StoryName(QString label){
-	if(this->GraphicScene->get_selected_story()!=NULL){
+	if (this->GraphicScene->get_selected_item()!=NULL){
+	//if(this->GraphicScene->get_selected_story()!=NULL){
+		if(this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			std::cerr << "entering reset story NAme with new label :" <<label.toStdString()<< std::endl;
 
-		std::cerr << "entering reset story NAme with new label :" <<label.toStdString()<< std::endl;
-
-		StoryNode * node=this->currentDoc->get_storyboard()->findNode(my_selected_story->get_label());
-		node->get_story()->set_label(label);
-		node->set_label(label);
-		//if (node->get_parent()!=NULL){
-			//node->get_parent()->set_label(label);
-		//}
+			StoryNode * node=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
+			node->get_story()->set_label(label);
+			node->set_label(label);
+			//if (node->get_parent()!=NULL){
+				//node->get_parent()->set_label(label);
+			//}
 
 
 
-		if (!node->get_childs()->empty()){
-			std::cerr << "node get childs "<< std::endl;
-			for (std::list<StoryNode*>::iterator it=node->get_childs()->begin();it!=node->get_childs()->end();++it){
-				static_cast<StoryNode*>((*it))->get_parent()->get_story()->set_label(label);
-				static_cast<StoryNode*>((*it))->get_parent()->set_label(label);
+			if (!node->get_childs()->empty()){
+				std::cerr << "node get childs "<< std::endl;
+				for (std::list<StoryNode*>::iterator it=node->get_childs()->begin();it!=node->get_childs()->end();++it){
+					static_cast<StoryNode*>((*it))->get_parent()->get_story()->set_label(label);
+					static_cast<StoryNode*>((*it))->get_parent()->set_label(label);
+				}
 			}
+
+
+			emit refresh_story_view(this);
 		}
-
-
-		emit refresh_story_view(this);
 	}
 }
 
@@ -636,29 +638,32 @@ QStandardItemModel * StoryView::get_model(){
 
 void  StoryView::add_genotype(IndividualsPool * _pool){
 	if (GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
-			if (!node->get_isStorySplit()){
-				//std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
+		if(this->GraphicScene->get_selected_item()!=NULL){
+			if(this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 
-				/*
-				_pool->display_all_tags();
-				IndividualsPool * pool = _pool;
-				//pool->set_ns("none");
-				pool->set_germplasm(_idtext);
-				if((!_freetext.isEmpty())&&(!_freetext.isNull())){
-					pool->add_tagged_annotation(new TaggedAnnotation("FreeText",_freetext));
-				}
-				if((!_taxontext.isEmpty())&&(!_taxontext.isNull())){
-					pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",_taxontext));
-				}
-				*/
+				StoryNode * node=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
+				if (!node->get_isStorySplit()){
+					//std::cerr << "entering if not storysplit : " << _idtext.toStdString() << std::endl;
 
-				static_cast<Story*>(node->get_story())->add_individualspool(_pool);
-				emit this->refresh_genotype_view(this->currentDoc);
-			}
-			else{
-				QMessageBox::information(this,"added element","can't add a pool to a story split");
+					/*
+					_pool->display_all_tags();
+					IndividualsPool * pool = _pool;
+					//pool->set_ns("none");
+					pool->set_germplasm(_idtext);
+					if((!_freetext.isEmpty())&&(!_freetext.isNull())){
+						pool->add_tagged_annotation(new TaggedAnnotation("FreeText",_freetext));
+					}
+					if((!_taxontext.isEmpty())&&(!_taxontext.isNull())){
+						pool->add_tagged_annotation(new TaggedAnnotation("NcbiTaxonomyId",_taxontext));
+					}
+					*/
+
+					static_cast<Story*>(node->get_story())->add_individualspool(_pool);
+					emit this->refresh_genotype_view(this->currentDoc);
+				}
+				else{
+					QMessageBox::information(this,"added element","can't add a pool to a story split");
+				}
 			}
 		}
 		else{
@@ -1093,12 +1098,15 @@ void StoryView::clean_tree(){
 
 //Story and StorySplit slots
 void StoryView::newStory(){
-	if(this->GraphicScene->get_selected_story()!=NULL){
+	if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+
+		//if(this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 
 		this->storydialog = new StoryDialog(false);
 		this->storydialog->setVisible(true);
 		connect(storydialog,SIGNAL(new_story(QString)),this,SLOT(addStory(QString)));
 		connect(storydialog,SIGNAL(new_story_split(QString)),this,SLOT(add_graphic_split_story(QString)));
+		//}
 	}
 	else if(this->currentDoc->get_storyboard()->get_storyBoard()->empty()){
 		///
@@ -1123,7 +1131,7 @@ void StoryView::addStory(QString _text){
 
 	}
 	if (GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
+		if(this->GraphicScene->get_selected_item()!=NULL){
 
 			emit add_graphic_story(_text,s);
 		}
@@ -1153,7 +1161,7 @@ void StoryView::addStory(QString _text){
 void StoryView::newStorySplit(){
 	std::cerr << "entering add new story split" << std::endl;
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
+		if(this->GraphicScene->get_selected_item()!=NULL  && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 			std::cerr << "story not NULL" << std::endl;
 			this->storydialog = new StoryDialog(false);
 			this->storydialog->setVisible(true);
@@ -1191,9 +1199,9 @@ void StoryView::add_graphic_split_story(QString _label){
 	//std::cerr << "selected items" << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
 	//std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
 
-	if(this->GraphicScene->get_selected_story()!=NULL){
-		std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
-		StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+	if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+		//std::cerr << "search for parent: " << this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
+		StoryNode * parent=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 
 		if(parent!=NULL){// && parent->get_parent()==NULL
 			QString mainname=parent->get_mainStoryName();
@@ -1204,7 +1212,7 @@ void StoryView::add_graphic_split_story(QString _label){
 			StoryNode * sn =new StoryNode(ss,true,mainname);
 			//std::cerr << "size before : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 			this->currentDoc->get_storyboard()->add_Node(sn);
-			this->currentDoc->get_storyboard()->findNode_by_Label(this->GraphicScene->get_selected_story()->get_label(),mainname)->addSubStoryNode(sn);
+			this->currentDoc->get_storyboard()->findNode_by_Label(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label(),mainname)->addSubStoryNode(sn);
 			//std::cerr << "size after : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 			emit add_graphic_story_split(_label,ss);
 		}
@@ -1259,10 +1267,10 @@ void StoryView::addStorySplit(QString _element_selected,QString _text,QDateTime 
 void StoryView::removeStory(){
 	std::cerr << "entering remove story" << std::endl;
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
+		if(this->GraphicScene->get_selected_item()!=NULL  && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 
-			std::cerr << "name : "<< this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
-			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+			//std::cerr << "name : "<< this->GraphicScene->get_selected_story()->get_label().toStdString() << std::endl;
+			StoryNode * node=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 
 
 			if(node!=NULL){
@@ -1276,7 +1284,7 @@ void StoryView::removeStory(){
 			}
 			*/
 			std::cerr << "before refresh storyview " << std::endl;
-			this->GraphicScene->set_selected_story(NULL);
+			this->GraphicScene->set_selected_item(NULL);
 			this->info_view->set_object_info(NULL);
 
 			emit refresh_story_view(this);
@@ -1343,8 +1351,8 @@ void StoryView::createStory(QString _text){
 void StoryView::new_parameter(ItfOntologyTerm * _term){
 	std::cerr << "entering new_parameter (StoryView)" << std::endl;
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * parent=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * parent=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			//QString mainname=parent->get_mainStoryName();
 			std::cerr << "term prototype : " << _term->get_prototype()->get_namespacealias().toStdString() << std::endl;
 			if (_term->get_prototype()->get_namespacealias()=="XEO" || _term->get_prototype()->get_namespacealias()=="XEO_Positioning" ||_term->get_prototype()->get_namespacealias()=="EO" || _term->get_prototype()->get_namespacealias()=="EnvO"){
@@ -1440,8 +1448,8 @@ void StoryView::add_parameter(StoryNode * _story,BasicTerm * _term){
 }
 void StoryView::remove_parameter(){
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			ParameterPanel * pp=new ParameterPanel(true);
 			pp->initialize(current_storyNode->get_story(),current_storyNode->isStorySplit);
 			pp->setVisible(true);
@@ -1518,8 +1526,8 @@ void StoryView::add_samples(){
 }
 void StoryView::remove_samples(){
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 
 
@@ -1545,9 +1553,9 @@ void StoryView::newObsPoint(){
 void StoryView::choose_obsPoint(){
 	ObservationPointPanel * opp;
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			if (!this->GraphicScene->get_selected_story()->get_story()->get_obsPointCollection()->empty()){
-				StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			if (!static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story()->get_obsPointCollection()->empty()){
+				StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 				//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 				opp =new ObservationPointPanel(false);
 				//connect(opp,SIGNAL())
@@ -1593,8 +1601,8 @@ void StoryView::choose_obsPoint(){
 }
 void StoryView::add_observationPoint(){
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * node=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * node=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			//QString mainname=node->get_mainStoryName();
 			//StoryNode  MainNode=this->currentDoc->get_storyboard()->findNode(mainname);
 			int  obs_count=0;
@@ -1673,8 +1681,8 @@ void StoryView::send_refresh_story_signal(){
 
 void StoryView::remove_obs_point(){
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 			if (current_storyNode->get_story()->get_obsPointCollection()->empty()){
 				QMessageBox::information(this,"added element","This story has no point of observation to remove");
@@ -1735,8 +1743,8 @@ int  StoryView::count_total_observationsPoint(StoryNode * _parent,int  _number){
 //event slot
 void StoryView::new_event(){
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			Event * e =new Event();
 			EventDialog * event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story());
 			connect(event,SIGNAL(event_set(Event*)),this->graphicStory,SLOT(add_event(Event*)));
@@ -1787,8 +1795,8 @@ void StoryView::add_event(QString _storyName,QString _label,QDateTime _datetime)
 
 void StoryView::remove_event(){
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_story()!=NULL){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
+		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 
 			if (current_storyNode->get_story()->get_eventcollection()->empty()){
 				QMessageBox::information(this,"added element","This story has no event to remove");

@@ -14,6 +14,8 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 	this->my_selected_story=NULL;
 	this->my_selected_event=NULL;
 	this->my_selected_obsPoint=NULL;
+	this->Z_value=1;
+	selected_item=NULL;
 
 
 	//connect(this,SIGNAL(selectionChanged()),this,SLOT(changedSelection()));
@@ -241,56 +243,50 @@ void                              GraphicStoryScene::mouseDoubleClickEvent(QGrap
 
 
 	std::cerr << "entering double click" << std::endl;
-		QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
-		//QGraphicsItem* item = mouseGrabberItem();
-		if(item!=0){
-			switch(item->type()){
+	QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
+	//QGraphicsItem* item = mouseGrabberItem();
+	if(item!=0){
+		switch(item->type()){
+			case GraphicStoryItem::Type:
+				std::cerr << "entering story item type" << std::endl;
 
-				case GraphicStoryItem::Type:
-					std::cerr << "entering story item type" << std::endl;
-
-					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
-					//this->my_selected_story->add_point_selection();
-					this->my_selected_obsPoint=NULL;
-					this->my_selected_event=NULL;
-					//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
-					emit set_details_in_view(item);
-					std::cerr << "emit signals" << std::endl;
-
-
-
-					break;
-				case GraphicEventItem::Type:
-					this->my_selected_event=static_cast<GraphicEventItem*>(item);
-					this->my_selected_story=NULL;
-					this->my_selected_obsPoint=NULL;
-					emit set_details_in_view(item);
-
-					break;
-				case GraphicObservationPointItem::Type:
-					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
-					this->my_selected_event=NULL;
-					this->my_selected_story=NULL;
-					emit set_details_in_view(item);
+				this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+				//this->my_selected_story->add_point_selection();
+				this->my_selected_obsPoint=NULL;
+				this->my_selected_event=NULL;
+				//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
+				emit set_details_in_view(item);
+				std::cerr << "emit signals" << std::endl;
 
 
 
+				break;
+			case GraphicEventItem::Type:
+				this->my_selected_event=static_cast<GraphicEventItem*>(item);
+				this->my_selected_story=NULL;
+				this->my_selected_obsPoint=NULL;
+				emit set_details_in_view(item);
 
-
-					break;
-			}
-
+				break;
+			case GraphicObservationPointItem::Type:
+				this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
+				this->my_selected_event=NULL;
+				this->my_selected_story=NULL;
+				emit set_details_in_view(item);
+				break;
 		}
-		else{
 
-			this->my_selected_story=NULL;
-			this->my_selected_obsPoint=NULL;
-			this->my_selected_event=NULL;
-			emit set_details_in_view(item);
-			std::cerr << "empty selection" << std::endl;
-		}
-		selectedItems().clear();
-		QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
+	}
+	else{
+
+		this->my_selected_story=NULL;
+		this->my_selected_obsPoint=NULL;
+		this->my_selected_event=NULL;
+		emit set_details_in_view(item);
+		std::cerr << "empty selection" << std::endl;
+	}
+	selectedItems().clear();
+	QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
 
 }
 
@@ -374,6 +370,61 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 		}
 		selectedItems().clear();
 	}
+	if(mouseEvent->button() == Qt::LeftButton){
+		QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
+		//QGraphicsItem* item = mouseGrabberItem();
+		if(item!=0){
+			switch(item->type()){
+				case GraphicStoryItem::Type:
+					std::cerr << "entering story item type" << std::endl;
+					this->Z_value++;
+					this->selected_item=static_cast<GraphicStoryItem*>(item);
+					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+					this->my_selected_story->setZValue(Z_value);
+					//this->my_selected_story->add_point_selection();
+					this->my_selected_obsPoint=NULL;
+					this->my_selected_event=NULL;
+					//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
+					emit set_details_in_view(item);
+					std::cerr << "emit signals" << std::endl;
+
+
+
+					break;
+				case GraphicEventItem::Type:
+					this->selected_item=static_cast<GraphicEventItem*>(item);
+
+					this->my_selected_event=static_cast<GraphicEventItem*>(item);
+					this->Z_value++;
+					this->my_selected_event->setZValue(Z_value);
+					this->my_selected_story=NULL;
+					this->my_selected_obsPoint=NULL;
+					emit set_details_in_view(item);
+
+					break;
+				case GraphicObservationPointItem::Type:
+					this->selected_item=static_cast<GraphicObservationPointItem*>(item);
+
+					this->Z_value++;
+					this->my_selected_obsPoint=static_cast<GraphicObservationPointItem*>(item);
+					this->my_selected_obsPoint->setZValue(Z_value);
+					this->my_selected_event=NULL;
+					this->my_selected_story=NULL;
+					emit set_details_in_view(item);
+					break;
+			}
+
+		}
+		else{
+
+			this->my_selected_story=NULL;
+			this->my_selected_obsPoint=NULL;
+			this->my_selected_event=NULL;
+			emit set_details_in_view(item);
+			std::cerr << "empty selection" << std::endl;
+		}
+		selectedItems().clear();
+	}
 
 
 
@@ -396,12 +447,18 @@ void                              GraphicStoryScene::contextMenuEvent(QGraphicsS
 void                              GraphicStoryScene::set_selected_story(GraphicStoryItem * _selected_story){
 	this->my_selected_story=_selected_story;
 }
+void                              GraphicStoryScene::set_selected_item(QGraphicsItem * _selected_item){
+	this->selected_item=_selected_item;
+}
 
 GraphicStoryItem     *            GraphicStoryScene::get_selected_story(){
 	return this->my_selected_story;
 }
 GraphicEventItem                * GraphicStoryScene::get_selected_event(){
 	return this->my_selected_event;
+}
+QGraphicsItem                * GraphicStoryScene::get_selected_item(){
+	return this->selected_item;
 }
 GraphicObservationPointItem     * GraphicStoryScene::get_selected_obsPoint(){
 	return this->my_selected_obsPoint;
@@ -656,7 +713,7 @@ void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSce
 {
 	//std::cerr << "entering mousemove event in scene" << std::endl;
 
-	QGraphicsItem                   * selected_item;
+	//QGraphicsItem                   * selected_item;
 	GraphicStoryItem                * selected_parent_item;
 	GraphicStoryItem                * selected_story;
 	GraphicEventItem                * selected_event;
@@ -664,7 +721,7 @@ void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSce
 
 	if ((e->buttons() & Qt::LeftButton)) {
 
-		selected_item = itemAt(e->scenePos(),QTransform());
+		//selected_item = itemAt(e->scenePos(),QTransform());
 
 
 		//std::cerr << "item position x : " << item_point.x() << std::endl;

@@ -13,12 +13,14 @@ GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width
 	this->document_startDate=_startdate;
 
 
+
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
 	setFlag(QGraphicsItem::ItemIsMovable, true);
 	setFlag(QGraphicsItem::ItemIsFocusable, true);
 	setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	setAcceptDrops(true);
 	setAcceptHoverEvents(true);
+	this->setAcceptHoverEvents(false);
 	setAcceptedMouseButtons(Qt::LeftButton);
 	qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 	//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
@@ -203,7 +205,7 @@ QRectF GraphicEventItem::boundingRect() const{
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-150,parent_y,maxx-minx+250,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-10,parent_y,maxx-minx+0,60);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

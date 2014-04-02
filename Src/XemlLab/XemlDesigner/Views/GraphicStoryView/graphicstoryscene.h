@@ -29,6 +29,9 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicStoryScene(int  positionY,QGraphicsScene *parent=0);
 		GraphicStoryItem * get_item_by_label(QString _label);
 		void set_max_item_width(qreal _max_width);
+		QGraphicsItem  * get_selected_item();
+		void  set_selected_item(QGraphicsItem * _selected_item);
+
 		GraphicStoryItem     * get_selected_story();
 		void set_selected_story(GraphicStoryItem * _selected_story);
 
@@ -81,8 +84,10 @@ class GraphicStoryScene : public QGraphicsScene
 		GraphicStoryItem * my_selected_story;
 		GraphicEventItem * my_selected_event;
 		GraphicObservationPointItem * my_selected_obsPoint;
+		QGraphicsItem * selected_item;
 		qreal max_width;
 		int zoomFactor;
+		int Z_value;
 		//int  positionY;
 	private slots:
 

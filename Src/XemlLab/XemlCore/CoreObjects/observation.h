@@ -15,8 +15,8 @@ namespace Xeml {
 		class Observation : public XemlAnnotableObject
 		{
 			private:
-				int                                       id;
-				QDateTime                                * timepoint;
+				//int                                       id;
+				//QDateTime                                * timepoint;
 				QDateTime                                 duration;
 				bool                                      destructive;
 				bool                                      individualInfluence;

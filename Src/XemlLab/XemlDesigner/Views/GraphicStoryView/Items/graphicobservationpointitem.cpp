@@ -18,6 +18,7 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 	setAcceptedMouseButtons(Qt::LeftButton);
 	qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 	qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+	this->setAcceptHoverEvents(false);
 	//this->pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-10, (parent_y+parent_h/2)-20) << QPointF(posx+10, (parent_y+parent_h/2)-20)<< QPointF(posx, parent_y+parent_h/2);
 
 	QPointF point2=QPointF(posx,parent_y+parent_h/2);
@@ -75,7 +76,7 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	if (this->parent!=NULL){
 		parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 	}
-	QRectF newRect = QRectF(minx-150,parent_y,maxx-minx+250,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-10,parent_y,maxx-minx+0,60);//.adjusted(-extra, -extra, extra, extra);
 
 
 	//QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50);//.adjusted(-extra, -extra, extra, extra);

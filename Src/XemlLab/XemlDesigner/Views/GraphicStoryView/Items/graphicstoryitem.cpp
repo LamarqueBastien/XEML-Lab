@@ -218,6 +218,13 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	gradient.setColorAt(1, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
 	*/
 
+	 QGradientStops stops;
+	 stops << QGradientStop(0.0, QColor(215, 255, 200));
+	 stops << QGradientStop(0.5, QColor(102, 176, 54));
+	 stops << QGradientStop(1.0, QColor(0, 0,  0));
+	 gradient.setStops(stops);
+	 /*
+
 	gradient.setColorAt(0, QColor::fromRgbF(0.1, 0.6, 0.9, 0.2));
 	gradient.setColorAt(0.25, QColor::fromRgbF(0.5, 0.1, 0.9, 0.2));
 	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.6, 0.2, 0.2));
@@ -225,6 +232,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.3, 0.7, 0.2));
 
 
+	*/
 	QBrush brush(gradient);
 	brush.setStyle(Qt::LinearGradientPattern);
 	_painter->setBrush(brush);
