@@ -139,15 +139,10 @@ void ObservationWizard::accept(){
 																	for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
 																		if (static_cast<TermNode*>((*it))->get_term()->get_termId()==structTerm->get_termId()){
 																			BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
-																			//std::cerr << "displaying tag annotation" << std::endl;
-																			//test->display_all_tags();
-																			//std::cerr << "end displaying tag annotation" << std::endl;
 																			for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
 																				structTerm->add_tagged_annotation((*it2).first);
 
-																				//structTerm->add_tagged_annotation(new TaggedAnnotation("def",static_cast<TermNode*>((*it))->get_term()->get_definition()));
 																			}
-																			//delete test;
 
 																		}
 																	}
@@ -809,105 +804,3 @@ void ObservationWizard::accept(){
  }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-QWizardPage * ObservationWizard::createIntroPage(){
-	QWizardPage *page = new QWizardPage;
-	page->setTitle("Introduction");
-
-	QLabel * label = new QLabel("This wizard will help you register your observation "
-							   "point.");
-	label->setWordWrap(true);
-
-	QVBoxLayout *layout = new QVBoxLayout;
-	layout->addWidget(label);
-	page->setLayout(layout);
-
-	return page;
-}
-
-QWizardPage * ObservationWizard::createRegistrationPage(){
-	QWizardPage * Regpage = new QWizardPage;
-	Regpage->setTitle("GermPlasm");
-	Regpage->setSubTitle("Please fill both fields.");
-
-	QLabel *nameLabel = new QLabel("Name:");
-	QLineEdit *nameLineEdit = new QLineEdit;
-	//Regpage->registerField("LabelName*", nameLineEdit);
-
-	QLabel *emailLabel = new QLabel("Email address:");
-	QLineEdit *emailLineEdit = new QLineEdit;
-
-	QGridLayout *layout = new QGridLayout;
-	layout->addWidget(nameLabel, 0, 0);
-	layout->addWidget(nameLineEdit, 0, 1);
-	layout->addWidget(emailLabel, 1, 0);
-	layout->addWidget(emailLineEdit, 1, 1);
-	Regpage->setLayout(layout);
-
-	return Regpage;
-}
-QWizardPage * ObservationWizard::createMaterialPage(){
-	QWizardPage *page = new QWizardPage;
-
-	page->setTitle("Material");
-	page->setSubTitle("Please fill both fields.");
-
-	QLabel *nameLabel = new QLabel("Name:");
-	QLineEdit *nameLineEdit = new QLineEdit;
-
-
-	QLabel *emailLabel = new QLabel("Email address:");
-	QLineEdit *emailLineEdit = new QLineEdit;
-
-	QGridLayout *layout = new QGridLayout;
-	layout->addWidget(nameLabel, 0, 0);
-	layout->addWidget(nameLineEdit, 0, 1);
-	layout->addWidget(emailLabel, 1, 0);
-	layout->addWidget(emailLineEdit, 1, 1);
-	page->setLayout(layout);
-
-	return page;
-}
-
-
-QWizardPage * ObservationWizard::createConclusionPage(){
-	//le signal de retour sera émis à partir de cette fonction
-	//qui renverra toutes les données collectées
-	QWizardPage *page = new QWizardPage;
-	page->setTitle("Conclusion");
-
-	QLabel *label = new QLabel("You are now successfully registered. Have a "
-							   "nice day!");
-	label->setWordWrap(true);
-
-	QVBoxLayout *layout = new QVBoxLayout;
-	layout->addWidget(label);
-	page->setLayout(layout);
-
-	return page;
-}
-
-QWizard * ObservationWizard::get_wizard(){
-	return this->wizard;
-}
-*/

@@ -100,6 +100,21 @@ GenotypeView::GenotypeView(QWidget *parent) :
 
 }
 void GenotypeView::show_help(){
+	QString HtmlString("<h2>Ontologies helper</h2>"
+					   "<h3>add or remove term</h3>"
+					   "<ul>"
+					   "<li> Search a term in the ontology tree and drag it to the story view. you nedd to select a story first. </li>"
+					   "<li> click on \"remove variable\" in the story view and select the term to remove by clicking on the row number (to select all columns). </li>"
+					   "</ul>"
+					   "<h3>Manage Ontologies</h3>"
+					   "<ul>"
+					   "<li> You can select which ontology you want to add to your document by check/uncheck related ontology checkbox. </li>"
+					   "<li> click on \"remove observation point\" to remove a observation point. </li>"
+					   "</ul>"
+					   "<h3>Search a specific term</h3>"
+					   "<ul>"
+					   "<li> Enter the term you search in the search field to get automatically the right term without searching in all trees. </li>"
+					   "</ul>");
 	QMessageBox::about(this,"Genotype helper","click add to add a new germplasm for your experiment.\n"
 					   "You need to have selected one story in the story View.\n"
 					   "Click on remove to remove a genotype, you need to click on the corresponding row number.\n"

@@ -97,9 +97,22 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 
 }
 void ParameterTreeView::show_help(){
-	QMessageBox::about(this,"Ontology helper","select variable you want to add to your experiment by dragging and dropping to the story view.\n"
-					   "You need to select a story first.\n"
-					   "Variables with one or more child cannot be dragged");
+	QString HtmlString("<h2>Ontologies helper</h2>"
+					   "<h3>add or remove term</h3>"
+					   "<ul>"
+					   "<li> Search a term in the ontology tree and drag it to the story view (Variables with one or more child cannot be dragged). you nedd to select a story first. </li>"
+					   "<li> click on \"remove variable\" in the story view and select the term to remove by clicking on the row number (to select all columns). </li>"
+					   "</ul>"
+					   "<h3>Manage Ontologies</h3>"
+					   "<ul>"
+					   "<li> You can select which ontology you want to add to your document by check/uncheck related ontology checkbox. </li>"
+					   "<li> click on \"remove observation point\" to remove a observation point. </li>"
+					   "</ul>"
+					   "<h3>Search a specific term</h3>"
+					   "<ul>"
+					   "<li> Enter the term you search in the search field to get automatically the right term without searching in all trees. </li>"
+					   "</ul>");
+	QMessageBox::about(this,"Ontology helper",HtmlString);
 }
 
 bool                                       ParameterTreeView::contains(TermNode * _node,std::list<TermNode*> * _processed_nodes,QString _namespace){
