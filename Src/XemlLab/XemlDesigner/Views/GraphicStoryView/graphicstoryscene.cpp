@@ -359,7 +359,7 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 					this->my_selected_event=static_cast<GraphicEventItem*>(item);
 					contextMenu =new QMenu("Event",mouseEvent->widget());
 					contextMenu->addAction(removeEvent);
-					contextMenu->addAction(editEvent);
+					//contextMenu->addAction(editEvent);
 					contextMenu->exec(mouseEvent->screenPos());
 
 					break;
