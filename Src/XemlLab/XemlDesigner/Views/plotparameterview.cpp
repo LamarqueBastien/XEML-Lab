@@ -18,7 +18,7 @@ void PlotParameterView::initialize(){
 
 	//build using QCustomPlot
 
-	qreal x_length_split;
+	//qreal x_length_split;
 	x_length=translate_second_in_real_distance(get_seconds_from_date(current_doc->get_startdate(),current_doc->get_enddate()));
 
 	//x_length=translate_second_in_distance(get_seconds_from_date(current_doc->get_startdate(),current_doc->get_enddate()));

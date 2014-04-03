@@ -80,14 +80,12 @@ void GraphicStoryScene::changedSelection(){
 void                              GraphicStoryScene::set_doc(ItfDocument  * _currentDoc){
 	this->currentDoc=_currentDoc;
 }
-
 void                              GraphicStoryScene::set_max_item_width(qreal _max_width){
 	this->max_width=_max_width;
 }
 qreal                             GraphicStoryScene::get_max_width(){
 	return this->max_width;
 }
-
 GraphicStoryItem *                GraphicStoryScene::get_item_by_label(QString _label){
 	std::cerr << "entering get_item_by_label" << std::endl;
 
@@ -133,14 +131,12 @@ void                              GraphicStoryScene::createActions(){
 	connect(editEvent,SIGNAL(triggered()),this,SLOT(edit_event()));
 	connect(addSamples,SIGNAL(triggered()),this,SLOT(add_sample()));
 }
-
 void                              GraphicStoryScene::edit_event(){
 	emit event2edit();
 }
 void                              GraphicStoryScene::add_sample(){
 	emit sample_to_add();
 }
-
 void                              GraphicStoryScene::createMenus(){
 	contextMenu =new QMenu("Details");
 	contextMenu->addAction(show_details);
@@ -195,7 +191,6 @@ void                              GraphicStoryScene::remove_event(){
 	emit set_details_in_view(this->my_selected_event);
 
 }
-
 void                              GraphicStoryScene::display_plot_parameters(){
 	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
@@ -233,11 +228,9 @@ void                              GraphicStoryScene::dropEvent(QGraphicsSceneDra
 void                              GraphicStoryScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event){
 	std::cerr << "drag_enter_event" << std::endl;
 }
-
 void                              GraphicStoryScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event){
 	std::cerr << "drag_move_event" << std::endl;
 }
-
 void                              GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 
 
@@ -289,7 +282,6 @@ void                              GraphicStoryScene::mouseDoubleClickEvent(QGrap
 	QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
 
 }
-
 void                              GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 
@@ -450,14 +442,13 @@ void                              GraphicStoryScene::set_selected_story(GraphicS
 void                              GraphicStoryScene::set_selected_item(QGraphicsItem * _selected_item){
 	this->selected_item=_selected_item;
 }
-
-GraphicStoryItem     *            GraphicStoryScene::get_selected_story(){
+GraphicStoryItem                * GraphicStoryScene::get_selected_story(){
 	return this->my_selected_story;
 }
 GraphicEventItem                * GraphicStoryScene::get_selected_event(){
 	return this->my_selected_event;
 }
-QGraphicsItem                * GraphicStoryScene::get_selected_item(){
+QGraphicsItem                   * GraphicStoryScene::get_selected_item(){
 	return this->selected_item;
 }
 GraphicObservationPointItem     * GraphicStoryScene::get_selected_obsPoint(){
@@ -708,7 +699,6 @@ void                              GraphicStoryScene::set_right_for_childs(QGraph
 
 
 }
-
 void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
 	//std::cerr << "entering mousemove event in scene" << std::endl;
@@ -918,7 +908,7 @@ void                              GraphicStoryScene::initialize_x_Axis(qreal wid
 	int counter=0;
 	int counter_hour=0;
 	this->zoomFactor=_zoomFactor;
-	QFont serifFont("Times New Roman", 14, QFont::Bold);
+	QFont serifFont("Helvetica [Cronyx]", 14, QFont::Bold);
 	QFont serifFont2("Times", 10, QFont::Bold);
 
 	qreal number_of_days=width/(24*zoomFactor);
@@ -984,7 +974,6 @@ void                              GraphicStoryScene::initialize_x_Axis(qreal wid
 		//this->GraphicScene->addItem(new QGraphicsTextItem(_node->get_label()));
 	}
 }
-
 /*
 void GraphicStoryScene::add_story(QString _label,StoryBase * _story){
 	std::cerr << "story added" << std::endl;

@@ -388,7 +388,7 @@ void StoryView::show_help(){
 					   "<h3>add or remove samples</h3>"
 					   "<ul>"
 					   "<li> click on \"add samples\" to add a new set of sample in your experiment (you need to have defined at least one observation point and one germplasm pool). </li>"
-					   "<li> click on \"remove samples\” to remove a set of samples. </li>"
+					   "<li> click on \"remove samples\" to remove a set of samples. </li>"
 					   "</ul>");
 	QMessageBox::about(this,"Story helper",HtmlString);
 
@@ -423,7 +423,7 @@ void   StoryView::add_dropped_variable(QString _termId){
 		ns="EnvO";
 	}
 	std::cerr << "namespace : " << ns.toStdString() << std::endl;
-	ItfOntologyTerm * term;
+	ItfOntologyTerm * term=NULL;
 	if(doc_ressources->contains(ns,Xeml::Document::Contracts::Environment)){
 		std::list<TermNode*> my_xeotree=(*static_cast<XeoHandler*>((*doc_ressources->get_xeoHandler())[ns]->get_handler())->get_listNodes());
 		for (std::list<TermNode*>::iterator it=my_xeotree.begin();it!=my_xeotree.end();++it){
@@ -461,7 +461,7 @@ void   StoryView::add_dropped_variable(QString _termId){
 
 	}
 	//search in the doc_resources trees
-	std::cerr << "term type: " << term->get_prototype()->get_namespacealias().toStdString() << std::endl;
+	//std::cerr << "term type: " << term->get_prototype()->get_namespacealias().toStdString() << std::endl;
 	emit drop_variable_added(term);
 	//emit signal with the selected ontology term
 }
@@ -919,7 +919,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 		GraphicStoryItem * current_story=new GraphicStoryItem(0,this->currentDoc,width,_node->get_story(),_node->get_story()->get_label(),false,0,this->GraphicScene->positionY,NULL);
 		this->GraphicScene->addItem(current_story);
 		this->GraphicScene->set_max_item_width(width);
-		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width(), this->GraphicScene->sceneRect().height()+60));
+		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+150, this->GraphicScene->sceneRect().height()+60));
 		this->GraphicScene->positionY+=61;
 		qreal y=current_story->get_posy();
 		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it=_node->get_story()->get_obsPointCollection()->begin();it!=_node->get_story()->get_obsPointCollection()->end();++it){
@@ -993,7 +993,7 @@ void StoryView::build_graphic_story_hierarchy(StoryNode * _node){
 			}
 
 		}
-		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+300, this->GraphicScene->sceneRect().height()+60));
+		this->GraphicScene->setSceneRect(QRectF(-150, -150, this->GraphicScene->sceneRect().width()+150, this->GraphicScene->sceneRect().height()+60));
 		this->GraphicScene->positionY+=61;
 
 	}
@@ -1017,7 +1017,7 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 		this->StoryStartTime->setDateTime(this->currentDoc->get_startdate());
 		this->width=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),this->currentDoc->get_enddate()));
 		this->width*=zoomFactor;
-		this->GraphicScene->setSceneRect(-150,-150,width+300,6000);
+		this->GraphicScene->setSceneRect(-150,-150,width+150,600);
 
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 			//std::cerr << "in da loop" << std::endl;
