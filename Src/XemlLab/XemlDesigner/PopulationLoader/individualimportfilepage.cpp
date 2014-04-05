@@ -12,6 +12,8 @@ IndividualImportFilePage::IndividualImportFilePage(QWidget *parent)
 	FilenameLineEdit = new QLineEdit;
 	FilenameLineEdit->setValidator(new QRegExpValidator(QRegExp("(.+\/)+(.*[+*$^.?]?.*)(\\..+)"), this));
 	this->headerviews=new QTableView;
+	this->headerviews->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	this->model = new QStandardItemModel(1,1,this);
 	this->headerviews->setSelectionMode(QAbstractItemView::MultiSelection);
 	this->headerviews->setModel(this->model);

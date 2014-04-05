@@ -1,7 +1,7 @@
 #include "observationdetails.h"
 
 ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryNode * _root, std::vector<IndividualsPool*> * _pools, QWidget *parent) :
-	QWidget(parent)
+	QDialog(parent)
 {
 	this->root_node =_root;
 	//this->pools=_pools;
@@ -10,8 +10,19 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	individuals=0;
 	this->doc_resources=_doc_resources;
 	this->add_individual=new QPushButton("add individual");
-	connect(this->add_individual,SIGNAL(clicked()),this,SLOT(add_ind()));
+	this->remove_variable=new QPushButton("remove variable");
+	QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Help);
+	buttonBox->addButton(this->add_individual,QDialogButtonBox::ActionRole);
+	buttonBox->addButton(this->remove_variable,QDialogButtonBox::ActionRole);
 
+
+	this->setModal(false);
+
+	connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(show_help()));
+
+
+	connect(this->add_individual,SIGNAL(clicked()),this,SLOT(add_ind()));
+	connect(this->remove_variable,SIGNAL(clicked()),this,SLOT(on_remove_item_clicked()));
 	destructCheckBox= new QCheckBox("Destructive observation");
 	this->pooling=new QCheckBox("pooling");
 	this->pooling->setToolTip("pool individuals samples. Need to tick \"use model for all\".");
@@ -26,7 +37,7 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	durationInd= new QLabel("Duration per individuals");
 	durationInd->setBuddy(timeDurationEdit);
 
-	tree=new QTreeView;
+	tree=new QTreeView(this);
 	tree->setContextMenuPolicy(Qt::CustomContextMenu);
 	//connect(tree,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(context_menu(QPoint));
 	connect(tree,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(on_item_double_clicked(QModelIndex)));
@@ -40,10 +51,16 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	root_item->setSelectable(false);
 
 	this->germPlasmTable= new QTableView;
+	//this->germPlasmTable->horizontalHeader()->setStretchLastSection(true);
+	//this->germPlasmTable->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
 	this->germPlasmModel=new QStandardItemModel(1,2,this);
 	this->germPlasmModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Germplasm")));
 	this->germPlasmModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Individuals #")));
 	this->germPlasmTable->setModel(this->germPlasmModel);
+	this->germPlasmTable->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+	//this->germPlasmTable->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
+
+
 
 
 
@@ -84,6 +101,13 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	boxLayout->addStretch(1);
 	groupBox->setLayout(boxLayout);
 
+	QHBoxLayout * durationLayout = new QHBoxLayout;
+	durationLayout->addWidget(durationInd);
+	durationLayout->addStretch(1);
+	durationLayout->addWidget(timeDurationEdit);
+	layout->addLayout(durationLayout);
+
+
 	layout->addWidget(groupBox);
 	layout->addWidget(this->germplasm);
 	layout->addWidget(this->germPlasmTable);
@@ -92,16 +116,16 @@ ObservationDetails::ObservationDetails(DocumentResources * _doc_resources,StoryN
 	layout->addStretch(1);
 
 
-	layout->addWidget(add_individual);
+	layout->addWidget(buttonBox);
+	//layout->addWidget(add_individual);
+	//layout->addWidget(remove_variable);
 
-	QHBoxLayout * durationLayout = new QHBoxLayout;
-	durationLayout->addWidget(durationInd);
-	durationLayout->addStretch(1);
-	durationLayout->addWidget(timeDurationEdit);
-	layout->addLayout(durationLayout);
+
 
 	mainlayout->addLayout(layout);
 	setLayout(mainlayout);
+	setWindowFlags(Qt::WindowStaysOnTopHint);
+
 
 
 
@@ -174,8 +198,7 @@ void ObservationDetails::add_ind(){
 		for (int i=0;i < this->pools->size();i++){
 
 			//srand(time(NULL)+1);
-			QTime time = QTime::currentTime();
-			qsrand((uint)time.msec());
+
 			Individual * ind = new Individual(qrand()%1000000000 +1);
 
 			static_cast<IndividualsPool*>(this->pools->at(i))->add_Individual(ind);
@@ -368,6 +391,32 @@ void ObservationDetails::on_item_checked(QStandardItem* _item){
 	}
 	else{
 
+	}
+
+}
+void ObservationDetails::show_help(){
+
+}
+
+void ObservationDetails::on_remove_item_clicked(){
+	QItemSelectionModel * selection = this->tree->selectionModel();
+	QModelIndex indexelementselected= selection->currentIndex();
+	if(selection->isSelected(indexelementselected)){
+		QStandardItem * tmp =static_cast<QStandardItem*>(this->model->itemFromIndex(indexelementselected));
+		if(tmp->isCheckable()==false && tmp->text()!="structure"&& tmp->text()!="developmental-stage"&& tmp->text()!="position"&& tmp->text()!="partitions"){
+
+
+			this->model->removeRow(indexelementselected.row(), indexelementselected.parent());
+
+		}
+		else{
+			QMessageBox::information(this,"added element","you can't remove this kind of element");
+
+		}
+
+	}
+	else{
+		QMessageBox::information(this,"added element","there is no selected variable");
 	}
 
 }

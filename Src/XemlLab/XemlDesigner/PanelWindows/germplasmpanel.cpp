@@ -5,8 +5,10 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 	:QWidget(parent)
 {
 	view = new QTableView();
+	//this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	//this->view->setStyleSheet("QTableView QTableCornerButton::section {background: black;border: 2px outset black;}");
-	model = new QStandardItemModel(0,7,this); //1 Rows and 7 Columns
+	model = new QStandardItemModel(this); //1 Rows and 7 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("pool Id")));
 	model->setHorizontalHeaderItem(1, new QStandardItem(QString("Species")));
 	model->setHorizontalHeaderItem(2, new QStandardItem(QString("Accession")));

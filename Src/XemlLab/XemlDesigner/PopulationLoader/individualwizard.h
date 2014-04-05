@@ -26,6 +26,9 @@ class IndividualWizard : public QWizard
 			Page_Conclusion
 		};
 		static std::vector<std::vector<QString>* > * get_CSV_data();
+		static int get_individual_count();
+		static void set_individual_count(int _count);
+
 
 	private:
 		IndividualsPool * pool;
@@ -34,6 +37,9 @@ class IndividualWizard : public QWizard
 		QWizardPage * individualCreationPage;
 		QWizardPage * individualConclusionPage;
 		static std::vector<std::vector<QString>* > * csvdata;
+		static int individuals_count;
+	private slots:
+		void showHelp();
 
 
 };

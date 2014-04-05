@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QString toto = QApplication::applicationDirPath();
 	//std::cerr << "dir path = " << toto.toStdString() << std::endl;
 
+
 	fmg->New();
 	//std::cerr << QApplication::applicationFilePath().toStdString() << std::endl;
 
@@ -58,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	//QTextEdit *zoneTexte3 = new QTextEdit;
 	//graphicStoryView=new GraphicStoryView;
-	storyView= new StoryView;
-	ontologyView= new ParameterTreeView(true,this->fmg->get_current_xeml()->get_doc_resources());
-	genotypeView= new GenotypeView;
+	storyView= new StoryView(this);
+	ontologyView= new ParameterTreeView(true,this->fmg->get_current_xeml()->get_doc_resources(),this);
+	genotypeView= new GenotypeView(this);
 
 	XemlCode=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
 	//std::cerr << this->fmg->get_current_xeml()->get_doc_resources()->get_xeoHandler()->size() << std::endl;
@@ -101,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QMdiSubWindow *sousFenetre1 = zoneCentrale->addSubWindow(this->ontologyView);
 	sousFenetre1->setWindowFlags(Qt::FramelessWindowHint);
+
+
 	//sousFenetre1->setWindowOpacity(0.5);
 	//connect(sousFenetre1,SIGNAL(destroyed()),this,SLOT()
 	//sousFenetre1->
@@ -165,6 +168,10 @@ MainWindow::MainWindow(QWidget *parent) :
 			  trayIconMenu->addAction(restoreAction);
 			  trayIconMenu->addSeparator();
 			  trayIconMenu->addAction(quitAction);
+			  connect(maximizeAction,SIGNAL(triggered()),this,SLOT(showMaximized()));
+			  connect(minimizeAction,SIGNAL(triggered()),this,SLOT(showMinimized()));
+
+			  connect(quitAction,SIGNAL(triggered()),this,SLOT(close()));
 
 			  trayIcon = new QSystemTrayIcon(this);
 			  trayIcon->setIcon(QIcon("://Images/XemlLogo.png"));
@@ -671,10 +678,12 @@ void    MainWindow::createMenus() {
 	//qt_mac_set_dock_menu(&fileMenu);
 
 
+	/*
 	editMenu = QMainWindow::menuBar()->addMenu(tr("&Edit"));
 	//editMenu->addAction(cutAction);
 	editMenu->addAction(addParameterAction);
 	editMenu->addAction(parameterInfoAction);
+	*/
 
 	toolsMenu = QMainWindow::menuBar()->addMenu(tr("&Tools"));
 	toolsMenu->addAction(editXemlAction);

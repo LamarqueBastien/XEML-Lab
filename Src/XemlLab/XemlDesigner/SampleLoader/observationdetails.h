@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class ObservationDetails : public QWidget
+class ObservationDetails : public QDialog
 {
 		Q_OBJECT
 	typedef enum
@@ -37,6 +37,7 @@ class ObservationDetails : public QWidget
 		void set_model_tree(ModelOrNotModel displayMode);
 
 
+		QDialogButtonBox   * buttonBox;
 		QCheckBox          * pooling;
 		QCheckBox          * destructCheckBox;
 		QCheckBox          * use_template_for_all;
@@ -44,6 +45,7 @@ class ObservationDetails : public QWidget
 		QLineEdit          * durationEdit;
 		QTimeEdit          * timeDurationEdit;
 		QPushButton        * add_individual;
+		QPushButton        * remove_variable;
 		QTreeView          * tree;
 		QStandardItemModel * model;
 		DocumentResources  * doc_resources;
@@ -63,6 +65,9 @@ class ObservationDetails : public QWidget
 
 	public slots:
 	private slots:
+		void show_help();
+		void on_remove_item_clicked();
+
 		void on_modelCB_clicked();
 		void add_details_about_pos_term(ItfOntologyTerm * _term);
 		void on_item_double_clicked(QModelIndex index);

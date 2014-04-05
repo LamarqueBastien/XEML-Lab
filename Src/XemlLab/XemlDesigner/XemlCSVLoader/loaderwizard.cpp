@@ -36,6 +36,8 @@ LoaderWizard::LoaderWizard(QStandardItemModel * _model,ItfDocument * _doc,Docume
 	//connect(this,SIGNAL(),this->loaderDataFilePage,SLOT()
 
 	setWindowTitle(tr("Loader extra data Wizard"));
+	this->setMinimumWidth(700);
+	this->setMinimumHeight(500);
 	//setWindowFlags(Qt::WindowStaysOnTopHint);
 
 
@@ -49,14 +51,45 @@ void LoaderWizard::showHelp()
 	static QString lastHelpMessage;
 
 	QString message;
+	QString hmtl_message;
 
 	switch (currentId()) {
 	case Page_Intro:
 		message = tr("The decision you make here will affect which page you "
 					 "get to see next.");
 		break;
+	case Page_DataFile:
+		message=tr("<h2>load file helper</h2>"
+						"<h3>add or remove story</h3>"
+						"<ul>"
+						"<li> click on \"add story\" to add a new story for your experiment (check the split box for a storysplit). </li>"
+						"<li> click on \"remove story\" to remove a story or a split in your experiment (all substories of the removed story are removed). </li>"
+						"</ul>"
+						"<h3>add or remove observation point</h3>"
+						"<ul>"
+						"<li> click on \"add observation point\"to add a new story for your experiment (check the split box for a storysplit). </li>"
+						"<li> click on \"remove observation point\" to remove a observation point. </li>"
+						"</ul>"
+						"<h3>add or remove events</h3>"
+						"<ul>"
+						"<li> click on add event to add a new event in a story (storm yellow item). </li>"
+						"<li> click on remove event to remove a event in a story . </li>"
+						"</ul>"
+						"<h3>add or remove samples</h3>"
+						"<ul>"
+						"<li> click on \"add samples\" to add a new set of sample in your experiment (you need to have defined at least one observation point and one germplasm pool). </li>"
+						"<li> click on \"remove samples\" to remove a set of samples. </li>"
+						"</ul>");
+		//message = tr("The decision you make here will affect which page you "
+		//			 "get to see next.");
+		break;
+	case Page_ParamSet:
+		message = tr("The decision you make here will affect which page you "
+					 "get to see next.");
+		break;
 	default:
 		message = tr("This help is likely not to be of any help.");
+		break;
 	}
 
 	if (lastHelpMessage == message)

@@ -24,6 +24,8 @@ class ParameterView :public QTreeView
 		void dragMoveEvent(QDragMoveEvent *event);
 		//void dropEvent(QDropEvent *event);
 		void mousePressEvent(QMouseEvent *event);
+		int sizeHintForColumn(int column);
+
 
 };
 

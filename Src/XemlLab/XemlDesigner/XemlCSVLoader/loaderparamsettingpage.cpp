@@ -11,6 +11,8 @@ LoaderParamSettingPage::LoaderParamSettingPage(QStandardItemModel * _model,ItfDo
 	setSubTitle(tr("Please try to find a corresponding term for each header"
 					   " in a selection of ontologies."));
 	table =new QTableView();
+	this->table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	this->table->setSelectionMode(QAbstractItemView::MultiSelection);
 
 	model = new QStandardItemModel(1,4,this); //2 Rows and 3 Columns

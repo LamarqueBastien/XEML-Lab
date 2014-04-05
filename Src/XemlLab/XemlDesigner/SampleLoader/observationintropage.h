@@ -12,6 +12,7 @@ class ObservationIntroPage : public QWizardPage
 		ObservationIntroPage(QWidget *parent = 0);
 		//int nextId() const;
 		QLabel *topLabel;
+
 };
 
 #endif // OBSERVATIONINTROPAGE_H

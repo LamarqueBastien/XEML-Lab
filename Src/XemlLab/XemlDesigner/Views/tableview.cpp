@@ -7,6 +7,8 @@ TableView::TableView(ItfDocument * _xemlDoc,QTableView *parent)
 	this->xemlDoc=_xemlDoc;
 
 
+	this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	this->setStyleSheet("QTableView QTableCornerButton::section {background: black;border: 2px outset black;}");
 	modelTable = new QStandardItemModel(1,10,this); //1 Rows and 10 Columns
 	modelTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Experiment")));

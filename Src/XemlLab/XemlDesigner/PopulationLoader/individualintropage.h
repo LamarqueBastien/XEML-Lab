@@ -16,7 +16,11 @@ class IndividualIntroPage : public QWizardPage
 	private:
 		QLabel *topLabel;
 		QLabel *bottomLabel;
+		QLabel             * ind_label;
+		QSpinBox           * ind_box;
 		QCheckBox   * import_from_files;
+	private slots:
+		void on_value_changed(int _value);
 };
 
 #endif // INDIVIDUALINTROPAGE_H

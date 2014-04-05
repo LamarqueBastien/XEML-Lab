@@ -5,14 +5,15 @@ LoaderDataFilePage::LoaderDataFilePage(QWidget *parent)
 {
 	setTitle(tr("Evaluate <i>CSV files</i>&trade;"));
 	setSubTitle(tr("Please choose a csv file. Make sure to provide a valid "
-					   "file path (e.g., Path/to/file.extensionfiles)."
+					   "file path (e.g., Path/to/file.extensionfiles) "
 				   "then select the header you want to keep to continue"));
 
 	Filename = new QLabel(tr("F&ilename:"));
 	FilenameLineEdit = new QLineEdit;
 	FilenameLineEdit->setValidator(new QRegExpValidator(QRegExp("(.+\/)+(.*[+*$^.?]?.*)(\\..+)"), this));
 	this->headerview=new QTableView;
-	this->model = new QStandardItemModel(1,1,this);
+	this->headerview->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->model = new QStandardItemModel(this);
 	this->headerview->setSelectionMode(QAbstractItemView::MultiSelection);
 	this->headerview->setModel(this->model);
 	Filename->setBuddy(FilenameLineEdit);
@@ -30,6 +31,7 @@ LoaderDataFilePage::LoaderDataFilePage(QWidget *parent)
 	this->selectDataDelimiter->addItem("/");
 	this->selectDataDelimiter->addItem(";");
 
+
 	textDelimiter= new QLabel(tr("text delimiters:"));
 	this->selectTextDelimiter =new QComboBox;
 	//connect(selectTextDelimiter,SIGNAL(activated(int)),textDelimiter,SLOT(show()));
@@ -42,26 +44,67 @@ LoaderDataFilePage::LoaderDataFilePage(QWidget *parent)
 
 	//registerField("DataDelimiter*", selectDataDelimiter);
 	//registerField("TextDelimiter*", selectTextDelimiter);
-	QHBoxLayout * hlayout=new QHBoxLayout;
-	hlayout->addWidget(Filename);
-	hlayout->addWidget(FilenameLineEdit);
-	hlayout->addWidget(browseButton);
-	hlayout->addWidget(loadButton);
+
+	QDialogButtonBox * browseAndLoadBox=new QDialogButtonBox(Qt::Horizontal);
+
+	browseAndLoadBox->addButton(this->loadButton,QDialogButtonBox::ActionRole);
+	browseAndLoadBox->addButton(this->browseButton,QDialogButtonBox::ActionRole);
+
+	QGroupBox *groupBox = new QGroupBox(tr("data delimiter selection"));
+	QHBoxLayout * hlayout1=new QHBoxLayout;
+	hlayout1->addWidget(dataDelimiter);
+	hlayout1->addWidget(selectDataDelimiter);
+	QHBoxLayout * hlayout2=new QHBoxLayout;
+	hlayout2->addWidget(textDelimiter);
+	hlayout2->addWidget(selectTextDelimiter);
+	QVBoxLayout * boxLayout = new QVBoxLayout;
+	boxLayout->addLayout(hlayout1);
+	boxLayout->addLayout(hlayout2);
+	boxLayout->addStretch(1);
+	groupBox->setLayout(boxLayout);
+
+	QGroupBox *groupBoxFile = new QGroupBox(tr("file selection"));
+	QHBoxLayout * hlayout3=new QHBoxLayout;
+	hlayout3->addWidget(Filename);
+	hlayout3->addWidget(FilenameLineEdit);
+
+	
+	QVBoxLayout * boxLayoutFile = new QVBoxLayout;
+	boxLayoutFile->addLayout(hlayout3);
+	boxLayoutFile->addWidget(browseAndLoadBox);
+	boxLayoutFile->addStretch(1);
+	groupBoxFile->setLayout(boxLayoutFile);
+	
+
+	QGroupBox *groupBoxHeader = new QGroupBox(tr("header selection"));
+	QVBoxLayout * boxLayoutHeader = new QVBoxLayout;
+	boxLayoutHeader->addWidget(headerview);
+	groupBoxHeader->setLayout(boxLayoutHeader);
+
+	
+	//QHBoxLayout * hlayout=new QHBoxLayout;
+	//hlayout->addWidget(Filename);
+	//hlayout->addWidget(FilenameLineEdit);
+	//hlayout->addWidget(browseButton);
+	//hlayout->addWidget(loadButton);
 	QVBoxLayout * mainlayout=new QVBoxLayout;
 
 	QGridLayout *layout = new QGridLayout;
-	layout->addWidget(Filename, 0, 0);
-	layout->addWidget(browseButton, 0, 1);
-	layout->addWidget(FilenameLineEdit, 0, 2);
-	layout->addWidget(loadButton, 0, 3);
-	layout->addWidget(dataDelimiter, 1, 0);
-	layout->addWidget(selectDataDelimiter, 1, 1);
-	layout->addWidget(textDelimiter, 2, 0);
-	layout->addWidget(selectTextDelimiter, 2, 1);
-	mainlayout->addLayout(hlayout);
+
+
+	layout->addWidget(groupBox, 0, 0,1,8);
+	layout->addWidget(groupBoxFile, 1, 0,1,8);
+	layout->addWidget(groupBoxHeader, 2, 0,1,8);
+	//layout->addWidget(browseAndLoadBox,1,0,1,8);
+
+	//layout->addWidget(selectDataDelimiter, 1, 1);
+	//layout->addWidget(textDelimiter, 2, 0);
+	//layout->addWidget(selectTextDelimiter, 2, 1);
+	//mainlayout->addLayout(hlayout);
 	mainlayout->addLayout(layout);
-	mainlayout->addWidget(headerview);
+	//mainlayout->addWidget(headerview);
 	setLayout(mainlayout);
+
 }
 void LoaderDataFilePage::process_line(const QString &)
 {

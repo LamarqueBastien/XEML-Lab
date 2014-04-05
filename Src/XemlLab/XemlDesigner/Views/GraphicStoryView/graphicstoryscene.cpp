@@ -412,6 +412,7 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 			this->my_selected_story=NULL;
 			this->my_selected_obsPoint=NULL;
 			this->my_selected_event=NULL;
+			this->selected_item=NULL;
 			emit set_details_in_view(item);
 			std::cerr << "empty selection" << std::endl;
 		}

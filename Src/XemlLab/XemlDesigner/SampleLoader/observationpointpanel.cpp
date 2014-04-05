@@ -3,6 +3,7 @@
 ObservationPointPanel::ObservationPointPanel(bool _RemoveMode,QWidget * parent)
 :QWidget(parent)
 {
+
 	Remove_mode=_RemoveMode;
 	view = new QTableView();
 	model = new QStandardItemModel(1,3,this); //2 Rows and 3 Columns
@@ -187,7 +188,10 @@ void ObservationPointPanel::display_selected_item(QModelIndex _QMI){
 
 	}
 	else{
-		this->obsWizard =new ObservationWizard(this->storyNode,rootStory,current_OP,this->doc_resources,this->doc,this);
+		this->obsWizard =new ObservationWizard(this->storyNode,rootStory,current_OP,this->doc_resources,this->doc);
 		this->obsWizard->show();
+		this->close();
+		//this->setVisible(false);
+		//connect(this->obsWizard,SIGNAL(accepted()),this,SLOT(close()));
 	}
 }

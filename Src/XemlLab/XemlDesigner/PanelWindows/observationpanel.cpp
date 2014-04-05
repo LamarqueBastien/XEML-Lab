@@ -4,11 +4,22 @@ ObservationPanel::ObservationPanel(QWidget * parent)
 :QWidget(parent)
 {
 	view = new QTableView();
-	model = new QStandardItemModel(1,4,this); //2 Rows and 3 Columns
-	model->setHorizontalHeaderItem(0, new QStandardItem(QString("observation Id")));
-	model->setHorizontalHeaderItem(1, new QStandardItem(QString("duration")));
-	model->setHorizontalHeaderItem(2, new QStandardItem(QString("Obs Point Id")));
-	model->setHorizontalHeaderItem(3, new QStandardItem(QString("Target time")));
+	this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+	model = new QStandardItemModel(this); //2 Rows and 3 Columns
+
+	QStandardItem * ob_id=new QStandardItem(QString("observation Id"));
+	model->setHorizontalHeaderItem(0, ob_id);
+
+	QStandardItem * duration=new QStandardItem(QString("duration"));
+	model->setHorizontalHeaderItem(1, duration);
+
+	QStandardItem * op_id=new QStandardItem(QString("Obs Point Id"));
+	model->setHorizontalHeaderItem(2,op_id );
+
+	QStandardItem * time=new QStandardItem(QString("Target time"));
+	model->setHorizontalHeaderItem(3,time);
+
 	view->resizeColumnsToContents();
 
 	view->setModel(model);
@@ -17,7 +28,7 @@ ObservationPanel::ObservationPanel(QWidget * parent)
 	setLayout(mainLayout);
 	setWindowTitle(tr("observation point informations"));
 
-	connect(this->view,SIGNAL(clicked(QModelIndex)),this,SLOT(display_selected_item(QModelIndex)));
+	//connect(this->view,SIGNAL(clicked(QModelIndex)),this,SLOT(display_selected_item(QModelIndex)));
 }
 void ObservationPanel::initialize(ItfDocument * _xemlDoc,StoryBase * _story,bool _isStorySplit){
 	this->xemlDoc=_xemlDoc;
@@ -38,11 +49,22 @@ void ObservationPanel::initialize(ItfDocument * _xemlDoc,StoryBase * _story,bool
 			int intnum=listObspoint->at(0)->count_observations();
 			for(int j=cpt;j<intnum;j++){
 
-				model->setItem(j,0,new QStandardItem(QString::number(listobs->at(j)->get_id())));
-				model->setItem(j,1,new QStandardItem(listobs->at(j)->get_duration().toString("hh:mm:ss")));
-				model->setItem(j,2,new QStandardItem(QString::number(listObspoint->at(i)->get_id())));
+				QStandardItem * ob_id=new QStandardItem(QString::number(listobs->at(j)->get_id()));
+				ob_id->setEditable(false);
+				model->setItem(j,0,ob_id);
+
+				QStandardItem * duration=new QStandardItem(listobs->at(j)->get_duration().toString("hh:mm:ss"));
+				duration->setEditable(false);
+				model->setItem(j,1,duration);
+
+				QStandardItem * op_id=new QStandardItem(QString::number(listObspoint->at(i)->get_id()));
+				op_id->setEditable(false);
+				model->setItem(j,2,op_id);
 				//model->setItem(j,3,new QStandardItem(listObspoint->at(i)->get_timepoint().toString("dd.hh:mm:ss")));
-				model->setItem(j,3,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->xemlDoc->get_startdate(),listObspoint->at(i)->get_timepoint()))));
+
+				QStandardItem * tTime=new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->xemlDoc->get_startdate(),listObspoint->at(i)->get_timepoint())));
+				tTime->setEditable(false);
+				model->setItem(j,3,tTime);
 
 				cpt++;
 			}
@@ -63,12 +85,22 @@ void ObservationPanel::initialize(ItfDocument * _xemlDoc,StoryBase * _story,bool
 		for(size_t i=0;i<listObspoint->size();i++){
 			int intnum=listObspoint->at(0)->count_observations();
 			for(int j=cpt;j<intnum;j++){
+				QStandardItem * ob_id=new QStandardItem(QString::number(listobs->at(j)->get_id()));
+				ob_id->setEditable(false);
+				model->setItem(j,0,ob_id);
 
-				model->setItem(j,0,new QStandardItem(QString::number(listobs->at(j)->get_id())));
-				model->setItem(j,1,new QStandardItem(listobs->at(j)->get_duration().toString("hh:mm:ss")));
-				model->setItem(j,2,new QStandardItem(QString::number(listObspoint->at(i)->get_id())));
+				QStandardItem * duration=new QStandardItem(listobs->at(j)->get_duration().toString("hh:mm:ss"));
+				duration->setEditable(false);
+				model->setItem(j,1,duration);
+
+				QStandardItem * op_id=new QStandardItem(QString::number(listObspoint->at(i)->get_id()));
+				op_id->setEditable(false);
+				model->setItem(j,2,op_id);
+
 				//model->setItem(j,3,new QStandardItem(listObspoint->at(i)->get_timepoint().toString("dd.hh:mm:ss")));
-				model->setItem(j,3,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->xemlDoc->get_startdate(),listObspoint->at(i)->get_timepoint()))));
+				QStandardItem * tTime=new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(this->xemlDoc->get_startdate(),listObspoint->at(i)->get_timepoint())));
+				tTime->setEditable(false);
+				model->setItem(j,3,tTime);
 
 				cpt++;
 			}

@@ -34,14 +34,18 @@ AboutStory::AboutStory(ItfDocument * _current_doc, QWidget * parent)
 	this->obsInfo = new ObservationPanel;
 	stackLayout->addWidget(obsInfo);
 
+
 	QVBoxLayout * leftLayout = new QVBoxLayout;
 	leftLayout->addWidget(listWidget);
 	QVBoxLayout * rightLayout = new QVBoxLayout;
 	rightLayout->addLayout(stackLayout);
 	QHBoxLayout * mainLayout = new QHBoxLayout;
-	mainLayout->addLayout(leftLayout);
-	mainLayout->addLayout(rightLayout);
-	this->setLayout(mainLayout);
+	QGridLayout * grid=new QGridLayout;
+	grid->addLayout(leftLayout,0,0,1,2);
+	grid->addLayout(rightLayout,0,2,1,6);
+	//mainLayout->addLayout(leftLayout);
+	//mainLayout->addLayout(rightLayout);
+	this->setLayout(grid);
 	connect(this->listWidget,SIGNAL(currentRowChanged(int)),stackLayout,SLOT(setCurrentIndex(int)));
 	listWidget->setCurrentRow(0);
 }

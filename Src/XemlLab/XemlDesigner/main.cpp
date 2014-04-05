@@ -103,6 +103,8 @@ int main(int argc, char *argv[])
 	/************************************************
 	 * load the qss file for stylesheet
 	*************************************************/
+	QTime time = QTime::currentTime();
+	qsrand((uint)time.msec());
 	QFile * style = new QFile("://StyleSheet/style.qss");
 
 		if(!style->open(QIODevice::ReadOnly))

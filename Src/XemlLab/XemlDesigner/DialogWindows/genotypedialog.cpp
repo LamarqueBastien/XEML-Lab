@@ -5,6 +5,7 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 {
 
 	pool=new IndividualsPool();
+	this->setModal(true);
 
 	this->EditMode=false;
 
@@ -156,8 +157,9 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 void  GenotypeDialog::on_add_individuals_clicked(){
 
 
-		IndividualWizard * iw=new IndividualWizard(pool);
+		IndividualWizard * iw=new IndividualWizard(pool,this);
 		iw->show();
+		//iw->setVisible(true);
 
 }
 

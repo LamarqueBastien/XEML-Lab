@@ -12,9 +12,17 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 		//this->draggableParameterTree->setAnimated(true);
 		this->draggableParameterTree->setObjectName("VariableTree");
 		this->draggableParameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+		//this->draggableParameterTree->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 		this->draggableParameterTree->setAcceptDrops(true);
 		this->draggableParameterTree->setDragEnabled(true);
+		this->draggableParameterTree->header()->setWindowTitle("ontologies");
+		//this->draggableParameterTree->header()->setStretchLastSection(true);
+		//this->draggableParameterTree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 		this->draggableParameterTree->setItemsExpandable(true);
+		this->draggableParameterTree->setAnimated(true);
+		connect(this->draggableParameterTree,SIGNAL(entered(QModelIndex)),this,SLOT(resize_column(QModelIndex)));
+
+
 	}
 	else{
 		this->parameterTree=new QTreeView;
@@ -22,6 +30,7 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 		//this->parameterTree->setSelectionMode(QAbstractItemView::MultiSelection);
 		this->parameterTree->setObjectName("VariableTree");
 		this->parameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+		this->setMinimumWidth(850);
 
 	}
 
@@ -61,7 +70,13 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	searchLayout->addWidget(search);
 
 	QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Help);
-	buttonBox->addButton(this->addOntology,QDialogButtonBox::ActionRole);
+	if(drag_and_drop_mode){
+		buttonBox->addButton(this->addOntology,QDialogButtonBox::ActionRole);
+	}
+	else{
+		buttonBox->addButton(this->addParameter,QDialogButtonBox::ActionRole);
+
+	}
 
 	connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(show_help()));
 	//buttonBox->addButton(this->addParameter,QDialogButtonBox::ActionRole);
@@ -72,11 +87,11 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	layout->addLayout(searchLayout);
 	if (drag_and_drop_mode){
 		layout->addWidget(this->draggableParameterTree);
-		layout->addWidget(buttonBox);
+		//layout->addWidget(buttonBox);
 	}
 	else{
 		layout->addWidget(this->parameterTree);
-		layout->addWidget(this->addParameter);
+		//layout->addWidget(this->addParameter);
 
 
 	}
@@ -96,23 +111,49 @@ ParameterTreeView::ParameterTreeView(bool _drag_and_drop_mode,DocumentResources 
 	connect(parameterInfo,SIGNAL(clicked()),this,SLOT(showSelection()));
 
 }
+void ParameterTreeView::resize_column(QModelIndex _index){
+	Q_UNUSED(_index);
+	//std::cerr << "resize column" << std::endl;
+	this->draggableParameterTree->resizeColumnToContents(0);
+
+}
+
 void ParameterTreeView::show_help(){
-	QString HtmlString("<h2>Ontologies helper</h2>"
-					   "<h3>add or remove term</h3>"
-					   "<ul>"
-					   "<li> Search a term in the ontology tree and drag it to the story view (Variables with one or more child cannot be dragged). you nedd to select a story first. </li>"
-					   "<li> click on \"remove variable\" in the story view and select the term to remove by clicking on the row number (to select all columns). </li>"
-					   "</ul>"
-					   "<h3>Manage Ontologies</h3>"
-					   "<ul>"
-					   "<li> You can select which ontology you want to add to your document by check/uncheck related ontology checkbox. </li>"
-					   "<li> click on \"remove observation point\" to remove a observation point. </li>"
-					   "</ul>"
-					   "<h3>Search a specific term</h3>"
-					   "<ul>"
-					   "<li> Enter the term you search in the search field to get automatically the right term without searching in all trees. </li>"
-					   "</ul>");
+
+	QString HtmlString="";
+	if(drag_and_drop_mode){
+		HtmlString="<h2>Ontologies helper</h2>"
+				   "<h3>add or remove term</h3>"
+				   "<ul>"
+				   "<li> Search a term in the ontology tree and drag it to the story view (Variables with one or more child cannot be dragged). you nedd to select a story first. </li>"
+				   "<li> click on \"remove variable\" in the story view and select the term to remove by clicking on the row number (to select all columns). </li>"
+				   "</ul>"
+				   "<h3>Manage Ontologies</h3>"
+				   "<ul>"
+				   "<li> You can select which ontology you want to add to your document by check/uncheck related ontology checkbox. </li>"
+				   "<li> click on \"remove observation point\" to remove a observation point. </li>"
+				   "</ul>"
+				   "<h3>Search a specific term</h3>"
+				   "<ul>"
+				   "<li> Enter the term you search in the search field to get automatically the right term without searching in all trees. </li>"
+				   "</ul>";
+	}
+	else{
+		HtmlString="<h2>Ontologies helper</h2>"
+				   "<h3>add or remove term</h3>"
+				   "<ul>"
+				   "<li> Search a term in the ontology tree and drag it to the story view (Variables with one or more child cannot be dragged). you nedd to select a story first. </li>"
+				   "<li> click on \"remove variable\" in the story view and select the term to remove by clicking on the row number (to select all columns). </li>"
+				   "</ul>"
+				   "<h3>Search a specific term</h3>"
+				   "<ul>"
+				   "<li> Enter the term you search in the search field to get automatically the right term without searching in all trees. </li>"
+				   "</ul>";
+	}
+
 	QMessageBox::about(this,"Ontology helper",HtmlString);
+
+
 }
 
 bool                                       ParameterTreeView::contains(TermNode * _node,std::list<TermNode*> * _processed_nodes,QString _namespace){
@@ -298,14 +339,17 @@ void ParameterTreeView::set_up_Ontologytree(DocumentResources * _doc,QStringList
 
 
 	if(drag_and_drop_mode){
-		this->draggableParameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
+		//this->draggableParameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
 		//this->parameterTree->header()->setStretchLastSection(false);
+		this->my_treeparameter->setHeaderData(0,Qt::Horizontal,"ontologies",Qt::DisplayRole);
 		this->draggableParameterTree->setModel(this->my_treeparameter);
 		this->draggableParameterTree->setMouseTracking(true);
-		this->draggableParameterTree->header()->hide();
+		//this->draggableParameterTree->header()->setHorizontalScrollMode();
+		//this->draggableParameterTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+		this->draggableParameterTree->setIndentation(20);
 	}
 	else{
-		this->parameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
+		//this->parameterTree->header()->resizeSections(QHeaderView::ResizeToContents);//->setResizeMode(0, QHeaderView::ResizeToContents);
 		//this->parameterTree->header()->setStretchLastSection(false);
 		this->parameterTree->setModel(this->my_treeparameter);
 		this->parameterTree->setMouseTracking(true);

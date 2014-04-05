@@ -4,6 +4,14 @@ ParameterView::ParameterView(QTreeView *parent)
 	:QTreeView(parent)
 {
 	this->setWindowOpacity(0.0);
+
+}
+int ParameterView::sizeHintForColumn(int column)
+{
+int viewSize = this->viewport()->width();
+int colSize = QTreeView::sizeHintForColumn(column);
+std::cerr << "column size : " << colSize << std::endl;
+return qMax(viewSize, colSize);
 }
 void ParameterView::dragEnterEvent(QDragEnterEvent *event)
  {

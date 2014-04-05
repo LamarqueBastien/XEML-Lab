@@ -4,6 +4,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 	: QWizardPage(parent)
 {
+
 	this->root_node=_root;
 	observations_tmp= ObservationWizard::get_observations();
 	std::cerr << "obs_tmp size : " << this->observations_tmp->size() << std::endl;
@@ -75,11 +76,12 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	//tree->setModel(model);
 
 	std::cerr << "pool size before :" << this->pools->size() << std::endl;
-	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,this->root_node,this->pools);
+	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,this->root_node,this->pools,this);
 	this->observations_tmp->push_back(obspage);
 	tabs->addTab(obspage,testr);
 	layout->addWidget(tabs);
 	layout->addWidget(add_observation);
+	setWindowFlags(Qt::WindowStaysOnTopHint);
 
 
 /*
@@ -163,7 +165,7 @@ void ObservationDetailsPage::add_obs(){
 	//dev_onto->append("PO_Development");
 	//tmp->set_up_Ontologytree(this->doc_resources,dev_onto);
 	QString tmp_string="observations set"+QString::number(obs_counter);
-	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,root_node,this->pools);
+	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,root_node,this->pools,this);
 	obspage->initialize_table(pools);
 	this->observations_tmp->push_back(obspage);
 	this->tabs->addTab(obspage,tmp_string);

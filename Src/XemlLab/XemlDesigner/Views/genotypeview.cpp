@@ -3,6 +3,7 @@
 GenotypeView::GenotypeView(QWidget *parent) :
 	QWidget(parent)
 {
+	setWindowFlags(Qt::WindowStaysOnTopHint);
 	this->addGenotype=new QPushButton("add");
 	/*
 	this->addGenotype->setStyleSheet(
@@ -140,7 +141,7 @@ void GenotypeView::edit_genotype(){
 						if ((*it2).first->get_germplasm()==germplasm){
 							//it_to_erase=it;
 							//delete (*it).first;
-							this->new_genotype =new GenotypeDialog(this->currentDoc,(*it2).first);
+							this->new_genotype =new GenotypeDialog(this->currentDoc,(*it2).first,this);
 							this->new_genotype->show();
 							connect(this->new_genotype,SIGNAL(genotype_edited(ItfDocument*)),this,SLOT(refresh_view(ItfDocument*)));
 							//this->refresh_view();
@@ -172,7 +173,7 @@ void GenotypeView::remove_genotype(){
 }
 
 void GenotypeView::add_genotype(){
-	this->new_genotype =new GenotypeDialog();
+	this->new_genotype =new GenotypeDialog(this);
 	connect(this->new_genotype,SIGNAL(genotype_added(IndividualsPool*)),this,SLOT(genotype_to_add(IndividualsPool*)));
 	new_genotype->show();
 

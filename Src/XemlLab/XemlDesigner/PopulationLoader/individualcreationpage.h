@@ -9,6 +9,9 @@ class IndividualCreationPage : public QWizardPage
 	public:
 		IndividualCreationPage(QWidget *parent=0);
 		int nextId() const;
+	protected:
+		void initializePage();
+
 };
 
 #endif // INDIVIDUALCREATIONPAGE_H

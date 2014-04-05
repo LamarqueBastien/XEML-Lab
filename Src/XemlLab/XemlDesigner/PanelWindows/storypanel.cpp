@@ -5,7 +5,7 @@ StoryPanel::StoryPanel(QWidget * parent)
 	:QWidget(parent)
 {
 
-	model = new QStandardItemModel(1,6,this); //1 Rows and 6 Columns
+	model = new QStandardItemModel(this); //1 Rows and 6 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("Story Name")));
 	model->setHorizontalHeaderItem(1, new QStandardItem(QString("ind number")));
 	model->setHorizontalHeaderItem(2, new QStandardItem(QString("var number")));
@@ -14,6 +14,8 @@ StoryPanel::StoryPanel(QWidget * parent)
 	model->setHorizontalHeaderItem(5, new QStandardItem(QString("pool")));
 
 	view = new QTableView();
+	this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	view->setModel(model);
 	QHBoxLayout * mainLayout= new QHBoxLayout;
 	mainLayout->addWidget(view);

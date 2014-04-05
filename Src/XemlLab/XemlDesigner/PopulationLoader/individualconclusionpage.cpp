@@ -7,6 +7,8 @@ IndividualConclusionPage::IndividualConclusionPage(QWidget *parent)
 	topLabel->setWordWrap(true);
 
 	this->table= new QTableView;
+	this->table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	this->model=new QStandardItemModel(1,1,this);
 	this->model->setHorizontalHeaderItem(0, new QStandardItem(QString("IndividualsId")));
 

@@ -6,6 +6,7 @@
 #include<QtGui>
 #include<QStandardItemModel>
 #include<QTreeView>
+#include<QHeaderView>
 #include<list>
 #include<QTableView>
 #include<QStandardItem>
@@ -60,6 +61,7 @@ class ParameterTreeView : public QWidget
 		void                                       ontology_to_load(bool,bool,bool);
 	public slots:
 	private slots:
+		void                                       resize_column(QModelIndex _index);
 		void                                       show_help();
 		void                                       search_term(QString _term);
 		//void                                       display(QModelIndex elementselected);

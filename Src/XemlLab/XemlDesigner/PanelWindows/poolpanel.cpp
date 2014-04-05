@@ -4,7 +4,9 @@ PoolPanel::PoolPanel(QWidget * parent)
 	:QWidget(parent)
 {
 	view = new QTableView();
-	model = new QStandardItemModel(1,2,this); //1 Rows and 2 Columns
+	this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+	model = new QStandardItemModel(this); //1 Rows and 2 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("individuals Id")));
 	model->setHorizontalHeaderItem(1, new QStandardItem(QString("Pool Id")));
 	model->setHorizontalHeaderItem(2, new QStandardItem(QString("ObservationPoint Id")));

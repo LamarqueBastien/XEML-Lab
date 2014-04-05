@@ -8,6 +8,7 @@ std::vector<ObservationDetails *> * ObservationWizard::observations=new std::vec
 ObservationWizard::ObservationWizard(StoryNode * _current,StoryNode * _root,ObservationPoint * _obs,DocumentResources * _doc_resources,ItfDocument * _doc, QWidget *parent)
 	: QWizard(parent)
 {
+	this->setModal(false);
 	this->observations->clear();
 	this->setMinimumHeight(700);
 	this->setMinimumWidth(1100);
@@ -34,9 +35,9 @@ ObservationWizard::ObservationWizard(StoryNode * _current,StoryNode * _root,Obse
 	*/
 
 
-	addPage(new ObservationIntroPage);
-	addPage(new ObservationGenotypePage(genList));
-	addPage(new ObservationDetailsPage(this->doc_resources,this->storyRoot));
+	addPage(new ObservationIntroPage(this));
+	addPage(new ObservationGenotypePage(genList,this));
+	addPage(new ObservationDetailsPage(this->doc_resources,this->storyRoot,this));
 	//addPage(new ObservationMaterialPage(this->doc_resources));
 	setWindowTitle("defines sampling strategy for genotype ");
 	connect(this,SIGNAL(destroyed()),this,SLOT(close()));
