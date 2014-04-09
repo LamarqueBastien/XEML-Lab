@@ -463,7 +463,14 @@ namespace Xeml {
 			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it=_node->get_story()->get_variablesCollection()->begin();it!=_node->get_story()->get_variablesCollection()->end();++it){
 
 				_term=static_cast<DynamicTerm*>((*it).first);
-				QDomElement var=this->doc.createElement("xeml:Variable");
+				QDomElement var;
+				if(_term->get_measured_variable()){
+					var=this->doc.createElement("xeml:MeasuredVariable");
+				}
+				else{
+					var=this->doc.createElement("xeml:Variable");
+				}
+				//QDomElement var=this->doc.createElement("xeml:Variable");
 				var.setAttribute("NS",_term->get_namespacealias());
 				var.setAttribute("TermId",_term->get_termId());
 				var.setAttribute("Name",_term->get_name());
@@ -1245,9 +1252,10 @@ namespace Xeml {
 			QDomNodeList QNL=_elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:Variable"){
-					//std::cerr << "new flag Variable" << std::endl;
-
 					InitVariable(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
+				}
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:MeasuredVariable"){
+					InitMeasuredVariable(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
 				}
 				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:ObservationPoint"){
 					InitObserverPoint(QNL.item(i).toElement(),sns->get_isStorySplit(),sns->get_story());
@@ -1299,11 +1307,12 @@ namespace Xeml {
 			}
 			static_cast<Story*>(_xo)->add_individualspool(ip);
 		}
-		void                  XemlDocument::InitVariable(QDomElement _elem,bool _isStorysplit,StoryBase * _storyBase){
+		void                  XemlDocument::InitMeasuredVariable(QDomElement _elem,bool _isStorysplit,StoryBase * _storyBase){
 			QString termId =_elem.attributeNode("TermId").value();
 			//std::cerr << "term ID " << termId.toStdString() << std::endl;
 
 			DynamicTerm * p = new DynamicTerm(termId);
+			p->set_measured_variable(true);
 			InitAnnotations(_elem,p);
 			p->set_name(_elem.attributeNode("Name").value());
 			p->set_namespacealias(_elem.attributeNode("NS").value());
@@ -1312,7 +1321,45 @@ namespace Xeml {
 			if(p->get_namespacealias()=="none" ){//&& this->documentResources->contains(p->get_namespacealias(),Xeml::Document::Contracts::Environment)==false
 				std::cerr << "namespace resource not found" << std::endl;
 			}
-			else if(_storyBase->contain_variable(p)){
+			else if(_storyBase->contain_variable(p) && static_cast<DynamicTerm*>(_storyBase->get_variable(p->get_termId()))->get_measured_variable()==true){
+				std::cerr << "variable double entry" << std::endl;
+			}
+			else{
+				_storyBase->add_variable(p);
+			}
+			QDomNodeList QNL=_elem.childNodes();
+			for (int i = 0; i < QNL.length(); i++) {
+				if(QNL.item(i).toElement().tagName().toStdString()=="xeml:ValueSet"){
+					//TimeSpan * ts = new TimeSpan(35,0,0,0);
+					//std::cerr << QNL.item(i).toElement().attributeNode("TimePoint").value().toStdString() << std::endl;
+					//std::cerr << "before getDate " << std::endl;
+
+					//QDateTime ts=get_date(this->startDate,translate_DD_HH_MM_SS_in_Msecs(_elem.attributeNode("TimePoint").value()));
+					//std::cerr << "after getDate " << std::endl;
+
+					//QDateTime ts=QDateTime::fromString(QNL.item(i).toElement().attributeNode("TimePoint").value(),"dd.hh:mm:ss");
+					qint64 seconds=translate_DD_HH_MM_SS_in_Msecs(QNL.item(i).toElement().attributeNode("TimePoint").value());
+					//std::cerr << "after translate : " << seconds << std::endl;
+					InitValues(QNL.item(i).toElement(),_isStorysplit,p,get_date(this->startDate,seconds),_storyBase);
+
+				}
+			}
+		}
+		void                  XemlDocument::InitVariable(QDomElement _elem,bool _isStorysplit,StoryBase * _storyBase){
+			QString termId =_elem.attributeNode("TermId").value();
+			//std::cerr << "term ID " << termId.toStdString() << std::endl;
+
+			DynamicTerm * p = new DynamicTerm(termId);
+			p->set_measured_variable(false);
+			InitAnnotations(_elem,p);
+			p->set_name(_elem.attributeNode("Name").value());
+			p->set_namespacealias(_elem.attributeNode("NS").value());
+			//std::cerr << "namespaceALias : " << p->get_namespacealias().toStdString() << std::endl;
+
+			if(p->get_namespacealias()=="none" ){//&& this->documentResources->contains(p->get_namespacealias(),Xeml::Document::Contracts::Environment)==false
+				std::cerr << "namespace resource not found" << std::endl;
+			}
+			else if(_storyBase->contain_variable(p) && static_cast<DynamicTerm*>(_storyBase->get_variable(p->get_termId()))->get_measured_variable()==false){
 				std::cerr << "variable double entry" << std::endl;
 			}
 			else{

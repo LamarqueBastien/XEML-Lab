@@ -130,6 +130,19 @@
           <xs:field xpath="@NS" />
           <xs:field xpath="@TermId" />
         </xs:unique>
+
+		<!--makes the usage of a Measured Variable-name from a certain namespace unique within a Story-->
+        <xs:unique name="Story-MeasuredVariable_Key">
+          <xs:selector xpath="./xeml:MeasuredVariable" />
+          <xs:field xpath="@NS" />
+          <xs:field xpath="@Name" />
+        </xs:unique>
+        <!--makes the usage of a Measured Variable-TermId from a certain namespace unique within a Story-->
+        <xs:unique name="Story-MeasuredVariableId_Key">
+          <xs:selector xpath="./xeml:MeasuredVariable" />
+          <xs:field xpath="@NS" />
+          <xs:field xpath="@TermId" />
+        </xs:unique>
         
         <!--creates a key for each Partition within a story-->
         <xs:key name="Story-Partition_Key">
@@ -196,6 +209,8 @@
           </xs:element>
           <xs:element name="Variable" type="TDynamicTerm" minOccurs="0" maxOccurs="unbounded">
           </xs:element>
+		  <xs:element name="MeasuredVariable" type="TDynamicTerm" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
           <xs:element name="ObservationPoint" type="TObservationPoint" minOccurs="0" maxOccurs="unbounded">
           </xs:element>
           <xs:element name="Sample" type="TSample" minOccurs="0" maxOccurs="unbounded">
@@ -223,6 +238,8 @@
       <xs:extension base="TXemlAnnotatableObject">
         <xs:sequence>
           <xs:element name="Variable" type="TDynamicTerm" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
+		  <xs:element name="MeasuredVariable" type="TDynamicTerm" minOccurs="0" maxOccurs="unbounded">
           </xs:element>
           <xs:element name="ObservationPoint" type="TObservationPoint" minOccurs="0" maxOccurs="unbounded">
           </xs:element>

@@ -271,16 +271,23 @@ void AboutParameter::initialize(){
 		//this->daytimeedit=new QDateTimeEdit(this-);
 		//this->splitter->addWidget(this->daytimeedit);
 		//std::cerr << "XEO TERM : " << std::endl;
-		if(this->story->get_story()->contain_variableId(this->term->get_termId())){
+
+		if(this->story->get_story()->contain_variableId(this->term->get_termId())&& static_cast<DynamicTerm*>(this->story->get_story()->get_variable(this->term->get_termId()))->get_measured_variable()==false){
+			std::cerr << "term exist and it is not a measured variable" << std::endl;
+
 			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it=this->story->get_story()->get_variablesCollection()->begin();it!=this->story->get_story()->get_variablesCollection()->end();++it){
 				if((*it).second==this->term->get_termId()){
 					newTerm=static_cast<DynamicTerm*>((*it).first);
+					static_cast<DynamicTerm*>(newTerm)->set_measured_variable(false);
 				}
 
 			}
 		}
 		else{
+			std::cerr << "term does not exist" << std::endl;
 			newTerm=new DynamicTerm((*static_cast<DynamicTerm*>(this->term->get_prototype())));
+			static_cast<DynamicTerm*>(newTerm)->set_measured_variable(false);
+
 		}
 		//static_cast<DynamicTerm*>(newTerm)->
 		for(std::map<QString,VariableContextSpec*>::iterator it =static_cast<XeoTerm*>(this->term)->get_contextCollection()->begin();it!=static_cast<XeoTerm*>(this->term)->get_contextCollection()->end();++it){

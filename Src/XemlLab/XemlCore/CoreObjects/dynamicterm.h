@@ -23,6 +23,7 @@ namespace Xeml {
 		{
 			private:
 				std::vector<pair<DynamicValueBase*,QDateTime> > * dynamicvaluecollection;
+				bool IsMeasuredVariable;
 
 			public:
 				DynamicTerm();
@@ -36,6 +37,8 @@ namespace Xeml {
 				bool                                    find(DynamicValueBase  *vb);
 				std::list<QString>                * contextList();
 				std::list<DynamicValueBase*>          * valueBy(QString _context);
+				void                                    set_measured_variable(bool _IsMeasured);
+				bool                                    get_measured_variable();
 		};
 	}
 }

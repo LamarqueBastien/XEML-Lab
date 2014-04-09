@@ -1445,6 +1445,11 @@ void StoryView::add_parameter(StoryNode * _story,BasicTerm * _term){
 		this->currentDoc->get_storyboard()->findNode_by_Label(_story->get_label(),_story->get_mainStoryName())->get_story()->add_variable(_term);
 
 	}
+	if((this->currentDoc->get_storyboard()->findNode_by_Label(_story->get_label(),_story->get_mainStoryName())->get_story()->contain_variable(_term)&& static_cast<DynamicTerm*>(this->currentDoc->get_storyboard()->findNode_by_Label(_story->get_label(),_story->get_mainStoryName())->get_story()->get_variable(_term->get_termId()))->get_measured_variable()==true)){
+		this->currentDoc->get_storyboard()->findNode_by_Label(_story->get_label(),_story->get_mainStoryName())->get_story()->add_variable(_term);
+
+	}
+
 }
 void StoryView::remove_parameter(){
 	if(GraphicMode){

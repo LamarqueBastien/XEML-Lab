@@ -211,6 +211,10 @@ void ObservationDetails::add_ind(){
 				indItem=new QStandardItem(Qs);
 				indItem->setCheckable(true);
 				indItem->setCheckState(Qt::Checked);
+				QStandardItem * is_model_item=new QStandardItem("Is model");
+				is_model_item->setCheckable(true);
+				is_model_item->setCheckState(Qt::Unchecked);
+				indItem->appendRow(is_model_item);
 				QStandardItem * dev_stage=new QStandardItem("developmental-stage");
 				dev_stage->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 				dev_stage->setToolTip("double clicked to add developmental stage term");
@@ -237,6 +241,10 @@ void ObservationDetails::add_ind(){
 				QStandardItem * indItem2=new QStandardItem(Qs);
 				indItem2->setCheckable(true);
 				indItem2->setCheckState(Qt::Checked);
+				QStandardItem * is_model_item=new QStandardItem("Is model");
+				is_model_item->setCheckable(true);
+				is_model_item->setCheckState(Qt::Unchecked);
+				indItem2->appendRow(is_model_item);
 				//indItem->appendRow(indItem2);
 				indItem->insertRow(i-1,indItem2);
 				//test.append(indItem2);
@@ -285,6 +293,10 @@ void ObservationDetails::add_ind(int _id,bool _isDestroyed,int _count, int _row,
 			QStandardItem * ind=new QStandardItem(Qs);
 			ind->setCheckable(true);
 			ind->setCheckState(Qt::Checked);
+			QStandardItem * is_model_item=new QStandardItem("Is model");
+			is_model_item->setCheckable(true);
+			is_model_item->setCheckState(Qt::Unchecked);
+			ind->appendRow(is_model_item);
 			//ind->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 			QStandardItem * dev_stage=new QStandardItem("developmental-stage");
 			dev_stage->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -321,6 +333,10 @@ void ObservationDetails::add_ind(int _id,bool _isDestroyed,int _count, int _row,
 			QStandardItem * indItem2=new QStandardItem(Qs);
 			indItem2->setCheckable(true);
 			indItem2->setCheckState(Qt::Checked);
+			QStandardItem * is_model_item=new QStandardItem("Is model");
+			is_model_item->setCheckable(true);
+			is_model_item->setCheckState(Qt::Unchecked);
+			indItem2->appendRow(is_model_item);
 			//std::cerr << " item found with id : " << this->model->findItems("Observations",Qt::MatchFixedString | Qt::MatchRecursive)[0]->child(_row)->text().toStdString() << std::endl;
 			this->model->findItems("Observations",Qt::MatchFixedString | Qt::MatchRecursive)[0]->child(_row)->insertRow(_count-1,indItem2);
 

@@ -6,6 +6,7 @@ namespace Xeml {
 
 		DynamicTerm::DynamicTerm()
 		{
+			this->IsMeasuredVariable=false;
 		}
 		DynamicTerm::~DynamicTerm(void)
 		{
@@ -15,6 +16,7 @@ namespace Xeml {
 			:BasicTerm(_termId)
 		{
 			this->dynamicvaluecollection=new std::vector<pair<DynamicValueBase*,QDateTime> >();
+			this->IsMeasuredVariable=false;
 		}
 
 		DynamicTerm::DynamicTerm(const DynamicTerm& term)
@@ -27,7 +29,15 @@ namespace Xeml {
 			//this->nameSpacealias=term.nameSpacealias;
 			//this->nameSpace=term.nameSpace;
 			//this->name=term.name;
+			this->IsMeasuredVariable=false;
 			this->dynamicvaluecollection=new std::vector<pair<DynamicValueBase*,QDateTime> >();
+		}
+		void DynamicTerm::set_measured_variable(bool _IsMeasured){
+			this->IsMeasuredVariable=_IsMeasured;
+		}
+
+		bool  DynamicTerm::get_measured_variable(){
+			return this->IsMeasuredVariable;
 		}
 
 		std::vector<pair<DynamicValueBase*,QDateTime> > * DynamicTerm::get_dynamicvaluecollection(){

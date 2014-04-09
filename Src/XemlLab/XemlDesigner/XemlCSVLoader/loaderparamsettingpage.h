@@ -39,6 +39,7 @@ class LoaderParamSettingPage : public QWizardPage
 		QVector<StoryNode*>  stories2;
 		QVector<std::pair<ItfOntologyTerm *,QString> >  terms2;
 		std::vector<QString> * termHeaderLabel;
+		bool IsInitialized;
 
 
 		QString time_expression;

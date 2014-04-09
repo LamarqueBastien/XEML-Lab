@@ -91,8 +91,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 	//std::cerr << "dir path = " << my_dir.path().toStdString()<< std::endl;
-	connect(timer, SIGNAL(timeout()), this, SLOT(auto_save()));
-	timer->start(30000000);
+
+	//AutoSave handler
+	//connect(timer, SIGNAL(timeout()), this, SLOT(auto_save()));
+	//timer->start(30000000);
+
+
+
+
 	//QTimer::singleShot(10000, this, SLOT(auto_save()));
 
 	QString fen1ObjectName("Ontology");
@@ -739,6 +745,8 @@ bool    MainWindow::okToContinue() {
 	//QFile file(filePath);
 	QFile standard_xeml(fileName);
 	//QFile standard_xeml(fileName.toStdString().c_str());
+
+	//standardxeml doit contenir le fichier sauvegardé dans new
 	QString standardxeml=this->fmg->LoadXemlCodeFromFile(&standard_xeml);
 	QString currentxeml=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
 	//std::cerr << "current xeml : " << currentxeml.toStdString() << std::endl;

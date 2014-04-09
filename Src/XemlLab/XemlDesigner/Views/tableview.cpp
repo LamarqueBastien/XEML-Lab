@@ -7,7 +7,7 @@ TableView::TableView(ItfDocument * _xemlDoc,QTableView *parent)
 	this->xemlDoc=_xemlDoc;
 
 
-	this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	//this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 	this->setStyleSheet("QTableView QTableCornerButton::section {background: black;border: 2px outset black;}");
 	modelTable = new QStandardItemModel(1,10,this); //1 Rows and 10 Columns
@@ -804,51 +804,63 @@ void  TableView::populate_table(){
 				}
 
 			}
+			//write environmental variables columns
 			int counter_term=0;
 			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it9=node->get_story()->get_variablesCollection()->begin();it9!=node->get_story()->get_variablesCollection()->end();++it9){
+
 				DynamicTerm * term=static_cast<DynamicTerm*>((*it9).first);
 				//QStandardItem * term_item=new QStandardItem(term->get_name());
 				//term_item->setCheckable(true);
 				//term_item->setCheckState(Qt::Checked);
 				//variable_item->appendRow(term_item);
 
-				QDateTime current_datetime;
-				QDateTime previous_datetime;
-				std::cerr << "new term" << std::endl;
-				for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
-
-					//std::cerr << "datetime in write param : " << static_cast<QDateTime>((*it2).second).toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
-
-					if (it10==term->get_dynamicvaluecollection()->begin()){
-						current_datetime=(*it10).second;
-
+				if(term->get_measured_variable()){
+					for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
 
 					}
-					else{
-						previous_datetime=current_datetime;
-						current_datetime=(*it10).second;
-
-					}
-
-
-					if(previous_datetime!=current_datetime){
-						//qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
-						//write_variable_context(term,static_cast<ValueBase*>((*it10).first),milliseconds_ellapsed,cpt,story_counter);
-						//Vs=this->doc.createElement("xeml:ValueSet");
-					}
-					qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
-
-					write_variable_context(term,static_cast<ValueBase*>((*it10).first),milliseconds_ellapsed,cpt,story_counter);
-					std::cerr << "out of write variable context" << std::endl;
-					//qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
-					//write_variable_context(term,static_cast<ValueBase*>((*it10).first),milliseconds_ellapsed,cpt);
-
-					//Vs.setAttribute("TimePoint",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
-					//var.appendChild(Vs);
-
 
 				}
-				counter_term++;
+				else{
+					QDateTime current_datetime;
+					QDateTime previous_datetime;
+					std::cerr << "new term" << std::endl;
+					for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
+
+						//std::cerr << "datetime in write param : " << static_cast<QDateTime>((*it2).second).toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
+
+						/*
+						if (it10==term->get_dynamicvaluecollection()->begin()){
+							current_datetime=(*it10).second;
+
+
+						}
+						else{
+							previous_datetime=current_datetime;
+							current_datetime=(*it10).second;
+
+						}
+
+
+						if(previous_datetime!=current_datetime){
+							//qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
+							//write_variable_context(term,static_cast<ValueBase*>((*it10).first),milliseconds_ellapsed,cpt,story_counter);
+							//Vs=this->doc.createElement("xeml:ValueSet");
+						}
+						*/
+						qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
+
+						write_variable_context(term,static_cast<ValueBase*>((*it10).first),milliseconds_ellapsed,cpt,story_counter);
+						std::cerr << "out of write variable context" << std::endl;
+						//qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
+						//write_variable_context(term,static_cast<ValueBase*>((*it10).first),milliseconds_ellapsed,cpt);
+
+						//Vs.setAttribute("TimePoint",translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed));
+						//var.appendChild(Vs);
+
+
+					}
+					counter_term++;
+				}
 
 
 

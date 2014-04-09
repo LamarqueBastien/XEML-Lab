@@ -311,9 +311,16 @@ QString HtmlReportView::generate_observation_schedule_table()
 					ontologyTable+=msg;
 					msg=QString ("<td height = \"100\">%1</td>").arg(tmpobspoint->get_timepoint().toString("hh:mm:ss"));
 					ontologyTable+=msg;
-					qint64 duration_in_seconds= translate_DD_HH_MM_SS_in_Msecs(static_cast<Observation*>(static_cast<std::pair<Observation*,QDateTime> >(tmpobspoint->get_observationscollection()->at(0)).first)->get_duration().toString("hh:mm:ss"));
-					msg=QString ("<td height = \"100\">%1</td>").arg(translate_second_in_DD_HH_MM_SS(duration_in_seconds*tmpobspoint->count_observations()));
-					ontologyTable+=msg;
+					if(tmpobspoint->count_observations()!=0){
+						qint64 duration_in_seconds= translate_DD_HH_MM_SS_in_Msecs(static_cast<Observation*>(static_cast<std::pair<Observation*,QDateTime> >(tmpobspoint->get_observationscollection()->at(0)).first)->get_duration().toString("hh:mm:ss"));
+						msg=QString ("<td height = \"100\">%1</td>").arg(translate_second_in_DD_HH_MM_SS(0));
+						ontologyTable+=msg;
+					}
+					else{
+						qint64 duration_in_seconds= translate_DD_HH_MM_SS_in_Msecs(static_cast<Observation*>(static_cast<std::pair<Observation*,QDateTime> >(tmpobspoint->get_observationscollection()->at(0)).first)->get_duration().toString("hh:mm:ss"));
+						msg=QString ("<td height = \"100\">%1</td>").arg(translate_second_in_DD_HH_MM_SS(duration_in_seconds*tmpobspoint->count_observations()));
+						ontologyTable+=msg;
+					}
 					msg=QString ("<td height = \"100\">%1</td>").arg(tmpobspoint->count_observations());
 					ontologyTable+=msg;
 					ontologyTable+="</tr>";

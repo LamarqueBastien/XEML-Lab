@@ -12,6 +12,7 @@
 #include"XemlCSVLoader/loaderparamsettingpage.h"
 #include"XemlCSVLoader/loadervalidationpage.h"
 #include"XemlCSVLoader/loaderconclusionpage.h"
+
 using namespace Xeml::Document;
 using namespace std;
 

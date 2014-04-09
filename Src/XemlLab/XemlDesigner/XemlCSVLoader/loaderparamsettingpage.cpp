@@ -7,6 +7,7 @@ LoaderParamSettingPage::LoaderParamSettingPage(QStandardItemModel * _model,ItfDo
 	this->current_doc=_doc;
 	this->modeltree=_model;
 	this->doc_resources=_resources;
+	this->IsInitialized=false;
 	setTitle(tr("Header/Term Association"));
 	setSubTitle(tr("Please try to find a corresponding term for each header"
 					   " in a selection of ontologies."));
@@ -53,6 +54,7 @@ void LoaderParamSettingPage::send_data(std::vector<std::vector<QString> *> * _ve
 }
 
 void LoaderParamSettingPage::initializePage(){
+	std::cerr << "entering initializePage" << std::endl;
 	this->stories = new std::vector<StoryNode*>();
 	//this->stories2 = QVector <StoryNode*> ((indexlist->size())-1);
 	//this->stories->resize(indexlist->size()-1);
@@ -60,10 +62,12 @@ void LoaderParamSettingPage::initializePage(){
 
 
 	this->terms=new std::vector<std::pair<ItfOntologyTerm *,QString> >();
+
 	//this->terms->resize(indexlist->size()-1);
 	connect(this->table,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(on_item_selected(QModelIndex)));
 	connect(this->table,SIGNAL(doubleClicked(QModelIndex)),this->table,SLOT(edit(QModelIndex)));
 	this->indexlist=new QModelIndexList;
+
 	//std::vector<StoryNode*> storytmp (indexlist->size()-1);
 	//stories (indexlist->size()-1);
 	//for (int i=0;i<indexlist->size();i++){
@@ -75,6 +79,10 @@ void LoaderParamSettingPage::initializePage(){
 	//this->stories2 = QVector <StoryNode*> (indexlist->size()-1);
 	//this->terms2 = QVector <std::pair<ItfOntologyTerm *,QString> > (indexlist->size()-1);
 
+	for (int i=0;i<this->indexlist->size()-1;i++){
+		this->stories->push_back(NULL);
+		this->terms->push_back(make_pair(static_cast<ItfOntologyTerm *>(NULL),""));
+	}
 	for (int i=0;i<indexlist->size();i++){
 
 		if (i!=0){
@@ -108,8 +116,10 @@ void LoaderParamSettingPage::store_information_term_and_story(int column,int _ro
 
 	//this->stories2[_row]=_storynode;
 	//this->terms2[_row]=make_pair(_term,_unit);
-	this->stories->push_back(_storynode);
-	this->terms->push_back(make_pair(_term,_unit));
+	this->stories->at(_row-1)=_storynode;
+	//this->stories->push_back(_storynode);
+	this->terms->at(_row-1)=make_pair(_term,_unit);
+	//this->terms->push_back(make_pair(_term,_unit));
 
 
 }
@@ -126,6 +136,7 @@ void LoaderParamSettingPage::store_information_story(int column,int _row,StoryNo
 	this->model->setItem(_row,2,new QStandardItem(_storynode->get_story()->get_label()));
 	//this->stories->at(_row)=_storynode;
 }
+
 void LoaderParamSettingPage::store_information_time(int column,int _row,QString _date){
 	this->model->setItem(_row,1,new QStandardItem("Is a"));
 	this->model->setItem(_row,2,new QStandardItem("date element"));
@@ -139,6 +150,7 @@ void LoaderParamSettingPage::set_paramater_type(bool _is_time_parameter){
 
 void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 
+	this->IsInitialized=true;
 	//mettre un switch
 	/*
 	TimeDialog * timedialog=new TimeDialog();
@@ -173,7 +185,8 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 
 
 	}
-	else if(_index.column()==1){
+	else if(_index.column()==1 && _index.row()!=0){
+
 
 		//std::cerr << "index==1 "<< "row : " << _index.row()<< "--" << this->indexlist->at(_index.row()).data().toString().toStdString() <<  std::endl;
 		this->ontologyPage=new LoaderOntologyPage(this->modeltree,_index.column(),_index.row(),this->current_doc,this->doc_resources);
@@ -184,7 +197,7 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 
 		this->ontologyPage->show();
 	}
-	else if(_index.column()==2){
+	else if(_index.column()==2 && _index.row()!=0){
 		this->ontologyPage=new LoaderOntologyPage(this->modeltree,_index.column(),_index.row(),this->current_doc,this->doc_resources);
 		connect(this->ontologyPage,SIGNAL(send_term_and_story(int,int,StoryNode*,ItfOntologyTerm*,QString)),this,SLOT(store_information_term_and_story(int,int,StoryNode*,ItfOntologyTerm*,QString)));
 		this->ontologyPage->show();
@@ -195,7 +208,7 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 		//this->storyPage->show();
 
 	}
-	else if(_index.column()==3){
+	else if(_index.column()==3 && _index.row()==0){
 		//passer en arguments du loader datetime page;
 		//l"entête de la colonne,la première valeur de date,
 		//
@@ -226,102 +239,149 @@ void LoaderParamSettingPage::on_item_selected(QModelIndex _index){
 int LoaderParamSettingPage::nextId() const
 {
 
-	std::vector<int> * position=new std::vector<int>();
-	int counter=0;
-	for (int i=0;i<this->terms->size();i++){
-		for (int j =1;j<LoaderWizard::get_CSV_data()->size();j++){
+	if(this->IsInitialized){
+		std::vector<int> * position=new std::vector<int>();
+		int counter=0;
+		for (int i=0;i<this->terms->size();i++){
+			for (int j =1;j<LoaderWizard::get_CSV_data()->size();j++){
 
-			std::cerr << "data label :" << LoaderWizard::get_CSV_data()->at(j)->at(0).toStdString() << std::endl;
-			std::cerr << "header label :" << this->termHeaderLabel->at(i).toStdString() << std::endl;
-			if (LoaderWizard::get_CSV_data()->at(j)->at(0)==this->termHeaderLabel->at(i)){
+				std::cerr << "data label :" << LoaderWizard::get_CSV_data()->at(j)->at(0).toStdString() << std::endl;
+				std::cerr << "header label :" << this->termHeaderLabel->at(i).toStdString() << std::endl;
+				if (LoaderWizard::get_CSV_data()->at(j)->at(0)==this->termHeaderLabel->at(i)){
 
-				std::cerr << LoaderWizard::get_CSV_data()->at(j)->at(0).toStdString() << "====" << this->termHeaderLabel->at(i).toStdString() << std::endl;
-				position->push_back(j);
-				std::cerr << "position value :" << position->at(i) << std::endl;
-				std::cerr << "j :" << j << std::endl;
+					std::cerr << LoaderWizard::get_CSV_data()->at(j)->at(0).toStdString() << "====" << this->termHeaderLabel->at(i).toStdString() << std::endl;
+					position->push_back(j);
+					std::cerr << "position value :" << position->at(i) << std::endl;
+					std::cerr << "j :" << j << std::endl;
+				}
 			}
 		}
-	}
-	std::cerr << "position size : " << position->size() << std::endl;
-	//this->complete_xeml_doc(this->stories,this->time_expression,this->terms);
-	//for (unsigned i=0; i<this->stories->size(); i++)
-		//std::cerr << static_cast<StoryNode*>(this->stories->at(i))->get_label().toStdString() << std::endl;//=i;
-	//static_cast<XemlDocument*>(this->current_doc)->get_storyboard()->
-	//QList<QStandardItem*> tmp =new QList<QStandardItem*>();
-	//for (int i=0;i<this->indexlist->size();i++){
-	//	tmp = model->takeRow(i);
-	//	for (int j =0;j<model->columnCount();j++){
-	//		std:cerr << tmp.at(j)->text().toStdString() << "," << std::endl;
-	//	}
-	//	tmp.clear();
-	//}
-	//std::cerr << " vector : " << LoaderWizard::get_CSV_data()->at(0)->size() << std::endl;
+		std::cerr << "position size : " << position->size() << std::endl;
+		std::cerr << "story size : " << this->stories->size() << std::endl;
+		//this->complete_xeml_doc(this->stories,this->time_expression,this->terms);
+		//for (unsigned i=0; i<this->stories->size(); i++)
+			//std::cerr << static_cast<StoryNode*>(this->stories->at(i))->get_label().toStdString() << std::endl;//=i;
+		//static_cast<XemlDocument*>(this->current_doc)->get_storyboard()->
+		//QList<QStandardItem*> tmp =new QList<QStandardItem*>();
+		//for (int i=0;i<this->indexlist->size();i++){
+		//	tmp = model->takeRow(i);
+		//	for (int j =0;j<model->columnCount();j++){
+		//		std:cerr << tmp.at(j)->text().toStdString() << "," << std::endl;
+		//	}
+		//	tmp.clear();
+		//}
+		//std::cerr << " vector : " << LoaderWizard::get_CSV_data()->at(0)->size() << std::endl;
 
-	for (unsigned i=0; i<this->stories->size(); i++){
-		//static_cast<XeoTerm*>(this->terms->at(i).first)->get_contextCollection()
-		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+		for (unsigned i=0; i<this->stories->size(); i++){
+			//static_cast<XeoTerm*>(this->terms->at(i).first)->get_contextCollection()
+			std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+			DynamicTerm * newTerm;
+			StoryNode * tmp=stories->at(i);
+			StoryNode * node=this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName());
+			if(node->get_story()->contain_variableId(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()) && static_cast<DynamicTerm*>(node->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->get_measured_variable()){
 
-		DynamicTerm * tmp_term=static_cast<DynamicTerm*>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype());
-		//tmp_term->contextList();
-		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+				for(std::vector<std::pair<BasicTerm*,QString> >::iterator it=node->get_story()->get_variablesCollection()->begin();it!=node->get_story()->get_variablesCollection()->end();++it){
+					if((*it).second==static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId() ){
+						newTerm=static_cast<DynamicTerm*>((*it).first);
+					}
 
-		StoryNode * tmp=stories->at(i);
-		std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
-		std::cerr << "CSV vector size : " << LoaderWizard::get_CSV_data()->at(0)->size() << std::endl;
-		for (unsigned j=1; j<LoaderWizard::get_CSV_data()->at(0)->size();j++){
-			DynamicValue * v = new DynamicValue();
-			v->set_is_cyclevalue(false);
-			qint64 ellapsed_second_target=this->current_doc->get_startdate().toMSecsSinceEpoch();
-			QDateTime tmp_time=QDateTime::fromString(LoaderWizard::get_CSV_data()->at(0)->at(j),this->time_expression);
-			/*
-			std::cerr << "docdayOfYear = " << this->current_doc->get_startdate().date().dayOfYear() << std::endl;
-			std::cerr << "docmonth = " << this->current_doc->get_startdate().date().month() << std::endl;
-			std::cerr << "docday = " << this->current_doc->get_startdate().date().day() << std::endl;
-			std::cerr << "docyear = " << this->current_doc->get_startdate().date().year() << std::endl;
-			*/
-			//std::cerr << "tmpmonth = " << tmp_time.date().month() << std::endl;
-			//std::cerr << "tmpday = " << tmp_time.date().day() << std::endl;
-			//std::cerr << "tmpyear = " << tmp_time.date().year() << std::endl;
 
-			qint64 ellapsed_second_query=tmp_time.toMSecsSinceEpoch();
-
-			qint64 difference=ellapsed_second_query - ellapsed_second_target ;
-			std::cerr << "difference" << difference << std::endl;
-			/*
-			std::cerr << "month = " << QDateTime::fromMSecsSinceEpoch(difference).date().month() << std::endl;
-			std::cerr << "day = " << QDateTime::fromMSecsSinceEpoch(difference).date().day() << std::endl;
-			std::cerr << "year = " << QDateTime::fromMSecsSinceEpoch(difference).date().year() << std::endl;
-			std::cerr << "hour = " << QDateTime::fromMSecsSinceEpoch(difference).time().hour() << std::endl;
-			*/
-			//QDateTime timepoint=translate_second_in_DD_HH_MM_SS(get_seconds_from_date())
-			v->set_timepoint(tmp_time);
-			v->set_context("Quantity");
-			//v->set_label(tmp_term->get_name());
-			//std::cerr << "1----" << this->terms->at(i).second.toStdString()<< std::endl;
-			QString tmp_unit=this->terms->at(i).second;
-			tmp_unit=tmp_unit.remove(0,1);
-			//std::cerr << "2----"  << tmp_unit.toStdString() << std::endl;
-			v->set_unit(tmp_unit.remove(tmp_unit.size()-1,1));
-			std::cerr << "position at i :" << position->at(i) << std::endl;
-			v->set_value(LoaderWizard::get_CSV_data()->at(position->at(i))->at(j));
-			if(!(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->contain_variable(tmp_term))){
-				tmp_term->add_dynamicvalue(v);
+				}
 
 			}
 			else{
-				static_cast<DynamicTerm*>(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->add_dynamicvalue(v);
+				newTerm=new DynamicTerm((*static_cast<DynamicTerm*>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype())));
+				newTerm->set_measured_variable(true);
+				node->get_story()->add_variable(newTerm);
+			}
+
+			//DynamicTerm * tmp_term=static_cast<DynamicTerm*>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype());
+			//tmp_term->contextList();
+			std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+
+			std::cerr << "number of header" << LoaderWizard::get_CSV_data()->size() << std::endl;
+			std::cerr << "CSV vector size : " << LoaderWizard::get_CSV_data()->at(0)->size() << std::endl;
+			std::cerr << "CSV vector 1 size : " << LoaderWizard::get_CSV_data()->at(1)->size() << std::endl;
+			std::cerr << "CSV vector 2 size : " << LoaderWizard::get_CSV_data()->at(2)->size() << std::endl;
+
+
+			for (unsigned j=1; j<LoaderWizard::get_CSV_data()->at(0)->size();j++){
+				DynamicValue * v = new DynamicValue();
+				v->set_is_cyclevalue(false);
+				qint64 ellapsed_second_target=this->current_doc->get_startdate().toMSecsSinceEpoch();
+				QDateTime tmp_time=QDateTime::fromString(LoaderWizard::get_CSV_data()->at(0)->at(j),this->time_expression);
+				/*
+				std::cerr << "docdayOfYear = " << this->current_doc->get_startdate().date().dayOfYear() << std::endl;
+				std::cerr << "docmonth = " << this->current_doc->get_startdate().date().month() << std::endl;
+				std::cerr << "docday = " << this->current_doc->get_startdate().date().day() << std::endl;
+				std::cerr << "docyear = " << this->current_doc->get_startdate().date().year() << std::endl;
+				*/
+				//std::cerr << "tmpmonth = " << tmp_time.date().month() << std::endl;
+				//std::cerr << "tmpday = " << tmp_time.date().day() << std::endl;
+				//std::cerr << "tmpyear = " << tmp_time.date().year() << std::endl;
+
+				qint64 ellapsed_second_query=tmp_time.toMSecsSinceEpoch();
+
+				qint64 difference=ellapsed_second_query - ellapsed_second_target ;
+				std::cerr << "difference " << difference << std::endl;
+				/*
+				std::cerr << "month = " << QDateTime::fromMSecsSinceEpoch(difference).date().month() << std::endl;
+				std::cerr << "day = " << QDateTime::fromMSecsSinceEpoch(difference).date().day() << std::endl;
+				std::cerr << "year = " << QDateTime::fromMSecsSinceEpoch(difference).date().year() << std::endl;
+				std::cerr << "hour = " << QDateTime::fromMSecsSinceEpoch(difference).time().hour() << std::endl;
+				*/
+				//QDateTime timepoint=translate_second_in_DD_HH_MM_SS(get_seconds_from_date())
+				v->set_timepoint(tmp_time);
+				v->set_context("Quantity");
+				//v->set_label(tmp_term->get_name());
+				//std::cerr << "1----" << this->terms->at(i).second.toStdString()<< std::endl;
+				QString tmp_unit=this->terms->at(i).second;
+				tmp_unit=tmp_unit.remove(0,1);
+				//std::cerr << "2----"  << tmp_unit.toStdString() << std::endl;
+				v->set_unit(tmp_unit.remove(tmp_unit.size()-1,1));
+				std::cerr << "position at i :" << position->at(i) << std::endl;
+				v->set_value(LoaderWizard::get_CSV_data()->at(position->at(i))->at(j));
+
+
+				newTerm->add_dynamicvalue(v);
+				/*
+				if(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->contain_variable(tmp_term)){
+					//tmp_term->add_dynamicvalue(v);
+
+					static_cast<DynamicTerm*>(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->add_dynamicvalue(v);
+
+
+					std::cerr << "add value at :" << v->get_timepoint().toString(this->time_expression).toStdString()<< " in term :"<< tmp_term->get_name().toStdString() <<" in story : "<< tmp->get_label().toStdString()  <<std::endl;
+					std::cerr <<"size values: " <<static_cast<DynamicTerm*>(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->get_dynamicvaluecollection()->size() << std::endl;
+
+				}
+				else{
+					this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->add_variable(tmp_term);
+					static_cast<DynamicTerm*>(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->add_dynamicvalue(v);
+
+					std::cerr << "add value in new variables at :" << v->get_timepoint().toString(this->time_expression).toStdString()<< " in term :"<< tmp_term->get_name().toStdString() <<" in story : "<< tmp->get_label().toStdString()  <<std::endl;
+					std::cerr <<"size values: " <<static_cast<DynamicTerm*>(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->get_dynamicvaluecollection()->size() << std::endl;
+
+
+				}
+				*/
+				//static_cast<DynamicTerm>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype());
 
 			}
-			//static_cast<DynamicTerm>(static_cast<XeoTerm*>(this->terms->at(i).first)->get_prototype());
+			std::cerr <<"size values: " <<static_cast<DynamicTerm*>(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->get_variable(static_cast<XeoTerm*>(this->terms->at(i).first)->get_termId()))->get_dynamicvaluecollection()->size() << std::endl;
+			//std::cerr << "size :" << tmp_term->get_dynamicvaluecollection()->size() << std::endl;
+			/*
+			if(!(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->contain_variable(tmp_term))){
+
+				std::cerr << "adding terms"<< std::endl;
+				tmp->get_story()->add_variable(tmp_term);
+			}
+			*/
+
 
 		}
-		if(!(this->current_doc->get_storyboard()->findNode_by_Label(tmp->get_label(),tmp->get_mainStoryName())->get_story()->contain_variable(tmp_term))){
-
-			tmp->get_story()->add_variable(tmp_term);
-		}
-
-
 	}
+
 
 	return LoaderWizard::Page_Validation;
 	//return -1;
