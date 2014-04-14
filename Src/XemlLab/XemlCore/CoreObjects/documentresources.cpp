@@ -185,25 +185,40 @@ namespace Xeml{
 
 			}
 		}
+
 		OntologyHandlerResources * DocumentResources::Add(QString _uri,
 														  QString alias,
 														  QString instanceLocation,
 														  bool loadableOnly){
 			//std::cerr << "entering add onto (document resources)" << std::endl;
-			if( OntologyManager::Get_ontologyManager()->get_handler().find(_uri)==OntologyManager::Get_ontologyManager()->get_handler().end()){
-				throw new exception();//
+
+			if( OntologyManager::Get_ontologyManager()->get_handler()->find(_uri)==OntologyManager::Get_ontologyManager()->get_handler()->end()){
 				std::cerr << "Ontology handler does not exist." << std::endl;
-			}
-			OntologyType ot= OntologyManager::Get_ontologyManager()->get_handler()[_uri]->get_ontologyType();
-			//std::cerr << "ot : " << ot << std::endl;
-			if( contains(alias, ot)){
 				throw new exception();//
+				//std::cerr << "Ontology handler does not exist." << std::endl;
+			}
+			//std::cerr << "before get ontology type" << std::endl;
+			//std::cerr << "size :" << OntologyManager::Get_ontologyManager()->get_handler()->size() << std::endl;
+			std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>::iterator it2;
+
+			//for(it2=OntologyManager::Get_ontologyManager()->get_handler()->begin();it2!=OntologyManager::Get_ontologyManager()->get_handler()->end();++it2){
+				//std::cerr << "in da loop" << std::endl;
+				//std::cerr << static_cast<ItfOntologyHandler*>((*it2).second)->get_namespaceAlias().toStdString() << std::endl;
+			//}
+			OntologyType ot= (*OntologyManager::Get_ontologyManager()->get_handler())[_uri]->get_ontologyType();
+
+			std::cerr << "ot : " << ot << std::endl;
+			if( contains(alias, ot)){
 				std::cerr << "An ontology handler with the same type and alias already exist." << std::endl;
+
+				throw new exception();//
+				//std::cerr << "An ontology handler with the same type and alias already exist." << std::endl;
 			}
 			OntologyHandlerResources *ohr =new OntologyHandlerResources(_uri);
 
 			ohr->set_namespace(alias);
 			ohr->set_location(instanceLocation);
+			std::cerr << "before load component" <<std::endl;
 			ohr->loadComponent();
 
 			if (ohr->get_component_state() == Xeml::Document::Loaded || !loadableOnly)

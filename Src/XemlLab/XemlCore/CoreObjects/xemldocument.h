@@ -126,6 +126,7 @@ namespace Xeml {
 				QString             put_date_in_string(time_t _startdate);
 				QString             put_id_in_Qstring(QUuid _id);
 				QString             put_id_in_string(QUuid _id);
+				void                load_standard_ressources(QString _ontology_type,OntologyType _ot);
 				//end region
 
 			private:

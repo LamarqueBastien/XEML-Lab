@@ -18,11 +18,11 @@ ExperimentDialog::ExperimentDialog(ItfDocument * _xeml_doc,QWidget * parent)
 	this->enddateEdit = new QDateTimeEdit(QDate::currentDate());
 	this->experimentEndDate->setBuddy(this->enddateEdit);
 	this->enddateEdit->setCalendarPopup(true);
-	this->startdateEdit->setMinimumDate(QDate::currentDate().addDays(-3650));
-	this->startdateEdit->setMaximumDate(QDate::currentDate().addDays(3650));
+	this->startdateEdit->setMinimumDate(QDate::currentDate().addDays(-8650));
+	this->startdateEdit->setMaximumDate(QDate::currentDate().addDays(8650));
 	this->startdateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
-	this->enddateEdit->setMinimumDate(QDate::currentDate().addDays(-3650));
-	this->enddateEdit->setMaximumDate(QDate::currentDate().addDays(3650));
+	this->enddateEdit->setMinimumDate(QDate::currentDate().addDays(-8650));
+	this->enddateEdit->setMaximumDate(QDate::currentDate().addDays(8650));
 	this->enddateEdit->setDisplayFormat("dd-MM-yyyyThh:mm:ss");
 	this->firstnamelabel = new QLabel(tr("firstName :"));
 	this->firstnamelabelEdit = new QLineEdit;

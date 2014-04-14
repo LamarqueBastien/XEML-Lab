@@ -164,6 +164,7 @@ class MainWindow : public QMainWindow
 		void                                       set_up_onto_tree();
 		void                                       set_up_germplasm();
 		void                                       refresh_trees();
+		void                                       check_variables();
 
 
 	signals:

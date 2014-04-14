@@ -60,32 +60,26 @@ void LoaderWizard::showHelp()
 		break;
 	case Page_DataFile:
 		message=tr("<h2>load file helper</h2>"
-						"<h3>add or remove story</h3>"
-						"<ul>"
-						"<li> click on \"add story\" to add a new story for your experiment (check the split box for a storysplit). </li>"
-						"<li> click on \"remove story\" to remove a story or a split in your experiment (all substories of the removed story are removed). </li>"
-						"</ul>"
-						"<h3>add or remove observation point</h3>"
-						"<ul>"
-						"<li> click on \"add observation point\"to add a new story for your experiment (check the split box for a storysplit). </li>"
-						"<li> click on \"remove observation point\" to remove a observation point. </li>"
-						"</ul>"
-						"<h3>add or remove events</h3>"
-						"<ul>"
-						"<li> click on add event to add a new event in a story (storm yellow item). </li>"
-						"<li> click on remove event to remove a event in a story . </li>"
-						"</ul>"
-						"<h3>add or remove samples</h3>"
-						"<ul>"
-						"<li> click on \"add samples\" to add a new set of sample in your experiment (you need to have defined at least one observation point and one germplasm pool). </li>"
-						"<li> click on \"remove samples\" to remove a set of samples. </li>"
-						"</ul>");
+				   "<ol>"
+				   "<li>Select the right delimiters for your files.</li>"
+				   "<li>Click on \"browse\" or type in edit area the file you want to load.</li>"
+				   "<li>Click on \"load\" to load the file. all headers found will be displayed in the table called header selection</li>"
+				   "<li>Select by clicking headers you want to keep (you always need to keep a time header) then click on \"continue\"</li>"
+				   "</ol>");
 		//message = tr("The decision you make here will affect which page you "
 		//			 "get to see next.");
 		break;
 	case Page_ParamSet:
-		message = tr("The decision you make here will affect which page you "
-					 "get to see next.");
+		message = tr("<h2>add term helper</h2>"
+					 "<ol>"
+					 "<li>double Click on cell in the first or second column in the table.</li>"
+					 "<li>Select a appropriate term and story in the opening windows</li>"
+					 "</ol>"
+					 "<h2>Add time expression helper</h2>"
+					 "<ol>"
+					 "<li>double Click on cell in the third column in the table.</li>"
+					 "<li>Select a appropriate expression for your time values</li>"
+					 "</ol>");
 		break;
 	default:
 		message = tr("This help is likely not to be of any help.");

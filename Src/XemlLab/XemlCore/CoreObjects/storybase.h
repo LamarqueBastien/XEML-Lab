@@ -8,6 +8,7 @@
 #include"CoreObjects/xemlannotableobject.h"
 #include"CoreObjects/event.h"
 #include"CoreObjects/basicterm.h"
+#include"CoreObjects/dynamicterm.h"
 //#include"eventcollection.h"
 //#include "individualspool.h"
 #include"CoreObjects/observationpoint.h"
@@ -62,7 +63,7 @@ namespace Xeml {
 				void									               add_obsPoint(ObservationPoint* _op);
 				std::list<int> *									   rm_obsPoint(int _id);
 				int                                                    count_variables();
-				void                                                   rm_variable(QString _termId);
+				void                                                   rm_variable(QString _termId,bool _ismeasured);
 				int                                                    count_event();
 				std::map<Event*,QDateTime>                           * get_eventcollection();
 				std::vector<std::pair<BasicTerm*,QString> >          * get_variablesCollection();

@@ -119,6 +119,7 @@ namespace Xeml {
 			std::cerr << "end Init" << std::endl;
 			//std::cerr << this->documentResources->get_xeoHandler()->size() << std::endl;
 		}
+
 		void                  XemlDocument::Save(QString path){
 			this->generate_xml(path);
 		}
@@ -463,6 +464,7 @@ namespace Xeml {
 			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it=_node->get_story()->get_variablesCollection()->begin();it!=_node->get_story()->get_variablesCollection()->end();++it){
 
 				_term=static_cast<DynamicTerm*>((*it).first);
+				std::cerr << "term Id : "<< _term->get_termId().toStdString() << std::endl;
 				QDomElement var;
 				if(_term->get_measured_variable()){
 					var=this->doc.createElement("xeml:MeasuredVariable");
@@ -971,7 +973,8 @@ namespace Xeml {
 							this->startDate=QDateTime::currentDateTime();
 						}
 						else{
-							this->startDate=QDateTime::fromString(noeud.toElement().attributeNode("StartDate").value(),"yyyy-MM-ddThh:mm:ss");
+
+							this->startDate=QDateTime::fromString(noeud.toElement().attributeNode("StartDate").value().split(".").at(0),"yyyy-MM-ddThh:mm:ss");
 
 						}
 						this->observationTime=noeud.toElement().attributeNode("ObservationTime").value();
@@ -1126,6 +1129,70 @@ namespace Xeml {
 			}
 
 		}
+		void                XemlDocument::load_standard_ressources(QString _ontology_domain, OntologyType _ot){
+			QString filePath="://XEMLStore/Templates/Standard.xeml";
+			QFile Xeml_doc(filePath.toStdString().c_str());
+			QDomDocument * dom = new QDomDocument("template_xeml");
+
+			if(!Xeml_doc.open(QIODevice::ReadOnly | QIODevice::Text))
+			{
+				std::cerr << "Erreur à l'ouverture du document XML" << std::endl;
+			}
+
+
+
+			QString err;
+				int errL, errC;
+
+
+			if (!dom->setContent(&Xeml_doc,&err,&errL,&errC)) // Si l'on n'arrive pas à associer le fichier XML à l'objet DOM.
+			{
+				Xeml_doc.close();
+				QMessageBox::information(NULL,"Xml error 600","Erreur à l'association du document DOM au fichier XML\n You may have to checked that the Xml file encoding coreespond to the one in xml header\n");
+			}
+			QDomElement dom_element = dom->documentElement();
+			QDomNode noeud = dom_element.firstChild();
+
+			while(!noeud.isNull())// Tant que le nœud n'est pas vide.
+			{
+				if(!dom_element.isNull())
+				{
+					if(noeud.toElement().tagName().toStdString()=="xeml:Resources"){
+						QDomNodeList QNL=noeud.toElement().childNodes();
+						for (int i = 0; i < QNL.length(); i++) {
+
+							if(QNL.item(i).toElement().tagName()==_ontology_domain){
+
+								std::cerr << "ontology type= " << _ontology_domain.toStdString() << std::endl;
+								QString alias=QNL.item(i).toElement().attributeNode("NS").value();
+								QString location=QNL.item(i).toElement().attributeNode("InstanceLocation").value();
+								QString uri=QNL.item(i).toElement().attributeNode("HandlerUri").value();
+								std::cerr << "Dev onto uri : " << uri.toStdString() << "\nalias :" << alias.toStdString()  << "\nlocation : " << location.toStdString() << std::endl;
+								if (this->documentResources->contains(alias,_ot)){
+									std::cerr << "Xeo ontology double entry. Resource was rejected!" << std::endl;
+								}
+								else{
+									try{
+										this->documentResources->Add(uri,alias,location,false);
+									}
+									catch(exception * ex){
+
+									}
+								}
+
+							}
+						}
+
+					}
+					noeud = noeud.toElement().nextSibling();
+				}
+				else{
+					std::cout << "problem null element" << std::endl;
+				}
+			}
+
+		}
+
 		void                  XemlDocument::InitRessources(QDomElement  elem){
 			QDomNodeList QNL=elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {
@@ -1135,11 +1202,33 @@ namespace Xeml {
 					QString alias=QNL.item(i).toElement().attributeNode("NS").value();
 					QString location=QNL.item(i).toElement().attributeNode("InstanceLocation").value();
 					QString uri=QNL.item(i).toElement().attributeNode("HandlerUri").value();
+					std::cerr << "Dev onto uri : " << uri.toStdString() << "\nalias :" << alias.toStdString()  << "\nlocation : " << location.toStdString() << std::endl;
 					if (this->documentResources->contains(alias,Xeml::Document::Contracts::Developmental)){
 						std::cerr << "developmental ontology double entry. Resource was rejected!" << std::endl;
 					}
 					else{
-						this->documentResources->Add(uri,alias,location,false);
+						try{
+							this->documentResources->Add(uri,alias,location,false);
+						}catch(exception * ex){
+							std::cerr << "exception" << std::endl;
+							QMessageBox msgBox;
+							msgBox.setModal(true);
+							//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+							msgBox.setWindowTitle("Loader Wizard missing ontologies");
+							QString message= "this Developmental ontologies with namespace: "+alias+" is deprecated. Do you want to search for a new one in the standard document ? ";
+							msgBox.setText(message);
+							msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+							msgBox.setDefaultButton(QMessageBox::No);
+							msgBox.show();
+							if(msgBox.exec() == QMessageBox::Yes){
+								//add a way to load ontologies from satndard.xeml and search the right term as you do in CSV Loader.
+								load_standard_ressources("xeml:DevelopmentalOntology",Xeml::Document::Contracts::Developmental);
+							}else {
+
+
+							}
+
+						}
 					}
 
 				}
@@ -1147,11 +1236,33 @@ namespace Xeml {
 					QString alias=QNL.item(i).toElement().attributeNode("NS").value();
 					QString location=QNL.item(i).toElement().attributeNode("InstanceLocation").value();
 					QString uri=QNL.item(i).toElement().attributeNode("HandlerUri").value();
+					std::cerr << "struct onto uri : " << uri.toStdString() << "\nalias :" << alias.toStdString()  << "\nlocation : " << location.toStdString() << std::endl;
+
 					if (this->documentResources->contains(alias,Xeml::Document::Contracts::OrganismStructure)){
 						std::cerr << "structural ontology double entry. Resource was rejected!" << std::endl;
 					}
 					else{
-						this->documentResources->Add(uri,alias,location,false);
+						try{
+							this->documentResources->Add(uri,alias,location,false);
+						}catch(exception * ex){
+							std::cerr << "exception" << std::endl;
+							QMessageBox msgBox;
+							msgBox.setModal(true);
+							//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+							msgBox.setWindowTitle("Loader Wizard missing ontologies");
+							QString message= "this Organism structure ontologies with namespace: "+alias+" is not obsolete. Do you want to search for this new one in the standard document ? ";
+							msgBox.setText(message);
+							msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+							msgBox.setDefaultButton(QMessageBox::No);
+							msgBox.show();
+							if(msgBox.exec() == QMessageBox::Yes){
+								//add a way to load ontologies from satndard.xeml and search the right term as you do in CSV Loader.
+								load_standard_ressources("xeml:OrganismStructureOntology",Xeml::Document::Contracts::OrganismStructure);
+							}else {
+
+
+							}
+						}
 					}
 
 				}
@@ -1159,11 +1270,35 @@ namespace Xeml {
 					QString alias=QNL.item(i).toElement().attributeNode("NS").value();
 					QString location=QNL.item(i).toElement().attributeNode("InstanceLocation").value();
 					QString uri=QNL.item(i).toElement().attributeNode("HandlerUri").value();
+					std::cerr << "env onto uri : " << uri.toStdString() << "\nalias :" << alias.toStdString()  << "\nlocation : " << location.toStdString() << std::endl;
+
 					if (this->documentResources->contains(alias,Xeml::Document::Contracts::Environment)){
 						std::cerr << "environment ontology double entry. Resource was rejected!" << std::endl;
 					}
 					else{
-						this->documentResources->Add(uri,alias,location,false);
+						try{
+							this->documentResources->Add(uri,alias,location,false);
+						}
+						catch(exception * ex){
+							std::cerr << "exception" << std::endl;
+							QMessageBox msgBox;
+							msgBox.setModal(true);
+							//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+							msgBox.setWindowTitle("Loader Wizard missing ontologies");
+							QString message= "this environmental ontologies with namespace: "+alias+" is not obsolete. Do you want to search for this new one in the standard document ? ";
+							msgBox.setText(message);
+							msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+							msgBox.setDefaultButton(QMessageBox::No);
+							msgBox.show();
+							if(msgBox.exec() == QMessageBox::Yes){
+
+								//add a way to load ontologies from satndard.xeml and search the right term as you do in CSV Loader.
+								load_standard_ressources("xeml:EnvironmentalOntology",Xeml::Document::Contracts::Environment);
+							}else {
+
+
+							}
+						}
 					}
 
 				}
@@ -1171,11 +1306,33 @@ namespace Xeml {
 					QString alias=QNL.item(i).toElement().attributeNode("NS").value();
 					QString location=QNL.item(i).toElement().attributeNode("InstanceLocation").value();
 					QString uri=QNL.item(i).toElement().attributeNode("HandlerUri").value();
+					std::cerr << "pos onto uri : " << uri.toStdString() << "\nalias :" << alias.toStdString()  << "\nlocation : " << location.toStdString() << std::endl;
+
 					if (this->documentResources->contains(alias,Xeml::Document::Contracts::Positioning)){
 						std::cerr << "environment ontology double entry. Resource was rejected!" << std::endl;
 					}
 					else{
-						this->documentResources->Add(uri,alias,location,false);
+						try{
+							this->documentResources->Add(uri,alias,location,false);
+						}catch(exception * ex){
+							std::cerr << "exception" << std::endl;
+							QMessageBox msgBox;
+							msgBox.setModal(true);
+							//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+							msgBox.setWindowTitle("missing ontologies");
+							QString message= "this positioning ontologies with namespace: "+alias+" is not obsolete. Do you want to search for this new one in the standard document ? ";
+							msgBox.setText(message);
+							msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+							msgBox.setDefaultButton(QMessageBox::No);
+							msgBox.show();
+							if(msgBox.exec() == QMessageBox::Yes){
+								//add a way to load ontologies from satndard.xeml and search the right term as you do in CSV Loader.
+								load_standard_ressources("xeml:PositioningOntology",Xeml::Document::Contracts::Positioning);
+							}else {
+
+
+							}
+						}
 					}
 
 				}
@@ -1184,6 +1341,7 @@ namespace Xeml {
 					DataProviderResources * spr = new DataProviderResources();
 					spr->set_friendly_name(QNL.item(i).toElement().attributeNode("Name").value());
 					spr->load_component(QNL.item(i).toElement().attributeNode("ProviderUri").value());
+
 					if( this->documentResources->provider_contain(QNL.item(i).toElement().attributeNode("ProviderUri").value())){
 						std::cerr << "Data Provider resources double entry. Resources was rejected!" << std::endl;
 					}
@@ -1354,7 +1512,7 @@ namespace Xeml {
 			InitAnnotations(_elem,p);
 			p->set_name(_elem.attributeNode("Name").value());
 			p->set_namespacealias(_elem.attributeNode("NS").value());
-			//std::cerr << "namespaceALias : " << p->get_namespacealias().toStdString() << std::endl;
+			std::cerr << "namespaceALias : " << p->get_namespacealias().toStdString() << std::endl;
 
 			if(p->get_namespacealias()=="none" ){//&& this->documentResources->contains(p->get_namespacealias(),Xeml::Document::Contracts::Environment)==false
 				std::cerr << "namespace resource not found" << std::endl;
@@ -1364,6 +1522,40 @@ namespace Xeml {
 			}
 			else{
 				_storyBase->add_variable(p);
+				/*
+				std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>::iterator it2;
+				bool ontology_found=false;
+				for(it2=OntologyManager::Get_ontologyManager()->get_handler()->begin();it2!=OntologyManager::Get_ontologyManager()->get_handler()->end();++it2){
+					if(static_cast<ItfOntologyHandler*>((*it2).second)->get_namespace()==p->get_namespacealias()){
+						ontology_found=true;
+					}
+				}
+				if (ontology_found){
+
+				}
+				else{
+
+					QMessageBox msgBox;
+					msgBox.setModal(true);
+
+					//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+					msgBox.setWindowTitle("Loader Wizard missing ontologies");
+					QString message= "this variable: "+p->get_name()+" with id: "+ p->get_termId()+" has no ontologies with namespace: "+p->get_namespacealias()+". Do you want to search for this term available ontologies ? ";
+					msgBox.setText(message);
+					msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+					msgBox.setDefaultButton(QMessageBox::No);
+					msgBox.show();
+					if(msgBox.exec() == QMessageBox::Yes){
+
+						//add a way to load ontologies from standard.xeml and search the right term as you do in CSV Loader.
+
+					}else {
+
+
+					}
+
+				}
+				*/
 			}
 			QDomNodeList QNL=_elem.childNodes();
 			for (int i = 0; i < QNL.length(); i++) {

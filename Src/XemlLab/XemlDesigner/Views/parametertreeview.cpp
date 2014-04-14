@@ -416,11 +416,13 @@ void ParameterTreeView::add_parameter()
 		//QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
 		ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(indexelementselected));
 		if(tmp!=NULL){
+			/*
 			if(tmp->isRoot){
 				QMessageBox::information(this,"added element","can't add a root term "+ tmp->get_term()->get_prototype()->get_name()+ " to a story");
 			}
 			else{
-				std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
+			*/
+			std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
 				//modifer le signal pour qu'il envoie une liste de terms.
 				/*
 				for(std::map<ValueBase*,QString>::iterator it=static_cast<VariableTerm*>(tmp->get_term()->get_prototype())->get_valuecollection()->begin();it!=static_cast<VariableTerm*>(tmp->get_term()->get_prototype())->get_valuecollection()->end();++it){
@@ -430,8 +432,8 @@ void ParameterTreeView::add_parameter()
 					}
 				}
 				*/
-				emit onParameterselected(tmp->get_term());
-			}
+			emit onParameterselected(tmp->get_term());
+			//}
 		}
 	}
 }

@@ -341,7 +341,13 @@ void  MainWindow::add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envo
 						std::cerr << "add :" << location.toStdString() <<"ontology" << std::endl;
 						std::cerr << "add :" << uri.toStdString() <<"ontology" << std::endl;
 
-						this->fmg->get_current_xeml()->get_doc_resources()->Add(uri,onto_to_load->at(j),location,false);
+						try{
+							this->fmg->get_current_xeml()->get_doc_resources()->Add(uri,onto_to_load->at(j),location,false);
+						}
+						catch(exception * ex){
+							std::cerr << "cannot add this kind of ontology" << std::endl;
+						}
+
 						std::cerr << "add " << onto_to_load->at(j).toStdString() <<"ontology" << std::endl;
 					}
 				}
@@ -919,6 +925,96 @@ void    MainWindow::refresh_onto_tree(ParameterTreeView * _ontoview){
 	this->set_up_onto_tree();
 	_ontoview->show();
 }
+void MainWindow::check_variables(){
+	for(std::list<StoryNode*>::iterator it =this->fmg->get_current_xeml()->get_storyboard()->get_storyBoard()->begin();it!=this->fmg->get_current_xeml()->get_storyboard()->get_storyBoard()->end();++it){
+		StoryNode * tmp_node=(*it);
+		for(std::vector<std::pair<BasicTerm*,QString> >::iterator it2=tmp_node->get_story()->get_variablesCollection()->begin();it2!=tmp_node->get_story()->get_variablesCollection()->end();++it2){
+			DynamicTerm * _term=static_cast<DynamicTerm*>((*it2).first);
+			QString NS=_term->get_namespacealias();
+			QString name=_term->get_name();
+			QString termId=_term->get_termId();
+			bool NameSpace_found=false;
+			if(doc_ressources->contains(NS,Xeml::Document::Contracts::Environment)){
+				NameSpace_found=true;
+			}
+			if(doc_ressources->contains(NS,Xeml::Document::Contracts::EO)){
+				NameSpace_found=true;
+			}
+			if(doc_ressources->contains(NS,Xeml::Document::Contracts::EO)){
+				NameSpace_found=true;
+			}
+			if(!NameSpace_found){
+				std::cerr << "namespace :" << NS.toStdString() << "not found"<<std::endl;
+				std::cerr << "name :" << name.toStdString() << "not found"<<std::endl;
+				std::cerr << "id :" << termId.toStdString() << "not found"<<std::endl;
+				std::list<TermNode*> my_xeotree=(*static_cast<XeoHandler*>((*this->doc_ressources->get_xeoHandler())["XEO"]->get_handler())->get_listNodes());
+				std::list<TermNode*> my_EOtree=(*static_cast<PEOHandler*>((*this->doc_ressources->get_EOHandler())["EO"]->get_handler())->get_listNodes());
+				std::list<TermNode*> my_EnvOtree=(*static_cast<EnvOHandler*>((*this->doc_ressources->get_EnvOHandler())["EnvO"]->get_handler())->get_listNodes());
+				for (std::list<TermNode*>::iterator it3 =my_xeotree.begin();it3!=my_xeotree.end();++it3){
+					TermNode * tmp_term=(*it3);
+					if(tmp_term->get_label()==name){
+						std::cerr << "term found :" << name.toStdString()<< std::endl;
+						NameSpace_found=true;
+						_term->set_namespacealias(tmp_term->get_term()->get_prototype()->get_namespacealias());
+						_term->set_termId(tmp_term->get_term()->get_termId());
+					}
+				}
+				for (std::list<TermNode*>::iterator it3 =my_xeotree.begin();it3!=my_xeotree.end();++it3){
+					TermNode * tmp_term=(*it3);
+					if(tmp_term->get_label()==name){
+						std::cerr << "term found :" << name.toStdString()<< std::endl;
+						NameSpace_found=true;
+						_term->set_namespacealias(tmp_term->get_term()->get_prototype()->get_namespacealias());
+						_term->set_termId(tmp_term->get_term()->get_termId());
+					}
+				}
+				for (std::list<TermNode*>::iterator it3 =my_xeotree.begin();it3!=my_xeotree.end();++it3){
+					TermNode * tmp_term=(*it3);
+					if(tmp_term->get_label()==name){
+						std::cerr << "term found :" << name.toStdString()<< std::endl;
+						NameSpace_found=true;
+						_term->set_namespacealias(tmp_term->get_term()->get_prototype()->get_namespacealias());
+						_term->set_termId(tmp_term->get_term()->get_termId());
+					}
+				}
+
+
+
+
+
+
+			}
+			if(!NameSpace_found){
+				std::cerr << "this term is not available in ontologies, Do you want to remove it ?" << std::endl;
+				QMessageBox msgBox;
+				msgBox.setModal(true);
+				//msgBox.setWindowFlags(Qt::WindowStaysOnTopHint);
+				msgBox.setWindowTitle("missing ontologies");
+				QString message= "the term "+_term->get_name() +" is not available in ontologies, Do you want to remove it ?";
+				msgBox.setText(message);
+				msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+				msgBox.setDefaultButton(QMessageBox::No);
+				msgBox.show();
+				if(msgBox.exec() == QMessageBox::Yes){
+					tmp_node->get_story()->rm_variable(_term->get_termId(),false);
+					//add a way to load ontologies from satndard.xeml and search the right term as you do in CSV Loader.
+					//load_standard_ressources("xeml:PositioningOntology",Xeml::Document::Contracts::Positioning);
+
+				}else {
+
+
+
+				}
+			}
+
+
+
+
+
+		}
+
+	}
+}
 
 void    MainWindow::open(){
 	if(okToContinue()){
@@ -926,10 +1022,13 @@ void    MainWindow::open(){
 		if (!fileName.isEmpty()) {
 			this->curFile=fileName;
 			setCurrentFile(curFile);
+			this->doc_ressources->clear_handlers();
 			this->fmg->purgedetailsFromdocument();
 			this->fmg->LoadFile(fileName,false);
 			this->loadResources();
+			this->check_variables();
 			this->refresh_trees();
+
 		}
 	}
 

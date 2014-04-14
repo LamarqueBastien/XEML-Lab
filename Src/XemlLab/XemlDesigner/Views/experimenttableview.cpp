@@ -4,6 +4,7 @@ ExperimentTableView::ExperimentTableView(ItfDocument * _xemlDoc,QWidget *parent)
 	:QWidget(parent)
 {
 	this->xemlDoc=_xemlDoc;
+	/*
 	QSplashScreen *splash = new QSplashScreen;
 #if defined(Q_OS_WIN)
 	splash->setPixmap(QPixmap(":/Images/XemlLogo.png"));
@@ -24,13 +25,15 @@ ExperimentTableView::ExperimentTableView(ItfDocument * _xemlDoc,QWidget *parent)
 	Qt::Alignment topRight = Qt::AlignRight | Qt::AlignTop;
 	splash->showMessage(QObject::tr("initialize experiment table..."), topRight, Qt::black);
 
-	init();
+
 	splash->showMessage(QObject::tr("initialize experiment table..."), topRight, Qt::black);
 
 	splash->finish(this);
 
 	delete splash;
+	*/
 
+	init();
 
 
 
@@ -62,6 +65,9 @@ ExperimentTableView::ExperimentTableView(ItfDocument * _xemlDoc,QWidget *parent)
 
 
 void ExperimentTableView::init(){
+
+
+
 
 	//put experiment view declaration at the end of the init function and pass treeviews as arguments
 	this->experiment_view=new TableView(this->xemlDoc);

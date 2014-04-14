@@ -6,6 +6,10 @@ LoaderDateTimePage::LoaderDateTimePage(int _column,int _row,QWidget *parent)
 {
 	this->row=_row;
 	this->column=_column;
+
+
+
+
 	//std::cerr << _valueTest.toStdString()<< std::endl;
 
 	//QString word="hello";
@@ -83,21 +87,20 @@ LoaderDateTimePage::LoaderDateTimePage(int _column,int _row,QWidget *parent)
 	QHBoxLayout * combolayout=new QHBoxLayout;
 	dateTimeDelimiter= new QLabel(tr("date Time delimiters:"));
 	this->selectDateTimeDelimiter =new QComboBox;
-	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:MM:SS");
-	this->selectDateTimeDelimiter->addItem("MM/DD/YY HH:MM:SS");
-	this->selectDateTimeDelimiter->addItem("MM/DD/YY HH:MM:SS");
-	this->selectDateTimeDelimiter->addItem("YY/DD/MM HH:MM:SS");
+	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:mm:ss");
+	this->selectDateTimeDelimiter->addItem("MM/DD/YY HH:mm:ss");
+	this->selectDateTimeDelimiter->addItem("MMM/DD/YY HH:mm:ss");
+	this->selectDateTimeDelimiter->addItem("YY/DD/MMMM HH:mm:ss");
 	this->selectDateTimeDelimiter->addItem("dd/MM/yyyy hh:mm:ss");
-	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:MM:SS");
-	this->selectDateTimeDelimiter->addItem("DD/YY/MM HH:MM:SS");
-	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:MM");
-	this->selectDateTimeDelimiter->addItem("mm/DD/YY HH:MM");
-	this->selectDateTimeDelimiter->addItem("MM/DD/YY HH:MM");
-	this->selectDateTimeDelimiter->addItem("YY/DD/MM HH:MM");
-	this->selectDateTimeDelimiter->addItem("DD/MM/YY HH:MM");
+	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:mm:ss");
+	this->selectDateTimeDelimiter->addItem("DD/YY/MM HH:mm:ss");
+	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:mm");
+	this->selectDateTimeDelimiter->addItem("mm/DD/YY HH:mm");
+	this->selectDateTimeDelimiter->addItem("MM/DD/YY HH:mm");
+	this->selectDateTimeDelimiter->addItem("YY/DD/MM HH:mm");
+	this->selectDateTimeDelimiter->addItem("DD/MM/YY HH:mm");
 	this->selectDateTimeDelimiter->addItem("dd/MM/yyyy hh:mm");
-	this->selectDateTimeDelimiter->addItem("YY/MM/DD HH:MM");
-	this->selectDateTimeDelimiter->addItem("DD/YY/MM HH:MM");
+	this->selectDateTimeDelimiter->addItem("DD/YY/MM HH:mm");
 
 	/*
 	leftlayout->addWidget(timeLabel1);
@@ -113,23 +116,33 @@ LoaderDateTimePage::LoaderDateTimePage(int _column,int _row,QWidget *parent)
 	//rightlayout->addStretch();
 
 	mainlayout->addLayout(combolayout);
-	mainlayout->addStretch();
+	//mainlayout->addWidget(topLabel);
+	//mainlayout->addStretch();
+
+	QDialogButtonBox * button_Box = new QDialogButtonBox(QDialogButtonBox::Help,Qt::Horizontal);
 	this->okButton=new QPushButton("OK");
 	this->cancelButton=new QPushButton("Cancel");
+	this->add_new_expression=new QPushButton("add your own expression");
+	button_Box->addButton(this->okButton,QDialogButtonBox::ActionRole);
+	button_Box->addButton(this->cancelButton,QDialogButtonBox::ActionRole);
+	//button_Box->addButton(this->add_new_expression,QDialogButtonBox::ActionRole);
+
 	//this->okButton->setEnabled(false);
-	mainlayout->addWidget(this->okButton);
-	mainlayout->addWidget(this->cancelButton);
+	mainlayout->addWidget(button_Box);
+
 	//rightlayout->addWidget(this->okButton);
 	//rightlayout->addWidget(this->cancelButton);
+	connect(button_Box,SIGNAL(helpRequested()),this,SLOT(show_help()));
 	connect(this->okButton,SIGNAL(clicked()),this,SLOT(set_up_finished()));
 	connect(this->cancelButton,SIGNAL(clicked()),this,SLOT(close()));
+	//connect(this->add_new_expression,SIGNAL(clicked()),this,SLOT(on_new_expression_added()));
 	//dragandroplayout->addLayout(leftlayout,0,0);
 	//dragandroplayout->addLayout(middlelayout,0,1);
 	//dragandroplayout->addLayout(rightlayout,0,2);
 
 	//mainlayout->addLayout(dragandroplayout);
 
-	setWindowFlags(Qt::WindowStaysOnTopHint);
+	//setWindowFlags(Qt::WindowStaysOnTopHint);
 	setAcceptDrops(true);
 	setLayout(mainlayout);
 	setMinimumSize(400,400);
@@ -137,6 +150,45 @@ LoaderDateTimePage::LoaderDateTimePage(int _column,int _row,QWidget *parent)
 
 
 }
+void LoaderDateTimePage::on_new_expression_added(){
+	QDialog * timedialog=new QDialog();
+	QLineEdit * timeEdit=new QLineEdit("enter your expression");
+	QDialogButtonBox * button_Box = new QDialogButtonBox(Qt::Horizontal);
+	QPushButton *okButton=new QPushButton("OK");
+	QPushButton *cancelButton=new QPushButton("Cancel");
+	button_Box->addButton(okButton,QDialogButtonBox::ActionRole);
+	button_Box->addButton(cancelButton,QDialogButtonBox::ActionRole);
+
+	QVBoxLayout * layout= new QVBoxLayout;
+
+	layout->addWidget(timeEdit);
+	timedialog->setLayout(layout);
+	timedialog->show();
+}
+
+void LoaderDateTimePage::show_help(){
+			   QString  HtmlString(tr("<html>"
+									  "<h2>example time format</h2>"
+									  "<pre>dd      the day as number with a leading zero (01 to 31)</pre>"
+									  "<pre>ddd     the abbreviated localized day name (e.g. 'Mon' to 'Sun')</pre>"
+									  "<pre>dddd    the long localized day name (e.g. 'Monday' to 'Sunday')</pre>"
+									  "<pre>M       the month as number without a leading zero (1-12)</pre>"
+									  "<pre>MM      the month as number with a leading zero (01-12)</pre>"
+									  "<pre>MMM     the abbreviated localized month name (e.g. 'Jan' to 'Dec')</pre>"
+									  "<pre>MMMM    the long localized month name (e.g. 'January' to 'December')</pre>"
+									  "<pre>yy      the year as two digit number (00-99)</pre>"
+									  "<pre>yyyy    the year as four digit number</pre>"
+									  "<pre>h       the hour without a leading zero (0 to 23 or 1 to 12 if AM/PM display)</pre>"
+									  "<pre>hh      the hour with a leading zero (00 to 23 or 01 to 12 if AM/PM display)</pre>"
+									  "<pre>H       the hour without a leading zero (0 to 23, even with AM/PM display)</pre>"
+									  "<pre>HH      the hour with a leading zero (00 to 23, even with AM/PM display)</pre>"
+									  "<pre>mm      the minute with a leading zero (00 to 59)</pre>"
+									  "<pre>ss      the second with a leading zero (00 to 59)</pre>"
+									  "<html/>"));
+	QMessageBox::about(this,"Time helper",HtmlString);
+
+}
+
 void LoaderDateTimePage::set_up_finished(){
 	emit delimitered_dateTime(this->column,this->row,this->selectDateTimeDelimiter->currentText());
 	this->close();

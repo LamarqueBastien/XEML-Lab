@@ -34,7 +34,7 @@ namespace Xeml{
 			private:
 				OntologyManager()
 				{
-					this->ontologyHandler=std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>();
+					this->ontologyHandler=new std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>();
 					init();
 				}
 				//OntologyManager(const OntologyManager&);
@@ -71,20 +71,20 @@ namespace Xeml{
 					Xeml::Document::PositioningOntologyHandler * poh = new Xeml::Document::PositioningOntologyHandler();
 					Xeml::Document::Ontologies::OBO::PEOHandler * peoh = new Xeml::Document::Ontologies::OBO::PEOHandler();
 					Xeml::Document::Ontologies::OBO::EnvOHandler * envoh = new Xeml::Document::Ontologies::OBO::EnvOHandler();
-					this->ontologyHandler[doh->get_uri()]=doh;
-					this->ontologyHandler[soh->get_uri()]=soh;
-					this->ontologyHandler[xoh->get_uri()]=xoh;
-					this->ontologyHandler[poh->get_uri()]=poh;
-					this->ontologyHandler[peoh->get_uri()]=peoh;
-					this->ontologyHandler[envoh->get_uri()]=envoh;
+					(*this->ontologyHandler)[doh->get_uri()]=doh;
+					(*this->ontologyHandler)[soh->get_uri()]=soh;
+					(*this->ontologyHandler)[xoh->get_uri()]=xoh;
+					(*this->ontologyHandler)[poh->get_uri()]=poh;
+					(*this->ontologyHandler)[peoh->get_uri()]=peoh;
+					(*this->ontologyHandler)[envoh->get_uri()]=envoh;
 
 				}
-				std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *> get_handler(){
+				std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>  * get_handler(){
 					return this->ontologyHandler;
 				}
 
 				bool contains(QString _uri){
-					if (this->ontologyHandler.find(_uri) != this->ontologyHandler.end())
+					if (this->ontologyHandler->find(_uri) != this->ontologyHandler->end())
 					{
 						return true;
 					}
@@ -97,7 +97,7 @@ namespace Xeml{
 					if(this->contains(_uri)){
 						ItfOntologyHandler * ret =NULL;
 						try{
-							ret=dynamic_cast<ItfOntologyHandler*>(this->ontologyHandler[_uri]->copy());
+							ret=dynamic_cast<ItfOntologyHandler*>((*this->ontologyHandler)[_uri]->copy());
 						}
 						catch(exception ex)
 						{
@@ -111,7 +111,7 @@ namespace Xeml{
 
 			private:
 				//variables membres
-				std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *> ontologyHandler;
+				std::map<QString,Xeml::Document::Contracts::ItfOntologyHandler *>  * ontologyHandler ;
 				static OntologyManager  * Instance;
 
 

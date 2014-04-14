@@ -140,10 +140,10 @@ namespace Xeml {
 			this->samplesCollection->push_back(std::make_pair(_s,_s->get_id()));
 		}
 
-		void                                                   StoryBase::rm_variable(QString _termId){
+		void                                                   StoryBase::rm_variable(QString _termId,bool _ismeasured){
 			std::vector<std::pair<BasicTerm*,QString> >::iterator it_to_erase;
 			for (std::vector<std::pair<BasicTerm*,QString> >::iterator it= this->variablesCollection->begin();it!=this->variablesCollection->end();++it){
-				if ((*it).second == _termId){
+				if ((*it).second == _termId && static_cast<DynamicTerm*>((*it).first)->get_measured_variable()==_ismeasured){
 					delete (*it).first;
 					it_to_erase=it;
 				}

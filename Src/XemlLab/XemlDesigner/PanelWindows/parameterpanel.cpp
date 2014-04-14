@@ -14,7 +14,8 @@ ParameterPanel::ParameterPanel(bool _RemoveMode,QWidget * parent)
 	model->setHorizontalHeaderItem(3, new QStandardItem(QString("IsCycleValue")));
 	model->setHorizontalHeaderItem(4, new QStandardItem(QString("unit")));
 	model->setHorizontalHeaderItem(5, new QStandardItem(QString("value")));
-	model->setHorizontalHeaderItem(5, new QStandardItem(QString("value")));
+	model->setHorizontalHeaderItem(6, new QStandardItem(QString("timepoint")));
+	model->setHorizontalHeaderItem(7, new QStandardItem(QString("IsMeasured")));
 
 
 
@@ -42,6 +43,14 @@ void ParameterPanel::initialize(StoryBase * _story,bool _isStorySplit){
 	for(std::vector<std::pair<BasicTerm*,QString> >::iterator it = _story->get_variablesCollection()->begin();it!= _story->get_variablesCollection()->end();++it){
 		model->setItem(cpt,0,new QStandardItem((*it).second));
 		model->setItem(cpt,1,new QStandardItem(static_cast<DynamicTerm*>((*it).first)->get_name()));
+		if(static_cast<DynamicTerm*>((*it).first)->get_measured_variable()){
+			model->setItem(cpt,7,new QStandardItem("true"));
+		}
+		else{
+			model->setItem(cpt,7,new QStandardItem("false"));
+
+		}
+
 
 		for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it2=static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->begin();it2!=static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->end();++it2){
 
@@ -77,7 +86,15 @@ void ParameterPanel::remove_parameter(){
 	if(selection->isSelected(indexelementselected)){
 		int row_num=this->model->itemFromIndex(indexelementselected)->row();
 		if(this->model->index(row_num,0).data().toString()!=""){
-			this->current_story->rm_variable(this->model->index(row_num,0).data().toString());
+
+			if(this->model->index(row_num,7).data().toString()=="false"){
+				this->current_story->rm_variable(this->model->index(row_num,0).data().toString(),false);
+			}
+			else{
+				this->current_story->rm_variable(this->model->index(row_num,0).data().toString(),true);
+
+			}
+
 			this->close();
 		}
 		else{

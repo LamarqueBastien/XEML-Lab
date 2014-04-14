@@ -14,6 +14,7 @@
 #include<QMessageBox>
 #include<QHeaderView>
 #include"Views/tableview.h"
+#include"Div/progresssplashscreen.h"
 
 
 #include"Interface/itfdocument.h"

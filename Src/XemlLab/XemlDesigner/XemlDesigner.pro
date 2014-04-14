@@ -86,7 +86,8 @@ SOURCES += \
     PopulationLoader/individualimportfilepage.cpp \
     PopulationLoader/individualconclusionpage.cpp \
     PopulationLoader/individualcreationpage.cpp \
-    SampleLoader/observationdetails.cpp
+    SampleLoader/observationdetails.cpp \
+    Div/progresssplashscreen.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -167,7 +168,8 @@ HEADERS += \
     PopulationLoader/individualimportfilepage.h \
     PopulationLoader/individualconclusionpage.h \
     PopulationLoader/individualcreationpage.h \
-    SampleLoader/observationdetails.h
+    SampleLoader/observationdetails.h \
+    Div/progresssplashscreen.h
 
 RESOURCES += \
     Divers.qrc

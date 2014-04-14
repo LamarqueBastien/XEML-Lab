@@ -23,8 +23,19 @@ LoaderIntroPage::LoaderIntroPage(QWidget *parent)
 
 	//setPixmap(QWizard::WatermarkPixmap, QPixmap(":/images/watermark.png"));
 
-	topLabel = new QLabel(tr("This wizard will help you to fill a  "
-								 "<i>Xeml</i> files from a <i>CSV</i> file "));
+	topLabel = new QLabel(tr("<html>This wizard will help you to fill a  "
+							 "<i>Xeml</i> files from a <i>CSV</i> file"
+							 "<h2>example csv file</h2>"
+							 "<ul>"
+							 "<li>text delimiter : \"</li>"
+							 "<li>data delimiter : ,</li>"
+							 "</ul>"
+							 "<pre>\"TimeHeader\",\"headerData_1\",\"HeaderData_2\"....,\"HeaderData_n\"</pre>"
+							 "<pre>\"Time_Value\",\"value_Data_1\",\"value_Data_2\"....,\"Value_Data_n\"</pre>"
+							 "<pre>\"Time_Value\",\"value_Data_1\",\"value_Data_2\"....,\"Value_Data_n\"</pre>"
+							 "<pre>\"Time_Value\",\"value_Data_1\",\"value_Data_2\"....,\"Value_Data_n\"</pre>"
+							 "<br/>"
+							 "<img src=\"://Images/red-warning.jpg\" align=\"left\" width=\"30\" height=\"30\" /> you need to have at least one column for time value<blink></html>"));
 	topLabel->setWordWrap(true);
 
 	//registerRadioButton = new QRadioButton(tr("&Register your copy"));

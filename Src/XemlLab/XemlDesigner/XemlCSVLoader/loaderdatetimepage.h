@@ -10,6 +10,7 @@ class LoaderDateTimePage  : public QWidget
 		LoaderDateTimePage(int _column,int _row,QWidget * parent=0);
 		QPushButton        * cancelButton;
 		QPushButton        * okButton;
+		QPushButton        * add_new_expression;
 		int       row;
 		int column;
 		QLineEdit * year;
@@ -33,7 +34,9 @@ class LoaderDateTimePage  : public QWidget
 	signals:
 		void delimitered_dateTime(int _column,int _row,QString _time);
 	private slots:
+		void show_help();
 		void set_up_finished();
+		void on_new_expression_added();
 
 };
 

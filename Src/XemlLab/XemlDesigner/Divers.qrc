@@ -42,6 +42,7 @@
         <file>Images/fougeres.jpg</file>
         <file>Images/leaves.jpg</file>
         <file>Images/shl.png</file>
+        <file>Images/red-warning.jpg</file>
     </qresource>
     <qresource prefix="/template">
         <file>XEMLStore/Templates/Standard.xeml</file>

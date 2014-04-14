@@ -18,8 +18,8 @@ LoaderParamSettingPage::LoaderParamSettingPage(QStandardItemModel * _model,ItfDo
 
 	model = new QStandardItemModel(1,4,this); //2 Rows and 3 Columns
 	model->setHorizontalHeaderItem(0, new QStandardItem(QString("term header")));
-	model->setHorizontalHeaderItem(1, new QStandardItem(QString("term ontology")));
-	model->setHorizontalHeaderItem(2, new QStandardItem(QString("term story")));
+	model->setHorizontalHeaderItem(1, new QStandardItem(QString("term")));
+	model->setHorizontalHeaderItem(2, new QStandardItem(QString("story")));
 	model->setHorizontalHeaderItem(3, new QStandardItem(QString("is a time value")));
 	table->setModel(model);
 
