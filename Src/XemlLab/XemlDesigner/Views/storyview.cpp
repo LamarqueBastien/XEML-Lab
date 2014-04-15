@@ -324,7 +324,7 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
 	connect(this->GraphicScene,SIGNAL(event2removed()),this,SLOT(remove_event()));
 	connect(this->GraphicScene,SIGNAL(event2edit()),this,SLOT(edit_event()));
-	connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
+	//connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(QGraphicsItem*)),this->info_view,SLOT(set_object_info(QGraphicsItem*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(sample_to_add()),this,SLOT(choose_obsPoint()));
@@ -720,7 +720,7 @@ void  StoryView::add_genotype(IndividualsPool * _pool){
 //Display details about the current experiment and experimenter
 void StoryView::edit_Experiment(){
 
-	ExperimentDialog * expdialog = new ExperimentDialog(this->currentDoc);
+	ExperimentDialog * expdialog = new ExperimentDialog(this->currentDoc,this);
 	expdialog->initialize();
 	//this->aboutexp =new AboutExperiment(this->currentDoc);
 	//connect(this->aboutexp,SIGNAL(experimenter_set_up_finished(QString,QString,QString,QString)),this,SLOT(set_up_experimenter(QString,QString,QString,QString)));
@@ -1351,7 +1351,7 @@ void StoryView::createStory(QString _text){
 void StoryView::new_parameter(ItfOntologyTerm * _term){
 	std::cerr << "entering new_parameter (StoryView)" << std::endl;
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+		//if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 			StoryNode * parent=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			//QString mainname=parent->get_mainStoryName();
 			std::cerr << "term prototype : " << _term->get_prototype()->get_namespacealias().toStdString() << std::endl;
@@ -1374,10 +1374,10 @@ void StoryView::new_parameter(ItfOntologyTerm * _term){
 				//this->currentDoc->get_storyboard()->findNode_by_Label(elementSelected.toString(),mainname)->get_story()->add_variable(_term->get_prototype());
 
 			}
-		}
-		else{
-			QMessageBox::information(this,"added element","no story selected");
-		}
+		//}
+		//else{
+		//	QMessageBox::information(this,"added element","no story selected");
+		//}
 	}
 	else{
 		QItemSelectionModel * selection = this->storytree->selectionModel();
@@ -1627,6 +1627,7 @@ void StoryView::add_observationPoint(){
 			//this->obsPoint->set_id(obs_count+1);
 			//this->obsPoint->setVisible(true);
 		}
+
 		else{
 			QMessageBox::information(this,"added element","no story selected");
 		}
@@ -1701,6 +1702,9 @@ void StoryView::remove_obs_point(){
 			}
 
 			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
+		}
+		else if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicObservationPointItem::Type){
+
 		}
 		else{
 			QMessageBox::information(this,"added element","No story selected");

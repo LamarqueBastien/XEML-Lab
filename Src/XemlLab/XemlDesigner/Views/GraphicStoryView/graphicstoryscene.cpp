@@ -112,6 +112,7 @@ void                              GraphicStoryScene::createActions(){
 	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&display plot parameters"), this);
 	display_plot->setShortcut(tr("Ctrl+S"));
 	display_plot->setStatusTip(tr("Show plot about quantitative parameters values"));
+	display_plot->setEnabled(false);
 	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove Observation"), this);
 	removeOP->setShortcut(tr("Ctrl+R"));
 	removeOP->setStatusTip(tr("Remove observation Point"));
@@ -196,27 +197,34 @@ void                              GraphicStoryScene::display_plot_parameters(){
 }
 void                              GraphicStoryScene::dropEvent(QGraphicsSceneDragDropEvent * event){
 		std::cerr << "event_drop" << std::endl;
+		QGraphicsItem* item = itemAt(event->scenePos(),QTransform());
+		//QGraphicsItem* item = mouseGrabberItem();
+		if(item!=0){
+			switch(item->type()){
+				case GraphicStoryItem::Type:
+					//my_selected_story=static_cast<GraphicStoryItem*>(item);
+					selected_item=static_cast<GraphicStoryItem*>(item);
+		//if (my_selected_story!=NULL){
+					if (event->mimeData()->hasText()) {
+						const QMimeData *mime = event->mimeData();
+						QStringList pieces = mime->text().split(QRegExp("\\s+"),
+											  QString::SkipEmptyParts);
+						QPoint position = event->pos().toPoint();
+						QPoint hotSpot;
 
-		if (my_selected_story!=NULL){
-			if (event->mimeData()->hasText()) {
-				const QMimeData *mime = event->mimeData();
-				QStringList pieces = mime->text().split(QRegExp("\\s+"),
-									  QString::SkipEmptyParts);
-				QPoint position = event->pos().toPoint();
-				QPoint hotSpot;
+						QList<QByteArray> hotSpotPos = mime->data("application/x-hotspot").split(' ');
+						if (hotSpotPos.size() == 2) {
+							hotSpot.setX(hotSpotPos.first().toInt());
+							hotSpot.setY(hotSpotPos.last().toInt());
+						}
 
-				QList<QByteArray> hotSpotPos = mime->data("application/x-hotspot").split(' ');
-				if (hotSpotPos.size() == 2) {
-					hotSpot.setX(hotSpotPos.first().toInt());
-					hotSpot.setY(hotSpotPos.last().toInt());
-				}
+						foreach (QString piece, pieces) {
+							//QMessageBox::information(NULL,"added element",piece);
+							emit variable_to_add(piece);
 
-				foreach (QString piece, pieces) {
-					//QMessageBox::information(NULL,"added element",piece);
-					emit variable_to_add(piece);
+						}
 
-				}
-
+					}
 			}
 
 		}
@@ -234,7 +242,7 @@ void                              GraphicStoryScene::dragMoveEvent(QGraphicsScen
 void                              GraphicStoryScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 
 
-
+/*
 	std::cerr << "entering double click" << std::endl;
 	QGraphicsItem* item = itemAt(mouseEvent->scenePos(),QTransform());
 	//QGraphicsItem* item = mouseGrabberItem();
@@ -280,7 +288,7 @@ void                              GraphicStoryScene::mouseDoubleClickEvent(QGrap
 	}
 	selectedItems().clear();
 	QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-
+*/
 }
 void                              GraphicStoryScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
@@ -369,16 +377,33 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 			switch(item->type()){
 				case GraphicStoryItem::Type:
 					std::cerr << "entering story item type" << std::endl;
-					this->Z_value++;
+
 					this->selected_item=static_cast<GraphicStoryItem*>(item);
 					this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+					this->my_selected_story->setSelected(true);
+					this->Z_value++;
 					this->my_selected_story->setZValue(Z_value);
 					//this->my_selected_story->add_point_selection();
 					this->my_selected_obsPoint=NULL;
 					this->my_selected_event=NULL;
+					for (int i=0;i<this->items().count();i++){
+						if (this->items().at(i)->type()==GraphicStoryItem::Type){
+							if(static_cast<GraphicStoryItem*>(this->items().at(i))->get_story()->get_label()==this->my_selected_story->get_story()->get_label() ){
+
+							}
+							else{
+								this->items().at(i)->setSelected(false);
+
+							}
+						}
+						else{
+							this->items().at(i)->setSelected(false);
+
+						}
+					}
 					//emit set_details_in_view(static_cast<GraphicStoryItem*>(item)->get_story());
 					emit set_details_in_view(item);
-					std::cerr << "emit signals" << std::endl;
+					//std::cerr << "emit signals" << std::endl;
 
 
 
@@ -391,6 +416,21 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 					this->my_selected_event->setZValue(Z_value);
 					this->my_selected_story=NULL;
 					this->my_selected_obsPoint=NULL;
+					for (int i=0;i<this->items().count();i++){
+						if (this->items().at(i)->type()==GraphicEventItem::Type){
+							if(static_cast<GraphicEventItem*>(this->items().at(i))->get_event()->get_label()==this->my_selected_event->get_event()->get_label() ){
+
+							}
+							else{
+								this->items().at(i)->setSelected(false);
+
+							}
+						}
+						else{
+							this->items().at(i)->setSelected(false);
+
+						}
+					}
 					emit set_details_in_view(item);
 
 					break;
@@ -402,6 +442,21 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 					this->my_selected_obsPoint->setZValue(Z_value);
 					this->my_selected_event=NULL;
 					this->my_selected_story=NULL;
+					for (int i=0;i<this->items().count();i++){
+						if (this->items().at(i)->type()==GraphicObservationPointItem::Type){
+							if(static_cast<GraphicObservationPointItem*>(this->items().at(i))->get_obspoint()->get_id()==this->my_selected_obsPoint->get_obspoint()->get_id() ){
+
+							}
+							else{
+								this->items().at(i)->setSelected(false);
+
+							}
+						}
+						else{
+							this->items().at(i)->setSelected(false);
+
+						}
+					}
 					emit set_details_in_view(item);
 					break;
 			}
@@ -743,12 +798,12 @@ void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSce
 						//my_selected_story->setZValue(100000);
 					isSplit=selected_story->get_isStorySplit();
 					if(isSplit){
-						if (selected_story->isSelected()){
+						//if (selected_story->isSelected()){
 							mouse_point = e->scenePos();
 							std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
-							if(mouse_point.x()>=0 && mouse_point.y()>=0){
-								shift=this->max_width-my_selected_story->get_parent()->get_rect().width();
-								if(mouse_point.x()>=(selected_story->pos().x()+shift)-40 && mouse_point.x()<=(selected_story->pos().x()+shift)+40){
+							//if(mouse_point.x()>=0 && mouse_point.y()>=0){
+								shift=this->max_width-selected_story->get_parent()->get_rect().width();
+								if(mouse_point.x()>=(selected_story->pos().x()+shift)-100 && mouse_point.x()<=(selected_story->pos().x()+shift)+100){
 									std::cerr << "mouse point y : " << mouse_point.y() << std::endl;
 									selected_story->change();
 									//storysplit without childs
@@ -773,8 +828,8 @@ void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSce
 										//emit set_details_in_view(selected_story->get_story());
 									}
 								}
-							}
-						}
+							//}
+						//}
 					}
 					break;
 				case GraphicEventItem::Type:
@@ -1053,6 +1108,7 @@ void                              GraphicStoryScene::add_event(Event *e){
 	this->my_selected_event=tmp_event;
 	this->my_selected_story=NULL;
 	this->my_selected_obsPoint=NULL;
+	this->selected_item=tmp_event;
 	emit set_details_in_view(tmp_event);
 	//tmp_item->setZValue(100000);
 }
@@ -1081,6 +1137,8 @@ void                              GraphicStoryScene::add_Obs_point(ObservationPo
 											my_selected_story);
 	}
 	this->my_selected_obsPoint=tmp;
+	this->selected_item=tmp;
+	emit set_details_in_view(tmp);
 }
 
 

@@ -48,6 +48,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 		this->HeatMap=false;
 	}
 	this->Pressed=false;
+	setAcceptHoverEvents(false);
 	//this->setOpacity(0.4);
 	//setAcceptedMouseButtons(true);
 }
@@ -105,6 +106,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 		this->HeatMap=false;
 	}
 	this->Pressed=false;
+	setAcceptHoverEvents(false);
 	//this->setOpacity(0.4);
 	//setAcceptedMouseButtons(true);
 
@@ -191,6 +193,10 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 	Q_UNUSED(widget);
 
+
+
+
+
 	painter=_painter;
 	painter->setRenderHint(QPainter::Antialiasing,true);
 
@@ -203,130 +209,82 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	//QBrush brush(Qt::blue);
 	//QLinearGradient gradient;
 	//_painter->setCompositionMode(QPainter::CompositionMode_Multiply);
-	QLinearGradient gradient(boundingRect().topLeft(),boundingRect().topRight());
-
-	/*
-	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.4, 0.2, 0.5));
-	gradient.setColorAt(0.25, QColor::fromRgbF(0.1, 0.2, 0.9, 0.5));
-	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.4, 0.2, 0.5));
-	gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.9, 0.5));
-	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.1, 0.6, 0.5));
-	*/
-	/*
-	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
-	gradient.setColorAt(0.5, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
-	gradient.setColorAt(1, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
-	*/
-
-	 QGradientStops stops;
-	 stops << QGradientStop(0.0, QColor(215, 255, 200));
-	 stops << QGradientStop(0.5, QColor(102, 176, 54));
-	 stops << QGradientStop(1.0, QColor(0, 0,  0));
-	 gradient.setStops(stops);
-	 /*
-
-	gradient.setColorAt(0, QColor::fromRgbF(0.1, 0.6, 0.9, 0.2));
-	gradient.setColorAt(0.25, QColor::fromRgbF(0.5, 0.1, 0.9, 0.2));
-	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.6, 0.2, 0.2));
-	gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.8, 0.2));
-	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.3, 0.7, 0.2));
+	gradient= new QLinearGradient(boundingRect().topLeft(),boundingRect().topRight());
 
 
-	*/
-	QBrush brush(gradient);
-	brush.setStyle(Qt::LinearGradientPattern);
-	_painter->setBrush(brush);
-	_painter->drawRoundedRect(this->rect,5,5);
-
-	//QBrush selBrush1=QBrush(Qt::red,Qt::SolidPattern);
-	//QPen selPen1=QPen(Qt::red);
-	//_painter->setBrush(selBrush1);
-	//_painter->drawRect(boundingRect());
-
-	//_painter->setBrush(brush);
-
-	if(IsStorySplit){
-		//draw the connector between the storysplit and its parent story
-
-
-		qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
-		//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
-		qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
-
-		QPointF point2=QPointF(posx,parent_y+parent_h/2);//rect.height()-((3*rect.height())/2)+posy);
-		//ajouter ici le nouveau type "AnchorStoryItem"
-
-		//AnchorStoryItem * ancre=new AnchorStoryItem(posx,parent_y+parent_h/2,this);
-		//_painter->drawRect;
-
-		QLineF  * tmp_line=new QLineF(posx,parent_y+parent_h/2,posx,posy+parent_h/2);
-		_painter->drawRect(QRectF(point2-QPointF(2,2),point2+QPointF(2,2)));
-		_painter->drawLine((*tmp_line));
-	}
-
-
-
-	QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
-	QPen selPen=QPen(Qt::red);
-	//ligne médiane qui traverse toute la story
-	QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.topRight().x(),(rect.height()/2)+posy);
-	_painter->drawLine((*red_line));
-
-	qreal j;
-	if(!IsStorySplit){
-		/*
-		for (qreal i=0;i<rect.width();i=i+rect.width()/45){
-			QLineF  * tmp_line=new QLineF(i,posy,i,rect.height()+posy);
-
-
-			if (i==rect.width()){
-				//std::cerr << "i equal to width" << std::endl;
-				std::cerr << "i : " << i << std::endl;
-			}
-			else{
-
-				//std::cerr << "i not equal to width" << std::endl;
-				//std::cerr << "i : " << i << std::endl;
-				for (j=i;j<i+rect.width()/35;j+=(rect.width()/45)/24){
-					//std::cerr << "j : " << j << "rect width:" << rect.width()<< std::endl;
-					QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
-					QPen selPen=QPen(Qt::red);
-					_painter->setBrush(selBrush);
-					_painter->setPen(selPen);
-					QLineF * tmp_min_line=new QLineF(j,posy,j,rect.height()+posy);
-					//tmp_min_line->
-					_painter->drawLine((*tmp_min_line));
-				}
-			}
-			selBrush=QBrush(Qt::black,Qt::SolidPattern);
-			selPen=QPen(Qt::black);
-			_painter->setBrush(selBrush);
-			_painter->setPen(selPen);
-
-			//_painter->drawLine(i,0,i,rect.height());
-			_painter->drawLine((*tmp_line));
-		}
-		*/
-	}
 	if(isSelected()){
-		//this->setSelected(true);
-
-
-
-
+		QGradientStops stops;
+		stops << QGradientStop(0.0, QColor(102, 176, 54));
+		stops << QGradientStop(0.5, QColor(102, 176, 54));
+		stops << QGradientStop(1.0, QColor(102, 176, 54));
+		gradient->setStops(stops);
 		/*
-		QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
-		QPen selPen=QPen(Qt::red);
-		_painter->setBrush(selBrush);
-		_painter->setPen(selPen);
-		QPointF point=QPointF(posx,(rect.height()/2)+posy);
-		_painter->drawRect(QRectF(point-QPointF(2,2),point+QPointF(2,2)));
-		*/
+
+	   gradient.setColorAt(0, QColor::fromRgbF(0.1, 0.6, 0.9, 0.2));
+	   gradient.setColorAt(0.25, QColor::fromRgbF(0.5, 0.1, 0.9, 0.2));
+	   gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.6, 0.2, 0.2));
+	   gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.8, 0.2));
+	   gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.3, 0.7, 0.2));
+
+
+	   */
+	   QBrush brush((*gradient));
+	   brush.setStyle(Qt::LinearGradientPattern);
+	   _painter->setBrush(brush);
+	   _painter->drawRoundedRect(this->rect,5,5);
+
+	   //QBrush selBrush1=QBrush(Qt::red,Qt::SolidPattern);
+	   //QPen selPen1=QPen(Qt::red);
+	   //_painter->setBrush(selBrush1);
+	   //_painter->drawRect(boundingRect());
+
+	   //_painter->setBrush(brush);
+
+	   if(IsStorySplit){
+		   //draw the connector between the storysplit and its parent story
+
+
+		   qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+		   //qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
+		   qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+
+		   QPointF point2=QPointF(posx,parent_y+parent_h/2);//rect.height()-((3*rect.height())/2)+posy);
+		   //ajouter ici le nouveau type "AnchorStoryItem"
+
+		   //AnchorStoryItem * ancre=new AnchorStoryItem(posx,parent_y+parent_h/2,this);
+		   //_painter->drawRect;
+		   QBrush selBrush=QBrush(Qt::blue,Qt::SolidPattern);
+		   QPen selPen=QPen(Qt::blue);
+		   _painter->setBrush(selBrush);
+		   _painter->setPen(selPen);
+		   QLineF  * tmp_line=new QLineF(posx,parent_y+parent_h/2,posx,posy+parent_h/2);
+		   _painter->drawRect(QRectF(point2-QPointF(2,2),point2+QPointF(2,2)));
+		   _painter->drawLine((*tmp_line));
+
+		   //ligne médiane qui traverse toute la story
+		   QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.topRight().x(),(rect.height()/2)+posy);
+		   _painter->drawLine((*red_line));
+	   }
+	   else{
+		   QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
+		   QPen selPen=QPen(Qt::red);
+		   _painter->setBrush(selBrush);
+		   _painter->setPen(selPen);
+		   //ligne médiane qui traverse toute la story
+		   QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.topRight().x(),(rect.height()/2)+posy);
+		   _painter->drawLine((*red_line));
+
+	   }
 
 
 
 
 
+
+
+
+
+/*
 		if(HeatMap){
 
 			for (qreal i=0;i<rect.width();i=i+rect.width()/45){
@@ -360,11 +318,130 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 				//_painter->drawLine(i,0,i,rect.height());
 				_painter->drawLine((*tmp_line));
 			}
-		}
+		}*/
 
 
 
 	}
+	else{
+	/*
+	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.4, 0.2, 0.5));
+	gradient.setColorAt(0.25, QColor::fromRgbF(0.1, 0.2, 0.9, 0.5));
+	gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.4, 0.2, 0.5));
+	gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.9, 0.5));
+	gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.1, 0.6, 0.5));
+	*/
+	/*
+	gradient.setColorAt(0, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	gradient.setColorAt(0.5, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	gradient.setColorAt(1, QColor::fromRgbF(0.2, 0.6, 0.9, 0.2));
+	*/
+
+		 QGradientStops stops;
+		 stops << QGradientStop(0.0, QColor(215, 255, 200));
+		 stops << QGradientStop(0.5, QColor(102, 176, 54));
+		 stops << QGradientStop(1.0, QColor(215, 255, 200));
+		 gradient->setStops(stops);
+		 /*
+
+		gradient.setColorAt(0, QColor::fromRgbF(0.1, 0.6, 0.9, 0.2));
+		gradient.setColorAt(0.25, QColor::fromRgbF(0.5, 0.1, 0.9, 0.2));
+		gradient.setColorAt(0.5, QColor::fromRgbF(0.8, 0.6, 0.2, 0.2));
+		gradient.setColorAt(0.75, QColor::fromRgbF(0.8, 0.4, 0.8, 0.2));
+		gradient.setColorAt(1, QColor::fromRgbF(0.4, 0.3, 0.7, 0.2));
+
+
+		*/
+		QBrush brush((*gradient));
+		brush.setStyle(Qt::LinearGradientPattern);
+		_painter->setBrush(brush);
+		_painter->drawRoundedRect(this->rect,5,5);
+
+		//QBrush selBrush1=QBrush(Qt::red,Qt::SolidPattern);
+		//QPen selPen1=QPen(Qt::red);
+		//_painter->setBrush(selBrush1);
+		//_painter->drawRect(boundingRect());
+
+		//_painter->setBrush(brush);
+
+		if(IsStorySplit){
+			//draw the connector between the storysplit and its parent story
+
+
+			qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
+			//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
+			qreal parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
+
+			QPointF point2=QPointF(posx,parent_y+parent_h/2);//rect.height()-((3*rect.height())/2)+posy);
+			//ajouter ici le nouveau type "AnchorStoryItem"
+
+			//AnchorStoryItem * ancre=new AnchorStoryItem(posx,parent_y+parent_h/2,this);
+			//_painter->drawRect;
+			QBrush selBrush=QBrush(Qt::blue,Qt::SolidPattern);
+			QPen selPen=QPen(Qt::blue);
+			_painter->setBrush(selBrush);
+			_painter->setPen(selPen);
+			QLineF  * tmp_line=new QLineF(posx,parent_y+parent_h/2,posx,posy+parent_h/2);
+			_painter->drawRect(QRectF(point2-QPointF(2,2),point2+QPointF(2,2)));
+			_painter->drawLine((*tmp_line));
+
+			//ligne médiane qui traverse toute la story
+			QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.topRight().x(),(rect.height()/2)+posy);
+			_painter->drawLine((*red_line));
+		}
+		else{
+			QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
+			QPen selPen=QPen(Qt::red);
+			_painter->setBrush(selBrush);
+			_painter->setPen(selPen);
+			//ligne médiane qui traverse toute la story
+			QLineF  * red_line=new QLineF(posx,(rect.height()/2)+posy,rect.topRight().x(),(rect.height()/2)+posy);
+			_painter->drawLine((*red_line));
+
+		}
+
+
+
+
+
+		qreal j;
+		if(!IsStorySplit){
+			/*
+			for (qreal i=0;i<rect.width();i=i+rect.width()/45){
+				QLineF  * tmp_line=new QLineF(i,posy,i,rect.height()+posy);
+
+
+				if (i==rect.width()){
+					//std::cerr << "i equal to width" << std::endl;
+					std::cerr << "i : " << i << std::endl;
+				}
+				else{
+
+					//std::cerr << "i not equal to width" << std::endl;
+					//std::cerr << "i : " << i << std::endl;
+					for (j=i;j<i+rect.width()/35;j+=(rect.width()/45)/24){
+						//std::cerr << "j : " << j << "rect width:" << rect.width()<< std::endl;
+						QBrush selBrush=QBrush(Qt::red,Qt::SolidPattern);
+						QPen selPen=QPen(Qt::red);
+						_painter->setBrush(selBrush);
+						_painter->setPen(selPen);
+						QLineF * tmp_min_line=new QLineF(j,posy,j,rect.height()+posy);
+						//tmp_min_line->
+						_painter->drawLine((*tmp_min_line));
+					}
+				}
+				selBrush=QBrush(Qt::black,Qt::SolidPattern);
+				selPen=QPen(Qt::black);
+				_painter->setBrush(selBrush);
+				_painter->setPen(selPen);
+
+				//_painter->drawLine(i,0,i,rect.height());
+				_painter->drawLine((*tmp_line));
+			}
+			*/
+		}
+	}
+
 
 
 }

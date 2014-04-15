@@ -19,7 +19,7 @@ class TableView : public QTableView
 		void write_variable_context(DynamicTerm * _term,ValueBase* _vb,qint64 _milliseconds_ellapsed, int _cpt,int _sample_counter,int _value_counter,int _story_counter);
 		void write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc, int _sample_counter,int _story_counter,QString _header,int _column);
 		void write_variable_context_fixed(DynamicTerm * _term,ValueBase* _vb,qint64 _milliseconds_ellapsed, int _sample_counter,int _counter_term);
-
+		DynamicValue * get_previous_value(std::vector<DynamicValue*> * term_values);
 	private:
 		void init();
 		QStandardItemModel * modelTable;
