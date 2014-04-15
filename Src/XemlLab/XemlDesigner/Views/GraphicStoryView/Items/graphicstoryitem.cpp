@@ -215,7 +215,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	if(isSelected()){
 		QGradientStops stops;
 		stops << QGradientStop(0.0, QColor(102, 176, 54));
-		stops << QGradientStop(0.5, QColor(102, 176, 54));
+		stops << QGradientStop(0.5, QColor(215, 255, 200));
 		stops << QGradientStop(1.0, QColor(102, 176, 54));
 		gradient->setStops(stops);
 		/*
@@ -236,7 +236,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 	   //QBrush selBrush1=QBrush(Qt::red,Qt::SolidPattern);
 	   //QPen selPen1=QPen(Qt::red);
 	   //_painter->setBrush(selBrush1);
-	   //_painter->drawRect(boundingRect());
+	   _painter->drawRect(boundingRect());
 
 	   //_painter->setBrush(brush);
 
@@ -511,7 +511,9 @@ QRectF GraphicStoryItem::boundingRect() const{
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-150,miny,maxx-minx+250,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	//QRectF newRect = QRectF(minx-150,miny,maxx-minx+250,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx,miny,maxx-minx,maxy-miny);//.adjusted(-extra, -extra, extra, extra);
+
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;
