@@ -106,14 +106,14 @@ GraphicStoryItem *                GraphicStoryScene::get_item_by_label(QString _
 	return NULL;
 }
 void                              GraphicStoryScene::createActions(){
-	show_details = new QAction(QIcon(":/Images/new.png"),tr("&Story_details"), this);
+	show_details = new QAction(QIcon(":/Images/new.png"),tr("&Details"), this);
 	show_details->setShortcut(tr("Ctrl+S"));
 	show_details->setStatusTip(tr("Show details about story"));
-	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&display plot parameters"), this);
+	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&plot environmental variables"), this);
 	display_plot->setShortcut(tr("Ctrl+S"));
 	display_plot->setStatusTip(tr("Show plot about quantitative parameters values"));
 	display_plot->setEnabled(false);
-	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove Observation"), this);
+	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove an Observation"), this);
 	removeOP->setShortcut(tr("Ctrl+R"));
 	removeOP->setStatusTip(tr("Remove observation Point"));
 	removeEvent = new QAction(QIcon(":/Images/new.png"),tr("&Remove"), this);
@@ -561,6 +561,12 @@ void                              GraphicStoryScene::set_right_for_childs(QGraph
 
 						if(static_cast<GraphicStoryItem*>(item)->get_rect().width()>shift*zoomFactor){
 							tmp->set_right(tmp_size);
+
+						}
+						else if(tmp->get_rect().width()==0){
+							//here is the problem when child item width equal to zero
+							tmp->setPos(0,0);
+							tmp->set_right(0);
 						}
 						else{
 							tmp->setPos(tmp->pos().x()-_movement,0);
