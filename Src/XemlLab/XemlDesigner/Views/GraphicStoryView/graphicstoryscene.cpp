@@ -563,11 +563,13 @@ void                              GraphicStoryScene::set_right_for_childs(QGraph
 							tmp->set_right(tmp_size);
 
 						}
+						/*
 						else if(tmp->get_rect().width()==0){
 							//here is the problem when child item width equal to zero
 							tmp->setPos(0,0);
 							tmp->set_right(0);
 						}
+						*/
 						else{
 							tmp->setPos(tmp->pos().x()-_movement,0);
 
