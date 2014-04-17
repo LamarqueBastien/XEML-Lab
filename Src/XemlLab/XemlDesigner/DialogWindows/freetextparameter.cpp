@@ -180,7 +180,7 @@ QString  FreeTextParameter::get_context(){
 void FreeTextParameter::OkClicked(){
 
 
-	std::cerr << "counter" << counter << std::endl;
+	//std::cerr << "counter" << counter << std::endl;
 	QLayoutItem *item;
 	QLayoutItem *item2;
 
@@ -192,7 +192,7 @@ void FreeTextParameter::OkClicked(){
 
 			item=static_cast<QGridLayout*>(extension->layout())->itemAt(i);
 			if(i%3==0){
-				std::cerr << " modulo i : " << i << std::endl;
+				//std::cerr << " modulo i : " << i << std::endl;
 
 
 				DynamicValue * v = new DynamicValue();

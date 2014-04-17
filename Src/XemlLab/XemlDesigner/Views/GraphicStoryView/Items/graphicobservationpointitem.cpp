@@ -7,6 +7,8 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 	this->width=_width;
 	this->parent=_parent;
 	this->obsPoint=_obsPoint;
+
+	this->setPos(_posx,0);
 	this->posx=_posx;
 	this->posy=_posy;
 	setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -24,7 +26,6 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 	QPointF point2=QPointF(posx,parent_y+parent_h/2);
 
 	this->rect=QRectF(point2-QPointF(10,10),point2+QPointF(10,10));
-
 	if (static_cast<GraphicStoryItem*>(parent)->get_isStorySplit()){
 		this->obsPoint->set_timepoint(_obsdate);
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->obsPoint->get_timepoint())));
@@ -34,6 +35,7 @@ GraphicObservationPointItem::GraphicObservationPointItem(ObservationPoint * _obs
 		this->setToolTip(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_startdate,this->obsPoint->get_timepoint())));
 
 	}
+	//std::cerr << "initial pos x :"<< this->pos().x() << std::endl;
 	//this->pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
 
 	//setPolygon(this->pol);
@@ -60,11 +62,13 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	qreal maxy;
 	qreal minx;
 	qreal maxx;
-	minx = rect.width() < 0 ? rect.width() : posx;
+	minx = rect.width() < 0 ? rect.width() : 0;
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
 	miny = rect.height() < 0 ? rect.height() : posy;
 	maxy = rect.height() < 0 ? 0 : posy-rect.height();
 	//miny =0;
+	//std::cerr << "value minx (posx) :" << minx << std::endl;
+
 /*
 	std::cerr << "value minx :" << minx-10 << std::endl;
 	std::cerr << "value maxx :" << maxx<< std::endl;
@@ -96,6 +100,10 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 qreal GraphicObservationPointItem::get_posx(){
 	return this->posx;
 }
+void GraphicObservationPointItem::set_posx(qreal _posx){
+		this->posx=_posx;
+}
+
 qreal GraphicObservationPointItem::get_posy(){
 	return this->posy;
 }
@@ -105,6 +113,9 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 	QPen selPen=QPen(Qt::red);
 	_painter->setBrush(selBrush);
 	_painter->setPen(selPen);
+	//std::cerr << "pos x :" << posx << std::endl;
+	//std::cerr << "this pos x :" << this->pos().x() << std::endl;
+
 	if(parent!=NULL){
 		qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 		//qreal parent_x=static_cast<GraphicStoryItem*>(this->parent)->get_rect().x();
@@ -112,9 +123,9 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 		//_painter->drawRect(this->rect);
 		//_painter->drawPolygon(this->pol);
 		QPolygonF pol;
-		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
+		pol << QPointF(0, parent_y+parent_h/2) << QPointF(0-6, (parent_y+parent_h/2)-10) << QPointF(0-4, (parent_y+parent_h/2)-10) << QPointF(0-9, (parent_y+parent_h/2)-20) << QPointF(0, (parent_y+parent_h/2)-20) << QPointF(0, (parent_y+parent_h/2)-10)<< QPointF(0-1, (parent_y+parent_h/2)-10)<< QPointF(0, parent_y+parent_h/2);
 		_painter->drawPolygon(pol);
-		_painter->drawRect(boundingRect());
+		//_painter->drawRect(boundingRect());
 		if(isSelected()){
 			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
 			QPen selPen=QPen(Qt::yellow);
@@ -124,6 +135,7 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 			//_painter->drawRect(QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50));
 			//_painter->drawRect(boundingRect());
 		}
+		//this->posx=0;
 	}
 
 }

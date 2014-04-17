@@ -41,7 +41,8 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 
 }
 void GermPlasmPanel::germplasm_set_label(QString _label){
-	std::cerr << "label germplasm : " << _label.toStdString() << std::endl;
+	//std::cerr << "label germplasm : " << _label.toStdString() << std::endl;
+	Q_UNUSED(_label);
 }
 
 QString  GermPlasmPanel::get_germplasm(){

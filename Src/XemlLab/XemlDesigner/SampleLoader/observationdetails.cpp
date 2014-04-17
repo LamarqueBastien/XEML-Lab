@@ -153,7 +153,7 @@ void ObservationDetails::initialize_table(std::vector<IndividualsPool*> * _pools
 				add_ind(static_cast<Individual*>((*it).first)->get_id(),false,i,j,gp);
 			}
 			else{
-				std::cerr << "individuls is already destroyed" << std::endl;
+				//std::cerr << "individuls is already destroyed" << std::endl;
 				add_ind(static_cast<Individual*>((*it).first)->get_id(),true,i,j,gp);
 
 			}

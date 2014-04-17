@@ -7,6 +7,7 @@ GraphicEventItem::GraphicEventItem(Event *e,qreal _posx,qreal _posy,qreal _width
 	this->setParentItem(_parent);
 	this->width=_width;
 	this->parent=_parent;
+	this->setPos(_posx,0);
 	this->posx=_posx;
 	this->posy=_posy;
 	this->eventLabel=_label;
@@ -120,7 +121,7 @@ void GraphicEventItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 		//_painter->drawRect(boundingRect());
 
 		QPolygonF pol;
-		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
+		pol << QPointF(0, parent_y+parent_h/2) << QPointF(0-6, (parent_y+parent_h/2)-10) << QPointF(0-4, (parent_y+parent_h/2)-10) << QPointF(0-9, (parent_y+parent_h/2)-20) << QPointF(0, (parent_y+parent_h/2)-20) << QPointF(0, (parent_y+parent_h/2)-10)<< QPointF(0-1, (parent_y+parent_h/2)-10)<< QPointF(0, parent_y+parent_h/2);
 		_painter->drawPolygon(pol);
 		if(isSelected()){
 			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
@@ -205,7 +206,7 @@ QRectF GraphicEventItem::boundingRect() const{
 	std::cerr << "label : " << this->eventLabel.toStdString() << " bounding rect max y :" << maxy<<std::endl;
 	*/
 	//QRectF newRect = QRectF(minx,miny,maxx-minx+500,maxy-miny+60).adjusted(-extra, -extra, extra, extra);
-	QRectF newRect = QRectF(minx-10,parent_y,maxx-minx+0,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-10,parent_y,maxx+0,60);//.adjusted(-extra, -extra, extra, extra);
 	/*
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust min x :" << newRect.left()<<std::endl;
 	std::cerr << "label : " << this->storyLabel.toStdString() << " bounding rect adjust width :" << newRect.width()<<std::endl;

@@ -194,14 +194,14 @@ void ParameterTreeView::search_term(QString _term){
 }
 
 void ParameterTreeView::add_ontology(){
-	std::cerr << "entering add_ontology()" << std::endl;
+	//std::cerr << "entering add_ontology()" << std::endl;
 	OntologyPanel * onto=new OntologyPanel;
 	onto->initialize(this->doc_ressources);
 	onto->show();
 	connect(onto,SIGNAL(ontologies_to_load(bool,bool,bool)),this,SLOT(send_ontologies(bool,bool,bool)));
 }
 void ParameterTreeView::send_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envoIsChecked){
-	std::cerr << "emit ontology_to_load" << std::endl;
+	//std::cerr << "emit ontology_to_load" << std::endl;
 	emit ontology_to_load(_xeoIsChecked,_eoIsChecked,_envoIsChecked);
 }
 void ParameterTreeView::buildNodeHierarchy(TermNode * node,QString _namespace){
@@ -397,7 +397,7 @@ void ParameterTreeView::showSelection()
 void ParameterTreeView::add_parameter()
 {
 	QItemSelectionModel * selection;
-	std::cerr << "entering add_parameter (ParameterTreeView)" << std::endl;
+	//std::cerr << "entering add_parameter (ParameterTreeView)" << std::endl;
 	if(drag_and_drop_mode){
 			selection = this->draggableParameterTree->selectionModel();
 	}
@@ -411,7 +411,7 @@ void ParameterTreeView::add_parameter()
 
 	QModelIndex indexelementselected= selection->currentIndex();
 	if(selection->isSelected(indexelementselected)){
-		std::cerr << "is selected (ParameterTreeView)" << std::endl;
+		//std::cerr << "is selected (ParameterTreeView)" << std::endl;
 
 		//QVariant elementSelected = this->my_treeparameter->data(indexelementselected);
 		ParameterItem * tmp =static_cast<ParameterItem*>(this->my_treeparameter->itemFromIndex(indexelementselected));
@@ -422,7 +422,7 @@ void ParameterTreeView::add_parameter()
 			}
 			else{
 			*/
-			std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
+			//std::cerr << "emit message on parameterselected (ParameterTreeView) for :" << tmp->get_term()->get_termId().toStdString() << std::endl;
 				//modifer le signal pour qu'il envoie une liste de terms.
 				/*
 				for(std::map<ValueBase*,QString>::iterator it=static_cast<VariableTerm*>(tmp->get_term()->get_prototype())->get_valuecollection()->begin();it!=static_cast<VariableTerm*>(tmp->get_term()->get_prototype())->get_valuecollection()->end();++it){

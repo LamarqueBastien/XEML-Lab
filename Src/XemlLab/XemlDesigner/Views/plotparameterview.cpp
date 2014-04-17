@@ -38,7 +38,7 @@ void PlotParameterView::initialize(){
 		else if((*it).first->get_namespacealias()=="XEO"){
 
 
-			std::cerr << " basic term label : " << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
+			//std::cerr << " basic term label : " << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
 			int Quant_value_number=0;
 			for (int i=0;i<static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size();i++){
 				if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_context()=="Quantity"){
@@ -46,7 +46,7 @@ void PlotParameterView::initialize(){
 				}
 
 			}
-			std::cerr << "quatn value number :" << Quant_value_number << std::endl;
+			//std::cerr << "quatn value number :" << Quant_value_number << std::endl;
 
 			QCustomPlot * plot = new QCustomPlot();
 			QVector< QVector< int > > ValuesX(Quant_value_number);//(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size());
@@ -68,7 +68,7 @@ void PlotParameterView::initialize(){
 
 
 			for (int i=0;i<static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->size();i++){
-				std::cerr << "term:" << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
+				//std::cerr << "term:" << static_cast<DynamicTerm*>((*it).first)->get_name().toStdString() << std::endl;
 
 				if (static_cast<DynamicValue*>(static_cast<DynamicTerm*>((*it).first)->get_dynamicvaluecollection()->at(i).first)->get_context()=="Quantity"){
 
@@ -134,8 +134,8 @@ void PlotParameterView::initialize(){
 
 				}
 			}
-			std::cerr << "value x at 0 : " << ValuesX.at(0).at(0) << std::endl;
-			std::cerr << "term has been added" << std::endl;
+			//std::cerr << "value x at 0 : " << ValuesX.at(0).at(0) << std::endl;
+			//std::cerr << "term has been added" << std::endl;
 
 			int j;
 			int k;
@@ -145,35 +145,35 @@ void PlotParameterView::initialize(){
 
 			}
 			else{
-				std::cerr <<  "test1 " << std::endl;
+				//std::cerr <<  "test1 " << std::endl;
 				//std::cerr << "value x size : " << ValuesX.size() <<  std::endl;
 				//std::cerr << "value x1 size : " << ValuesX[0].size() <<  std::endl;
 				//std::cerr << "value x2 size : " << ValuesX[1].size() <<  std::endl;
 				//std::cerr << "value x1 : " << ValuesX[0][0] <<  std::endl;
 				//std::cerr << "value x2 : " << ValuesX[1][0] <<  std::endl;
 				for (j=0;j<ValuesX.size()-1;j++){
-					std::cerr <<  "test2 " << std::endl;
+					//std::cerr <<  "test2 " << std::endl;
 					//std::cerr << " j : " << j << std::endl;
 					//std::cerr << "value[j] x size : " << ValuesX[j].size() << std::endl;
 					for (;z<ValuesX[j].size();z++){
-						std::cerr <<  "test3 " << std::endl;
+						//std::cerr <<  "test3 " << std::endl;
 
 						if (ValuesX[j].size()>1){
 
 							int diff=0;
-							std::cerr <<  "test4 " << std::endl;
+							//std::cerr <<  "test4 " << std::endl;
 							//**********TEST*****************
 
 							//while(k!=ValuesX[j+1].at(0)){
 							//****************************
 							for (int w=0;w<ValuesX[j].size();w++){
-								std::cerr <<  "test5 " << std::endl;
+								//std::cerr <<  "test5 " << std::endl;
 								//the end of the cycle
 								if(w==ValuesX[j].size()-1){
-									std::cerr <<  "test 6" << std::endl;
-									std::cerr <<  "z : " << z <<  std::endl;
-									std::cerr << "ValuesX[j].at(w) : "  << ValuesX[j].at(w) << std::endl;
-									std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
+									//std::cerr <<  "test 6" << std::endl;
+									//std::cerr <<  "z : " << z <<  std::endl;
+									//std::cerr << "ValuesX[j].at(w) : "  << ValuesX[j].at(w) << std::endl;
+									//std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
 
 									//**********TEST*****************
 
@@ -188,7 +188,7 @@ void PlotParameterView::initialize(){
 									}
 									//**********TEST*****************
 									if (k!=ValuesX[j+1].at(0)){
-										std::cerr <<  "k : " <<  k <<  std::endl;
+										//std::cerr <<  "k : " <<  k <<  std::endl;
 										for (int x=0;x<ValuesX[j].size();x++){
 											int test=ValuesX[j].at(w);
 											ValuesX[j][w]=test+diff;
@@ -202,10 +202,10 @@ void PlotParameterView::initialize(){
 										y.append(ValuesY[j].at(w));
 									}
 									*/
-									std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
+									//std::cerr << "ValuesX[j+1].at(z) : "  << ValuesX[j+1].at(0) << std::endl;
 								}
 								else{
-									std::cerr <<  "test 8" << std::endl;
+									//std::cerr <<  "test 8" << std::endl;
 									diff=ValuesX[j].at(w+1)-ValuesX[j].at(w);
 
 									//for (k=ValuesX[j].at(w);k<ValuesX[j].at(w)+diff;k++){
@@ -214,27 +214,27 @@ void PlotParameterView::initialize(){
 										x.append(k);
 										y.append(ValuesY[j].at(w));
 									}
-									std::cerr <<  "test 9" << std::endl;
+									//std::cerr <<  "test 9" << std::endl;
 								}
 							}
 							//}
 						}
 						else{
 							//std::cerr << " ValuesX[j] is not a cycle " << std::endl;
-							std::cerr << " z : " << z << std::endl;
+							//std::cerr << " z : " << z << std::endl;
 
 							for (k=ValuesX[j].at(z);k<ValuesX[j+1].at(z);k++){
 								x.append(k);
 								y.append(ValuesY[j].at(z));
 							}
 						}
-						std::cerr << " z : " << z << std::endl;
+						//std::cerr << " z : " << z << std::endl;
 					}
 					z--;
-					std::cerr << " z : " << z << std::endl;
+					//std::cerr << " z : " << z << std::endl;
 				}
 
-				std::cerr << "all initials values have been added" << std::endl;
+				//std::cerr << "all initials values have been added" << std::endl;
 				//std::cerr << "z : " << z << "k : " << k << " j : " << j << "ValueX Size : " << ValuesX.size() <<  "ValuesX[j] : " << ValuesX[j].at(z) << "x_length : " << x_length <<std::endl;
 				if(k!=x_length){
 

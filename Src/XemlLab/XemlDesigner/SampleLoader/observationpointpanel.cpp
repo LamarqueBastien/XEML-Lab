@@ -182,7 +182,7 @@ void ObservationPointPanel::display_selected_item(QModelIndex _QMI){
 		   "You need to add a genotype to the root Story"),
 		QMessageBox::Ok | QMessageBox::Default);
 		if (r == QMessageBox::Ok) {
-			std::cerr << "OK clicked" << std::endl;
+			//std::cerr << "OK clicked" << std::endl;
 			this->close();
 		}
 

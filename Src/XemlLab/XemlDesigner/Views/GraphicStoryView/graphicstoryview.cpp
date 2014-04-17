@@ -14,7 +14,7 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 	//this->setSceneRect(-150,-150,1200,1200);
 	connect(this,SIGNAL(story_split_added(QString,StoryBase*)),this->current_scene,SLOT(add_split_story(QString, StoryBase*)));
 	connect(this,SIGNAL(story_root_added(QString,StoryBase*)),this->current_scene,SLOT(add_root_story(QString,StoryBase*)));
-	connect(this,SIGNAL(event_added(Event*)),this->current_scene,SLOT(add_event(Event*)));
+	connect(this,SIGNAL(event_added(Event*,int)),this->current_scene,SLOT(add_event(Event*,int)));
 	connect(this,SIGNAL(obsPoint_added(ObservationPoint*, int)),this->current_scene,SLOT(add_Obs_point(ObservationPoint*,int)));
 	this->setRenderHints(QPainter::Antialiasing);
 	this->init=true;
@@ -104,7 +104,7 @@ void GraphicStoryView::drawBackground(QPainter *p, const QRectF &rect){
 */
 
 void GraphicStoryView::add_split_story(QString _label,StoryBase *_story){
-	std::cerr << "entering add story in View" << std::endl;
+	//std::cerr << "entering add story in View" << std::endl;
 	emit story_split_added(_label,_story);
 
 
@@ -113,9 +113,9 @@ void GraphicStoryView::add_split_story(QString _label,StoryBase *_story){
 void GraphicStoryView::add_root_story(QString _label,StoryBase * _story){
 	emit story_root_added(_label,_story);
 }
-void GraphicStoryView::add_event(Event * _e){
+void GraphicStoryView::add_event(Event * _e,int _posX){
 	//std::cerr << "emit event added in GraphicView " << std::endl;
-	emit event_added(_e);
+	emit event_added(_e,_posX);
 }
 void GraphicStoryView::add_obsPoint(ObservationPoint * _op){
 

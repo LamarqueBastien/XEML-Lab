@@ -7,7 +7,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 
 	this->root_node=_root;
 	observations_tmp= ObservationWizard::get_observations();
-	std::cerr << "obs_tmp size : " << this->observations_tmp->size() << std::endl;
+	//std::cerr << "obs_tmp size : " << this->observations_tmp->size() << std::endl;
 	pools=new std::vector<IndividualsPool*>();
 
 
@@ -75,7 +75,7 @@ ObservationDetailsPage::ObservationDetailsPage(DocumentResources * _doc_resource
 	//model->appendRow(new QStandardItem("Individuals"));
 	//tree->setModel(model);
 
-	std::cerr << "pool size before :" << this->pools->size() << std::endl;
+	//std::cerr << "pool size before :" << this->pools->size() << std::endl;
 	ObservationDetails * obspage=new ObservationDetails(this->doc_resources,this->root_node,this->pools,this);
 	this->observations_tmp->push_back(obspage);
 	tabs->addTab(obspage,testr);

@@ -48,12 +48,12 @@ std::vector<ObservationDetails *> * ObservationWizard::get_observations(){
 }
 
 void ObservationWizard::accept(){
-	std::cerr << "entering accept end of sample loader" << std::endl;
+	//std::cerr << "entering accept end of sample loader" << std::endl;
 	//int replica=field("Replica").toInt();
 	this->indexlist=new QModelIndexList;
 	(*indexlist)=static_cast<QItemSelectionModel*>(field("genViewSelection").value<QItemSelectionModel*>())->selectedRows();
 	for (int i=0;i<indexlist->size();i++){
-		std::cerr << "index list germplasm :" << indexlist->at(i).data().toString().toStdString() << std::endl;
+		//std::cerr << "index list germplasm :" << indexlist->at(i).data().toString().toStdString() << std::endl;
 
 	}
 	for (std::vector<ObservationDetails*>::iterator it=ObservationWizard::get_observations()->begin();it!=ObservationWizard::get_observations()->end();++it){
@@ -64,7 +64,7 @@ void ObservationWizard::accept(){
 
 		//first way : using a model to define all individuals
 		if (tmp->get_template_check_box()->isChecked()){
-			std::cerr << "use model" << std::endl;
+			//std::cerr << "use model" << std::endl;
 
 			for (int h=0;h<indexlist->size();h++){
 				for(std::map<IndividualsPool*,QString>::iterator it= static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->begin();it!=static_cast<Story*>(this->storyRoot->get_story())->get_individualspoolcollection()->end();++it){
@@ -126,9 +126,9 @@ void ObservationWizard::accept(){
 
 																	QString id=structchild_item->text().remove("(");
 																	id.remove(")");
-																	std::cerr << "struct id : "<< id.toStdString() << std::endl;
+																	//std::cerr << "struct id : "<< id.toStdString() << std::endl;
 																	QStringList struct_string_list=id.split("-");
-																	std::cerr <<"list size in accept() : " << struct_string_list.size() << std::endl;
+																	//std::cerr <<"list size in accept() : " << struct_string_list.size() << std::endl;
 																	QString structname=struct_string_list.at(0);
 																	QString structid=struct_string_list.at(1);
 																	//structid.remove(" ");
@@ -419,9 +419,9 @@ void ObservationWizard::accept(){
 
 														QString id=structchild_item->text().remove("(");
 														id.remove(")");
-														std::cerr << "struct id : "<< id.toStdString() << std::endl;
+														//std::cerr << "struct id : "<< id.toStdString() << std::endl;
 														QStringList struct_string_list=id.split("-");
-														std::cerr <<"list size in accept() : " << struct_string_list.size() << std::endl;
+														//std::cerr <<"list size in accept() : " << struct_string_list.size() << std::endl;
 														QString structname=struct_string_list.at(0);
 														QString structid=struct_string_list.at(1);
 														//structid.remove(" ");
@@ -433,9 +433,9 @@ void ObservationWizard::accept(){
 														for (std::list<TermNode*>::iterator it=my_structree->begin();it!=my_structree->end();++it){
 															if (static_cast<TermNode*>((*it))->get_term()->get_termId()==structTerm->get_termId()){
 																BasicTerm  * test=static_cast<SimpleOboTerm*>(static_cast<TermNode*>((*it))->get_term())->get_prototype();
-																std::cerr << "displaying tag annotation" << std::endl;
+																//std::cerr << "displaying tag annotation" << std::endl;
 																test->display_all_tags();
-																std::cerr << "end displaying tag annotation" << std::endl;
+																//std::cerr << "end displaying tag annotation" << std::endl;
 																for (std::map<TaggedAnnotation*,QString>::iterator it2=test->get_taggedannotation()->begin();it2!=test->get_taggedannotation()->end();++it2){
 																	structTerm->add_tagged_annotation((*it2).first);
 

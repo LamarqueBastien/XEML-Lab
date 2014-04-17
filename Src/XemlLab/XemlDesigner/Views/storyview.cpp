@@ -1755,8 +1755,8 @@ void StoryView::new_event(){
 		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
 			Event * e =new Event();
-			EventDialog * event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story());
-			connect(event,SIGNAL(event_set(Event*)),this->graphicStory,SLOT(add_event(Event*)));
+			EventDialog * event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story(),0);
+			connect(event,SIGNAL(event_set(Event*,int)),this->graphicStory,SLOT(add_event(Event*,int)));
 			event->setVisible(true);
 		}
 		else{
@@ -1777,10 +1777,10 @@ void StoryView::new_event(){
 			}
 			else{
 				Event * e =new Event();
-				EventDialog * event=new EventDialog(false,e,this->currentDoc,tmp->get_story());
+				//EventDialog * event=new EventDialog(false,e,this->currentDoc,tmp->get_story());
 				//this->splitstorydialog = new StorySplitDialog(elementSelected);
 
-				event->setVisible(true);
+				//event->setVisible(true);
 			}
 		}
 		else{

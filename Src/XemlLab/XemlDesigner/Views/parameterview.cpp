@@ -10,12 +10,12 @@ int ParameterView::sizeHintForColumn(int column)
 {
 int viewSize = this->viewport()->width();
 int colSize = QTreeView::sizeHintForColumn(column);
-std::cerr << "column size : " << colSize << std::endl;
+//std::cerr << "column size : " << colSize << std::endl;
 return qMax(viewSize, colSize);
 }
 void ParameterView::dragEnterEvent(QDragEnterEvent *event)
  {
-	std::cerr << "entering dragEnterEvent" << std::endl;
+	//std::cerr << "entering dragEnterEvent" << std::endl;
 
 	 if (event->mimeData()->hasText()) {
 		 if (event->source() == this) {
@@ -119,7 +119,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 
 		}
 		else{
-			std::cerr << "test" << tmp->get_term()->get_termId().toStdString() << std::endl;
+			//std::cerr << "test" << tmp->get_term()->get_termId().toStdString() << std::endl;
 			QLabel  * child=new QLabel(tmp->get_term()->get_termId());
 			child->move(event->pos().x(),event->pos().y());
 			child->setAutoFillBackground(true);
@@ -132,7 +132,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 				return;
 
 			//child->setScaledContents(true);
-			std::cerr << "eventpos : " << event->pos().x() << "----" << event->pos().y() << std::endl;
+			//std::cerr << "eventpos : " << event->pos().x() << "----" << event->pos().y() << std::endl;
 			QPoint hotSpot = event->pos()- child->pos();
 
 			QMimeData *mimeData = new QMimeData;
@@ -142,7 +142,7 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 
 			//QPixmap pixmap(child->size());
 			QPixmap pixmap(child->size());
-			std::cerr <<"child width :" << child->width() << "child height : " << child->height() << std::endl;
+			//std::cerr <<"child width :" << child->width() << "child height : " << child->height() << std::endl;
 			pixmap.scaledToWidth(child->width());
 			child->render(&pixmap);
 

@@ -83,7 +83,7 @@ GraphicStoryItem::GraphicStoryItem(qreal _width_parent,ItfDocument * _current_do
 	//std::cerr << "pos y in constructor :" << this->posy << std::endl;
 	label_text->setPos(0,this->posy);
 	if(_IsStorySplit){
-		std::cerr << "storySplit width:" << this->width << std::endl;
+		//std::cerr << "storySplit width:" << this->width << std::endl;
 
 
 

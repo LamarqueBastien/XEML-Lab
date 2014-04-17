@@ -35,21 +35,22 @@ class EventDialog : public QDialog
 		Event       * event;
 		GraphicEventItem * graphicEvent;
 		bool          Mode;
+		int           posX;
 
 
 	public:
-		EventDialog(bool _mode,Event * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget *parent = 0);
+		EventDialog(bool _mode,Event * _event,ItfDocument * _xemldoc,StoryBase * _story,int _posX,QWidget *parent = 0);
 		EventDialog(bool _mode,GraphicEventItem * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget *parent = 0);
 
 		//QVariant     element_selected;
 
 	signals:
-		void event_set(Event * e);
+		void event_set(Event * _e,int _posX);
 		void event_edited();
 
 	private slots:
 		void OkClicked();
-		void enabledOkButton(const QString &text);
+		void enabledOkButton(const QString &_text);
 
 
 };

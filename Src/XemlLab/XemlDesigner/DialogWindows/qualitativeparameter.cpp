@@ -321,7 +321,7 @@ void QualitativeParameter::OkClicked(){
 		static_cast<VariableTerm*>(this->current_term)->add_value(d);
 
 		//static_cast<VariableTerm*>(this->term->get_prototype())->add_value(d);
-		std::cerr << "value added : " << textvalue.toStdString() <<" unit : " << textunit.toStdString() << std::endl;
+		//std::cerr << "value added : " << textvalue.toStdString() <<" unit : " << textunit.toStdString() << std::endl;
 
 	}
 	else{
@@ -337,7 +337,7 @@ void QualitativeParameter::OkClicked(){
 				std::cerr << "i : " << i << std::endl;
 				item=static_cast<QGridLayout*>(extension->layout())->itemAt(i);
 				if(i%3==0){
-					std::cerr << " modulo i : " << i << std::endl;
+					//std::cerr << " modulo i : " << i << std::endl;
 
 					//if(item->widget()){
 						//std::cerr << "time : " << static_cast<QDateTimeEdit*>(item->widget())->time().toString("hh:mm:ss").toStdString() << std::endl;
@@ -350,12 +350,12 @@ void QualitativeParameter::OkClicked(){
 						v->set_timepoint(static_cast<QDateTimeEdit*>(item->widget())->dateTime());
 					}
 					item2=static_cast<QGridLayout*>(extension->layout())->itemAt(i+2);
-					std::cerr << "checkpoint 1 " << std::endl;
+					//std::cerr << "checkpoint 1 " << std::endl;
 					//v->set_context(this->context);
 					v->set_value(static_cast<QComboBox*>(item2->widget())->currentText());
-					std::cerr << "checkpoint 2 " << std::endl;
+					//std::cerr << "checkpoint 2 " << std::endl;
 
-					std::cerr << "checkpoint 3 " << std::endl;
+					//std::cerr << "checkpoint 3 " << std::endl;
 
 					c->add_cycleValue(std::make_pair(v,static_cast<QDateTimeEdit*>(item->widget())->dateTime()));
 

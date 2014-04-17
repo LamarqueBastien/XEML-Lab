@@ -129,7 +129,7 @@ void GenotypeView::edit_genotype(){
 	//retrieve all information about the selected pool
 	if (this->gpp->get_germplasm()!=""){
 		QString germplasm=this->gpp->get_germplasm();
-		std::cerr << "germplasm : " << germplasm.toStdString() << std::endl;
+		//std::cerr << "germplasm : " << germplasm.toStdString() << std::endl;
 		for(std::list<StoryNode*>::iterator it=this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
 			if((*it)->get_parent()==NULL){
 

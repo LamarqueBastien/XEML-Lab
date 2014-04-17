@@ -220,10 +220,10 @@ void ResponseRangeParameter::OkClicked(){
 	if (this->_cycle->isChecked()){
 		Cycle * c=new Cycle();
 		for (int i = 0; i <= tmp; ++i){
-			std::cerr << "i : " << i << std::endl;
+			//std::cerr << "i : " << i << std::endl;
 			item=static_cast<QGridLayout*>(extension->layout())->itemAt(i);
 			if(i%3==0){
-				std::cerr << " modulo i : " << i << std::endl;
+				//std::cerr << " modulo i : " << i << std::endl;
 
 				//if(item->widget()){
 					//std::cerr << "time : " << static_cast<QDateTimeEdit*>(item->widget())->time().toString("hh:mm:ss").toStdString() << std::endl;

@@ -110,7 +110,7 @@ QString HtmlReportView::load_HTMl_from_file(QFile * _html_doc){
 	{
 
 		MonFichier >> text;
-		std::cerr << "text : " << text.toStdString() << std::endl;
+		//std::cerr << "text : " << text.toStdString() << std::endl;
 		finaltext+=text;
 		finaltext+=" ";
 		if (text=="</html>"){
@@ -123,7 +123,7 @@ QString HtmlReportView::load_HTMl_from_file(QFile * _html_doc){
 void HtmlReportView::generate_report(){
 
 
-	std::cerr << "entering generate html report ( HtmlReportView)" << std::endl;
+	//std::cerr << "entering generate html report ( HtmlReportView)" << std::endl;
 
 	// Your HTML code
 	QString template_html;
@@ -426,11 +426,11 @@ QString HtmlReportView::generate_dynamic_variable_table(){
 
 			if (!tmp_term->get_dynamicvaluecollection()->empty()){
 
-				std::cerr << "dynamic_collection is not empty size :" << tmp_term->get_dynamicvaluecollection()->size() << std::endl;
+				//std::cerr << "dynamic_collection is not empty size :" << tmp_term->get_dynamicvaluecollection()->size() << std::endl;
 				for (int i=0;i<tmp_term->get_dynamicvaluecollection()->size();i++){
 
 					DynamicValue * tmp_dvalue=static_cast<DynamicValue*>(tmp_term->get_dynamicvaluecollection()->at(i).first);
-					std::cerr << "dynamic_value :" << tmp_dvalue->get_context().toStdString()<< std::endl;
+					//std::cerr << "dynamic_value :" << tmp_dvalue->get_context().toStdString()<< std::endl;
 
 					if (tmp_dvalue->get_context()=="Quantity"){
 

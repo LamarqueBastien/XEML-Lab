@@ -28,7 +28,7 @@ AboutParameter::AboutParameter(ItfDocument * _xemldoc,StoryNode * _story,QWidget
 
 	this->timelabel->setBuddy(daytimeedit);
 	
-	//this->storyitem=_storyitem;
+
 	line1 = new QFrame(this);
 	line2 = new QFrame(this);
 	line3 = new QFrame(this);
@@ -46,12 +46,12 @@ AboutParameter::AboutParameter(ItfDocument * _xemldoc,StoryNode * _story,QWidget
 	line3->setFrameShadow(QFrame::Sunken);
 	this->listWidget =new QListWidget;
 	this->param_window=new QWidget(this);
-	//this->param_window->setAutoFillBackground(true);
+
 	this->stackLayout= new QStackedLayout;
 
 	this->mainlayout=new QVBoxLayout;
 	this->paramLayout=new QHBoxLayout;
-	//this->paramLayout->addWidget(this->param_window);
+
 	this->param_window->setLayout(paramLayout);
 	this->splitter=new QSplitter(Qt::Horizontal);
 	this->splitter->setLineWidth(3);
@@ -75,7 +75,7 @@ AboutParameter::AboutParameter(ItfDocument * _xemldoc,StoryNode * _story,QWidget
 AboutParameter::AboutParameter(QWidget * parent)
 	:QDialog(parent)
 {
-	//QFrame *line;
+
 	usemode=true;
 	line1 = new QFrame(this);
 	line2 = new QFrame(this);
@@ -94,12 +94,12 @@ AboutParameter::AboutParameter(QWidget * parent)
 	line3->setFrameShadow(QFrame::Sunken);
 	this->listWidget =new QListWidget;
 	this->param_window=new QWidget(this);
-	//this->param_window->setAutoFillBackground(true);
+
 	this->stackLayout= new QStackedLayout;
 
 	this->mainlayout=new QVBoxLayout;
 	this->paramLayout=new QHBoxLayout;
-	//this->paramLayout->addWidget(this->param_window);
+
 	this->param_window->setLayout(paramLayout);
 	this->splitter=new QSplitter(Qt::Vertical);
 	this->splitter->setLineWidth(3);
@@ -141,14 +141,11 @@ void             AboutParameter::on_setup_finished(){
 }
 
 void AboutParameter::initialize(){
-	std::cerr << "entering Initialize" << std::endl;
-	//std::cerr << "EO TERM : " << this->term->get_prototype()->get_namespacealias().toStdString()<< "test" << std::endl;
 	this->mainlayout->addStretch();
 	if(this->term->get_prototype()->get_namespacealias()=="XEO_Positioning"){
 		std::vector<QString> * enume;
 		newTerm=new VariableTerm((*static_cast<VariableTerm*>(this->term->get_prototype())));
 
-		std::cerr << "context collection size : " << static_cast<PosTerm*>(this->term)->get_termId().toStdString()<<  std::endl;
 
 		//std::cerr << "context collection size : " << static_cast<PosTerm*>(this->term)->get_contextCollection()->size() <<  std::endl;
 
@@ -159,11 +156,8 @@ void AboutParameter::initialize(){
 
 
 			enume =new std::vector<QString>();
-			std::cerr << "context : " << (*it).first.toStdString() << std::endl;
-			//std::cerr << "description " << (*it).second->get_description() << std::endl;
-			//std::vector<QString> * enume;
+
 			if((*it).first=="ResponseRange"){
-				//std::cerr << "response Range found : " << (*it).first << std::endl;
 				for(std::list<TypeSpecifics*>::iterator it3=(*it).second->get_typeDefine()->get_typeSpecifica()->begin();it3!=(*it).second->get_typeDefine()->get_typeSpecifica()->end();++it3){
 					enume->push_back(static_cast<Enum*>((*it3))->get_textVal());
 				}
@@ -222,15 +216,15 @@ void AboutParameter::initialize(){
 				else{
 					quantity=new QuantitativeParameter(this->daytimeedit->dateTime());
 				}
-				std::cerr << "new Qp param1" << std::endl;
+				//std::cerr << "new Qp param1" << std::endl;
 				quantity->set_context((*it).first);
-				std::cerr << "new Qp param2" << std::endl;
+				//std::cerr << "new Qp param2" << std::endl;
 				quantity->set_term(newTerm);
-				std::cerr << "new Qp param3" << std::endl;
+				//std::cerr << "new Qp param3" << std::endl;
 				quantity->set_enumUnit(enume);
-				std::cerr << "new Qp param4" << std::endl;
+				//std::cerr << "new Qp param4" << std::endl;
 				//this->listWidget->addItem(tr("Quantity"));
-				std::cerr << "new Qp param4" << std::endl;
+				//std::cerr << "new Qp param4" << std::endl;
 				this->paramLayout->addWidget(quantity);
 				//this->stackLayout->addWidget(quantity);
 

@@ -16,6 +16,7 @@
 #include"CoreObjects/Utilities.h"
 #include"Interface/itfdocument.h"
 #include"CoreObjects/xemldocument.h"
+#include"DialogWindows/eventdialog.h"
 
 
 
@@ -62,6 +63,7 @@ class GraphicStoryScene : public QGraphicsScene
 		void obsPoint2edit();
 		void event2removed();
 		void obsPoint2added(ObservationPoint * _op, int _posX);
+		void event2added(Event * _event, int _posX);
 		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);
 		void show_details_story(GraphicStoryItem * _storyselected);
@@ -102,8 +104,10 @@ class GraphicStoryScene : public QGraphicsScene
 		void edit_event();
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
-		void add_event(Event *e);
+		void add_event(Event *e,int _posX);
+
 		void addObspoint();
+		void add_event();
 		void add_Obs_point(ObservationPoint * _op, int _posX);
 		//void changedSelection();
 		void details_story();

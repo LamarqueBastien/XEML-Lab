@@ -1,9 +1,10 @@
 #include <QtGui>
 #include "eventdialog.h"
 
-EventDialog::EventDialog(bool _mode,Event  * _event,ItfDocument * _xemldoc,StoryBase * _story,QWidget * parent)
+EventDialog::EventDialog(bool _mode,Event  * _event,ItfDocument * _xemldoc,StoryBase * _story,int _posX,QWidget * parent)
 	: QDialog(parent)
 {
+	this->posX=_posX;
 	this->Mode=_mode;//Edit a existing one or create a new one
 	this->event=_event;
 	this->current_doc=_xemldoc;
@@ -167,7 +168,7 @@ void EventDialog::OkClicked(){
 
 	if (!Mode){
 		this->current_story->add_event(event);
-		emit event_set(event);
+		emit event_set(event,posX);
 	}
 	else{
 		this->graphicEvent->set_label(text);

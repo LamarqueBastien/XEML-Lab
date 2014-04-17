@@ -80,13 +80,13 @@ void IndividualWizard::set_individual_count(int _count){
 
 void IndividualWizard::accept(){
 	for (int j =1;j<IndividualWizard::get_CSV_data()->at(0)->size();j++){
-		std::cerr << "vector size" << IndividualWizard::get_CSV_data()->at(0)->size() << std::endl;
+		//std::cerr << "vector size" << IndividualWizard::get_CSV_data()->at(0)->size() << std::endl;
 		//std::cerr << IndividualWizard::get_CSV_data()->at(0)->at(j).toStdString() << std::endl;
 		//this->model->findItems("IndividualsId",Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(new QStandardItem(IndividualWizard::get_CSV_data()->at(0)->at(j)));
 
 		//this->model->setItem(j-1,0,new QStandardItem(IndividualWizard::get_CSV_data()->at(0)->at(j)));
 		Individual * ind=new Individual(static_cast<QString>(IndividualWizard::get_CSV_data()->at(0)->at(j)).toInt());
-		std::cerr << "ind id :" << ind->get_id() << std::endl;
+		//std::cerr << "ind id :" << ind->get_id() << std::endl;
 		pool->add_Individual(ind);
 
 

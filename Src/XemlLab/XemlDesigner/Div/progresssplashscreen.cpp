@@ -13,7 +13,7 @@ ProgressSplashScreen::~ProgressSplashScreen()
 {
 }
 void ProgressSplashScreen::progressBarUpdated(int _progress){
-	std::cerr << "progress new value : "<< _progress << std::endl;
+	//std::cerr << "progress new value : "<< _progress << std::endl;
 	progress=_progress;
 	//this->repaint();
 }
@@ -23,8 +23,8 @@ void ProgressSplashScreen::drawContents(QPainter *painter)
 	QSplashScreen::drawContents(painter);
 	this->progressBar->render(painter);
 	progressBar->setValue(progress);
-	std::cerr << "progress value changed" << std::endl;
-	std::cerr << "progress value :" << progress << std::endl;
+	//std::cerr << "progress value changed" << std::endl;
+	//std::cerr << "progress value :" << progress << std::endl;
 	progressBar->update ();
 }
 
