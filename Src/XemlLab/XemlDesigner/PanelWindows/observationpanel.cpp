@@ -106,6 +106,13 @@ void ObservationPanel::initialize(ItfDocument * _xemlDoc,StoryBase * _story,bool
 			}
 		}
 	}
+	for (int i= 0;i<model->rowCount();i++){
+		for (int j=0;j<model->columnCount();j++){
+			if (model->item(i,j)!=NULL){
+				model->item(i,j)->setEditable(false);
+			}
+		}
+	}
 }
 void ObservationPanel::display_selected_item(QModelIndex _QMI){
 	this->model->itemFromIndex(_QMI)->text();

@@ -55,6 +55,19 @@ void StoryPanel::initialize(ItfDocument * _current_doc, StoryBase * _story,bool 
 		model->setItem(0,3,new QStandardItem(QString::number(_story->count_event())));
 		model->setItem(0,4,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(static_cast<XemlDocument*>(_current_doc)->get_startdate(),static_cast<XemlDocument*>(_current_doc)->get_startdate()))));
 		model->setItem(0,5,new QStandardItem(QString::number(list->size())));
+		for (int i= 0;i<model->rowCount();i++){
+			for (int j=0;j<model->columnCount();j++){
+				if (model->item(i,j)!=NULL){
+					model->item(i,j)->setEditable(false);
+				}
+				else{
+					model->setItem(i,j,new QStandardItem(""));
+					model->item(i,j)->setEditable(false);
+
+				}
+			}
+		}
+
 
 	}
 }

@@ -1186,7 +1186,7 @@ void    MainWindow::closeEvent(QCloseEvent *event){
 		event->ignore();
 		QTimer::singleShot(0,this,SLOT(hide()));
 		QTimer::singleShot(2,this,SLOT(show()));
-		QTimer::singleShot(2,this,SLOT(show()));
+
 
 //#if defined(Q_OS_MACX)
 //		this->show();

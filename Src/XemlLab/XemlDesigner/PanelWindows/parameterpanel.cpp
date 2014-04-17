@@ -79,6 +79,23 @@ void ParameterPanel::initialize(StoryBase * _story,bool _isStorySplit){
 
 		}
 	}
+
+
+	for (int i= 0;i<model->rowCount();i++){
+		for (int j=0;j<model->columnCount();j++){
+			if (model->item(i,j)!=NULL){
+				model->item(i,j)->setEditable(false);
+			}
+			else{
+				model->setItem(i,j,new QStandardItem(""));
+				model->item(i,j)->setEditable(false);
+				model->item(i,j)->setBackground(QBrush(Qt::darkGray));
+
+			}
+		}
+	}
+
+
 }
 void ParameterPanel::remove_parameter(){
 	QItemSelectionModel  * selection = this->view->selectionModel();

@@ -257,7 +257,7 @@ void ParameterTreeView::buildNodeHierarchy(TermNode * node,std::list<TermNode*> 
 		}
 		else{
 
-			_tmp_item->set_isRoot(true);
+			//_tmp_item->set_isRoot(true);
 			this->my_treeparameter->findItems(_namespace,Qt::MatchFixedString | Qt::MatchRecursive)[0]->appendRow(_tmp_item);
 			_processed_nodes->push_back(node);
 

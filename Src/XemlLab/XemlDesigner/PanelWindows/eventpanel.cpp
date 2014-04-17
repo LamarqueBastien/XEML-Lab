@@ -47,6 +47,13 @@ void EventPanel::initialize(ItfDocument * _doc,  StoryBase * _story,bool _isStor
 			model->setItem(cpt,1,new QStandardItem(translate_second_in_DD_HH_MM_SS(get_seconds_from_date(_doc->get_startdate(),(*it).first->get_timepoint()))));
 			cpt++;
 		}
+		for (int i= 0;i<model->rowCount();i++){
+			for (int j=0;j<model->columnCount();j++){
+				if (model->item(i,j)!=NULL){
+					model->item(i,j)->setEditable(false);
+				}
+			}
+		}
 	}
 }
 void EventPanel::remove_event(){

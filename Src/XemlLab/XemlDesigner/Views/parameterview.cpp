@@ -103,8 +103,9 @@ void ParameterView::mousePressEvent(QMouseEvent *event)
 	if(tmp!=NULL){
 		if(tmp->isRoot){
 
+
 	#if defined(Q_OS_MACX)
-			//std::cerr << "root"  << std::endl;
+			std::cerr << "root"  << std::endl;
 
 	#else
 			if(this->isExpanded(indexelementselected)){
