@@ -5,6 +5,7 @@
 #include"Interface/itfdocument.h"
 #include"CoreObjects/xemldocument.h"
 #include<QFile>
+#include<QXmlStreamReader>
 #include<QTextStream>
 #include<QIODevice>
 using namespace std;

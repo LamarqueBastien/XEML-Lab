@@ -20,6 +20,7 @@ GraphicStoryScene::GraphicStoryScene(int  _positionY,QGraphicsScene * parent)
 
 	//connect(this,SIGNAL(selectionChanged()),this,SLOT(changedSelection()));
 	createActions();
+	connect(this,SIGNAL(obsPoint2added(ObservationPoint*,int)),this,SLOT(add_Obs_point(ObservationPoint*,int)));
 	//createMenus();
 
 	//positionY+=61;
@@ -125,12 +126,28 @@ void                              GraphicStoryScene::createActions(){
 	addSamples = new QAction(QIcon(":/Images/new.png"),tr("&Add samples"), this);
 	addSamples->setShortcut(tr("Ctrl+Alt+S"));
 	addSamples->setStatusTip(tr("Add Samples"));
+
+	add_story = new QAction(QIcon(":/Images/new.png"),tr("&Add Story"), this);
+	add_story->setShortcut(tr("Ctrl+S"));
+	add_story->setStatusTip(tr("Add a new story"));
+
+	add_obspoint = new QAction(QIcon(":/Images/new.png"),tr("&Add Observation Point"), this);
+	add_obspoint->setShortcut(tr("Ctrl+S"));
+	add_obspoint->setStatusTip(tr("Add a new Observation Point"));
+
+	addEvent = new QAction(QIcon(":/Images/new.png"),tr("&Add Event"), this);
+	addEvent->setShortcut(tr("Ctrl+S"));
+	addEvent->setStatusTip(tr("Add a new Event"));
+
+
+
 	connect(show_details, SIGNAL(triggered()), this, SLOT(details_story()));
 	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));
 	connect(removeOP, SIGNAL(triggered()), this, SLOT(remove_obsPoint()));
 	connect(removeEvent,SIGNAL(triggered()),this,SLOT(remove_event()));
 	connect(editEvent,SIGNAL(triggered()),this,SLOT(edit_event()));
 	connect(addSamples,SIGNAL(triggered()),this,SLOT(add_sample()));
+	connect(add_obspoint,SIGNAL(triggered()),this,SLOT(addObspoint()));
 }
 void                              GraphicStoryScene::edit_event(){
 	emit event2edit();
@@ -345,7 +362,11 @@ void                              GraphicStoryScene::mousePressEvent(QGraphicsSc
 					contextMenu->addAction(show_details);
 					contextMenu->addAction(display_plot);
 					contextMenu->addAction(addSamples);
+					contextMenu->addAction(add_story);
+					contextMenu->addAction(add_obspoint);
+					contextMenu->addAction(addEvent);
 					contextMenu->exec(mouseEvent->screenPos());
+					mouse_pos=mouseEvent->scenePos();
 
 					break;
 				case GraphicObservationPointItem::Type:
@@ -900,7 +921,8 @@ void                              GraphicStoryScene::mouseMoveEvent(QGraphicsSce
 							std::cerr << "shift : " << shift << std::endl;
 						}
 						if ((mouse_point.x()<=selected_parent_item->get_rect().width()+shift)&& (mouse_point.x() >=shift)){
-
+							std::cerr << "shift : " << shift << std::endl;
+							std::cerr << "mouse point x :" << mouse_point.x() << std::endl;
 							selected_obsPoint->change();
 							selected_obsPoint->setPos(mouse_point.x()-shift,0);
 							hours=mouse_point.x()/zoomFactor;
@@ -1120,14 +1142,48 @@ void                              GraphicStoryScene::add_event(Event *e){
 	emit set_details_in_view(tmp_event);
 	//tmp_item->setZValue(100000);
 }
-void                              GraphicStoryScene::add_Obs_point(ObservationPoint * _op){
+
+void GraphicStoryScene::addObspoint(){
+
+	QGraphicsItem* item = itemAt(this->mouse_pos,QTransform());
+
+	if(item!=0){
+		switch(item->type()){
+			case GraphicStoryItem::Type:
+
+				this->my_selected_story=static_cast<GraphicStoryItem*>(item);
+				GraphicStoryItem * tmp_story=static_cast<GraphicStoryItem*>(item);
+
+				int  obs_count=0;
+				obs_count=static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter;//  count_total_observationsPoint(MainNode,obs_count);
+
+				ObservationPoint * obs= new ObservationPoint(get_date(this->currentDoc->get_startdate(),translate_Distance_in_Msecs(this->mouse_pos.x())));//QDateTime::fromString(lineEdit->text(),"dd.hh:mm:ss")TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString()));
+
+				static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter++,
+
+				obs->set_id(obs_count+1);
+				tmp_story->get_story()->add_obsPoint(obs);
 
 
+				emit obsPoint2added(obs,this->mouse_pos.x());
+				break;
+
+		}
+	}
+}
+
+void                              GraphicStoryScene::add_Obs_point(ObservationPoint * _op, int _posX){
+
+
+	std::cerr << "entering add obs_point" << std::endl;
 	qreal y=my_selected_story->get_posy();
 	GraphicObservationPointItem  * tmp;
+	if (my_selected_story==NULL){
+		std::cerr << "parent story null" << std::endl;
+	}
 	if (my_selected_story->get_isStorySplit()){
 		tmp=new GraphicObservationPointItem(_op,
-											0,
+											_posX,
 											y+20,
 											this->max_width,
 											this->currentDoc->get_startdate(),
@@ -1137,7 +1193,7 @@ void                              GraphicStoryScene::add_Obs_point(ObservationPo
 	}
 	else{
 		tmp=new GraphicObservationPointItem(_op,
-											0,
+											_posX,
 											y+20,
 											this->max_width,
 											this->currentDoc->get_startdate(),

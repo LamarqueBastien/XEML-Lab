@@ -11,13 +11,30 @@ FileManager::FileManager()
 QString FileManager::LoadXemlCodeFromFile(QFile * _xeml_doc){
 	_xeml_doc->open(QIODevice::ReadOnly);
 	QTextStream MonFichier(_xeml_doc);
+
+	/*
+	QXmlStreamReader xml(_xeml_doc);
+	QString text;
+	QString finaltext;
+	//QXmlStreamReader::TokenType token;
+	while(!xml.atEnd() && !xml.hasError()) {
+		//token=xml.readNext();
+		std::cerr << xml.readElementText().toStdString() << std::endl;
+		finaltext+=xml.readElementText();
+	}
+	*/
+
 	QString text;
 	QString finaltext;
 	while(!MonFichier.atEnd())
 	{
+
 		MonFichier >> text;
 		finaltext+=text;
+
+
 	}
+
 	
 	return finaltext;
 }

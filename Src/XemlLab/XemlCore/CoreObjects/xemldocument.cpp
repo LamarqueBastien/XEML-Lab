@@ -187,7 +187,7 @@ namespace Xeml {
 			}
 			QTextStream out(&file);
 			out.setCodec("UTF-8");
-			QDomNode xmlNode = this->doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+			QDomNode xmlNode = this->doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\"");
 			this->doc.insertBefore(xmlNode, this->doc.firstChild());
 			this->doc.save(out, Indent);
 			return 0;

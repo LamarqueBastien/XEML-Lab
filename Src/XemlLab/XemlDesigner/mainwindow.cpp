@@ -87,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	my_dir.mkdir("ISA_exported_files");
 	my_dir.cd("Files");
 	curFile=my_dir.path()+"/"+this->fmg->get_current_xeml()->get_experiment_name()+".xeml";
+
 	this->fmg->get_current_xeml()->Save(curFile);
 
 
@@ -749,16 +750,35 @@ bool    MainWindow::okToContinue() {
 	fileName="://XEMLStore/Templates/Standard.xeml";
 
 	//QFile file(filePath);
-	QFile standard_xeml(fileName);
+	//QFile standard_xeml(fileName);
+	QFile standard_xeml(curFile);
 	//QFile standard_xeml(fileName.toStdString().c_str());
 
 	//standardxeml doit contenir le fichier sauvegardé dans new
+	//QString standardxeml=this->fmg->LoadXemlCodeFromFile(&curFile);
+
+
+	//standard xeml is already normalized from textStream.
 	QString standardxeml=this->fmg->LoadXemlCodeFromFile(&standard_xeml);
+
+
 	QString currentxeml=static_cast<XemlDocument*>(this->fmg->get_current_xeml())->generate_string_xml();
-	//std::cerr << "current xeml : " << currentxeml.toStdString() << std::endl;
-	//std::cerr << "standard xeml : " << standardxeml.toStdString() << std::endl;
-	if (XemlCode!=currentxeml){
+	//needed to normalize current_xeml for md5
+	currentxeml.remove(" ");
+	currentxeml.remove("\n");
+
+	QString standard_md5=QCryptographicHash::hash(standardxeml.toUtf8(),QCryptographicHash::Md5).toHex();
+	QString current_md5=QCryptographicHash::hash(currentxeml.toUtf8(),QCryptographicHash::Md5).toHex();
+
+	std::cerr << "current md5 : " << current_md5.toStdString() << std::endl;
+	std::cerr << "standard md5: " << standard_md5.toStdString() << std::endl;
+	//if (XemlCode!=currentxeml){
+	if (standard_md5!=current_md5){
+
 		this->setWindowModified(true);
+		std::cerr << "standardxeml !=current_xeml" << std::endl;
+		std::cerr << "standardxeml = " <<standardxeml.toStdString() << std::endl;
+		std::cerr << "current_xeml = " << currentxeml.toStdString() << std::endl;
 	}
 	if (isWindowModified()) {
 		int r = QMessageBox::warning(this, tr("XemlDocument"),
@@ -1096,7 +1116,14 @@ bool    MainWindow::save(bool _IsValid){
 
 	if (_IsValid){
 
-		this->fmg->get_current_xeml()->Save(curFile);
+		if (curFile.contains("New experiment")) {
+			return saveAs(true);
+		} else {
+			//return saveFile(curFile);
+			this->fmg->get_current_xeml()->Save(curFile);
+		}
+
+
 
 		/*
 		QString fileName = QFileDialog::getSaveFileName(this,tr("Save Xeml"), ".",tr("Spreadsheet files (*.xeml)"));
@@ -1150,7 +1177,7 @@ void    MainWindow::set_experimenter(QString _firstnametext,QString _lastnametex
 void    MainWindow::closeEvent(QCloseEvent *event){
 	//event->ignore();
 	if(okToContinue()){
-		this->fmg->get_current_xeml()->Save("/Users/benjamindartigues/Documents/test_last.xeml");
+		this->fmg->get_current_xeml()->Save("/Users/benjamindartigues/Documents/back_up.xeml");
 		event->accept();
 	}
 
@@ -1158,6 +1185,7 @@ void    MainWindow::closeEvent(QCloseEvent *event){
 		std::cerr << "event ignore" << std::endl;
 		event->ignore();
 		QTimer::singleShot(0,this,SLOT(hide()));
+		QTimer::singleShot(2,this,SLOT(show()));
 		QTimer::singleShot(2,this,SLOT(show()));
 
 //#if defined(Q_OS_MACX)

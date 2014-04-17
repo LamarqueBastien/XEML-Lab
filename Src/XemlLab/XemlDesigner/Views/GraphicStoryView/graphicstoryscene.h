@@ -61,6 +61,7 @@ class GraphicStoryScene : public QGraphicsScene
 		void sample_to_add();
 		void obsPoint2edit();
 		void event2removed();
+		void obsPoint2added(ObservationPoint * _op, int _posX);
 		void obsPoint2removed();
 		void itemInserted(GraphicStoryItem *item);
 		void show_details_story(GraphicStoryItem * _storyselected);
@@ -77,7 +78,11 @@ class GraphicStoryScene : public QGraphicsScene
 		QAction * removeEvent;
 		QAction * editEvent;
 		QAction * addSamples;
+		QAction * add_story;
+		QAction * add_obspoint;
+		QAction * addEvent;
 		ItfDocument * currentDoc;
+		QPointF mouse_pos;
 
 		GraphicEventItem * my_item;
 		GraphicStoryItem * my_second_item;
@@ -98,7 +103,8 @@ class GraphicStoryScene : public QGraphicsScene
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
 		void add_event(Event *e);
-		void add_Obs_point(ObservationPoint * _op);
+		void addObspoint();
+		void add_Obs_point(ObservationPoint * _op, int _posX);
 		//void changedSelection();
 		void details_story();
 		void display_plot_parameters();

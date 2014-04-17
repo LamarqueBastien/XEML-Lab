@@ -60,23 +60,25 @@ QRectF GraphicObservationPointItem::boundingRect() const{
 	qreal maxy;
 	qreal minx;
 	qreal maxx;
-	minx = rect.width() < 0 ? rect.width() : 0;
+	minx = rect.width() < 0 ? rect.width() : posx;
 	maxx = rect.width() < 0 ? 0 : rect.width() ;
 	miny = rect.height() < 0 ? rect.height() : posy;
 	maxy = rect.height() < 0 ? 0 : posy-rect.height();
 	//miny =0;
-	/*
-	std::cerr << "value minx :" << minx-50 << std::endl;
-	std::cerr << "value maxx :" << maxx-minx+50 << std::endl;
+/*
+	std::cerr << "value minx :" << minx-10 << std::endl;
+	std::cerr << "value maxx :" << maxx<< std::endl;
+	//std::cerr << "real value maxx :" << maxx-minx+0 << std::endl;
+	std::cerr << "real value maxx :" << maxx+0 << std::endl;
 	std::cerr << "value miny :" << miny << std::endl;
 	std::cerr << "value maxy :" << maxy << std::endl;
-	*/
+*/
 	//qreal parent_h=static_cast<GraphicStoryItem*>(this->parent)->get_rect().height();
 	qreal parent_y=0;
 	if (this->parent!=NULL){
 		parent_y=static_cast<GraphicStoryItem*>(this->parent)->get_rect().y();
 	}
-	QRectF newRect = QRectF(minx-10,parent_y,maxx-minx+0,60);//.adjusted(-extra, -extra, extra, extra);
+	QRectF newRect = QRectF(minx-10,parent_y,maxx+0,60);//.adjusted(-extra, -extra, extra, extra);
 
 
 	//QRectF newRect = QRectF(polygon().boundingRect().topLeft().x()-30,polygon().boundingRect().topLeft().y(),polygon().boundingRect().topRight().x()+70,polygon().boundingRect().bottomLeft().y()-50);//.adjusted(-extra, -extra, extra, extra);
@@ -112,7 +114,7 @@ void GraphicObservationPointItem::paint(QPainter * _painter, const QStyleOptionG
 		QPolygonF pol;
 		pol << QPointF(posx, parent_y+parent_h/2) << QPointF(posx-6, (parent_y+parent_h/2)-10) << QPointF(posx-4, (parent_y+parent_h/2)-10) << QPointF(posx-9, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-20) << QPointF(posx, (parent_y+parent_h/2)-10)<< QPointF(posx-1, (parent_y+parent_h/2)-10)<< QPointF(posx, parent_y+parent_h/2);
 		_painter->drawPolygon(pol);
-		//_painter->drawRect(boundingRect());
+		_painter->drawRect(boundingRect());
 		if(isSelected()){
 			QBrush selBrush=QBrush(Qt::yellow,Qt::SolidPattern);
 			QPen selPen=QPen(Qt::yellow);
