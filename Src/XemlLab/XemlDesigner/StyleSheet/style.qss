@@ -141,7 +141,8 @@ QTableView QTableCornerButton::section {
 
 
 QTableView QHeaderView::section:checked {
-	background-color: #888888;
+	background-color: #aeaeae;
+
 	color: white;
 	font-weight: normal;
 }

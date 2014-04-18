@@ -196,7 +196,12 @@ void  TableView::sample_item_checked(QStandardItem * _item){
 }
 void  TableView::variable_item_checked(QStandardItem * _selected_item){
 
+	QString headername="";
+	QString name="";
+
 	std::cerr << "item :" <<_selected_item->text().toStdString() <<  "state change" << std::endl;
+	//headername="Name:-"+_term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+	//headername+=_selected_item->text().toStdString().
 	if(_selected_item->parent()!=NULL){
 		std::cerr << "item parent label :" << _selected_item->parent()->text().toStdString() << std::endl;
 		if(_selected_item->parent()->parent()!=NULL){
@@ -1172,6 +1177,10 @@ void  TableView::populate_table(){
 
 
 	}
+	for (int i=0;i<modelTable->columnCount();i++){
+		modelTable->horizontalHeaderItem(i)->setBackground(QBrush(Qt::lightGray));
+	}
+
 	//splash->close();
 	//delete splash;
 

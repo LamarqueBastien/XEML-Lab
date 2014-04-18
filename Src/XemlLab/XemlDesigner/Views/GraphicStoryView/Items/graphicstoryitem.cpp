@@ -339,7 +339,7 @@ void GraphicStoryItem::paint(QPainter * _painter, const QStyleOptionGraphicsItem
 
 		 QGradientStops stops;
 		 stops << QGradientStop(0.0, QColor(215, 255, 200));
-		 stops << QGradientStop(0.5, QColor(102, 176, 54));
+		 stops << QGradientStop(0.5, QColor(215, 255, 200));
 		 stops << QGradientStop(1.0, QColor(215, 255, 200));
 		 gradient->setStops(stops);
 		 /*

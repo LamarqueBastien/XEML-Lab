@@ -770,15 +770,15 @@ bool    MainWindow::okToContinue() {
 	QString standard_md5=QCryptographicHash::hash(standardxeml.toUtf8(),QCryptographicHash::Md5).toHex();
 	QString current_md5=QCryptographicHash::hash(currentxeml.toUtf8(),QCryptographicHash::Md5).toHex();
 
-	std::cerr << "current md5 : " << current_md5.toStdString() << std::endl;
-	std::cerr << "standard md5: " << standard_md5.toStdString() << std::endl;
+	//std::cerr << "current md5 : " << current_md5.toStdString() << std::endl;
+	//std::cerr << "standard md5: " << standard_md5.toStdString() << std::endl;
 	//if (XemlCode!=currentxeml){
 	if (standard_md5!=current_md5){
 
 		this->setWindowModified(true);
-		std::cerr << "standardxeml !=current_xeml" << std::endl;
-		std::cerr << "standardxeml = " <<standardxeml.toStdString() << std::endl;
-		std::cerr << "current_xeml = " << currentxeml.toStdString() << std::endl;
+		//std::cerr << "standardxeml !=current_xeml" << std::endl;
+		//std::cerr << "standardxeml = " <<standardxeml.toStdString() << std::endl;
+		//std::cerr << "current_xeml = " << currentxeml.toStdString() << std::endl;
 	}
 	if (isWindowModified()) {
 		int r = QMessageBox::warning(this, tr("XemlDocument"),

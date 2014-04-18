@@ -152,37 +152,68 @@ void ExperimentTableView::init(){
 }
 
 void ExperimentTableView::write_variable_context(QStandardItem * _term_item,ValueBase* _vb,qint64 _milliseconds_ellapsed){
+	std::cerr << "entering write variable context " << std::endl;
 	QString time=translate_second_in_DD_HH_MM_SS(_milliseconds_ellapsed);
-
-	QStandardItem * context_item;
+	if (_term_item==NULL){
+		std::cerr << "term item null" << std::endl;
+	}
+	QStandardItem * context_item=NULL;
+	QStandardItem * time_item=NULL;
 	if(!_vb->get_is_cycle()){
 
 		DynamicValue * v = static_cast<DynamicValue*>(_vb);
 		if(v->get_context()!=""){
 
-			bool found=false;
+			bool contextfound=false;
+			bool timefound=false;
+			std::cerr << "v get context :" << v->get_context().toStdString() << std::endl;
 			if(_term_item->hasChildren()){
+				std::cerr << "term item has children " << std::endl;
+
 				for (int i =0;i<_term_item->rowCount();i++){
 					if(_term_item->child(i)->text()==v->get_context()){
-						//QStandardItem * context_item=_term_item->child(i);
-						QStandardItem * time_item=new QStandardItem(time);
-						time_item->setCheckable(true);
-						time_item->setCheckState(Qt::Checked);
-						_term_item->child(i)->appendRow(time_item);
-						found=true;
+						std::cerr << "term item has context : "<<v->get_context().toStdString() << std::endl;
+						contextfound=true;
+						context_item=_term_item->child(i);
 					}
-
-
 				}
-
-
 			}
-			if(!found){
+
+			else{
 				context_item=new QStandardItem(v->get_context());
 				context_item->setCheckable(true);
 				context_item->setCheckState(Qt::Checked);
 				_term_item->appendRow(context_item);
-				QStandardItem * time_item=new QStandardItem(time);
+				contextfound=true;
+			}
+
+			if (contextfound==false){
+				context_item=new QStandardItem(v->get_context());
+				context_item->setCheckable(true);
+				context_item->setCheckState(Qt::Checked);
+				_term_item->appendRow(context_item);
+			}
+			if(context_item->hasChildren()){
+				for (int i =0;i<context_item->rowCount();i++){
+					if(context_item->child(i)->text()==time){
+						timefound=true;
+						time_item=_term_item->child(i);
+					}
+
+				}
+			}
+			else{
+				time_item=new QStandardItem(time);
+				time_item->setCheckable(true);
+				time_item->setCheckState(Qt::Checked);
+				context_item->appendRow(time_item);
+				timefound=true;
+
+
+
+			}
+			if(timefound==false){
+				time_item=new QStandardItem(time);
 				time_item->setCheckable(true);
 				time_item->setCheckState(Qt::Checked);
 				context_item->appendRow(time_item);
@@ -302,34 +333,50 @@ void ExperimentTableView::init_variable_tree(){
 	variable_item->setCheckable(true);
 	variable_item->setCheckState(Qt::Checked);
 	variableModel->appendRow(variable_item);
-	DynamicTerm * term;
+	DynamicTerm * term=NULL;
+	bool already_add=false;
+	QStandardItem * term_item=NULL;
 	for (std::list<StoryNode*>::iterator it= this->xemlDoc->get_storyboard()->get_storyBoard()->begin();it!=this->xemlDoc->get_storyboard()->get_storyBoard()->end();++it){
 		StoryNode * node=static_cast<StoryNode*>((*it));
 		for(std::vector<std::pair<BasicTerm*,QString> >::iterator it2=node->get_story()->get_variablesCollection()->begin();it2!=node->get_story()->get_variablesCollection()->end();++it2){
+			already_add=false;
 			term=static_cast<DynamicTerm*>((*it2).first);
-			QStandardItem * term_item=new QStandardItem(term->get_name());
-			term_item->setCheckable(true);
-			term_item->setCheckState(Qt::Checked);
-			variable_item->appendRow(term_item);
 
-			QDateTime current_datetime;
-			QDateTime previous_datetime;
+			if(variable_item->hasChildren()){
+				std::cerr << "variable has children" << std::endl;
+				for (int i=0 ;i<variable_item->rowCount();i++){
+					if (variable_item->child(i)->text()==term->get_name()){
+						term_item=variable_item->child(i);
+						already_add=true;
+					}
+				}
+			}
+			else{
+				std::cerr << "first added" << std::endl;
+
+				term_item=new QStandardItem(term->get_name());
+				term_item->setCheckable(true);
+				term_item->setCheckState(Qt::Checked);
+				variable_item->appendRow(term_item);
+				already_add=true;
+				if (term_item==NULL){
+					std::cerr << "term item is null " << std::endl;
+				}
+			}
+
+			if (already_add==false){
+				std::cerr << "not already added" << std::endl;
+				term_item=new QStandardItem(term->get_name());
+				term_item->setCheckable(true);
+				term_item->setCheckState(Qt::Checked);
+				variable_item->appendRow(term_item);
+				std::cerr << "term name :" << term->get_name().toStdString() << std::endl;
+
+			}
+
 			for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it3=term->get_dynamicvaluecollection()->begin();it3!=term->get_dynamicvaluecollection()->end();++it3){
 
 				//std::cerr << "datetime in write param : " << static_cast<QDateTime>((*it2).second).toString("dd-MM-yyyyThh:mm:ss").toStdString() << std::endl;
-
-				if (it3==term->get_dynamicvaluecollection()->begin()){
-					current_datetime=(*it3).second;
-
-				}
-				else{
-					previous_datetime=current_datetime;
-					current_datetime=(*it3).second;
-				}
-				if(previous_datetime!=current_datetime){
-					//Vs=this->doc.createElement("xeml:ValueSet");
-				}
-
 				qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it3).second);
 				write_variable_context(term_item,static_cast<ValueBase*>((*it3).first),milliseconds_ellapsed);
 

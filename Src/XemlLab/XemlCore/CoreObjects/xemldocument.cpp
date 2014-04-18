@@ -171,7 +171,7 @@ namespace Xeml {
 				}
 			}
 			if (this->providerdata->count()>0){
-				std::cerr << "provider count equal to : "  << this->providerdata->count() << std::endl;
+				//std::cerr << "provider count equal to : "  << this->providerdata->count() << std::endl;
 
 				QDomElement data= this->doc.createElement("xeml:Data");
 				root.appendChild(data);
@@ -193,6 +193,8 @@ namespace Xeml {
 			return 0;
 		}
 		QString               XemlDocument::generate_string_xml(){
+			std::cerr << "entering generate xml() in XemlDocument" << std::endl;
+
 			const int Indent = 4;
 			//string name=":/"+filename;
 			//if (QFile::exists(fileName)) {
@@ -237,7 +239,7 @@ namespace Xeml {
 				}
 			}
 			if (this->providerdata->count()>0){
-				std::cerr << "provider count equal to : "  << this->providerdata->count() << std::endl;
+				//std::cerr << "provider count equal to : "  << this->providerdata->count() << std::endl;
 
 				QDomElement data= this->doc.createElement("xeml:Data");
 				root.appendChild(data);
@@ -683,11 +685,11 @@ namespace Xeml {
 
 		}
 		void                  XemlDocument::write_sample_mappings(QDomElement * _elem,int _sampleId,QString _providerName){
-			std::cerr << "entering write sample mappings" << std::endl;
+			//std::cerr << "entering write sample mappings" << std::endl;
 			QDomElement sampleMapping=this->doc.createElement("xeml:SampleMapping");
 			_elem->appendChild(sampleMapping);
 			sampleMapping.setAttribute("sample",_sampleId);
-			std::cerr << "sample mapping attribute set" << std::endl;
+			//std::cerr << "sample mapping attribute set" << std::endl;
 			for (std::vector< std::pair<QString,std::vector<std::pair<SampleIdMapping*,int> > *> >::iterator it=this->providerdata->get_provider()->begin();it!=this->providerdata->get_provider()->end();++it){
 				if(_providerName==(*it).first){
 					for (std::vector< std::pair<SampleIdMapping*,int> >::iterator it2=(*it).second->begin();it2!=(*it).second->end();++it2){
@@ -695,17 +697,17 @@ namespace Xeml {
 							QDomElement sampleID=this->doc.createElement("xeml:Sid");
 							sampleMapping.appendChild(sampleID);
 							sampleID.setAttribute("Provider",_providerName);
-							std::cerr << "sample ID attribute set" << std::endl;
+							//std::cerr << "sample ID attribute set" << std::endl;
 							SampleIdMapping* tmp_sid=static_cast<SampleIdMapping*>((*it2).first);
-							std::cerr << "tmp sid created" << std::endl;
+							//std::cerr << "tmp sid created" << std::endl;
 
 							//tmp_sid->get_foreignKeyMap()->get_inner_list();
 							for(std::vector<ForeignKeyValue*>::iterator it3=tmp_sid->get_foreignKeyMap()->get_inner_list()->begin();it3!=tmp_sid->get_foreignKeyMap()->get_inner_list()->end();++it3){
-								std::cerr << "in da loop" << std::endl;
+								//std::cerr << "in da loop" << std::endl;
 								QDomElement subkey=this->doc.createElement("xeml:SubKey");
 								sampleID.appendChild(subkey);
 								subkey.setAttribute("Name",static_cast<ForeignKeyValue*>((*it3))->get_key());
-								std::cerr << "subkey attribute set" << std::endl;
+								//std::cerr << "subkey attribute set" << std::endl;
 								QDomText t = doc.createTextNode(static_cast<ForeignKeyValue*>((*it3))->get_val());
 								subkey.appendChild(t);
 
@@ -739,7 +741,7 @@ namespace Xeml {
 				QDomElement sample=this->doc.createElement("xeml:Sample");
 				Sample * s =static_cast<Sample*>((*it).first);
 				int id=s->get_id();
-				std::cerr << "writing new sample with id :" << s->get_id() << std::endl;
+				//std::cerr << "writing new sample with id :" << s->get_id() << std::endl;
 				sample.setAttribute("Id",QString::number(id));
 				sample.setAttribute("TimeIntermix","Min");
 				_elem->appendChild(sample);
