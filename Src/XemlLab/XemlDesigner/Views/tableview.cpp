@@ -427,184 +427,164 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 
 
 				//search the term in this story with the same name and the same context and put this value
-				for(std::vector<std::pair<BasicTerm*,QString> >::iterator it9=_node->get_story()->get_variablesCollection()->begin();it9!=_node->get_story()->get_variablesCollection()->end();++it9){
-					term=static_cast<DynamicTerm*>((*it9).first);
-					for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
+			for(std::vector<std::pair<BasicTerm*,QString> >::iterator it9=_node->get_story()->get_variablesCollection()->begin();it9!=_node->get_story()->get_variablesCollection()->end();++it9){
+				term=static_cast<DynamicTerm*>((*it9).first);
+				for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
 
-						QString unit="";
-						QString context="";
-						QString label="";
-						value=static_cast<ValueBase*>((*it10).first);
+					QString unit="";
+					QString context="";
+					QString label="";
+					value=(*it10).first;
 
-						qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
-						QString time=translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed);
+					qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
+					QString time=translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed);
 
-						if(!value->get_is_cycle()){
+					if(!value->get_is_cycle()){
 
-							v = static_cast<DynamicValue*>(value);
-							if(v->get_context()!=""){
-								//std::cerr << "context :"<< v->get_context().toStdString() << std::endl;
-								context=v->get_context();
-							}
-							if(v->get_unit()!=""){
-								unit=v->get_unit();
-								//val.setAttribute("Unit",v->get_unit());
-							}
-							if(v->get_label()!=""){
-								label=v->get_label();
-								//val.setAttribute("Label",v->get_label());
-							}
-							if(v->get_is_cyclevalue()){
-							}
-
-
-							QString header;
-							if (unit!=""){
-								header="Name:-"+term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
-							}
-							else{
-								header="Name:-"+term->get_name()+"-\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
-							}
-							//if(_counter_term==0){
-							//std::cerr << " header in this story : "<< header.toStdString() << std::endl;
-							if(termname==term->get_name() && contextname==context){
-								//std::cerr << "header found with different timpoint:" << header.toStdString() << std::endl;
-
-								term_values->push_back(v);
-
-								//QStandardItem * value_term_context_item=new QStandardItem(v->get_value());
-								//modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
-								//found=true;
-							}
+						v = static_cast<DynamicValue*>(value);
+						if(v->get_context()!=""){
+							//std::cerr << "context :"<< v->get_context().toStdString() << std::endl;
+							context=v->get_context();
+						}
+						if(v->get_unit()!=""){
+							unit=v->get_unit();
+							//val.setAttribute("Unit",v->get_unit());
+						}
+						if(v->get_label()!=""){
+							label=v->get_label();
+							//val.setAttribute("Label",v->get_label());
+						}
+						if(v->get_is_cyclevalue()){
 						}
 
-						else if(value->get_is_cycle()){
-							//std::cerr << "entering cycle values" << std::endl;
-							//val=this->doc.createElement("xeml:Cycle");
-							Cycle * c = static_cast<Cycle*>(value);
 
-							if(c->get_context()!=""){
-								context=c->get_context();
+						QString header;
+						if (unit!=""){
+							header="Name:-"+term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+						}
+						else{
+							header="Name:-"+term->get_name()+"-\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+						}
+						//if(_counter_term==0){
+						//std::cerr << " header in this story : "<< header.toStdString() << std::endl;
+						if(termname==term->get_name() && contextname==context){
+							//std::cerr << "header found with different timpoint:" << header.toStdString() << std::endl;
+							if( v==NULL){
+								std::cerr << "pointer null" << std::endl;
 							}
-							if(c->get_unit()!=""){
-								unit=c->get_unit();
-								//val.setAttribute("Unit",c->get_unit());
-							}
-							if(c->get_label()!=""){
-								label=c->get_label();
-								//val.setAttribute("Label",c->get_label());
-							}
-							QString header;
-							if (unit!=""){
-								header="Name:-"+term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
-							}
-							else{
-								header="Name:-"+term->get_name()+"-\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
-							}
-							//if(_counter_term==0){
-							std::cerr << " header in this story : "<< header.toStdString() << std::endl;
+							term_values->push_back(v);
+							//QStandardItem * value_term_context_item=new QStandardItem(v->get_value());
+							//modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
+							//found=true;
+						}
+					}
 
-							if(termname==term->get_name() && contextname==context){
+					else if(value->get_is_cycle()){
+						//std::cerr << "entering cycle values" << std::endl;
+						//val=this->doc.createElement("xeml:Cycle");
+						Cycle * c = static_cast<Cycle*>(value);
 
-								QString value_text;
+						if(c->get_context()!=""){
+							context=c->get_context();
+						}
+						if(c->get_unit()!=""){
+							unit=c->get_unit();
+							//val.setAttribute("Unit",c->get_unit());
+						}
+						if(c->get_label()!=""){
+							label=c->get_label();
+							//val.setAttribute("Label",c->get_label());
+						}
+						QString header;
+						if (unit!=""){
+							header="Name:-"+term->get_name()+"-("+unit+")\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+						}
+						else{
+							header="Name:-"+term->get_name()+"-\n"+ "Context:-"+context+"-\nTimepoint:-"+time;
+						}
+						//if(_counter_term==0){
+						std::cerr << " header in this story : "<< header.toStdString() << std::endl;
+						if(termname==term->get_name() && contextname==context){
+							QString value_text;
 
-								for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
-									//write_values(&val,static_cast<ValueBase*>((*it).first));
-									ValueBase* valuecycle=static_cast<ValueBase*>((*it).first);
-									std::cerr << "new cycle value" << std::endl;
-									if(!valuecycle->get_is_cycle()){
-										std::cerr << " cycle value is not a cycle" << std::endl;
+							for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
+								//write_values(&val,static_cast<ValueBase*>((*it).first));
+								ValueBase* valuecycle=static_cast<ValueBase*>((*it).first);
+								std::cerr << "new cycle value" << std::endl;
+								if(!valuecycle->get_is_cycle()){
+									std::cerr << " cycle value is not a cycle" << std::endl;
+									DynamicValue * v = static_cast<DynamicValue*>(valuecycle);
+									if(v->get_is_cyclevalue()){
+										std::cerr << " cycle value is a cycle value" << std::endl;
 
-										DynamicValue * v = static_cast<DynamicValue*>(valuecycle);
-										if(v->get_is_cyclevalue()){
-											std::cerr << " cycle value is a cycle value" << std::endl;
-
-											//val.setAttribute("Duration",v->get_timepoint().toString("hh:mm:ss"));
-											std::cerr << "cycle value :" << v->get_value().toStdString() <<  std::endl;
-											value_text.append(v->get_value());
-											value_text.append("/");
-										}
-
-
+										//val.setAttribute("Duration",v->get_timepoint().toString("hh:mm:ss"));
+										std::cerr << "cycle value :" << v->get_value().toStdString() <<  std::endl;
+										value_text.append(v->get_value());
+										value_text.append("/");
 									}
 
+
 								}
-								//std::cerr << "header for cycle found :" << header.toStdString() << std::endl;
-								value_term_context_item=new QStandardItem(value_text);
-								modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
-								found=true;
+
 							}
-							//for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
-								//write_values(&val,static_cast<ValueBase*>((*it).first));
-							//}
-							//_elem->appendChild(val);
-
+							//std::cerr << "header for cycle found :" << header.toStdString() << std::endl;
+							value_term_context_item=new QStandardItem(value_text);
+							modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
+							found=true;
 						}
+						//for(std::vector<std::pair<DynamicValueBase*,QDateTime> >::iterator it=c->get_cycleValues()->begin();it!=c->get_cycleValues()->end();++it){
+							//write_values(&val,static_cast<ValueBase*>((*it).first));
+						//}
+						//_elem->appendChild(val);
+
 					}
+				}
 					//_counter_term++;
-				}
-				DynamicValue * tmp_value=NULL;
-				if (term_values->empty()){
-					found=false;
-				}
+			}
 
+			//check the value in termvalue and select the more recent one
+			DynamicValue * tmp_value=NULL;
+			if (term_values->empty()){
+				found=false;
+			}
+
+			else{
+				//std::cerr << "# values : " << term_values->size() << std::endl;
+
+				tmp_value=get_previous_value(term_values);
+
+
+
+				if (header_time_Ms < get_seconds_from_date(this->xemlDoc->get_startdate(),tmp_value->get_timepoint())){
+
+					value_term_context_item=new QStandardItem(modelTable->item(_total_sample_counter-1,_column)->text());
+
+				}
 				else{
-					std::cerr << "# values : " << term_values->size() << std::endl;
-					if (term_values->size()==1){
-						std::cerr << "size=1 : " << std::endl;
 
-						tmp_value=term_values->at(0);
-					}
-					else{
-						tmp_value=get_previous_value(term_values);
-					}
 
-					if (header_time_Ms < get_seconds_from_date(this->xemlDoc->get_startdate(),tmp_value->get_timepoint())){
-						value_term_context_item=new QStandardItem(modelTable->item(_total_sample_counter-1,_column)->text());
-
-					}
-					else{
-						value_term_context_item=new QStandardItem(tmp_value->get_value());
-
-					}
-					modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
-					found=true;
+					value_term_context_item=new QStandardItem(tmp_value->get_value());
 
 				}
-			//}
+
+
+				modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
+				found=true;
 
 
 
+			}
+			if(!found){
+				std::cerr << "test8" << std::endl;
 
-
-
-
-
-			//for(int k=_column-1;k>=0;k--){
-				//if(modelTable->horizontalHeaderItem(k)->text().contains(termname) && modelTable->horizontalHeaderItem(k)->text().contains(contextname)){
-				//	QStandardItem * value_term_context_item=new QStandardItem(modelTable->item(k,_sample_counter)->text());
-				//	modelTable->setItem(_sample_counter,_column,value_term_context_item);
-				//	found=true;
-				//}
-			//}
-
-			if(!found && modelTable->item(_total_sample_counter-1,_column)->text()=="NA"){
 				value_term_context_item=new QStandardItem("NA");
 				modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
-			}
-			else{
-				value_term_context_item=new QStandardItem(modelTable->item(_total_sample_counter-1,_column)->text());
-				modelTable->setItem(_total_sample_counter,_column,value_term_context_item);
+
 
 			}
-
 
 		}
-
 	}
-
-
-
 }
 DynamicValue * TableView::get_previous_value(std::vector<DynamicValue*> * _term_values){
 	DynamicValue * more_recent_value=NULL;
@@ -613,14 +593,16 @@ DynamicValue * TableView::get_previous_value(std::vector<DynamicValue*> * _term_
 	std::cerr << "term value size in get recent value : " << _term_values->size() << std::endl;
 
 	for (std::vector<DynamicValue*>::iterator it= _term_values->begin();it!=_term_values->end();++it){
+
+
 		tmp_value=(*it);
 
 
 		std::cerr << "value :" << tmp_value->get_value().toStdString() << std::endl;
-		if (counter==0){
-			std::cerr << "NULL value" << std::endl;
 
-			more_recent_value=(*it);
+
+		if (more_recent_value==NULL){
+			more_recent_value=tmp_value;
 		}
 		else{
 
