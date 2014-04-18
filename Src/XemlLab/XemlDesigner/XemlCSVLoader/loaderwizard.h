@@ -2,6 +2,7 @@
 #define LOADERWIZARD_H
 #include<QWizard>
 #include<QWizardPage>
+
 #include<QtWidgets>
 #include<QSpinBox>
 #include<QStandardItemModel>

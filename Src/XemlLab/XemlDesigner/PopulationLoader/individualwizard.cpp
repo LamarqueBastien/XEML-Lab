@@ -35,6 +35,10 @@ IndividualWizard::IndividualWizard(IndividualsPool * _pool, QWidget *parent)
 
 	setWindowTitle("defines population for specific pool ");
 
+#ifndef Q_OS_MAC
+	setWizardStyle(ModernStyle);
+
+#endif
 }
 void IndividualWizard::showHelp()
 {

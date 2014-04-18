@@ -12,7 +12,10 @@ LoaderWizard::LoaderWizard(QStandardItemModel * _model,ItfDocument * _doc,Docume
 {
 
 	loaderIntroPage=new LoaderIntroPage();
+	QPixmap watermark("://Images/csv_text.png");
+	loaderIntroPage->setPixmap(QWizard::WatermarkPixmap,watermark);
 	setPage(Page_Intro, loaderIntroPage);
+
 	loaderDataFilePage=new LoaderDataFilePage();
 	setPage(Page_DataFile, loaderDataFilePage);
 	loaderParamSettingPage=new LoaderParamSettingPage(_model,_doc,_resources);
@@ -22,8 +25,11 @@ LoaderWizard::LoaderWizard(QStandardItemModel * _model,ItfDocument * _doc,Docume
 
 
 	setStartId(Page_Intro);
+
+
+
 #ifndef Q_OS_MAC
-	setWizardStyle(ModernStyle);
+	setWizardStyle(MacStyle);
 
 #endif
 
@@ -36,6 +42,7 @@ LoaderWizard::LoaderWizard(QStandardItemModel * _model,ItfDocument * _doc,Docume
 	//connect(this,SIGNAL(),this->loaderDataFilePage,SLOT()
 
 	setWindowTitle(tr("Loader extra data Wizard"));
+
 	this->setMinimumWidth(700);
 	this->setMinimumHeight(500);
 	//setWindowFlags(Qt::WindowStaysOnTopHint);

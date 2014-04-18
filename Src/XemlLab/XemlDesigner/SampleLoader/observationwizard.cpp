@@ -41,6 +41,10 @@ ObservationWizard::ObservationWizard(StoryNode * _current,StoryNode * _root,Obse
 	//addPage(new ObservationMaterialPage(this->doc_resources));
 	setWindowTitle("defines sampling strategy for genotype ");
 	connect(this,SIGNAL(destroyed()),this,SLOT(close()));
+#ifndef Q_OS_MAC
+	setWizardStyle(ModernStyle);
+
+#endif
 
 }
 std::vector<ObservationDetails *> * ObservationWizard::get_observations(){

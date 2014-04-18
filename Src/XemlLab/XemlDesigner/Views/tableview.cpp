@@ -249,7 +249,7 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 
 		}
 		else{
-
+			std::cerr << "fixed variable" << std::endl;
 			for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
 
 				QString unit="";
@@ -421,24 +421,27 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 
 			std::vector<DynamicValue*> * term_values=new std::vector<DynamicValue*>();
 			//if(_story_sample_counter==0){
+			DynamicTerm * term=NULL;
+			DynamicValue * v=NULL;
+			ValueBase* value=NULL;
 
 
 				//search the term in this story with the same name and the same context and put this value
 				for(std::vector<std::pair<BasicTerm*,QString> >::iterator it9=_node->get_story()->get_variablesCollection()->begin();it9!=_node->get_story()->get_variablesCollection()->end();++it9){
-					DynamicTerm * term=static_cast<DynamicTerm*>((*it9).first);
+					term=static_cast<DynamicTerm*>((*it9).first);
 					for(std::vector<pair<DynamicValueBase*,QDateTime> >::iterator it10=term->get_dynamicvaluecollection()->begin();it10!=term->get_dynamicvaluecollection()->end();++it10){
 
 						QString unit="";
 						QString context="";
 						QString label="";
-						ValueBase* value=static_cast<ValueBase*>((*it10).first);
+						value=static_cast<ValueBase*>((*it10).first);
 
 						qint64 milliseconds_ellapsed=get_seconds_from_date(this->xemlDoc->get_startdate(),(*it10).second);
 						QString time=translate_second_in_DD_HH_MM_SS(milliseconds_ellapsed);
 
 						if(!value->get_is_cycle()){
 
-							DynamicValue * v = static_cast<DynamicValue*>(value);
+							v = static_cast<DynamicValue*>(value);
 							if(v->get_context()!=""){
 								//std::cerr << "context :"<< v->get_context().toStdString() << std::endl;
 								context=v->get_context();
@@ -466,6 +469,7 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 							//std::cerr << " header in this story : "<< header.toStdString() << std::endl;
 							if(termname==term->get_name() && contextname==context){
 								//std::cerr << "header found with different timpoint:" << header.toStdString() << std::endl;
+
 								term_values->push_back(v);
 
 								//QStandardItem * value_term_context_item=new QStandardItem(v->get_value());
@@ -539,13 +543,22 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 					}
 					//_counter_term++;
 				}
+				DynamicValue * tmp_value=NULL;
 				if (term_values->empty()){
 					found=false;
 				}
 
 				else{
 					std::cerr << "# values : " << term_values->size() << std::endl;
-					DynamicValue * tmp_value=get_previous_value(term_values);
+					if (term_values->size()==1){
+						std::cerr << "size=1 : " << std::endl;
+
+						tmp_value=term_values->at(0);
+					}
+					else{
+						tmp_value=get_previous_value(term_values);
+					}
+
 					if (header_time_Ms < get_seconds_from_date(this->xemlDoc->get_startdate(),tmp_value->get_timepoint())){
 						value_term_context_item=new QStandardItem(modelTable->item(_total_sample_counter-1,_column)->text());
 
@@ -595,24 +608,36 @@ void TableView::write_variable_value(StoryNode * _node,ItfDocument * _xemlDoc,in
 }
 DynamicValue * TableView::get_previous_value(std::vector<DynamicValue*> * _term_values){
 	DynamicValue * more_recent_value=NULL;
+	DynamicValue * tmp_value=NULL;
+	int counter=0;
+	std::cerr << "term value size in get recent value : " << _term_values->size() << std::endl;
+
 	for (std::vector<DynamicValue*>::iterator it= _term_values->begin();it!=_term_values->end();++it){
-		DynamicValue * tmp_value=(*it);
-		if (more_recent_value==NULL){
+		tmp_value=(*it);
+
+
+		std::cerr << "value :" << tmp_value->get_value().toStdString() << std::endl;
+		if (counter==0){
 			std::cerr << "NULL value" << std::endl;
-			more_recent_value=tmp_value;
+
+			more_recent_value=(*it);
 		}
 		else{
 
 			qint64 tmp=get_seconds_from_date(this->xemlDoc->get_startdate(),tmp_value->get_timepoint());
 			qint64 recent=get_seconds_from_date(this->xemlDoc->get_startdate(),more_recent_value->get_timepoint());
-			std::cerr << "tmp : " <<tmp << " recent = " << recent << std::endl;
+			std::cerr << "tmp : " << tmp << " recent = " << recent << std::endl;
 			if(tmp>recent){
 				more_recent_value=tmp_value;
 			}
 
 		}
+		counter++;
+
+		std::cerr << "end of get value" << std::endl;
+		return more_recent_value;
 	}
-	return more_recent_value;
+
 }
 
 void TableView::write_variable_context_fixed(DynamicTerm * _term,ValueBase* _vb,qint64 _milliseconds_ellapsed, int _cpt,int _sample_counter){
@@ -944,19 +969,20 @@ void  TableView::populate_table(){
 			row_counter++;
 		}
 	}
-	QPixmap image(":/Images/XemlLogo.png");
-	ProgressSplashScreen *splash = new ProgressSplashScreen(image);
+	//QPixmap image(":/Images/XemlLogo.png");
+	//ProgressSplashScreen *splash = new ProgressSplashScreen(image);
 
-	splash->progressBar->setMaximum(100);
-	splash->show();
+	//splash->progressBar->setMaximum(100);
+	//splash->show();
 	std::cerr <<"row counter :" << row_counter << std::endl;
 
 	story_counter=0;
 	int total_column_counter=0;
-	sample_counter=0;
+
+
 	for (std::list<StoryNode*>::iterator it =this->xemlDoc->get_storyboard()->get_storyBoard()->begin();it!=this->xemlDoc->get_storyboard()->get_storyBoard()->end();++it){
 		StoryNode *node=static_cast<StoryNode*>((*it));
-
+		sample_counter=0;
 
 		//sample_counter=0;
 		for(std::vector<std::pair<Sample*,int> >::iterator it2=node->get_story()->get_samplesCollection()->begin();it2!=node->get_story()->get_samplesCollection()->end();++it2){
@@ -1124,6 +1150,7 @@ void  TableView::populate_table(){
 	int story_sample_counter=0;
 	std::vector<QString> * headers=new std::vector<QString>();
 	if(fixedVariable){
+		std::cerr << "model column count :" << modelTable->columnCount() << std::endl;
 		for (int i=10;i<modelTable->columnCount();i++){
 			header=modelTable->horizontalHeaderItem(i)->text();
 			headers->push_back(header);
@@ -1145,7 +1172,7 @@ void  TableView::populate_table(){
 					//QString timename=header_decompose.at(5);
 					//decompose header pour récupérer
 					std::cerr << "column : " << i << " row :" << total_sample_counter << std::endl;
-					splash->progressBar->setValue(total_count);
+					//splash->progressBar->setValue(total_count);
 
 					write_variable_value(_node,this->xemlDoc,total_sample_counter,story_sample_counter,header,i);
 
@@ -1163,8 +1190,8 @@ void  TableView::populate_table(){
 
 
 	}
-	splash->close();
-	delete splash;
+	//splash->close();
+	//delete splash;
 
 
 }
