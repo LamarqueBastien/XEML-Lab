@@ -87,7 +87,10 @@ void HtmlReportView::printPreview(QPrinter *printer)
 }
 
 void HtmlReportView::save(){
-
+	QString fileName("HtmlReport");
+	QFile file(fileName);
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+		return 0;
 }
 
 void HtmlReportView::extract_report_files(){
