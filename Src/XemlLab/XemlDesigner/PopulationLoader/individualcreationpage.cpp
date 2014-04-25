@@ -12,7 +12,7 @@ IndividualCreationPage::IndividualCreationPage(QWidget *parent)
 }
 void IndividualCreationPage::initializePage(){
 
-	setTitle(tr("do you want to create <i></i> individuals;"));
+	setTitle(tr("do you really want to create <i></i> individuals with random Ids?"));
 
 	IndividualWizard::get_CSV_data()->push_back(new std::vector<QString>());
 

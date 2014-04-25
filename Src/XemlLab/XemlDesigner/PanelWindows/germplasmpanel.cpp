@@ -17,7 +17,7 @@ GermPlasmPanel::GermPlasmPanel(QWidget * parent)
 	model->setHorizontalHeaderItem(5, new QStandardItem(QString("Free Annotation")));
 	model->setHorizontalHeaderItem(6, new QStandardItem(QString("Storyname")));
 	//model->horizontalHeaderItem(4)
-	this->view->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch);
+	//this->view->horizontalHeader()->setSectionResizeMode ( QHeaderView::Stretch);
 	this->view->resizeColumnToContents(4);
 
 	//this->view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);

@@ -3,7 +3,7 @@
 GenotypeView::GenotypeView(QWidget *parent) :
 	QWidget(parent)
 {
-	setWindowFlags(Qt::WindowStaysOnTopHint);
+	//setWindowFlags(Qt::WindowStaysOnTopHint);
 	this->addGenotype=new QPushButton("add");
 	/*
 	this->addGenotype->setStyleSheet(
