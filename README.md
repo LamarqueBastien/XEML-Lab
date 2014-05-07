@@ -23,7 +23,8 @@ See DOC for Documentation on classes and code architecture. You will also find a
 =====================
 Please address any problems or comments to: 
 
-    benjamin.dartigues@u-bordeaux2.Fr
+    macha@labri.fr
+    benjamin.dartigues@u-bordeaux.Fr
 
 ## Developers Notes
 =============
