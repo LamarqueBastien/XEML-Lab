@@ -531,13 +531,13 @@ void    MainWindow::createActions(){
 	databaseAction->setShortcut(tr("Ctrl+Alt+C"));
 	databaseAction->setStatusTip(tr("database connection"));
 	connect(databaseAction, SIGNAL(triggered()), this, SLOT(database_connect()));
-	databaseAction->setEnabled(false);
+	//databaseAction->setEnabled(false);
 
 	autoMappingAction = new QAction(tr("&AutoMappings"), this);
 	autoMappingAction->setShortcut(tr("Ctrl+Alt+A"));
 	autoMappingAction->setStatusTip(tr("automaps sample"));
 	connect(autoMappingAction, SIGNAL(triggered()), this, SLOT(auto_mapping()));
-	autoMappingAction->setEnabled(false);
+	//autoMappingAction->setEnabled(false);
 
 
 	UuidAction = new QAction(tr("&Create a new Id"), this);

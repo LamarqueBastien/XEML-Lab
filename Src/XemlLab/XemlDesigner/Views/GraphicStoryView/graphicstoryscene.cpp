@@ -113,7 +113,7 @@ void                              GraphicStoryScene::createActions(){
 	display_plot = new QAction(QIcon(":/Images/new.png"),tr("&plot environmental variables"), this);
 	display_plot->setShortcut(tr("Ctrl+S"));
 	display_plot->setStatusTip(tr("Show plot about quantitative parameters values"));
-	display_plot->setEnabled(false);
+	//display_plot->setEnabled(false);
 	removeOP = new QAction(QIcon(":/Images/new.png"),tr("&Remove an Observation"), this);
 	removeOP->setShortcut(tr("Ctrl+R"));
 	removeOP->setStatusTip(tr("Remove observation Point"));
