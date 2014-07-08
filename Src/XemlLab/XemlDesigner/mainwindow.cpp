@@ -7,11 +7,12 @@
 
 using Xeml::Document::DocumentResources;
 
-
+QT_BEGIN_NAMESPACE
 class DocumentResources;
 class ItfDocument;
-
-
+class QUndoStack;
+class QUndoView;
+QT_END_NAMESPACE
 //static members
 Xeml::Document::DocumentResources * MainWindow::doc_ressources= new Xeml::Document::DocumentResources();
 FileManager * MainWindow::fmg=new FileManager();
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-	QString toto = QApplication::applicationDirPath();
+	//QString toto = QApplication::applicationDirPath();
 	//std::cerr << "dir path = " << toto.toStdString() << std::endl;
 
 
@@ -75,9 +76,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->genotypeView,SIGNAL(on_new_genotype(IndividualsPool*)),this->storyView,SLOT(add_genotype(IndividualsPool*)));
 	connect(this->storyView,SIGNAL(refresh_genotype_view(ItfDocument *)),this->genotypeView,SLOT(refresh_view(ItfDocument *)));
 	connect(this->storyView,SIGNAL(refresh_story_view(StoryView*)),this,SLOT(refresh_story_tree(StoryView*)));
+	connect(this->storyView,SIGNAL(add_command(QUndoCommand*)),this,SLOT(add_command(QUndoCommand*)));
 	//connect(zoomFactorSelector,SIGNAL(currentIndexChanged(QString)),this->storyView,SLOT(set_up_zoom_factor(QString)));
 
 	timer = new QTimer(this);
+
+
+	//here improvment is mandatory to avoid installation problem
 	QDir dir(QCoreApplication::applicationFilePath());
 	my_dir=dir;
 	while (! my_dir.path().endsWith("XEML-Lab")){
@@ -110,10 +115,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMdiSubWindow *sousFenetre1 = zoneCentrale->addSubWindow(this->ontologyView);
 	sousFenetre1->setWindowFlags(Qt::FramelessWindowHint);
 
-
-	//sousFenetre1->setWindowOpacity(0.5);
-	//connect(sousFenetre1,SIGNAL(destroyed()),this,SLOT()
-	//sousFenetre1->
 	sousFenetre1->setObjectName(fen1ObjectName);
 	//sousFenetre1->setStyleSheet("QWidget#"+fen1ObjectName +"{ background-image: url(://Images/BlueMetal.png);}"); ///Users/benjamindartigues/Pictures/BlueMetal.png
 	//sousFenetre1->setWindowTitle("Ontologies Panel");
@@ -149,8 +150,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	mainSplitter->setStretchFactor(1, 1);
 
 	setCentralWidget(mainSplitter);
+	undoStack = new QUndoStack(this);
 	createActions();
 	createMenus();
+	createUndoView();
 	createToolBars();
 	setCurrentFile(curFile);
 
@@ -192,6 +195,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
+void MainWindow::add_command(QUndoCommand * _command){
+	this->undoStack->push(_command);
+}
 
 MainWindow::~MainWindow()
 {
@@ -431,7 +437,7 @@ void    MainWindow::set_up_storytree(){
 
 
 //initialize the ontology view by calling
-// the set-up-ontology-tree fucntion from ontology view
+// the set-up-ontology-tree function from ontology view
 void    MainWindow::set_up_onto_tree(){
 
 	QStringList * ontologies= new QStringList;
@@ -443,7 +449,7 @@ void    MainWindow::set_up_onto_tree(){
 }
 
 //initialize the genotype view by calling
-// the initialize fucntion from genotype view
+// the initialize function from genotype view
 void MainWindow::set_up_germplasm(){
 	this->genotypeView->initialize(this->fmg->get_current_xeml());
 }
@@ -472,6 +478,18 @@ void    MainWindow::createActions(){
 	ISAExportAction->setStatusTip(tr("generate ISA files"));
 	connect(ISAExportAction, SIGNAL(triggered()), this, SLOT(generate_isa_files()));
 	ISAExportAction->setEnabled(false);
+
+	PlatoImportAction=new QAction(tr("&Import from plato files"), this);
+	PlatoImportAction->setShortcut(tr("Ctrl+Alt+I"));
+	PlatoImportAction->setStatusTip(tr("import from plato csv files"));
+	connect(PlatoImportAction, SIGNAL(triggered()), this, SLOT(loadPlatoWizard()));
+	//PlatoImportAction->setEnabled(false);
+
+	undoAction = undoStack->createUndoAction(this, tr("&Undo"));
+	undoAction->setShortcuts(QKeySequence::Undo);
+
+	redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+	redoAction->setShortcuts(QKeySequence::Redo);
 
 	/*
 	viewModeAction=new QAction(QIcon(":/Images/new.png"),tr("&View Mode"), this);
@@ -610,12 +628,16 @@ void    MainWindow::auto_mapping(){
 
 			plato_provider->BuildConnection();
 			//test if the experiment is present in the database
-			QUuid expid("05ADF638-EAE3-41A3-AEC0-7961C21B14FC");
+			//QUuid expid("05ADF638-EAE3-41A3-AEC0-7961C21B14FC");
+			QUuid expid("2123A848-AF55-40E2-B4B6-E390F818B538");
 			//plato_provider->convert_uid_to_platoUID(this->fmg->get_current_xeml()->get_id());
 			//if(plato_provider->search_for_experiment(this->fmg->get_current_xeml()->get_id())){
+			//lato_provider->get_experiment_name_by_uid(expid);
 			if(plato_provider->search_for_experiment(expid)){
 
-				std::cerr << "found an experiment called :" << plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id()).toStdString() << std::endl;
+				std::cerr << "found an experiment called :" << plato_provider->get_experiment_name_by_uid(expid).toStdString() << std::endl;
+
+				//std::cerr << "found an experiment called :" << plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id()).toStdString() << std::endl;
 				int r = QMessageBox::warning(this, tr("XemlDocument"),
 				tr("An experiment has been found called %1.\n"
 				   "Do you want to link it with this xeml experiment?").arg(plato_provider->get_experiment_name_by_uid(this->fmg->get_current_xeml()->get_id())),
@@ -677,6 +699,7 @@ void    MainWindow::createMenus() {
 	fileMenu->addAction(saveAction);
 	fileMenu->addAction(saveAsAction);
 	fileMenu->addAction(loadCSVAction);
+	fileMenu->addAction(PlatoImportAction);
 	fileMenu->addAction(ISAExportAction);
 	ISAExportAction->setEnabled(false);
 
@@ -697,6 +720,10 @@ void    MainWindow::createMenus() {
 	editMenu->addAction(addParameterAction);
 	editMenu->addAction(parameterInfoAction);
 	*/
+	editMenu = menuBar()->addMenu(tr("&Edit"));
+	editMenu->addAction(undoAction);
+	editMenu->addAction(redoAction);
+	editMenu->addSeparator();
 
 	toolsMenu = QMainWindow::menuBar()->addMenu(tr("&Tools"));
 	toolsMenu->addAction(editXemlAction);
@@ -887,6 +914,12 @@ void    MainWindow::refresh_trees(){
 
 //private slots
 
+void    MainWindow::loadPlatoWizard(){
+	this->platoLoader=new PlatoWizard(this->fmg->get_current_xeml(),this->doc_ressources);
+	this->platoLoader->show();
+}
+
+
 void    MainWindow::loadCSV(){
 	this->csvLoader=new LoaderWizard(this->storyView->get_model(), this->fmg->get_current_xeml(),this->doc_ressources);
 	this->csvLoader->show();
@@ -931,6 +964,8 @@ void    MainWindow::refresh_story_tree(StoryView * _storyview){
 }
 void MainWindow::refresh_story_tree(bool _Mode,StoryView * _storyview){
 
+	Q_UNUSED(_Mode);
+
 	_storyview->hide();
 	_storyview->show();
 
@@ -945,6 +980,8 @@ void    MainWindow::refresh_onto_tree(ParameterTreeView * _ontoview){
 	this->set_up_onto_tree();
 	_ontoview->show();
 }
+//if user try to load a Xeml file with bad or obsoletes ontologies,
+//this function will check the possible variable to replace in the current ontologies.
 void MainWindow::check_variables(){
 	for(std::list<StoryNode*>::iterator it =this->fmg->get_current_xeml()->get_storyboard()->get_storyBoard()->begin();it!=this->fmg->get_current_xeml()->get_storyboard()->get_storyBoard()->end();++it){
 		StoryNode * tmp_node=(*it);

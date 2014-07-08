@@ -120,9 +120,9 @@ void                              GraphicStoryScene::createActions(){
 	removeEvent = new QAction(QIcon(":/Images/new.png"),tr("&Remove"), this);
 	removeEvent->setShortcut(tr("Ctrl+R"));
 	removeEvent->setStatusTip(tr("Remove event"));
-	editEvent = new QAction(QIcon(":/Images/new.png"),tr("&Edit"), this);
-	editEvent->setShortcut(tr("Ctrl+R"));
-	editEvent->setStatusTip(tr("Edit Event"));
+	//editEvent = new QAction(QIcon(":/Images/new.png"),tr("&Edit"), this);
+	//editEvent->setShortcut(tr("Ctrl+R"));
+	//editEvent->setStatusTip(tr("Edit Event"));
 	addSamples = new QAction(QIcon(":/Images/new.png"),tr("&Add samples"), this);
 	addSamples->setShortcut(tr("Ctrl+Alt+S"));
 	addSamples->setStatusTip(tr("Add Samples"));
@@ -145,15 +145,17 @@ void                              GraphicStoryScene::createActions(){
 	connect(display_plot,SIGNAL(triggered()),this,SLOT(display_plot_parameters()));
 	connect(removeOP, SIGNAL(triggered()), this, SLOT(remove_obsPoint()));
 	connect(removeEvent,SIGNAL(triggered()),this,SLOT(remove_event()));
-	connect(editEvent,SIGNAL(triggered()),this,SLOT(edit_event()));
+	//connect(editEvent,SIGNAL(triggered()),this,SLOT(edit_event()));
 	connect(addSamples,SIGNAL(triggered()),this,SLOT(add_sample()));
 	connect(add_obspoint,SIGNAL(triggered()),this,SLOT(addObspoint()));
 	connect(addEvent,SIGNAL(triggered()),this,SLOT(add_event()));
 
 }
+/*
 void                              GraphicStoryScene::edit_event(){
 	emit event2edit();
 }
+*/
 void                              GraphicStoryScene::add_sample(){
 
 	/*
@@ -171,52 +173,8 @@ void                              GraphicStoryScene::createMenus(){
 void                              GraphicStoryScene::details_story(){
 	emit show_details_story(this->my_selected_story);
 }
-void                              GraphicStoryScene::remove_obsPoint(){
 
-	//emit obsPoint2removed();
-	ObservationPoint * tmp_op;
-	std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it_to_erase;
-	for (std::list<StoryNode*>::iterator it =this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
-		StoryNode * _node=static_cast<StoryNode*>((*it));
-		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it2=_node->get_story()->get_obsPointCollection()->begin();it2!=_node->get_story()->get_obsPointCollection()->end();++it2){
-			if (static_cast<ObservationPoint*>((*it2).first)->get_id()==this->my_selected_obsPoint->get_obspoint()->get_id() && static_cast<ObservationPoint*>((*it2).first)->get_timepoint()==this->my_selected_obsPoint->get_obspoint()->get_timepoint()){
-				it_to_erase=it2;
-				tmp_op=static_cast<ObservationPoint*>((*it2).first);
 
-			}
-		}
-		_node->get_story()->get_obsPointCollection()->erase(it_to_erase);
-		delete tmp_op;
-
-	}
-	this->removeItem(this->my_selected_obsPoint);
-	this->my_selected_obsPoint=NULL;
-	emit set_details_in_view(this->my_selected_obsPoint);
-}
-void                              GraphicStoryScene::remove_event(){
-	//emit event2removed();
-	Event * tmp_event;
-	std::map<Event*,QDateTime>::iterator it_to_erase;
-	for (std::list<StoryNode*>::iterator it =this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
-		StoryNode * tmp_node=static_cast<StoryNode*>((*it));
-		//tmp_node->get_story()->get_eventcollection();
-		for(std::map<Event*,QDateTime>::iterator it2=tmp_node->get_story()->get_eventcollection()->begin();it2!=tmp_node->get_story()->get_eventcollection()->end();++it2){
-			if (static_cast<Event*>((*it2).first)->get_label()==this->my_selected_event->get_event()->get_label() && static_cast<Event*>((*it2).first)->get_timepoint()==this->my_selected_event->get_event()->get_timepoint()){
-				it_to_erase=it2;
-				tmp_event=static_cast<Event*>((*it2).first);
-
-			}
-		}
-		tmp_node->get_story()->get_eventcollection()->erase(it_to_erase);
-		delete tmp_event;
-
-	}
-
-	this->removeItem(this->my_selected_event);
-	this->my_selected_event=NULL;
-	emit set_details_in_view(this->my_selected_event);
-
-}
 void                              GraphicStoryScene::display_plot_parameters(){
 	emit on_displayed_plot_parameter(my_selected_story->get_story());
 }
@@ -1164,14 +1122,17 @@ void GraphicStoryScene::add_event(){
 		//std::cerr << "item null at :" << this->mouse_pos.x() << std::endl;
 	}
 }
+
 void                              GraphicStoryScene::add_event(Event *e,int _posX){
 	//std::cerr << "adding event" << std::endl;
 	qreal y=my_selected_story->get_posy();
 	//std::cerr << "position Y : " << y <<  std::endl;
 	GraphicEventItem *tmp_event;
+	//std::cerr << "pos x :" << _posX << std::endl;
+
 
 	if (my_selected_story->get_isStorySplit()){
-
+		//_posX=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),e->get_timepoint()));
 		tmp_event = new GraphicEventItem(e,
 										 _posX-(translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(my_selected_story->get_story())->get_timepoint()))*zoomFactor),
 										 y+20,
@@ -1193,6 +1154,30 @@ void                              GraphicStoryScene::add_event(Event *e,int _pos
 	this->selected_item=tmp_event;
 	emit set_details_in_view(tmp_event);
 	//tmp_item->setZValue(100000);
+}
+void                              GraphicStoryScene::remove_event(){
+	//emit event2removed();
+	Event * tmp_event;
+	std::map<Event*,QDateTime>::iterator it_to_erase;
+	for (std::list<StoryNode*>::iterator it =this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
+		StoryNode * tmp_node=static_cast<StoryNode*>((*it));
+		//tmp_node->get_story()->get_eventcollection();
+		for(std::map<Event*,QDateTime>::iterator it2=tmp_node->get_story()->get_eventcollection()->begin();it2!=tmp_node->get_story()->get_eventcollection()->end();++it2){
+			if (static_cast<Event*>((*it2).first)->get_label()==this->my_selected_event->get_event()->get_label() && static_cast<Event*>((*it2).first)->get_timepoint()==this->my_selected_event->get_event()->get_timepoint()){
+				it_to_erase=it2;
+				tmp_event=static_cast<Event*>((*it2).first);
+
+			}
+		}
+		tmp_node->get_story()->get_eventcollection()->erase(it_to_erase);
+		delete tmp_event;
+
+	}
+
+	this->removeItem(this->my_selected_event);
+	this->my_selected_event=NULL;
+	emit set_details_in_view(this->my_selected_event);
+
 }
 
 void GraphicStoryScene::addObspoint(){
@@ -1229,18 +1214,43 @@ void GraphicStoryScene::addObspoint(){
 		//std::cerr << "item null at :" << this->mouse_pos.x() << std::endl;
 	}
 }
+void                              GraphicStoryScene::remove_obsPoint(){
+
+	//emit obsPoint2removed();
+	ObservationPoint * tmp_op;
+	std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it_to_erase;
+	for (std::list<StoryNode*>::iterator it =this->currentDoc->get_storyboard()->get_storyBoard()->begin();it!=this->currentDoc->get_storyboard()->get_storyBoard()->end();++it){
+		StoryNode * _node=static_cast<StoryNode*>((*it));
+		for(std::vector<std::pair<ObservationPoint*,QDateTime> >::iterator it2=_node->get_story()->get_obsPointCollection()->begin();it2!=_node->get_story()->get_obsPointCollection()->end();++it2){
+			if (static_cast<ObservationPoint*>((*it2).first)->get_id()==this->my_selected_obsPoint->get_obspoint()->get_id() && static_cast<ObservationPoint*>((*it2).first)->get_timepoint()==this->my_selected_obsPoint->get_obspoint()->get_timepoint()){
+				it_to_erase=it2;
+				tmp_op=static_cast<ObservationPoint*>((*it2).first);
+
+			}
+		}
+		_node->get_story()->get_obsPointCollection()->erase(it_to_erase);
+		delete tmp_op;
+
+	}
+	this->removeItem(this->my_selected_obsPoint);
+	this->my_selected_obsPoint=NULL;
+	emit set_details_in_view(this->my_selected_obsPoint);
+}
 
 void                              GraphicStoryScene::add_Obs_point(ObservationPoint * _op, int _posX){
 
 
-	//std::cerr << "entering add obs_point" << std::endl;
+	std::cerr << "entering add obs_point" << std::endl;
 	qreal y=my_selected_story->get_posy();
+	std::cerr << "pos x :" << _posX << std::endl;
+
 	GraphicObservationPointItem  * tmp;
 	if (my_selected_story==NULL){
 		//std::cerr << "parent story null" << std::endl;
 	}
 	//get_date(this->currentDoc->get_startdate(), translate_Distance_in_Msecs(_posX));
 	if (my_selected_story->get_isStorySplit()){
+		_posX=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),_op->get_timepoint()));
 		tmp=new GraphicObservationPointItem(_op,
 											_posX-(translate_second_in_distance(get_seconds_from_date(currentDoc->get_startdate(),static_cast<StorySplit*>(my_selected_story->get_story())->get_timepoint()))*zoomFactor),
 											y+20,

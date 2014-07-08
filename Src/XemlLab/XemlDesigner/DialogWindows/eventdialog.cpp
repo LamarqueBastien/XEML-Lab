@@ -171,6 +171,7 @@ void EventDialog::OkClicked(){
 		emit event_set(event,posX);
 	}
 	else{
+
 		this->graphicEvent->set_label(text);
 		emit event_edited();
 	}

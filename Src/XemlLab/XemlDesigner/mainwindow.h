@@ -36,6 +36,7 @@
 #include"CoreObjects/documentresources.h"
 #include"Views/parametertreeview.h"
 #include"XemlCSVLoader/loaderwizard.h"
+#include"PlatoCSVLoader/platowizard.h"
 #include"XMLValidation/validationwindow.h"
 #include"Views/xemlcodeeditor.h"
 #include"Views/HTMLReportView/htmlreportview.h"
@@ -84,6 +85,7 @@ class MainWindow : public QMainWindow
 		static Xeml::Document::DocumentResources * doc_ressources;
 		static FileManager                       * fmg;
 		LoaderWizard                             * csvLoader;
+		PlatoWizard                             * platoLoader;
 		QString                                    XemlCode;
 		QDir                                       my_dir;
 		//QStandardItemModel                       * my_model;
@@ -142,6 +144,7 @@ class MainWindow : public QMainWindow
 		QAction                                  * exitAction;
 		QAction                                  * loadCSVAction;
 		QAction                                  * ISAExportAction;
+		QAction                                  * PlatoImportAction;
 		QAction                                  * ValidationAction;
 		QAction                                  * HtmlReportAction;
 		QAction                                  * undoAction;
@@ -174,6 +177,7 @@ class MainWindow : public QMainWindow
 
 		void                                       newFile();
 		void                                       loadCSV();
+		void                                       loadPlatoWizard();
 		void                                       generate_html_report();
 		void                                       open();
 		void                                       openRecentFile();
@@ -196,6 +200,7 @@ class MainWindow : public QMainWindow
 		void                                       refresh_story_tree(bool _Mode,StoryView * _storyview);
 		void                                       refresh_onto_tree(ParameterTreeView * _ontoview);
 		void                                       add_ontologies(bool _xeoIsChecked,bool _eoIsChecked,bool _envoIsChecked);
+		void                                       add_command(QUndoCommand * _command);
 
 
 		//void                                       clicSelection();

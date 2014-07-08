@@ -33,14 +33,14 @@ class GraphicStoryView : public QGraphicsView
 	signals:
 		void story_split_added(QString _label,StoryBase *_story);
 		void story_root_added(QString _label,StoryBase *_story);
-		void event_added(Event* e,int _posX);
+		//void event_added(Event* e,int _posX);
 		void obsPoint_added(ObservationPoint * _op,int _pos);
 		void emit_zoom_in(int _zoomFactor);
 		void emit_zoom_out(int _zoomFactor);
 	private slots:
 		void add_split_story(QString _label,StoryBase *_story);
 		void add_root_story(QString _label,StoryBase *_story);
-		void add_event(Event * _e,int _posX);
+		//void add_event(Event * _e,int _posX);
 		void add_obsPoint(ObservationPoint * _op);
 
 		//void resize_Pixmap(QRectF rectScene);

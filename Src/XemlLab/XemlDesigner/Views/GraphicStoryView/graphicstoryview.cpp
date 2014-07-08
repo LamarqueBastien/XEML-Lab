@@ -14,7 +14,7 @@ GraphicStoryView::GraphicStoryView(GraphicStoryScene * _currentScene,QGraphicsVi
 	//this->setSceneRect(-150,-150,1200,1200);
 	connect(this,SIGNAL(story_split_added(QString,StoryBase*)),this->current_scene,SLOT(add_split_story(QString, StoryBase*)));
 	connect(this,SIGNAL(story_root_added(QString,StoryBase*)),this->current_scene,SLOT(add_root_story(QString,StoryBase*)));
-	connect(this,SIGNAL(event_added(Event*,int)),this->current_scene,SLOT(add_event(Event*,int)));
+	//connect(this,SIGNAL(event_added(Event*,int)),this->current_scene,SLOT(add_event(Event*,int)));
 	connect(this,SIGNAL(obsPoint_added(ObservationPoint*, int)),this->current_scene,SLOT(add_Obs_point(ObservationPoint*,int)));
 	this->setRenderHints(QPainter::Antialiasing);
 	this->init=true;
@@ -113,13 +113,16 @@ void GraphicStoryView::add_split_story(QString _label,StoryBase *_story){
 void GraphicStoryView::add_root_story(QString _label,StoryBase * _story){
 	emit story_root_added(_label,_story);
 }
+/*
 void GraphicStoryView::add_event(Event * _e,int _posX){
 	//std::cerr << "emit event added in GraphicView " << std::endl;
 	emit event_added(_e,_posX);
 }
+*/
 void GraphicStoryView::add_obsPoint(ObservationPoint * _op){
 
 	//std::cerr << "emit obsPoint added in GraphicView " << std::endl;
+	//translate_second_in_distance(get_seconds_from_date())
 	emit obsPoint_added(_op,0);
 }
 

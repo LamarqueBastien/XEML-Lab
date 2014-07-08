@@ -52,9 +52,11 @@ namespace XemlDataProvider{
 					QString Uid=query.value(0).toString();
 					name=query.value(1).toString();
 					QUuid tmp(Uid);
+					//std::cerr << "exp id :" << Uid.toStdString() << " name : " << name.toStdString() << std::endl;
 					if(tmp.toString()==_exp_id.toString()){
 						return name;
 					}
+
 
 				}
 				return name;
@@ -159,7 +161,7 @@ namespace XemlDataProvider{
 		//QString uid=convert_uid_to_platoUID(_experiment_id);
 		if (db.open()){
 			QSqlQuery query("",db);
-			if(query.prepare("SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk=:experiment_name")){
+			if(query.prepare("SELECT Experiment_Fk,Sample_Fk,BatchNumber_Fk,Aliquot_Fk FROM [PlatoDB].[dbo].[BatchCompilation] WHERE Experiment_Fk=:experiment_name")){
 				query.bindValue(":experiment_name", _experiment_name);
 				query.exec();
 				while (query.next())
@@ -167,9 +169,13 @@ namespace XemlDataProvider{
 					QString Experiment_Fk = query.value(0).toString();
 					QString Sample_Fk = query.value(1).toString();
 					QString BatchNumber_Fk = query.value(2).toString();
+					QString Aliquot_Fk = query.value(3).toString();
+
 					QString clustered_key=Experiment_Fk+"-"+Sample_Fk+"-"+BatchNumber_Fk;
 					samples->push_back(clustered_key);
-					std::cerr << "clustered key : " << clustered_key.toStdString() << std::endl;
+					std::cerr << "sample : " << Sample_Fk.toStdString() << "-Aliquot :" << Aliquot_Fk.toStdString() <<  std::endl;
+
+					//std::cerr << "clustered key : " << clustered_key.toStdString() << std::endl;
 				}
 			}
 			else{

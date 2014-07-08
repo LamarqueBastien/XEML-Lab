@@ -4,6 +4,7 @@ namespace XemlUtilities{
 	namespace ISA{
 		Study::Study(ItfDocument * _xemlDoc,QObject *parent) : IsaTable(parent)
 		{
+			Q_UNUSED(_xemlDoc);
 		}
 		void Study::get_stream(ItfDocument * _xemlDoc,QFile * _studyfile){
 

@@ -323,7 +323,7 @@ StoryView::StoryView(QWidget *parent) :
 	connect(this->GraphicScene,SIGNAL(show_details_story(GraphicStoryItem*)),this,SLOT(details_about_story(GraphicStoryItem*)));
 	connect(this->GraphicScene,SIGNAL(obsPoint2removed()),this,SLOT(remove_obs_point()));
 	connect(this->GraphicScene,SIGNAL(event2removed()),this,SLOT(remove_event()));
-	connect(this->GraphicScene,SIGNAL(event2edit()),this,SLOT(edit_event()));
+	//connect(this->GraphicScene,SIGNAL(event2edit()),this,SLOT(edit_event()));
 	//connect(this->GraphicScene,SIGNAL(set_details_in_view(StoryBase*)),this,SLOT(set_story_info(StoryBase*)));
 	connect(this->GraphicScene,SIGNAL(set_details_in_view(QGraphicsItem*)),this->info_view,SLOT(set_object_info(QGraphicsItem*)));
 	connect(this->GraphicScene,SIGNAL(on_displayed_plot_parameter(StoryBase*)),this,SLOT(display_plot(StoryBase*)));
@@ -340,7 +340,7 @@ StoryView::StoryView(QWidget *parent) :
 	connect(addSamples,SIGNAL(clicked()),this,SLOT(choose_obsPoint()));
 	connect(removestory,SIGNAL(clicked()),this,SLOT(removeStory()));
 	connect(removeObsPoint,SIGNAL(clicked()),this,SLOT(remove_obs_point()));
-	connect(addEvent,SIGNAL(clicked()),this,SLOT(new_event()));
+	connect(addEvent,SIGNAL(clicked()),this,SLOT(add_event()));
 	connect(rmEvent,SIGNAL(clicked()),this,SLOT(remove_event()));
 
 
@@ -554,12 +554,10 @@ void StoryView::set_up_zoom_factor(QString _zoomfactor){
 	//zoomFactor=_zoomfactor.toInt();
 	emit refresh_story_view(this);
 }
-
 void StoryView::zoomIn(int level)
 {
 	zoomSlider->setValue(zoomSlider->value() + level);
 }
-
 void StoryView::zoomOut(int level)
 {
 	zoomSlider->setValue(zoomSlider->value() - level);
@@ -838,9 +836,9 @@ void StoryView::clicSelection(QModelIndex _elementSelected)
 
 
 
-//for each node without childs (createExperiment), this builds the parent node and adds the child to the parent,
-//then it performs recursively (buildnodehierarchy) the same processus until it founds the story node (i.e. node without parent)
-//then it return to the function below create experiment();
+/*for each node without childs (createExperiment), this builds the parent node and adds the child to the parent,
+ *then it performs recursively (buildnodehierarchy) the same processus until it founds the story node (i.e. node without parent)
+ *then it return to the function below create experiment();*/
 
 bool StoryView::contains(StoryNode * _node,std::list<StoryNode*> * _processed_nodes,QString _storyname){
 
@@ -1010,7 +1008,6 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 	this->GraphicScene->set_doc(currentDoc);
 	this->info_view->set_doc(currentDoc);
 	//this->width=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),this->currentDoc->get_enddate()));
-
 	//this->GraphicScene->setSceneRect(-150,-150,width+300,600);
 
 	if(GraphicMode){
@@ -1055,9 +1052,9 @@ void StoryView::createExperiment(ItfDocument  * _current_xeml,DocumentResources 
 														 false);
 				template_story->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 				expItem->appendRow(template_story);
-				*/
 
-				//std::cerr <<"----------------ajout story " << (*it)->get_story()->get_label().toStdString() << std::endl;
+
+				//std::cerr <<"----------------ajout story " << (*it)->get_story()->get_label().toStdString() << std::endl;*/
 
 			}
 			if(_current_xeml->get_storyboard()->get_storyBoard()->size()==1){
@@ -1224,7 +1221,6 @@ void StoryView::add_graphic_split_story(QString _label){
 	this->graphicStory->update();
 	this->storydialog->close();
 }
-
 void StoryView::addStorySplit(QString _element_selected,QString _text,QDateTime _datetime){
 
 	//QItemSelectionModel  selection = this->storytree->selectionModel();
@@ -1339,6 +1335,11 @@ void StoryView::removeStory(){
 
 
 }
+void StoryView::send_refresh_story_signal(){
+	std::cerr << "entering on remove obspoint or event (StoryView) " << std::endl;
+	emit refresh_story_view(this);
+}
+
 
 //Function deprecated
 void StoryView::createStory(QString _text){
@@ -1533,16 +1534,13 @@ void StoryView::remove_samples(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
 			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
-			//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
-
-
-
+			/*std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
 			//ObservationPointPanel * opp =new ObservationPointPanel(true);
 			//opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
 			//opp->show();
 			//connect(opp,SIGNAL(on_close_window()),this,SLOT(send_refresh_story_signal()));
 
-			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))
+			//connect(opp,SIGNAL(destroyed()),this,SIGNAL(refresh_story_view(StoryView*))*/
 		}
 		else{
 			QMessageBox::information(this,"added element","no story selected");
@@ -1558,21 +1556,35 @@ void StoryView::newObsPoint(){
 void StoryView::choose_obsPoint(){
 	ObservationPointPanel * opp;
 	if(GraphicMode){
-		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
-			if (!static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story()->get_obsPointCollection()->empty()){
-				StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
-				//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
-				opp =new ObservationPointPanel(false);
-				//connect(opp,SIGNAL())
-				opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
-				opp->setVisible(true);
+		if(this->GraphicScene->get_selected_item()!=NULL){
+			if (this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+				if (!static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story()->get_obsPointCollection()->empty()){
+
+					StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
+					//std::cerr <<"node name : " << this->currentDoc->get_storyboard()->get_storyBoard()->size() << std::endl;
+					opp =new ObservationPointPanel(false);
+					//connect(opp,SIGNAL())
+					opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
+					opp->setVisible(true);
+				}
+
+				else{
+					QMessageBox::information(this,"no selection","this story has no point of observation, please add one.");
+				}
+			}
+			else if ( this->GraphicScene->get_selected_item()->type()==GraphicObservationPointItem::Type){
+					StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(static_cast<GraphicObservationPointItem*>(this->GraphicScene->get_selected_item())->get_parent())->get_label());
+					opp =new ObservationPointPanel(false);
+					//connect(opp,SIGNAL())
+					opp->initialize(current_storyNode,current_storyNode->isStorySplit,this->currentDoc,this->doc_ressources);
+					opp->setVisible(true);
 			}
 			else{
-				QMessageBox::information(this,"no selection","this story has no point of observation, please add one.");
+				QMessageBox::information(this,"no selection","no item selected");
 			}
 		}
 		else{
-			QMessageBox::information(this,"no selection","no story selected");
+			QMessageBox::information(this,"no selection","no item selected");
 		}
 	}
 	else{
@@ -1614,7 +1626,15 @@ void StoryView::add_observationPoint(){
 			//std::cerr << "obs cpt : " << static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter << std::endl;
 			obs_count=static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter;//  count_total_observationsPoint(MainNode,obs_count);
 			//std::cerr << "obs cpt : " << obs_count << std::endl;
-			ObservationPoint * obs= new ObservationPoint(this->currentDoc->get_startdate());//QDateTime::fromString(lineEdit->text(),"dd.hh:mm:ss")TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString()));
+			ObservationPoint * obs;
+			if (static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story()->get_IsStorySplit()){
+				std::cerr << "test1" << std::endl;
+				obs= new ObservationPoint(static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story())->get_timepoint());
+			}
+			else{
+				obs= new ObservationPoint(this->currentDoc->get_startdate());//QDateTime::fromString(lineEdit->text(),"dd.hh:mm:ss")TimeSpanExtension::tryTimeSpanSet(lineEdit->text().toStdString()));
+
+			}
 
 			static_cast<XemlDocument*>(this->currentDoc)->observationPointsCounter++,
 			//_story->add_obsPoint(obs);
@@ -1680,11 +1700,6 @@ void StoryView::add_observationPoint(){
 	}
 
 }
-void StoryView::send_refresh_story_signal(){
-	std::cerr << "entering on remove obspoint or event (StoryView) " << std::endl;
-	emit refresh_story_view(this);
-}
-
 void StoryView::remove_obs_point(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
@@ -1749,20 +1764,44 @@ int  StoryView::count_total_observationsPoint(StoryNode * _parent,int  _number){
 
 }
 
-//event slot
-void StoryView::new_event(){
-	if(GraphicMode){
-		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
-			StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
-			Event * e =new Event();
-			EventDialog * event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story(),0);
-			connect(event,SIGNAL(event_set(Event*,int)),this->graphicStory,SLOT(add_event(Event*,int)));
-			event->setVisible(true);
+/*event slot*/
+void StoryView::add_event(){
+
+
+	//if(GraphicMode){
+
+
+	if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
+
+		StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_label());
+		Event * e =new Event();
+		EventDialog * event;
+		if (static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story()->get_IsStorySplit()){
+			int pos_x=translate_second_in_distance(get_seconds_from_date(this->currentDoc->get_startdate(),static_cast<StorySplit*>(static_cast<GraphicStoryItem*>(this->GraphicScene->get_selected_item())->get_story())->get_timepoint()));
+			event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story(),pos_x);
 		}
 		else{
-			QMessageBox::information(this,"no selection","no story selected");
+			event=new EventDialog(false,e,this->currentDoc,current_storyNode->get_story(),0);
 		}
+		//connect(event,SIGNAL(event_set(Event*,int)),this->GraphicScene,SLOT(add_event(Event*,int)));
+		connect(event,SIGNAL(event_set(Event*,int)),this,SLOT(event_added(Event*,int)));
+
+		event->setVisible(true);
+
+		//add undo command here
+
+
 	}
+	else{
+		QMessageBox::information(this,"no selection","no story selected");
+	}
+}
+void StoryView::event_added(Event* _e,int _posx){
+	QUndoCommand * add_event=new AppendEvent(_e,_posx,this->currentDoc,this->GraphicScene);
+	emit add_command(add_event);
+}
+
+/*
 	else{
 		QItemSelectionModel * selection = this->storytree->selectionModel();
 		QModelIndex indexelementselected= selection->currentIndex();
@@ -1787,8 +1826,10 @@ void StoryView::new_event(){
 			QMessageBox::information(this,"no selection","no story selected");
 		}
 	}
-}
+	*/
+
 //function obsolete
+/*
 void StoryView::add_event(QString _storyName,QString _label,QDateTime _datetime){
 	std::cerr << "entering add event" << std::endl;
 	StoryNode * parent=this->currentDoc->get_storyboard()->findNode(_storyName);
@@ -1801,7 +1842,7 @@ void StoryView::add_event(QString _storyName,QString _label,QDateTime _datetime)
 		parent->get_story()->add_event(e);
 	}
 }
-
+*/
 void StoryView::remove_event(){
 	if(GraphicMode){
 		if(this->GraphicScene->get_selected_item()!=NULL && this->GraphicScene->get_selected_item()->type()==GraphicStoryItem::Type){
@@ -1850,6 +1891,7 @@ void StoryView::remove_event(){
 
 
 }
+/*
 void StoryView::edit_event(){
 	if(this->GraphicScene->get_selected_event()!=NULL){
 		StoryNode * current_storyNode=this->currentDoc->get_storyboard()->findNode(this->GraphicScene->get_selected_story()->get_label());
@@ -1864,18 +1906,7 @@ void StoryView::edit_event(){
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 /*

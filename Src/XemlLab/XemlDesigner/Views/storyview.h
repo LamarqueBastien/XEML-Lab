@@ -40,6 +40,7 @@
 #include"Views/plotparameterview.h"
 #include"Views/xemlobjectinfoview.h"
 #include"Views/Items/infoballoontip.h"
+#include"UndoRedo/appendevent.h"
 using Xeml::Document::Contracts::ItfOntologyTerm;
 using namespace Xeml::Document::Contracts;
 using namespace Xeml::Utilities;
@@ -134,6 +135,8 @@ class StoryView : public QWidget
 		void                 add_graphic_story_split(QString _label,StoryBase * _split);
 		void                 add_observationPoint(ObservationPoint * _op);
 		void                 drop_variable_added(ItfOntologyTerm * _term);
+		void                 add_command(QUndoCommand * _commmand);
+
 	//protected:
 		//void mouseMoveEvent(QMouseEvent *_event);
 		//void mouseDoubleClickEvent(QMouseEvent * _event);
@@ -142,6 +145,7 @@ class StoryView : public QWidget
 	private slots:
 
 
+		void                 event_added(Event* _e,int _posx);
 		void                 add_dropped_variable(QString _termId);
 		void                 refresh();
 		void                 display_plot(StoryBase * _story);
@@ -172,10 +176,10 @@ class StoryView : public QWidget
 		void                 add_samples();
 		void                 remove_samples();
 		void                 choose_obsPoint();
-		void                 new_event();
-		void                 add_event(QString _storyName,QString _label,QDateTime _datetime);
+		void                 add_event();
+		//void                 add_event(QString _storyName,QString _label,QDateTime _datetime);
 		void                 remove_event();
-		void                 edit_event();
+		//void                 edit_event();
 		void                 reset_StoryName(QString label);
 		void                 set_story_info(StoryBase* story);
 

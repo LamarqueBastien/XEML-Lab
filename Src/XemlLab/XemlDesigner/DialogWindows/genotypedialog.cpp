@@ -87,6 +87,7 @@ GenotypeDialog::GenotypeDialog(QWidget * parent)
 
 	//connecter
 	connect(okButton,SIGNAL(clicked()),this,SLOT(OkClicked()));
+	connect(this->cancelButton,SIGNAL(clicked()),this,SLOT(close()));
 	QHBoxLayout * topleftLayout = new QHBoxLayout;
 	topleftLayout->addWidget(id_label);
 	topleftLayout->addWidget(idEdit);

@@ -96,19 +96,20 @@ class GraphicStoryScene : public QGraphicsScene
 		int zoomFactor;
 		int Z_value;
 		//int  positionY;
+	public slots:
+		void add_event(Event *e,int _posX);
 	private slots:
 
 		void add_sample();
 		void remove_obsPoint();
 		void remove_event();
-		void edit_event();
+		//void edit_event();
 		void add_split_story(QString _label,StoryBase * _story);
 		void add_root_story(QString _label,StoryBase * _story);
-		void add_event(Event *e,int _posX);
 
-		void addObspoint();
 		void add_event();
 		void add_Obs_point(ObservationPoint * _op, int _posX);
+		void addObspoint();
 		//void changedSelection();
 		void details_story();
 		void display_plot_parameters();

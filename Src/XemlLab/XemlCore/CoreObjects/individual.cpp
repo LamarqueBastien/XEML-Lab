@@ -43,6 +43,13 @@ namespace Xeml {
 		void Individual::add_tagged_annotation(TaggedAnnotation *TA){
 			(*this->TaggedannotationCollection)[TA]=TA->getTag();
 		}
+		void Individual::set_harvest_datetime(QDateTime _harvest_datetime){
+			this->harvest_datetime=_harvest_datetime;
+		}
+
+		QDateTime Individual::get_harvest_datetime(){
+			return this->harvest_datetime;
+		}
 
 	}
 }

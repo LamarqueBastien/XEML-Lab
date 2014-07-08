@@ -87,7 +87,14 @@ SOURCES += \
     PopulationLoader/individualconclusionpage.cpp \
     PopulationLoader/individualcreationpage.cpp \
     SampleLoader/observationdetails.cpp \
-    Div/progresssplashscreen.cpp
+    Div/progresssplashscreen.cpp \
+    UndoRedo/appendstory.cpp \
+    PlatoCSVLoader/platowizard.cpp \
+    PlatoCSVLoader/platointropage.cpp \
+    PlatoCSVLoader/platodatapage.cpp \
+    UndoRedo/appendevent.cpp \
+    UndoRedo/removeevent.cpp \
+    UndoRedo/removestory.cpp
 
 HEADERS += \
     AboutWindows/aboutstory.h \
@@ -169,7 +176,14 @@ HEADERS += \
     PopulationLoader/individualconclusionpage.h \
     PopulationLoader/individualcreationpage.h \
     SampleLoader/observationdetails.h \
-    Div/progresssplashscreen.h
+    Div/progresssplashscreen.h \
+    UndoRedo/appendstory.h \
+    PlatoCSVLoader/platowizard.h \
+    PlatoCSVLoader/platointropage.h \
+    PlatoCSVLoader/platodatapage.h \
+    UndoRedo/appendevent.h \
+    UndoRedo/removeevent.h \
+    UndoRedo/removestory.h
 
 RESOURCES += \
     Divers.qrc

@@ -17,7 +17,7 @@ namespace Xeml {
 		}
 
 		void Sample::set_timepoint(QDateTime _cached_time){
-
+			Q_UNUSED(_cached_time);
 		}
 
 		int Sample::get_id(){
